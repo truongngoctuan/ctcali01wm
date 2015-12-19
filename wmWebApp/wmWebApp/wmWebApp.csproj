@@ -200,12 +200,21 @@
     <Compile Include="Controllers\GoodController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\TestingPurposeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Agency.cs" />
+    <Compile Include="Models\IWorldReposity.cs" />
+    <Compile Include="Models\Position.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\AgencyType.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\WorldContext.cs" />
+    <Compile Include="Models\WorldContextInitializer.cs" />
+    <Compile Include="Models\WorldReposity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -213,6 +222,9 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\form_wizard_using_tabs.css" />
+    <Resource Include="App_GlobalResources\data\objects.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -257,6 +269,31 @@
     <Content Include="wwwroot\lib\bootstrap\js\tooltip.js" />
     <Content Include="wwwroot\lib\bootstrap\js\transition.js" />
     <Content Include="wwwroot\lib\bootstrap\package.js" />
+    <Content Include="wwwroot\lib\datatables\license.txt" />
+    <Content Include="wwwroot\lib\datatables\media\css\dataTables.bootstrap.css" />
+    <Content Include="wwwroot\lib\datatables\media\css\dataTables.bootstrap.min.css" />
+    <Content Include="wwwroot\lib\datatables\media\css\dataTables.foundation.css" />
+    <Content Include="wwwroot\lib\datatables\media\css\dataTables.foundation.min.css" />
+    <Content Include="wwwroot\lib\datatables\media\css\dataTables.jqueryui.css" />
+    <Content Include="wwwroot\lib\datatables\media\css\dataTables.jqueryui.min.css" />
+    <Content Include="wwwroot\lib\datatables\media\css\jquery.dataTables.css" />
+    <Content Include="wwwroot\lib\datatables\media\css\jquery.dataTables.min.css" />
+    <Content Include="wwwroot\lib\datatables\media\css\jquery.dataTables_themeroller.css" />
+    <Content Include="wwwroot\lib\datatables\media\images\favicon.ico" />
+    <Content Include="wwwroot\lib\datatables\media\images\sort_asc.png" />
+    <Content Include="wwwroot\lib\datatables\media\images\sort_asc_disabled.png" />
+    <Content Include="wwwroot\lib\datatables\media\images\sort_both.png" />
+    <Content Include="wwwroot\lib\datatables\media\images\sort_desc.png" />
+    <Content Include="wwwroot\lib\datatables\media\images\sort_desc_disabled.png" />
+    <Content Include="wwwroot\lib\datatables\media\js\dataTables.bootstrap.js" />
+    <Content Include="wwwroot\lib\datatables\media\js\dataTables.bootstrap.min.js" />
+    <Content Include="wwwroot\lib\datatables\media\js\dataTables.foundation.js" />
+    <Content Include="wwwroot\lib\datatables\media\js\dataTables.foundation.min.js" />
+    <Content Include="wwwroot\lib\datatables\media\js\dataTables.jqueryui.js" />
+    <Content Include="wwwroot\lib\datatables\media\js\dataTables.jqueryui.min.js" />
+    <Content Include="wwwroot\lib\datatables\media\js\jquery.dataTables.js" />
+    <Content Include="wwwroot\lib\datatables\media\js\jquery.dataTables.min.js" />
+    <Content Include="wwwroot\lib\datatables\media\js\jquery.js" />
     <Content Include="wwwroot\lib\handsontable\dist\handsontable.css" />
     <Content Include="wwwroot\lib\handsontable\dist\handsontable.full.css" />
     <Content Include="wwwroot\lib\handsontable\dist\handsontable.full.js" />
@@ -625,6 +662,12 @@
     <Content Include="wwwroot\lib\jquery\bower.json" />
     <Content Include="wwwroot\lib\jquery\dist\jquery.min.map" />
     <Content Include="wwwroot\lib\jquery\src\sizzle\dist\sizzle.min.map" />
+    <Content Include="Views\TestingPurpose\DataTables.cshtml" />
+    <Content Include="wwwroot\lib\datatables\.bower.json" />
+    <Content Include="wwwroot\lib\datatables\bower.json" />
+    <Content Include="wwwroot\lib\datatables\Contributing.md" />
+    <Content Include="wwwroot\lib\datatables\media\images\Sorting icons.psd" />
+    <Content Include="wwwroot\lib\datatables\Readme.md" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

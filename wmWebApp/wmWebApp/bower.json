@@ -5,6 +5,7 @@
     "jquery": "~2.1.4",
     "angular": "~1.4.8",
     "bootstrap": "~3.3.6",
-    "handsontable": "~0.20.2"
+    "handsontable": "~0.20.2",
+    "datatables": "~1.10.10"
   }
 }
