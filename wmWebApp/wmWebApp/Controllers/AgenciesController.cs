@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using wmWebApp.Models;
 
-namespace wmWebApp.Views
+namespace wmWebApp.Controllers
 {
     public class AgenciesController : Controller
     {

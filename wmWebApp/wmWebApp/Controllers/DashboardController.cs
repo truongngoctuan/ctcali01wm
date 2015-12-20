@@ -9,11 +9,6 @@ namespace wmWebApp.Controllers
 {
     public class DashboardController : Controller
     {
-        IWorldReposity _reposity;
-        public DashboardController(WorldReposity repos)
-        {
-            _reposity = repos;
-        }
         // GET: Dashboard
         public ActionResult Index()
         {
@@ -24,7 +19,6 @@ namespace wmWebApp.Controllers
             //    ctx.SaveChanges();
 
             //}
-            var a = _reposity.GetAllAgency();
             return View();
         }
     }
