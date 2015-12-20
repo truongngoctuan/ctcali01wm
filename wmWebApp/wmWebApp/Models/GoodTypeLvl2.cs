@@ -6,16 +6,16 @@ using System.Web;
 
 namespace wmWebApp.Models
 {
-    public class Agency
+    public class GoodTypeLvl2
     {
         public int Id { get; set; }
-        [Display(Name = "Tên Chi Nhánh")]
+        [Display(Name = "Tên")]
         public string Name { get; set; }
-        [Display(Name = "Chi Tiết")]
+        [Display(Name = "Ghi chú")]
         public string Desc { get; set; }
-        [Display(Name = "Thứ tự hiển thị")]
+        [Display(Name = "Thứ tự")]
         public uint Ranking { get; set; }
-        [Display(Name = "Loại Chi Nhánh")]
-        public AgencyType Type { get; set; }
+        [Display(Name = "Loại hàng cấp 1")]
+        public string GoodTypeLvl1s { get; set; }
     }
 }

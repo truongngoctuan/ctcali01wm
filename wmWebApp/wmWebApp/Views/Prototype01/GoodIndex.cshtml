@@ -1,0 +1,115 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/wwwroot/lib/datatables/media/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" media="screen" href="~/wwwroot/lib/datatables/media/css/jquery.dataTables.min.css">
+
+<script src="~/wwwroot/lib/bootstrap-treeview/dist/bootstrap-treeview.min.js"></script>
+<div class="container">
+    <h2>Quản lý hàng</h2>
+
+    <div class="row col-md-3" style="margin-right: 10px;"><div id="tree"></div></div>
+    <div class="col-md-9">
+        <div class="row col-md-3" style="margin-bottom: 20px;">
+            <a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Thêm hàng</a>
+        </div>
+        <div class="row col-md-3"><button class="btn btn-primary">phân loại hàng <span class="badge ">5</span></button></div>
+        <div class="row">
+            <table id="exampleTable01" class="display" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Mã kế toán</th>
+                        <th>Tên hàng</th>
+                        <th>ĐVT</th>
+                        <th>toolbox</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Mã kế toán</th>
+                        <th>Tên hàng</th>
+                        <th>ĐVT</th>
+                        <th>toolbox</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    var dataSet = [["KHOTONG1401", "Sườn đặc biệt ", "miếng"], ["KHOTONG1428", "Sườn có xương", "miếng"], ["KHOTONG1437", "Sườn non ướp", "miếng"], ["KHOTONG1445", "Sườn đùi gà", "cái"], ["KHOTONG1403", "Thịt heo nướng", "cây"], ["KHOTONG1454", "Ba rọi nướng", "miếng"], ["KHOTONG1447", "Bún chả hà nội ", "phần"], ["KHOTONG1409", "Cánh gà nước mắm", "cái"], ["KHOTONG1410", "Đùi gà ướp", "cái"], ["KHOTONG1406", "Chả giò mặn", "cuốn"], ["KHOTONG1405", "Chả", "bịch"], ["KHOTONG1484", "Xôi cá", "miếng"], ["KHOTONG1425", "Chạo cá lớn", "cây"], ["KHOTONG1482", "Chạo cá nhỏ", "cây"], ["KHOTONG1483", "Chả cá bọc trứng cút", "viên"], ["KHOTONG1444", "Cơm tay cầm thập cẩm", "phần"], ["KHOTONG1477", "Chả cá kho thố", "phần"], ["KHOTONG1402", "Tàu hũ ki", "miếng"], ["KHOTONG1435", "Tôm rang ba roi", "phần"], ["KHOTONG1478", "Cá basa kho tộ", "phần"], ["KHOTONG1433", "Gà kho xã ớt (cái)", "phần"], ["KHOTONG1498", "Chả kho nấm", "phần"], ["KHOTONG1442", "Khổ qua dồn thịt", "phần"], ["KHOTONG1457", "Canh bí đỏ", "phần"], ["KHOTONG1461", "Bún riêu cua", "phần"], ["KHOTONG1462", "Nước bún riêu cua", "phần"], ["KHOTONG1455", "Bún chả cá", "phần"], ["KHOTONG1456", "Nước bún chả cá", "phần"], ["KHOTONG1430", "Chè chuối", "phần"], ["KHOTONG1431", "Chè đậu xanh", "phần"], ["KHOTONG1463", "Sữa chua", "hũ"], ["KHOTONG1496", "Bún thái chay", "phần"], ["KHOTONG1497", "Nước bún thái chay", "phần"], ["KHOTONG1438", "Bánh canh giò heo", "phần"]]
+    ;
+
+        $(document).ready(function () {
+            var exampleTable01 = $('#exampleTable01').DataTable({
+                data: dataSet,
+
+                "columnDefs": [{
+                    "targets": 3,
+                    "data": null,
+                    "defaultContent": '<a href="#" class="btn btn-info">Chi tiết</a> <a href="#" class="btn btn-warning">Sửa</a> <a href="#" class="btn btn-danger">Xóa</a> <a href="#" class="btn btn-danger">bỏ loại hàng</a>'
+                }]
+            });
+            
+            $('#exampleTable01 tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    exampleTable01.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            });
+        });
+
+
+
+        function getTree() {
+            // Some logic to retrieve, or generate tree structure
+            return data;
+        }
+
+        var tree = [
+      {
+          text: "chi nhánh full",
+          nodes: [
+            {
+                text: "hàng thành phẩm bếp tổng",
+                nodes: [
+                    {
+                        text: "món chính"
+                    },
+                  {
+                      text: "món nước"
+                  },
+                  {
+                      text: "tủ mát + bên ngoài"
+                  }
+                ]
+            },
+            {
+                text: "hàng bar"
+            },
+            {
+                text: "hàng chợ"
+            },
+            {
+                text: "hàng riêng kho tổng"
+            },
+            {
+                text: "hàng riêng bếp tổng"
+            }
+          ],
+      },
+          {
+              text: "Chi nhánh ko bar"
+          },
+          {
+              text: "Kho tổng"
+          },
+          {
+              text: "Bếp tổng"
+          }
+        ];
+        $('#tree').treeview({ data: tree });
+</script>

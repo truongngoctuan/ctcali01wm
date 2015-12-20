@@ -20,5 +20,11 @@ namespace wmWebApp.Models
         }
 
         public System.Data.Entity.DbSet<wmWebApp.Models.Agency> Agencies { get; set; }
+
+        public System.Data.Entity.DbSet<wmWebApp.Models.AgencyType> AgencyTypes { get; set; }
+
+        public System.Data.Entity.DbSet<wmWebApp.Models.GoodTypeLvl1> GoodTypeLvl1 { get; set; }
+
+        public System.Data.Entity.DbSet<wmWebApp.Models.GoodTypeLvl2> GoodTypeLvl2 { get; set; }
     }
 }
