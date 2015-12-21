@@ -40,17 +40,32 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Brand</a>
+                <div class="navbar-brand">
+                    @Html.ActionLink("Qlý KHO", "Index", "Dashboard")
+                </div>
+                @*<a class="navbar-brand" href="#">Brand</a>*@
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-slide-dropdown">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">Link</a></li>
+                    @*<li><a href="#">Link</a></li>*@
+
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">chi nhánh <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Quản lý <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                            <li>@Html.ActionLink("Quản lý chi nhánh", "QuanLyAgencies", "Prototype01")</li>
+                            <li>@Html.ActionLink("Quản lý nhân viên", "QuanLyEmployees", "Prototype01")</li>
+                            <li>@Html.ActionLink("Quản lý hàng", "QuanLyGood", "Prototype01")</li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Chi nhánh <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Order chi nhánh", "ChiNhanhOrderChiNhanh", "Prototype01")</li>
                             <li class="divider"></li>
                             <li><a href="#">Separated link</a></li>
                         </ul>
@@ -60,24 +75,26 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bếp tổng <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li>@Html.ActionLink("Order bếp tổng", "BepTongOrder", "Prototype01")</li>
+                            <li>@Html.ActionLink("Nhập hàng thực tế", "BepTongNhapThuc", "Prototype01")</li>
                             <li class="divider"></li>
                             <li>@Html.ActionLink("Quản lý định lượng", "BepTongQuanLyDinhLuong", "Prototype01")</li>
                         </ul>
                     </li>
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">kho <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Kho tổng <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
+                            <li>@Html.ActionLink("Xác nhận order chi nhánh", "KhoTongOrderChiNhanh", "Prototype01")</li>
+                            <li>@Html.ActionLink("Order kho tổng", "KhoTongOrderKhoTong", "Prototype01")</li>
                             <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                        </ul>
+                            <li>@Html.ActionLink("Cập nhật tồn kho", "KhoTongCapNhatTonKho", "Prototype01")</li>
+                            <li>@Html.ActionLink("Cập nhật thực nhập kho", "KhoTongNhapThuc", "Prototype01")</li>
+                            <li>@Html.ActionLink("Quản lý định lượng", "BepTongQuanLyDinhLuong", "Prototype01")</
+</ul>
                     </li>
                 </ul>
 
-                <ul class="nav navbar-nav navbar-right">
+                @*<ul class="nav navbar-nav navbar-right">
                     <li><a href="#">Log in as TRUONG</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tùy chỉnh <span class="caret"></span></a>
@@ -87,7 +104,7 @@
                             <li><a href="#">Đăng xuất</a></li>
                         </ul>
                     </li>
-                </ul>
+                </ul>*@
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>

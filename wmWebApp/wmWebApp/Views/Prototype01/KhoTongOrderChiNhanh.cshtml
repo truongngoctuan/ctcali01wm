@@ -1,0 +1,251 @@
+﻿
+@{
+    ViewBag.Title = "OrderChiNhanh";
+}
+
+
+<!-------->
+
+<script src="~/wwwroot/lib/handsontable/dist/handsontable.full.min.js"></script>
+<link rel="stylesheet" media="screen" href="~/wwwroot/lib/handsontable/dist/handsontable.full.css">
+
+<link rel="stylesheet" media="screen" href="~/Content/form_wizard_using_tabs.css">
+
+<script src="~/wwwroot/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" media="screen" href="~/wwwroot/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css">
+
+<div class="container">
+    <div class="row"><h2>xác nhận order chi nhánh từ kho tổng</h2></div>
+    <div class="row" style="width: 300px;">
+        <div class="input-group date">
+            <input id="myDate01" type="text" class="form-control" /><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+        </div>
+    </div>
+    <div class="form-group row" style="margin-bottom: 20px; width: 300px;">
+        <label for="sel1">chi nhánh</label>
+        <select class="form-control" id="sel1">
+            <option>NT</option>
+            <option>HBT</option>
+            <option>NVT</option>
+            <option>Parkson</option>
+        </select>
+    </div>
+    <div class="row col-md-12">
+        <section>
+            <div class="wizard">
+                <div class="wizard-inner">
+                    <div class="connecting-line"></div>
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="Step 1">
+                                <span class="round-tab">
+                                    <i class="glyphicon glyphicon-shopping-cart"></i>
+                                </span>
+                            </a>
+                            <p class="text-center">hàng bếp tổng</p>
+                        </li>
+
+                        <li role="presentation" class="disabled">
+                            <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="Step 2">
+                                <span class="round-tab">
+                                    <i class="glyphicon glyphicon-shopping-cart"></i>
+                                </span>
+                            </a>
+                            <p class="text-center">hàng chợ</p>
+                        </li>
+
+                        <li role="presentation" class="disabled">
+                            <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab" title="Step 3">
+                                <span class="round-tab">
+                                    <i class="glyphicon glyphicon-shopping-cart"></i>
+                                </span>
+                            </a>
+                            <p class="text-center">hàng bar</p>
+                        </li>
+
+                        <li role="presentation" class="disabled">
+                            <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
+                                <span class="round-tab">
+                                    <i class="glyphicon glyphicon-ok"></i>
+                                </span>
+                            </a>
+                            <p class="text-center">xác nhận order</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <form role="form">
+                    <div class="tab-content">
+                        <div class="tab-pane active" role="tabpanel" id="step1">
+                            <div class="row col-md-8 col-md-offset-2">
+                                <h4><span class="label label-primary">món sườn</span></h4>
+                                <div id="example"></div>
+
+                                <h4><span class="label label-primary">món canh</span></h4>
+                                <div id="example2"></div>
+                                
+                            </div>
+                            <div class="row col-md-8 col-md-offset-4" style="margin-top: 20px;">
+                                <ul class="list-inline pull-right">
+                                    <li><button type="button" class="btn btn-primary next-step">Save and continue</button></li>
+                                </ul>
+                            </div>
+                            
+                        </div>
+                        <div class="tab-pane" role="tabpanel" id="step2">
+                            <h3>Step 2</h3>
+                            <p>This is step 2</p>
+                            <ul class="list-inline pull-right">
+                                <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
+                                <li><button type="button" class="btn btn-primary next-step">Save and continue</button></li>
+                            </ul>
+                        </div>
+                        <div class="tab-pane" role="tabpanel" id="step3">
+                            <h3>Step 3</h3>
+                            <p>This is step 3</p>
+                            <ul class="list-inline pull-right">
+                                <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
+                                <li><button type="button" class="btn btn-default next-step">Skip</button></li>
+                                <li><button type="button" class="btn btn-primary btn-info-full next-step">Save and continue</button></li>
+                            </ul>
+                        </div>
+                        <div class="tab-pane" role="tabpanel" id="complete">
+                            <form class="form-horizontal row col-md-8 col-md-offset-2">
+                                <fieldset>
+
+                                    <!-- Form Name -->
+                                    <legend>Xác nhận Order</legend>
+
+                                    <!-- Textarea -->
+                                    <div class="form-group row">
+                                        <label class="col-md-4 control-label" for="textarea">Ghi chú bổ sung</label>
+                                        <div class="col-md-4">
+                                            <textarea class="form-control" id="textarea" name="textarea"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <!-- Button -->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for=""></label>
+                                        <div class="col-md-4">
+                                            <button id="" name="" class="btn btn-primary">xác nhận</button>
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+                            </form>
+
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script>
+    jQuery(document).ready(function () {
+        //Initialize tooltips
+        $('.nav-tabs > li a[title]').tooltip();
+
+        //Wizard
+        $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+
+            var $target = $(e.target);
+
+            if ($target.parent().hasClass('disabled')) {
+                return false;
+            }
+        });
+
+        $(".next-step").click(function (e) {
+
+            var $active = $('.wizard .nav-tabs li.active');
+            $active.next().removeClass('disabled');
+            nextTab($active);
+
+        });
+        $(".prev-step").click(function (e) {
+
+            var $active = $('.wizard .nav-tabs li.active');
+            prevTab($active);
+
+        });
+    });
+</script>
+
+<script>
+    //9 columns
+    var data = [
+      ["Mã", "Tên", "DVT", "SL tồn", "SL yêu cầu", "tổng cộng", "gợi ý hệ thống", "SL duyệt", "ghi chú", "tool"],
+["MON_CHINH_01", "sườn xương", "miếng", 5, 50, 55, 55, 55, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"], ["MON_CHINH_02", "sườn đặc biệt", "miếng", 6, 50, 56, 56, 56, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"], ["MON_CHINH_03", "heo nướng", "cây", 30, 100, 130, 150, 130, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"], ["MON_CHINH_04", "sườn non", "miếng", 5, 50, 55, 55, 55, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"], ["MON_CHINH_05", "sườn đùi gà", "cái", 13, 40, 53, 53, 53, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"], ["MON_CHINH_06", "ba rọi nướng", "miếng", 5, 50, 55, 55, 55, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"]
+
+    ];
+
+    var data2 = [
+["Mã", "Tên", "DVT", "SL tồn", "SL yêu cầu", "tổng cộng", "gợi ý hệ thống", "SL duyệt", "ghi chú", "tool"],
+["MON_CHINH_01", "sườn xương", "miếng", 5, 50, 55, 55, 55, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"], ["MON_CHINH_02", "sườn đặc biệt", "miếng", 6, 50, 56, 56, 56, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"], ["MON_CHINH_03", "heo nướng", "cây", 30, 100, 130, 150, 130, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"], ["MON_CHINH_04", "sườn non", "miếng", 5, 50, 55, 55, 55, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"], ["MON_CHINH_05", "sườn đùi gà", "cái", 13, 40, 53, 53, 53, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"], ["MON_CHINH_06", "ba rọi nướng", "miếng", 5, 50, 55, 55, 55, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"]
+
+    ];
+
+    var yellowRenderer = function (instance, td, row, col, prop, value, cellProperties) {
+        Handsontable.renderers.TextRenderer.apply(this, arguments);
+        td.style.backgroundColor = 'yellow';
+
+    };
+
+    var container = document.getElementById('example');
+    var container2 = document.getElementById('example2');
+    var hot = new Handsontable(container, {
+        readOnly: true,
+        data: data,
+        minSpareRows: 0,
+        minSpareCols: 0,
+        rowHeaders: true,
+        colHeaders: true,
+        contextMenu: true,
+        columns: [
+    { readOnly: true },
+    { readOnly: true },
+    { readOnly: true },
+    { readOnly: true },
+    { readOnly: true },
+    { readOnly: true },
+    { readOnly: true },
+    { readOnly: false, renderer: yellowRenderer },
+    { readOnly: false },
+    { renderer: "html" },
+        ],
+    });
+    var hot2 = new Handsontable(container2, {
+        data: data2,
+        minSpareRows: 0,
+        rowHeaders: true,
+        colHeaders: true,
+        contextMenu: true,
+        columns: [
+    { readOnly: true },
+    { readOnly: true },
+    { readOnly: true },
+    { readOnly: true },
+    { readOnly: true },
+    { readOnly: true },
+    { readOnly: true },
+    { readOnly: false, renderer: yellowRenderer },
+    { readOnly: false },
+        { renderer: "html" },
+        ],
+    });
+
+</script>
+
+<script>
+    jQuery(document).ready(function () {
+        $('.input-group.date').datepicker({
+            todayHighlight : true
+        });
+    });
+
+
+</script>

@@ -15,7 +15,7 @@
 <link rel="stylesheet" media="screen" href="~/wwwroot/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css">
 
 <div class="container">
-    <div class="row"><h2>xác nhận order chi nhánh từ kho tổng</h2></div>
+    <div class="row"><h2>Bếp tổng - Số lượng nhập thực tế</h2></div>
     <div class="row" style="width: 300px;">
         <div class="input-group date">
             <input id="myDate01" type="text" class="form-control" /><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
@@ -51,7 +51,7 @@
                                     <i class="glyphicon glyphicon-shopping-cart"></i>
                                 </span>
                             </a>
-                            <p class="text-center">hàng bar</p>
+                            <p class="text-center">hàng riêng bếp tổng</p>
                         </li>
 
                         <li role="presentation" class="disabled">
@@ -60,7 +60,7 @@
                                     <i class="glyphicon glyphicon-ok"></i>
                                 </span>
                             </a>
-                            <p class="text-center">xác nhận order</p>
+                            <p class="text-center">xác nhận nhập thực tế</p>
                         </li>
                     </ul>
                 </div>
@@ -74,14 +74,14 @@
 
                                 <h4><span class="label label-primary">món canh</span></h4>
                                 <div id="example2"></div>
-                                
+
                             </div>
                             <div class="row col-md-8 col-md-offset-4" style="margin-top: 20px;">
                                 <ul class="list-inline pull-right">
                                     <li><button type="button" class="btn btn-primary next-step">Save and continue</button></li>
                                 </ul>
                             </div>
-                            
+
                         </div>
                         <div class="tab-pane" role="tabpanel" id="step2">
                             <h3>Step 2</h3>
@@ -169,15 +169,13 @@
 <script>
     //9 columns
     var data = [
-      ["Mã", "Tên", "DVT", "SL tồn", "SL yêu cầu", "tổng cộng", "gợi ý hệ thống", "SL duyệt", "ghi chú", "tool"],
-["MON_CHINH_01", "sườn xương", "miếng", 5, 50, 55, 55, 55, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"], ["MON_CHINH_02", "sườn đặc biệt", "miếng", 6, 50, 56, 56, 56, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"], ["MON_CHINH_03", "heo nướng", "cây", 30, 100, 130, 150, 130, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"], ["MON_CHINH_04", "sườn non", "miếng", 5, 50, 55, 55, 55, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"], ["MON_CHINH_05", "sườn đùi gà", "cái", 13, 40, 53, 53, 53, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"], ["MON_CHINH_06", "ba rọi nướng", "miếng", 5, 50, 55, 55, 55, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"]
-
+      ["Mã", "Tên", "SL yêu cầu", "SL thực tế", "Ghi chú"],
+["MON_CHINH01", "Sườn đặc biệt ", 100, 80, ], ["MON_CHINH02", "Sườn đặc biệt ", 100, 80, ], ["MON_CHINH03", "Sườn đặc biệt ", 100, 80, ], ["MON_CHINH04", "Sườn đặc biệt ", 100, 80, ], ["MON_CHINH05", "Sườn đặc biệt ", 100, 80, ], ["MON_CHINH06", "Sườn đặc biệt ", 100, 80, ], ["MON_CHINH07", "Sườn đặc biệt ", 100, 80, ], ["MON_CHINH08", "Sườn đặc biệt ", 100, 80, ], ["MON_CHINH09", "Sườn đặc biệt ", 100, 80, ], ["MON_CHINH10", "Sườn đặc biệt ", 100, 80, ],
     ];
 
     var data2 = [
-["Mã", "Tên", "DVT", "SL tồn", "SL yêu cầu", "tổng cộng", "gợi ý hệ thống", "SL duyệt", "ghi chú", "tool"],
-["MON_CHINH_01", "sườn xương", "miếng", 5, 50, 55, 55, 55, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"], ["MON_CHINH_02", "sườn đặc biệt", "miếng", 6, 50, 56, 56, 56, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"], ["MON_CHINH_03", "heo nướng", "cây", 30, 100, 130, 150, 130, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"], ["MON_CHINH_04", "sườn non", "miếng", 5, 50, 55, 55, 55, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"], ["MON_CHINH_05", "sườn đùi gà", "cái", 13, 40, 53, 53, 53, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"], ["MON_CHINH_06", "ba rọi nướng", "miếng", 5, 50, 55, 55, 55, , "<a href='#' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-list-alt'></span>  </a>"]
-
+      ["Mã", "Tên", "SL yêu cầu", "SL thực tế", "Ghi chú"],
+["MON_CHINH01", "Sườn đặc biệt ", 100, 80, ], ["MON_CHINH02", "Sườn đặc biệt ", 100, 80, ], ["MON_CHINH03", "Sườn đặc biệt ", 100, 80, ], ["MON_CHINH04", "Sườn đặc biệt ", 100, 80, ], ["MON_CHINH05", "Sườn đặc biệt ", 100, 80, ], ["MON_CHINH06", "Sườn đặc biệt ", 100, 80, ], ["MON_CHINH07", "Sườn đặc biệt ", 100, 80, ], ["MON_CHINH08", "Sườn đặc biệt ", 100, 80, ], ["MON_CHINH09", "Sườn đặc biệt ", 100, 80, ], ["MON_CHINH10", "Sườn đặc biệt ", 100, 80, ],
     ];
 
     var yellowRenderer = function (instance, td, row, col, prop, value, cellProperties) {
@@ -200,13 +198,8 @@
     { readOnly: true },
     { readOnly: true },
     { readOnly: true },
-    { readOnly: true },
-    { readOnly: true },
-    { readOnly: true },
-    { readOnly: true },
     { readOnly: false, renderer: yellowRenderer },
-    { readOnly: false },
-    { renderer: "html" },
+    { readOnly: false, renderer: yellowRenderer },
         ],
     });
     var hot2 = new Handsontable(container2, {
@@ -219,13 +212,8 @@
     { readOnly: true },
     { readOnly: true },
     { readOnly: true },
-    { readOnly: true },
-    { readOnly: true },
-    { readOnly: true },
-    { readOnly: true },
     { readOnly: false, renderer: yellowRenderer },
-    { readOnly: false },
-        { renderer: "html" },
+    { readOnly: false, renderer: yellowRenderer },
         ],
     });
 

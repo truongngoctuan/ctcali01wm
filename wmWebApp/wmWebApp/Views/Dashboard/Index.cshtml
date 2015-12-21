@@ -3,135 +3,48 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Tình trạng order các chi nhánh</h2>
 
-<div class="row" style="margin: 2px;">
-    <div class="col-md-1">32 NT</div>
-    <button class="col-md-2 btn btn-success" style="margin: 2px;"><span class="glyphicon glyphicon-ok"></span> thủ kho </br>đã xác nhận order</button>
-    <button class="col-md-2 btn btn-success"style="margin: 2px;"><span class="glyphicon glyphicon-ok"></span> trưởng CN </br>đã xác nhận order</button>
-    <button class="col-md-2 btn btn-danger"style="margin: 2px;"><span class="glyphicon glyphicon-remove"></span> kho tổng </br>chưa xác nhận order</button>
-</div>
-
-<div class="row"style="margin: 2px;">
-    <div class="col-md-1">449 VVT</div>
-    <button class="col-md-2 btn btn-success"style="margin: 2px;"><span class="glyphicon glyphicon-ok"></span> thủ kho </br>đã xác nhận order</button>
-    <button class="col-md-2 btn btn-success"style="margin: 2px;"><span class="glyphicon glyphicon-ok"></span> trưởng CN </br>đã xác nhận order</button>
-    <button class="col-md-2 btn btn-success"style="margin: 2px;"><span class="glyphicon glyphicon-ok"></span> kho tổng </br>đã xác nhận order</button>
-</div>
-
-<div class="row"style="margin: 2px;">
-    <div class="col-md-1">HBT</div>
-    <button class="col-md-2 btn btn-success"style="margin: 2px;"><span class="glyphicon glyphicon-ok"></span> thủ kho </br>đã xác nhận order</button>
-    <button class="col-md-2 btn btn-warning"style="margin: 2px;"><span class="glyphicon glyphicon-warning-sign"></span> trưởng CN </br>chưa xác nhận order</button>
-    <button class="col-md-2 btn btn-success"style="margin: 2px;"><span class="glyphicon glyphicon-ok"></span> kho tổng </br>đã xác nhận order</button>
-</div>
+<script src="~/wwwroot/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" media="screen" href="~/wwwroot/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css">
 
 <div class="container">
-    <div class="row">
-        <section>
-            <div class="wizard">
-                <div class="wizard-inner">
-                    <div class="connecting-line"></div>
-                    <ul class="nav nav-tabs" role="tablist">
-
-                        <li role="presentation" class="active">
-                            <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="Step 1">
-                                <span class="round-tab">
-                                    <i class="glyphicon glyphicon-folder-open"></i>
-                                </span>
-                            </a>
-                        </li>
-
-                        <li role="presentation" class="disabled">
-                            <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="Step 2">
-                                <span class="round-tab">
-                                    <i class="glyphicon glyphicon-pencil"></i>
-                                </span>
-                            </a>
-                        </li>
-                        <li role="presentation" class="disabled">
-                            <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab" title="Step 3">
-                                <span class="round-tab">
-                                    <i class="glyphicon glyphicon-picture"></i>
-                                </span>
-                            </a>
-                        </li>
-
-                        <li role="presentation" class="disabled">
-                            <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
-                                <span class="round-tab">
-                                    <i class="glyphicon glyphicon-ok"></i>
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <form role="form">
-                    <div class="tab-content">
-                        <div class="tab-pane active" role="tabpanel" id="step1">
-                            <h3>Step 1</h3>
-                            <p>This is step 1</p>
-                            <ul class="list-inline pull-right">
-                                <li><button type="button" class="btn btn-primary next-step">Save and continue</button></li>
-                            </ul>
-                        </div>
-                        <div class="tab-pane" role="tabpanel" id="step2">
-                            <h3>Step 2</h3>
-                            <p>This is step 2</p>
-                            <ul class="list-inline pull-right">
-                                <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
-                                <li><button type="button" class="btn btn-primary next-step">Save and continue</button></li>
-                            </ul>
-                        </div>
-                        <div class="tab-pane" role="tabpanel" id="step3">
-                            <h3>Step 3</h3>
-                            <p>This is step 3</p>
-                            <ul class="list-inline pull-right">
-                                <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
-                                <li><button type="button" class="btn btn-default next-step">Skip</button></li>
-                                <li><button type="button" class="btn btn-primary btn-info-full next-step">Save and continue</button></li>
-                            </ul>
-                        </div>
-                        <div class="tab-pane" role="tabpanel" id="complete">
-                            <h3>Complete</h3>
-                            <p>You have successfully completed all steps.</p>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                </form>
-            </div>
-        </section>
+    <div class="row" style="width: 300px; margin-bottom: 5px;">
+        <div class="input-group date">
+            <input id="myDate01" type="text" class="form-control" /><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+        </div>
     </div>
+
+    <script>
+        jQuery(document).ready(function () {
+            $('.input-group.date').datepicker({
+                todayHighlight: true
+            });
+        });
+
+
+    </script>
+
+    <div class="row" style="margin: 2px;">
+        <div class="col-md-1">32 NT</div>
+        <button class="col-md-2 btn btn-success" style="margin: 2px;"><span class="glyphicon glyphicon-ok"></span> thủ kho </br>đã xác nhận order</button>
+        <button class="col-md-2 btn btn-success" style="margin: 2px;"><span class="glyphicon glyphicon-ok"></span> trưởng CN </br>đã xác nhận order</button>
+        <button class="col-md-2 btn btn-danger" style="margin: 2px;"><span class="glyphicon glyphicon-remove"></span> kho tổng </br>chưa xác nhận order</button>
+    </div>
+
+    <div class="row" style="margin: 2px;">
+        <div class="col-md-1">449 VVT</div>
+        <button class="col-md-2 btn btn-success" style="margin: 2px;"><span class="glyphicon glyphicon-ok"></span> thủ kho </br>đã xác nhận order</button>
+        <button class="col-md-2 btn btn-success" style="margin: 2px;"><span class="glyphicon glyphicon-ok"></span> trưởng CN </br>đã xác nhận order</button>
+        <button class="col-md-2 btn btn-success" style="margin: 2px;"><span class="glyphicon glyphicon-ok"></span> kho tổng </br>đã xác nhận order</button>
+    </div>
+
+    <div class="row" style="margin: 2px;">
+        <div class="col-md-1">HBT</div>
+        <button class="col-md-2 btn btn-success" style="margin: 2px;"><span class="glyphicon glyphicon-ok"></span> thủ kho </br>đã xác nhận order</button>
+        <button class="col-md-2 btn btn-warning" style="margin: 2px;"><span class="glyphicon glyphicon-warning-sign"></span> trưởng CN </br>chưa xác nhận order</button>
+        <button class="col-md-2 btn btn-success" style="margin: 2px;"><span class="glyphicon glyphicon-ok"></span> kho tổng </br>đã xác nhận order</button>
+    </div>
+
+    thêm nút để order hàng đột xuất
 </div>
-
-<script>
-jQuery(document).ready(function () {
-    //Initialize tooltips
-    $('.nav-tabs > li a[title]').tooltip();
-
-    //Wizard
-    $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-
-        var $target = $(e.target);
-
-        if ($target.parent().hasClass('disabled')) {
-            return false;
-        }
-    });
-
-    $(".next-step").click(function (e) {
-
-        var $active = $('.wizard .nav-tabs li.active');
-        $active.next().removeClass('disabled');
-        nextTab($active);
-
-    });
-    $(".prev-step").click(function (e) {
-
-        var $active = $('.wizard .nav-tabs li.active');
-        prevTab($active);
-
-    });
-});
-</script>

@@ -59,16 +59,19 @@
                 <form role="form">
                     <div class="tab-content">
                         <div class="tab-pane active" role="tabpanel" id="step1">
-                            <h4><span class="label label-primary">món sườn</span></h4>
-                            <div id="example"></div>
-
-                            <h4><span class="label label-primary">món canh</span></h4>
-                            <div id="example2"></div>
-
-
-                            <ul class="list-inline pull-right">
-                                <li><button type="button" class="btn btn-primary next-step">Save and continue</button></li>
-                            </ul>
+                                <p>món chính</p>
+                                <div class="">
+                                    <div id="example"></div>
+                                </div>
+                                <p class="">món canh</p>
+                                <div class="">
+                                    <div id="example2"></div>
+                                </div>
+                                <div class="row" style="margin-top: 20px;">
+                                    <ul class="list-inline pull-right">
+                                        <li><button type="button" class="btn btn-primary next-step">Save and continue</button></li>
+                                    </ul>
+                                </div>
                         </div>
                         <div class="tab-pane" role="tabpanel" id="step2">
                             <h3>Step 2</h3>
@@ -131,6 +134,11 @@
 </script>
 
 <script>
+    var yellowRenderer = function (instance, td, row, col, prop, value, cellProperties) {
+        Handsontable.renderers.TextRenderer.apply(this, arguments);
+        td.style.backgroundColor = 'yellow';
+
+    };
     //9 columns
     var data = [
       ["Mã", "Tên", "DVT", "SL tồn", "SL yêu cầu", "tổng cộng", "gợi ý hệ thống", "SL duyệt", "ghi chú"],
@@ -142,28 +150,39 @@
     var hot = new Handsontable(container, {
         readOnly: true,
         data: data,
-        minSpareRows: 1,
+        minSpareRows: 0,
         rowHeaders: true,
         colHeaders: true,
         contextMenu: true,
         columns: [
-    { readOnly: false },
-    {},
-    {},
-    { readOnly: false },
-    { readOnly: false },
     { readOnly: true },
     { readOnly: true },
     { readOnly: true },
-    { readOnly: false }
+    { readOnly: false, renderer: yellowRenderer },
+    { readOnly: false, renderer: yellowRenderer },
+    { readOnly: true },
+    { readOnly: true },
+    { readOnly: true },
+    { readOnly: false, renderer: yellowRenderer }
         ],
     });
     var hot2 = new Handsontable(container2, {
         data: data,
-        minSpareRows: 1,
+        minSpareRows: 0,
         rowHeaders: true,
         colHeaders: true,
-        contextMenu: true
+        contextMenu: true,
+        columns: [
+{ readOnly: true },
+{ readOnly: true },
+{ readOnly: true },
+{ readOnly: false, renderer: yellowRenderer },
+{ readOnly: false, renderer: yellowRenderer },
+{ readOnly: true },
+{ readOnly: true },
+{ readOnly: true },
+{ readOnly: false, renderer: yellowRenderer }
+        ],
     });
 
 </script>
