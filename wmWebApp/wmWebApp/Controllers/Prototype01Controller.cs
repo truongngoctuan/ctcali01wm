@@ -23,5 +23,17 @@ namespace wmWebApp.Controllers
         {
             return View();
         }
+        public ActionResult OrderChiNhanhKhoTong()
+        {
+            return View();
+        }
+        public ActionResult OrderBepTong()
+        {
+            return View();
+        }
+        public ActionResult OrderKhoTong()
+        {
+            return View();
+        }
     }
 }
