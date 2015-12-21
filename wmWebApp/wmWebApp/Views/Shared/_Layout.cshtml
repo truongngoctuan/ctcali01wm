@@ -56,9 +56,9 @@
                         <ul class="dropdown-menu" role="menu">
                             <li>@Html.ActionLink("Quản lý chi nhánh", "QuanLyAgencies", "Prototype01")</li>
                             <li>@Html.ActionLink("Quản lý nhân viên", "QuanLyEmployees", "Prototype01")</li>
+                            <li>@Html.ActionLink("Quản lý danh mục hàng", "asd", "Prototype01")</li>
                             <li>@Html.ActionLink("Quản lý hàng", "QuanLyGood", "Prototype01")</li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
+                            <li>@Html.ActionLink("Quản lý nhà cung cấp", "asd", "Prototype01")</li>
                         </ul>
                     </li>
 
@@ -66,16 +66,16 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Chi nhánh <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li>@Html.ActionLink("Order chi nhánh", "ChiNhanhOrderChiNhanh", "Prototype01")</li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
                         </ul>
                     </li>
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bếp tổng <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li>@Html.ActionLink("Order bếp tổng", "BepTongOrder", "Prototype01")</li>
+                            <li>@Html.ActionLink("Tổng hợp order hàng bếp tổng", "BepTongOrder", "Prototype01")</li>
+
                             <li>@Html.ActionLink("Nhập hàng thực tế", "BepTongNhapThuc", "Prototype01")</li>
+                            
                             <li class="divider"></li>
                             <li>@Html.ActionLink("Quản lý định lượng", "BepTongQuanLyDinhLuong", "Prototype01")</li>
                         </ul>
@@ -85,12 +85,22 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Kho tổng <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li>@Html.ActionLink("Xác nhận order chi nhánh", "KhoTongOrderChiNhanh", "Prototype01")</li>
-                            <li>@Html.ActionLink("Order kho tổng", "KhoTongOrderKhoTong", "Prototype01")</li>
+                            <li>@Html.ActionLink("Order kho tổng", "ChiNhanhOrderChiNhanh", "Prototype01")</li>
                             <li class="divider"></li>
                             <li>@Html.ActionLink("Cập nhật tồn kho", "KhoTongCapNhatTonKho", "Prototype01")</li>
                             <li>@Html.ActionLink("Cập nhật thực nhập kho", "KhoTongNhapThuc", "Prototype01")</li>
-                            <li>@Html.ActionLink("Quản lý định lượng", "BepTongQuanLyDinhLuong", "Prototype01")</
-</ul>
+                         </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Order <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Xuất order bếp tổng theo nguyên vật liệu", "asd", "Prototype01")</li>
+                            <li>@Html.ActionLink("Xuất order chi nhánh + kho", "asd", "Prototype01")</li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Phân bổ hàng theo nhà cung cấp", "asd", "Prototype01")</li>
+                            <li>@Html.ActionLink("Gọi hàng theo nhà cung cấp", "asd", "Prototype01")</li>
+                        </ul>
                     </li>
                 </ul>
 
