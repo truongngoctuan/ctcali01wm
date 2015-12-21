@@ -27,7 +27,7 @@ namespace wmWebApp.Controllers
         {
             return View();
         }
-        public ActionResult OrderBepTong()
+        public ActionResult BepTongOrder()
         {
             return View();
         }
@@ -35,5 +35,11 @@ namespace wmWebApp.Controllers
         {
             return View();
         }
+
+        public ActionResult BepTongQuanLyDinhLuong()
+        {
+            return View();
+        }
+        
     }
 }

@@ -319,8 +319,9 @@
     <Content Include="wwwroot\lib\bootstrap-treeview\package.json" />
     <Content Include="wwwroot\lib\bootstrap-treeview\README.md" />
     <Content Include="Views\Prototype01\OrderChiNhanhKhoTong.cshtml" />
-    <Content Include="Views\Prototype01\OrderBepTong.cshtml" />
+    <Content Include="Views\Prototype01\BepTongOrder.cshtml" />
     <Content Include="Views\Prototype01\OrderKhoTong.cshtml" />
+    <Content Include="Views\Prototype01\BepTongQuanLyDinhLuong.cshtml" />
     <Resource Include="App_GlobalResources\data\objects.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
