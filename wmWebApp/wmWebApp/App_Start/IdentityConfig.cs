@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using wmWebApp.Models;
+using wmWebApp.Models.AppContext;
 
 namespace wmWebApp
 {
