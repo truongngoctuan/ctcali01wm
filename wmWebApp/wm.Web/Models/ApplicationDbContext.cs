@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -17,5 +18,12 @@ namespace wm.Web.Models
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<BrandType> BrandType { get; set; }
+        public DbSet<Merchandise> Merchandise { get; set; }
+        public DbSet<MerchandiseCategory> MerchandiseCategory { get; set; }
+        public DbSet<MerchandiseAccoutantHistory> MerchandiseAccoutantHistory { get; set; }
+
     }
 }

@@ -205,11 +205,20 @@
     <Compile Include="Mirations\ApplicationDbContext\201601010616000_InitialCreate.Designer.cs">
       <DependentUpon>201601010616000_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Mirations\ApplicationDbContext\201601010949003_Release_00.1.cs" />
+    <Compile Include="Mirations\ApplicationDbContext\201601010949003_Release_00.1.Designer.cs">
+      <DependentUpon>201601010949003_Release_00.1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Mirations\ApplicationDbContext\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\Brand.cs" />
+    <Compile Include="Models\BrandType.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Merchandise.cs" />
+    <Compile Include="Models\MerchandiseAccoutantHistory.cs" />
+    <Compile Include="Models\MerchandiseCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -293,6 +302,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Mirations\ApplicationDbContext\201601010616000_InitialCreate.resx">
       <DependentUpon>201601010616000_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mirations\ApplicationDbContext\201601010949003_Release_00.1.resx">
+      <DependentUpon>201601010949003_Release_00.1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

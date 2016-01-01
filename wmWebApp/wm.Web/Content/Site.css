@@ -22,3 +22,11 @@ select,
 textarea {
     max-width: 280px;
 }
+
+/*#loginForm {
+    border-radius: 5px;
+    border-color: lightgray;
+    border-width:thin;
+    border-style:solid;
+    padding: 10px;
+}*/

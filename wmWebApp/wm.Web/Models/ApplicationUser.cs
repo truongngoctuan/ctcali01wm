@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace wm.Web.Models
 {
@@ -18,10 +19,17 @@ namespace wm.Web.Models
             return userIdentity;
         }
 
+        //public ApplicationUser()
+        //{
+        //    MerchandiseAccoutantHistories = new List<MerchandiseAccoutantHistory>();
+        //}
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
+
+        //public virtual ICollection<MerchandiseAccoutantHistory> MerchandiseAccoutantHistories { get; set; }
     }
 
 }
