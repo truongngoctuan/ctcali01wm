@@ -6,7 +6,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 
-namespace wm.Web.Models
+namespace wm.Core.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
@@ -19,17 +19,17 @@ namespace wm.Web.Models
             return userIdentity;
         }
 
-        //public ApplicationUser()
-        //{
-        //    MerchandiseAccoutantHistories = new List<MerchandiseAccoutantHistory>();
-        //}
+        public ApplicationUser()
+        {
+            MerchandiseAccoutantHistories = new List<MerchandiseAccoutantHistory>();
+        }
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
 
-        //public virtual ICollection<MerchandiseAccoutantHistory> MerchandiseAccoutantHistories { get; set; }
+        public virtual ICollection<MerchandiseAccoutantHistory> MerchandiseAccoutantHistories { get; set; }
     }
 
 }

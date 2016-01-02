@@ -80,6 +80,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -196,33 +198,26 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BranchesController.cs" />
+    <Compile Include="Controllers\BranchTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Mirations\ApplicationDbContext\201601010616000_InitialCreate.cs" />
-    <Compile Include="Mirations\ApplicationDbContext\201601010616000_InitialCreate.Designer.cs">
-      <DependentUpon>201601010616000_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\ApplicationDbContext\201601021441434_InitialCreate.cs" />
+    <Compile Include="Migrations\ApplicationDbContext\201601021441434_InitialCreate.Designer.cs">
+      <DependentUpon>201601021441434_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Mirations\ApplicationDbContext\201601010949003_Release_00.1.cs" />
-    <Compile Include="Mirations\ApplicationDbContext\201601010949003_Release_00.1.Designer.cs">
-      <DependentUpon>201601010949003_Release_00.1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Mirations\ApplicationDbContext\Configuration.cs" />
+    <Compile Include="Migrations\ApplicationDbContext\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
-    <Compile Include="Models\ApplicationUser.cs" />
-    <Compile Include="Models\Brand.cs" />
-    <Compile Include="Models\BrandType.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Merchandise.cs" />
-    <Compile Include="Models\MerchandiseAccoutantHistory.cs" />
-    <Compile Include="Models\MerchandiseCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\wm.Web.mdf" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -253,7 +248,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -287,10 +284,18 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Branches\Create.cshtml" />
+    <Content Include="Views\Branches\Delete.cshtml" />
+    <Content Include="Views\Branches\Details.cshtml" />
+    <Content Include="Views\Branches\Edit.cshtml" />
+    <Content Include="Views\Branches\Index.cshtml" />
+    <Content Include="Views\BranchTypes\Create.cshtml" />
+    <Content Include="Views\BranchTypes\Delete.cshtml" />
+    <Content Include="Views\BranchTypes\Details.cshtml" />
+    <Content Include="Views\BranchTypes\Edit.cshtml" />
+    <Content Include="Views\BranchTypes\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -300,11 +305,17 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mirations\ApplicationDbContext\201601010616000_InitialCreate.resx">
-      <DependentUpon>201601010616000_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Mirations\ApplicationDbContext\201601010949003_Release_00.1.resx">
-      <DependentUpon>201601010949003_Release_00.1.cs</DependentUpon>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\wm.Core\wm.Core.csproj">
+      <Project>{a22f0b8d-afcc-49b8-83ed-14e288cc66d3}</Project>
+      <Name>wm.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\ApplicationDbContext\201601021441434_InitialCreate.resx">
+      <DependentUpon>201601021441434_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

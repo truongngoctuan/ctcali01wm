@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace wm.Web.Models
+namespace wm.Core.Models
 {
     public class MerchandiseCategory
     {
@@ -20,6 +20,6 @@ namespace wm.Web.Models
 
         public virtual ICollection<Merchandise> Merchandises { get; set; }
 
-        public virtual ICollection<BrandType> BrandTypes { get; set; }
+        //public virtual ICollection<BranchType> BrandTypes { get; set; }
     }
 }

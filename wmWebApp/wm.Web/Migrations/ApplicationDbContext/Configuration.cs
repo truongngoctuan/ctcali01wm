@@ -1,4 +1,4 @@
-namespace wm.Web.Mirations.ApplicationDbContext
+namespace wm.Web.Migrations.ApplicationDbContext
 {
     using System;
     using System.Data.Entity;
@@ -10,7 +10,7 @@ namespace wm.Web.Mirations.ApplicationDbContext
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            MigrationsDirectory = @"Mirations\ApplicationDbContext";
+            MigrationsDirectory = @"Migrations\ApplicationDbContext";
         }
 
         protected override void Seed(wm.Web.Models.ApplicationDbContext context)
