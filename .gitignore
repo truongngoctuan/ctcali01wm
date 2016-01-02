@@ -233,3 +233,4 @@ _Pvt_Extensions
 
 # only for this project
 wmWebApp/wmWebApp/wwwroot/*
+wmWebApp/wm.Web/bower_components/*
