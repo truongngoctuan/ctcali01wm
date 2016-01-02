@@ -14,6 +14,14 @@ namespace testRelationships.Models.Contexts
 
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Agent> Agents { get; set; }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Employee>()
+                .HasOptional<Agent>(o => o.Agent)
+                .WithMany(o => o.Employees)
+                .HasForeignKey(o => o.AgentID);
+        }
     }
 }

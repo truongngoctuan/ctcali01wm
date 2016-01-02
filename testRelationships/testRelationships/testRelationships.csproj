@@ -167,6 +167,10 @@
     <Compile Include="Migrations\201512311101271_InitialCreate.Designer.cs">
       <DependentUpon>201512311101271_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601021247551_01_N.cs" />
+    <Compile Include="Migrations\201601021247551_01_N.Designer.cs">
+      <DependentUpon>201601021247551_01_N.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Agent.cs" />
     <Compile Include="Models\Contexts\TestContextDb.cs" />
@@ -247,6 +251,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201512311101271_InitialCreate.resx">
       <DependentUpon>201512311101271_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601021247551_01_N.resx">
+      <DependentUpon>201601021247551_01_N.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

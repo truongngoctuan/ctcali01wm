@@ -9,7 +9,7 @@ namespace testRelationships.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int AgentID { get; set; }
+        public int? AgentID { get; set; }
         public virtual Agent Agent { get; set; }
     }
 }
