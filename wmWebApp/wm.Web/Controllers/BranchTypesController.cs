@@ -18,7 +18,7 @@ namespace wm.Web.Controllers
         // GET: BranchTypes
         public ActionResult Index()
         {
-            return View(db.BrandType.ToList());
+            return View(db.BranchTypes.ToList());
         }
 
         // GET: BranchTypes/Details/5
@@ -28,7 +28,7 @@ namespace wm.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BranchType branchType = db.BrandType.Find(id);
+            BranchType branchType = db.BranchTypes.Find(id);
             if (branchType == null)
             {
                 return HttpNotFound();
@@ -51,7 +51,7 @@ namespace wm.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.BrandType.Add(branchType);
+                db.BranchTypes.Add(branchType);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -66,7 +66,7 @@ namespace wm.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BranchType branchType = db.BrandType.Find(id);
+            BranchType branchType = db.BranchTypes.Find(id);
             if (branchType == null)
             {
                 return HttpNotFound();
@@ -97,7 +97,7 @@ namespace wm.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BranchType branchType = db.BrandType.Find(id);
+            BranchType branchType = db.BranchTypes.Find(id);
             if (branchType == null)
             {
                 return HttpNotFound();
@@ -110,8 +110,8 @@ namespace wm.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            BranchType branchType = db.BrandType.Find(id);
-            db.BrandType.Remove(branchType);
+            BranchType branchType = db.BranchTypes.Find(id);
+            db.BranchTypes.Remove(branchType);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

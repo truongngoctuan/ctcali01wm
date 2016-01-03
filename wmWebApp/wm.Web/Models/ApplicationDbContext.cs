@@ -33,8 +33,8 @@ namespace wm.Web.Models
     //        return new ApplicationDbContext();
     //    }
 
-    //    public DbSet<Branch> Brands { get; set; }
-    //    public DbSet<BranchType> BrandType { get; set; }
+    //    public DbSet<Branch> Branches { get; set; }
+    //    public DbSet<BranchType> BranchTypes { get; set; }
     //    public DbSet<Merchandise> Merchandise { get; set; }
     //    public DbSet<MerchandiseCategory> MerchandiseCategory { get; set; }
     //    public DbSet<MerchandiseAccoutantHistory> MerchandiseAccoutantHistory { get; set; }

@@ -1,10 +1,13 @@
 namespace wm.Web.Migrations.ApplicationDbContext
 {
+    using Core.Models;
+    using CsvHelper;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
+    using System.IO;
     using System.Linq;
-
+    using System.Reflection;
     internal sealed class Configuration : DbMigrationsConfiguration<wm.Web.Models.ApplicationDbContext>
     {
         public Configuration()
@@ -27,6 +30,19 @@ namespace wm.Web.Migrations.ApplicationDbContext
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            string resourceName = "wm.Web.Migrations.SeedData.Branches.csv";
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            {
+                using (StreamReader reader = new StreamReader(stream, System.Text.Encoding.UTF8))
+                {
+                    CsvReader csvReader = new CsvReader(reader);
+                    csvReader.Configuration.WillThrowOnMissingField = false;
+                    var branches = csvReader.GetRecords<Branch>().ToArray();
+                    context.Branches.AddOrUpdate(branches);
+                }
+            }
         }
     }
 }

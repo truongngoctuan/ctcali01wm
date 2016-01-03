@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -7,19 +9,56 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using wm.Core.Models;
+using wm.Core.Repositories;
 using wm.Web.Models;
 
 namespace wm.Web.Controllers
 {
-    public class BranchesController : Controller
+    public class BranchesController : ExtendedController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private IBranchRepository _repostory = new BranchRepository(new ApplicationDbContext());
 
         // GET: Branches
         public ActionResult Index()
         {
-            var brands = db.Brands.Include(b => b.BranchType);
-            return View(brands.ToList());
+            var branches = _repostory.GetListWithInclude("");
+            var customListBranches = branches.Select(item => new BranchListViewModel()
+            {
+                Id = item.Id,
+                Name = item.Name,
+                BranchTypeName = item.BranchType.Name
+            });
+
+            return View(customListBranches);
+        }
+
+        [HttpPost]
+        public ActionResult List()
+        {
+            var branches = _repostory.GetListWithInclude("");
+            var customListBranches = branches.Select(item => new BranchListViewModel()
+            {
+                Id = item.Id,
+                Name = item.Name,
+                BranchTypeName = item.BranchType.Name,
+                ToolboxLinks = this.CreateToolboxLinks(item.Id)
+            });
+
+            //ArrayList customListBranches = new ArrayList(branches.Count());
+            //foreach (var item in branches)
+            //{
+            //    customListBranches.Add(new ArrayList() { item.Name, item.BranchType.Name,
+            //        Url.Action("Details", "Branches", new { id = item.Id}),
+            //        Url.Action("Edit", "Branches", new { id = item.Id}),
+            //        Url.Action("Delete", "Branches", new { id = item.Id}),
+            //    });
+            //}
+
+            //return Json(customListBranches);
+            return Json(new Dictionary<string, List<BranchListViewModel>>()
+            { { "data" , customListBranches.ToList() } }
+            );
         }
 
         // GET: Branches/Details/5
@@ -29,7 +68,7 @@ namespace wm.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Branch branch = db.Brands.Find(id);
+            Branch branch = db.Branches.Find(id);
             if (branch == null)
             {
                 return HttpNotFound();
@@ -40,7 +79,7 @@ namespace wm.Web.Controllers
         // GET: Branches/Create
         public ActionResult Create()
         {
-            ViewBag.BranchTypeId = new SelectList(db.BrandType, "Id", "Name");
+            ViewBag.BranchTypeId = new SelectList(db.BranchTypes, "Id", "Name");
             return View();
         }
 
@@ -53,12 +92,12 @@ namespace wm.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Brands.Add(branch);
+                db.Branches.Add(branch);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.BranchTypeId = new SelectList(db.BrandType, "Id", "Name", branch.BranchTypeId);
+            ViewBag.BranchTypeId = new SelectList(db.BranchTypes, "Id", "Name", branch.BranchTypeId);
             return View(branch);
         }
 
@@ -69,12 +108,12 @@ namespace wm.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Branch branch = db.Brands.Find(id);
+            Branch branch = db.Branches.Find(id);
             if (branch == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.BranchTypeId = new SelectList(db.BrandType, "Id", "Name", branch.BranchTypeId);
+            ViewBag.BranchTypeId = new SelectList(db.BranchTypes, "Id", "Name", branch.BranchTypeId);
             return View(branch);
         }
 
@@ -91,7 +130,7 @@ namespace wm.Web.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.BranchTypeId = new SelectList(db.BrandType, "Id", "Name", branch.BranchTypeId);
+            ViewBag.BranchTypeId = new SelectList(db.BranchTypes, "Id", "Name", branch.BranchTypeId);
             return View(branch);
         }
 
@@ -102,7 +141,7 @@ namespace wm.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Branch branch = db.Brands.Find(id);
+            Branch branch = db.Branches.Find(id);
             if (branch == null)
             {
                 return HttpNotFound();
@@ -115,8 +154,8 @@ namespace wm.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Branch branch = db.Brands.Find(id);
-            db.Brands.Remove(branch);
+            Branch branch = db.Branches.Find(id);
+            db.Branches.Remove(branch);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
