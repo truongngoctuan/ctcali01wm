@@ -1,4 +1,4 @@
-﻿@model IEnumerable<wm.Core.Models.ApplicationUser>
+﻿@model IEnumerable<wm.Web.Models.ApplicationUserListDatatableViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -17,16 +17,13 @@
                 @Html.DisplayNameFor(model => model.UserName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model.FullName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Html.DisplayNameFor(model => model.Branch)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Branch.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Position.Name)
+                @Html.DisplayNameFor(model => model.Position)
             </th>
         </tr>
     </thead>
@@ -36,16 +33,13 @@
                 @Html.DisplayNameFor(model => model.UserName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model.FullName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Html.DisplayNameFor(model => model.Branch)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Branch.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Position.Name)
+                @Html.DisplayNameFor(model => model.Position)
             </th>
         </tr>
     </tfoot>
@@ -89,10 +83,9 @@ $(document).ready(function () {
         "deferRender": true,
         "columns": [
        { "data": "UserName" },
-       { "data": "LastName" },
-       { "data": "FirstName" },
-       { "data": "BranchName" },
-       { "data": "PositionName" }
+       { "data": "FullName" },
+       { "data": "Branch" },
+       { "data": "Position" }
         ],
         "order": [0, "asc"]
 

@@ -7,10 +7,15 @@ using System.Web.UI.WebControls; //For SortBy method
 //TODO: remove System.Web in next version
 namespace wm.Core.CRUDOperators
 {
-    public abstract class DatatablesResult<T> where T : class
+    public abstract class DatatablesUtil<T> where T : class
     {
-        public DTResult<T> GetResult(DTParameters param,
-            IQueryable<T> source)
+        protected IQueryable<T> _source;
+
+        //temp data
+        int paramDraw;
+        int recordsTotal;
+        int recordsFiltered;
+        public IEnumerable<T> GetListFiltered(DTParameters param)
         {
             List<String> columnSearch = new List<string>();
 
@@ -19,24 +24,75 @@ namespace wm.Core.CRUDOperators
                 columnSearch.Add(col.Search.Value);
             }
 
-            IQueryable<T> afterFilter = FilterResult(param.Search.Value, source, columnSearch);
-            List<T> data = afterFilter
+            IQueryable<T> afterFilter = FilterResult(param.Search.Value, _source, columnSearch);
+            IQueryable<T> afterSortedPaginated = afterFilter
                 .SortBy<T>(param.SortOrder)
-                .Skip(param.Start).Take(param.Length)
-                .ToList();
-            DTResult<T> result = new DTResult<T>
+                .Skip(param.Start).Take(param.Length);
+
+            paramDraw = param.Draw;
+            recordsFiltered = afterFilter.Count();
+            recordsTotal = _source.Count();
+
+            //List<TViewModel> data = this.ConvertToViewModel().ToList();
+
+            //DTResult<TViewModel> result = new DTResult<TViewModel>
+            //{
+            //    draw = param.Draw,
+            //    data = data,
+            //    recordsFiltered = afterFilter.Count(),
+            //    recordsTotal = source.Count()
+            //};
+
+            return afterSortedPaginated.AsEnumerable();
+        }
+
+        public DTResult<TViewModel> GetListDTResult<TViewModel>(IEnumerable<TViewModel> data)
+        {
+            DTResult<TViewModel> result = new DTResult<TViewModel>
             {
-                draw = param.Draw,
-                data = data,
-                recordsFiltered = afterFilter.Count(),
-                recordsTotal = source.Count()
+                draw = paramDraw,
+                data = data.ToList(),
+                recordsFiltered = recordsFiltered,
+                recordsTotal = recordsTotal
             };
 
             return result;
         }
 
         protected abstract IQueryable<T> FilterResult(string search, IQueryable<T> dtResult, List<string> columnFilters);
+        //protected abstract IQueryable<TViewModel> ConvertToViewModel();
     }
+
+    //public abstract class DatatablesResult<T> where T : class
+    //{
+    //    public DTResult<T> GetResult(DTParameters param,
+    //        IQueryable<T> source)
+    //    {
+    //        List<String> columnSearch = new List<string>();
+
+    //        foreach (var col in param.Columns)
+    //        {
+    //            columnSearch.Add(col.Search.Value);
+    //        }
+
+    //        IQueryable<T> afterFilter = FilterResult(param.Search.Value, source, columnSearch);
+    //        List<T> data = afterFilter
+    //            .SortBy<T>(param.SortOrder)
+    //            .Skip(param.Start).Take(param.Length)
+    //            .ToList();
+    //        DTResult<T> result = new DTResult<T>
+    //        {
+    //            draw = param.Draw,
+    //            data = data,
+    //            recordsFiltered = afterFilter.Count(),
+    //            recordsTotal = source.Count()
+    //        };
+
+    //        return result;
+    //    }
+
+    //    protected abstract IQueryable<T> FilterResult(string search, IQueryable<T> dtResult, List<string> columnFilters);
+    //}
 
     //public class ResultSetDatatablesCustomer : DatatablesResult<Customer>
     //{

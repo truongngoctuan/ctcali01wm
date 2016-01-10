@@ -71,8 +71,12 @@ namespace wm.Core.Repositories
     }
 
 
-    public class DatatablesResultApplicationUser : DatatablesResult<ApplicationUser>
+    public class DataTablesUtilApplicationUser : DatatablesUtil<ApplicationUser>
     {
+        public DataTablesUtilApplicationUser(IApplicationUserRepository repository)
+        {
+            _source = repository.GetListQueryable();
+        }
         protected override IQueryable<ApplicationUser> FilterResult(string search, IQueryable<ApplicationUser> dtResult, List<string> columnFilters)
         {
             return dtResult.Where(p => (search == null || (p.UserName != null && p.UserName.ToLower().Contains(search.ToLower())

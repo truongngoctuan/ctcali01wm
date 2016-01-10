@@ -111,7 +111,7 @@ namespace wm.Web.Models
         public string Email { get; set; }
     }
 
-    public class ApplicationUserListViewModel
+    public class ApplicationUserListDatatableViewModel
     {
         [Required]
         [Display(Name = "UserName")]
