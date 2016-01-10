@@ -12,6 +12,8 @@ using wm.Web.Models;
 using wm.Core.Models;
 using wm.Core.Repositories;
 using wm.Core.CRUDOperators;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace wm.Web.Controllers
 {
@@ -21,7 +23,7 @@ namespace wm.Web.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        private IApplicationUserRepository _repostory = new ApplicationUserRepository(new ApplicationDbContext());
+        private IApplicationUserRepository _repository = new ApplicationUserRepository(new ApplicationDbContext());
 
         public AccountController()
         {
@@ -414,9 +416,18 @@ namespace wm.Web.Controllers
         {
             try
             {
-                var resultSet = new DatatablesResultApplicationUser();
-                var result = resultSet.GetResult(param, _repostory.GetListQueryable());
-                return Json(result);
+                var resultSet = new DataTablesUtilApplicationUser(_repository);
+                IEnumerable<ApplicationUser> result = resultSet.GetListFiltered(param);
+                var resultViewModel = result.Select(e => new ApplicationUserListDatatableViewModel
+                {
+                    UserName = e.UserName,
+                    FullName = e.LastName + e.FirstName,
+                    Branch = (e.Branch == null) ? "unknown" : e.Branch.Name,
+                    Position = (e.Position == null) ? "unknown" : e.Position.Name,
+                });
+
+                var DTResult = resultSet.GetListDTResult<ApplicationUserListDatatableViewModel>(resultViewModel);
+                return Json(DTResult);
             }
             catch (Exception ex)
             {
