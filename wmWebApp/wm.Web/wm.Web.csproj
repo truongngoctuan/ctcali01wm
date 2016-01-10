@@ -214,6 +214,10 @@
     <Compile Include="Migrations\ApplicationDbContext\201601021441434_InitialCreate.Designer.cs">
       <DependentUpon>201601021441434_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\ApplicationDbContext\201601100002555_0.1_UpdateApplicationUserRelation.cs" />
+    <Compile Include="Migrations\ApplicationDbContext\201601100002555_0.1_UpdateApplicationUserRelation.Designer.cs">
+      <DependentUpon>201601100002555_0.1_UpdateApplicationUserRelation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ApplicationDbContext\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -245,7 +249,11 @@
     <None Include=".bin\bower.cmd" />
     <None Include=".bin\git.cmd" />
     <None Include=".bin\node.cmd" />
+    <EmbeddedResource Include="Migrations\ApplicationDbContext\201601100002555_0.1_UpdateApplicationUserRelation.resx">
+      <DependentUpon>201601100002555_0.1_UpdateApplicationUserRelation.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\SeedData\Branches.csv" />
+    <EmbeddedResource Include="Migrations\SeedData\ApplicationUsers.csv" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -304,6 +312,7 @@
     <Content Include="Views\BranchTypes\Details.cshtml" />
     <Content Include="Views\BranchTypes\Edit.cshtml" />
     <Content Include="Views\BranchTypes\Index.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

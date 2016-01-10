@@ -2,6 +2,7 @@ namespace wm.Web.Migrations.ApplicationDbContext
 {
     using Core.Models;
     using CsvHelper;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -13,6 +14,7 @@ namespace wm.Web.Migrations.ApplicationDbContext
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
             MigrationsDirectory = @"Migrations\ApplicationDbContext";
         }
 
@@ -31,16 +33,58 @@ namespace wm.Web.Migrations.ApplicationDbContext
             //    );
             //
 
+            //Assembly assembly = Assembly.GetExecutingAssembly();
+            //string resourceName = "wm.Web.Migrations.SeedData.Branches.csv";
+            //using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            //{
+            //    using (StreamReader reader = new StreamReader(stream, System.Text.Encoding.UTF8))
+            //    {
+            //        CsvReader csvReader = new CsvReader(reader);
+            //        csvReader.Configuration.WillThrowOnMissingField = false;
+            //        var branches = csvReader.GetRecords<Branch>().ToArray();
+            //        context.Branches.AddOrUpdate(branches);
+            //    }
+            //}
+
+            SeedApplicationUser(context, "ApplicationUsers");
+
+        }
+
+        private static void SeedApplicationUser(Models.ApplicationDbContext context, string fileName)
+        {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            string resourceName = "wm.Web.Migrations.SeedData.Branches.csv";
+            string resourceName = "wm.Web.Migrations.SeedData." + fileName + ".csv";
+            var store = new UserStore<ApplicationUser>(context);
+            var userManager = new ApplicationUserManager(store);
+            Console.WriteLine("testing console");
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             {
                 using (StreamReader reader = new StreamReader(stream, System.Text.Encoding.UTF8))
                 {
                     CsvReader csvReader = new CsvReader(reader);
                     csvReader.Configuration.WillThrowOnMissingField = false;
-                    var branches = csvReader.GetRecords<Branch>().ToArray();
-                    context.Branches.AddOrUpdate(branches);
+
+                    while (csvReader.Read())
+                    {
+                        //var provinceState = csvReader.GetRecord<ProvinceState>();
+                        var UserName = csvReader.GetField<string>("UserName");
+                        var LastName = csvReader.GetField<string>("LastName");
+                        var FirstName = csvReader.GetField<string>("FirstName");
+                        var Email = "tnt@tnt.com";
+                        var user = new ApplicationUser
+                        {
+                            UserName = UserName,
+                            LastName = LastName,
+                            FirstName = FirstName,
+                            Email = Email
+                        };
+                        var result = userManager.CreateAsync(user, UserName);
+                        if (result.Result.Succeeded)
+                        {
+                            Console.WriteLine("asdf");
+                        }
+                        Console.WriteLine("create 1 user");
+                    }
                 }
             }
         }

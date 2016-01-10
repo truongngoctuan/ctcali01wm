@@ -29,6 +29,12 @@ namespace wm.Core.Models
         public string Phone { get; set; }
         public string Address { get; set; }
 
+        public int? PositionId { get; set; }
+        public virtual Position Position { get; set; }
+
+        public int? BranchId { get; set; }
+        public virtual Branch Branch { get; set; }
+
         public virtual ICollection<MerchandiseAccoutantHistory> MerchandiseAccoutantHistories { get; set; }
     }
 

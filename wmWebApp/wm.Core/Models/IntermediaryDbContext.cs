@@ -15,6 +15,7 @@ namespace wm.Core.Models
         {
         }
 
+        public DbSet<Position> Positions { get; set; }
         public DbSet<Branch> Branches { get; set; }
         public DbSet<BranchType> BranchTypes { get; set; }
         public DbSet<Merchandise> Merchandise { get; set; }
@@ -28,6 +29,19 @@ namespace wm.Core.Models
                 .HasOptional<BranchType>(o => o.BranchType)
                 .WithMany(o => o.Branchs)
                 .HasForeignKey(o => o.BranchTypeId);
+
+            #region ApplicationUser
+            modelBuilder.Entity<ApplicationUser>()
+                .HasOptional<Position>(o => o.Position)
+                .WithMany(o => o.Users)
+                .HasForeignKey(o => o.PositionId);
+
+            modelBuilder.Entity<ApplicationUser>()
+                .HasOptional<Branch>(o => o.Branch)
+                .WithMany(o => o.Users)
+                .HasForeignKey(o => o.BranchId);
+            #endregion
+
         }
     }
 }

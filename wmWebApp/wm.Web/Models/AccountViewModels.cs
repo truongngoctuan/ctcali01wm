@@ -110,4 +110,15 @@ namespace wm.Web.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
+
+    public class ApplicationUserListViewModel
+    {
+        [Required]
+        [Display(Name = "UserName")]
+        public string UserName { get; set; }
+
+        public string FullName { get; set; }
+        public string Branch { get; set; }
+        public string Position { get; set; }
+    }
 }
