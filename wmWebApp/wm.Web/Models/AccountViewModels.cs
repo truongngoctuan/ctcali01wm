@@ -120,5 +120,7 @@ namespace wm.Web.Models
         public string FullName { get; set; }
         public string Branch { get; set; }
         public string Position { get; set; }
+
+        public _ToolboxListViewModel ToolboxLinks { get; set; }
     }
 }

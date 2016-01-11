@@ -79,11 +79,16 @@ namespace wm.Core.Repositories
         }
         protected override IQueryable<ApplicationUser> FilterResult(string search, IQueryable<ApplicationUser> dtResult, List<string> columnFilters)
         {
-            return dtResult.Where(p => (search == null || (p.UserName != null && p.UserName.ToLower().Contains(search.ToLower())
-            || p.LastName != null && p.LastName.ToLower().Contains(search.ToLower())
-            || p.FirstName != null && p.FirstName.ToLower().Contains(search.ToLower())
-                )
-                ));
+            if (search != null)
+            {
+                search = search.Trim().ToLower();
+                return dtResult.Where(p => (
+                (p.UserName != null && p.UserName.ToLower().Contains(search))
+                || (p.FullNameANSCII != null && p.FullNameANSCII.ToLower().Contains(search))
+                    )
+                    );
+            }
+            return dtResult;
         }
     }
 }

@@ -8,7 +8,7 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Register")
 </p>
 <table id="exampleTable01" class="table">
     <thead>
@@ -24,6 +24,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Position)
+            </th>
+            <th>
+                Toolbox
             </th>
         </tr>
     </thead>
@@ -41,6 +44,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Position)
             </th>
+            <th>
+                Toolbox
+            </th>
         </tr>
     </tfoot>
 </table>
@@ -56,52 +62,61 @@
 
     <script>
 
-$(document).ready(function () {
+        $(document).ready(function () {
 
-    //$('#datatab tfoot th').each(function () {
-    //    $(this).html('<input type="text" />');
-    //});
+            //$('#datatab tfoot th').each(function () {
+            //    $(this).html('<input type="text" />');
+            //});
 
-    var oTable = $('#exampleTable01').DataTable({
-        "serverSide": true,
-        "ajax": {
-            "type": "POST",
-            "url": "@Url.Action("List", "Account")",
-            "contentType": 'application/json; charset=utf-8',
-            'data': function (data) { return data = JSON.stringify(data); }
-        },
-        "pagingType": "full_numbers",
-        //"dom": 'frtiS',
-        //"scrollY": 500,
-        //"scrollX": true,
-        //"scrollCollapse": true,
-        //"scroller": {
-        //    loadingIndicator: false
-        //},
-        "processing": true,
-        "paging": true,
-        "deferRender": true,
-        "columns": [
-       { "data": "UserName" },
-       { "data": "FullName" },
-       { "data": "Branch" },
-       { "data": "Position" }
-        ],
-        "order": [0, "asc"]
+            var oTable = $('#exampleTable01').DataTable({
+                "serverSide": true,
+                "ajax": {
+                    "type": "POST",
+                    "url": "@Url.Action("List", "Account")",
+                    "contentType": 'application/json; charset=utf-8',
+                    'data': function (data) { return data = JSON.stringify(data); }
+                },
+                "pagingType": "full_numbers",
+                //"dom": 'frtiS',
+                //"scrollY": 500,
+                //"scrollX": true,
+                //"scrollCollapse": true,
+                //"scroller": {
+                //    loadingIndicator: false
+                //},
+                "processing": true,
+                "paging": true,
+                "deferRender": true,
+                "columns": [
+               { "data": "UserName" },
+               { "data": "FullName" },
+               { "data": "Branch" },
+               { "data": "Position" },
+                                   {
+                                       "data": "ToolboxLinks",
+                                       "render": function (data, type, full, meta) {
+                                           return type === 'display' &&
+                                           '<a href="' + data["Details"] + '" class="btn btn-info">Chi tiết</a>'
+                                           + '<a href="' + data["Edit"] + '" class="btn btn-warning">Sửa</a>'
+                                           + '<a href="' + data["Delete"] + '" class="btn btn-danger">Xóa</a>';
+                                       }
+                                   }
+                ],
+                "order": [0, "asc"]
 
-    });
+            });
 
-    //oTable.columns().every(function () {
-    //    var that = this;
+            //oTable.columns().every(function () {
+            //    var that = this;
 
-    //    $('input', this.footer()).on('keyup change', function () {
-    //        that
-    //            .search(this.value)
-    //            .draw();
-    //    });
-    //});
+            //    $('input', this.footer()).on('keyup change', function () {
+            //        that
+            //            .search(this.value)
+            //            .draw();
+            //    });
+            //});
 
-});
+        });
 
     </script>
 

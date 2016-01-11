@@ -70,20 +70,23 @@ namespace wm.Web.Migrations.ApplicationDbContext
                         var UserName = csvReader.GetField<string>("UserName");
                         var LastName = csvReader.GetField<string>("LastName");
                         var FirstName = csvReader.GetField<string>("FirstName");
-                        var Email = "tnt@tnt.com";
+                        var FullName = LastName + " " + FirstName;
+                        var FullNameANSCII = FullName.RemoveSign4VietnameseString();
+                        var Email = csvReader.GetField<string>("Email");
                         var user = new ApplicationUser
                         {
                             UserName = UserName,
                             LastName = LastName,
                             FirstName = FirstName,
+                            FullName = FullName,
+                            FullNameANSCII = FullNameANSCII,
                             Email = Email
                         };
                         var result = userManager.CreateAsync(user, UserName);
                         if (result.Result.Succeeded)
                         {
-                            Console.WriteLine("asdf");
+                            Console.WriteLine("created 1 user");
                         }
-                        Console.WriteLine("create 1 user");
                     }
                 }
             }
