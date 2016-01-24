@@ -233,45 +233,9 @@ namespace wm.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
         
-        [AllowAnonymous]
-        [HttpPost]
-        public ActionResult List(DTParameters param)
-        {
-            try
-            {
-                var resultSet = new DataTablesUtilApplicationUser(_repository);
-                IEnumerable<ApplicationUser> result = resultSet.GetListFiltered(param);
-                var resultViewModel = result.Select(e => new ApplicationUserListDatatableViewModel
-                {
-                    UserName = e.UserName,
-                    FullName = e.FullName,
-                    Branch = (e.Branch == null) ? "unknown" : e.Branch.Name,
-                    Position = (e.Position == null) ? "unknown" : e.Position.Name,
-                    ToolboxLinks = this.CreateToolboxLinks(e.Id)
-                });
+       
 
-                var DTResult = resultSet.GetListDTResult<ApplicationUserListDatatableViewModel>(resultViewModel);
-                return Json(DTResult);
-                
-            //    return Json(new Dictionary<string, List<BranchListViewModel>>()
-            //{ { "data" , customListBranches.ToList() } }
-            //    );
-            }
-            catch (Exception ex)
-            {
-                return Json(new
-                {
-                    error = ex.Message
-                });
-            }
 
-        }
-
-        [AllowAnonymous]
-        public ActionResult Index()
-        {
-            return View();
-        }
 
         [AllowAnonymous]
         public ActionResult Edit()

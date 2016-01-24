@@ -207,6 +207,10 @@
     <Compile Include="Controllers\ExtendedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PlacingOrderController.cs" />
+    <Compile Include="CRUDOperators\Controllers\ApplicationUserController.cs" />
+    <Compile Include="CRUDOperators\Controllers\CRUDController.cs" />
+    <Compile Include="CRUDOperators\ViewModels\ApplicationUserViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -223,7 +227,8 @@
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\BranchViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\SharedViewModel.cs" />
+    <Compile Include="CRUDOperators\ViewModels\SharedViewModel.cs" />
+    <Compile Include="Models\PlacingOrderViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -231,6 +236,8 @@
     <Content Include="App_Data\wm.Web.mdf" />
     <Content Include="bower_components\datatables\media\css\jquery.dataTables.min.css" />
     <Content Include="bower_components\datatables\media\js\jquery.dataTables.min.js" />
+    <Content Include="bower_components\handsontable\dist\handsontable.full.min.css" />
+    <Content Include="bower_components\handsontable\dist\handsontable.full.min.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -313,8 +320,14 @@
     <Content Include="Views\BranchTypes\Index.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\ApplicationUser\Index.cshtml" />
+    <Content Include="Views\ApplicationUser\Details.cshtml" />
+    <Content Include="Views\PlacingOrder\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="CRUDOperators\InputModels\" />
+    <Folder Include="CRUDOperators\Views\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

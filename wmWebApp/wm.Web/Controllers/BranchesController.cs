@@ -10,11 +10,12 @@ using System.Web;
 using System.Web.Mvc;
 using wm.Core.Models;
 using wm.Core.Repositories;
+using wm.Web.CRUDOperators.Controllers;
 using wm.Web.Models;
 
 namespace wm.Web.Controllers
 {
-    public class BranchesController : ExtendedController
+    public class BranchesController : CRUDController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private IBranchRepository _repostory = new BranchRepository(new ApplicationDbContext());

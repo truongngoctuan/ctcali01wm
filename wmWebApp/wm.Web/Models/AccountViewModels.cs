@@ -111,16 +111,5 @@ namespace wm.Web.Models
         public string Email { get; set; }
     }
 
-    public class ApplicationUserListDatatableViewModel
-    {
-        [Required]
-        [Display(Name = "UserName")]
-        public string UserName { get; set; }
 
-        public string FullName { get; set; }
-        public string Branch { get; set; }
-        public string Position { get; set; }
-
-        public _ToolboxListViewModel ToolboxLinks { get; set; }
-    }
 }
