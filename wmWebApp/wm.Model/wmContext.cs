@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace wm.Model
 {
-    public class SampleArchContext : DbContext
+    public class wmContext : DbContext
     {
-        public SampleArchContext()
+        public wmContext()
             : base("Name=DefaultConnection")
         {
 

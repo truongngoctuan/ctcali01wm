@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wm.Repository", "wm.Reposit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wm.Service", "wm.Service\wm.Service.csproj", "{BCF3F0F0-082B-4E65-A0C0-1948207038D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wm.Web2", "wm.Web2\wm.Web2.csproj", "{439EE645-FEBD-477A-9F29-59DE5B225355}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wm.Web2.Tests", "wm.Web2.Tests\wm.Web2.Tests.csproj", "{4140627D-4372-44A9-9DF9-2BB18406318D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{BCF3F0F0-082B-4E65-A0C0-1948207038D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCF3F0F0-082B-4E65-A0C0-1948207038D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCF3F0F0-082B-4E65-A0C0-1948207038D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{439EE645-FEBD-477A-9F29-59DE5B225355}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{439EE645-FEBD-477A-9F29-59DE5B225355}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{439EE645-FEBD-477A-9F29-59DE5B225355}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{439EE645-FEBD-477A-9F29-59DE5B225355}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4140627D-4372-44A9-9DF9-2BB18406318D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4140627D-4372-44A9-9DF9-2BB18406318D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4140627D-4372-44A9-9DF9-2BB18406318D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4140627D-4372-44A9-9DF9-2BB18406318D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
