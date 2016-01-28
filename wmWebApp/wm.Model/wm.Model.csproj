@@ -49,9 +49,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountantCode.cs" />
     <Compile Include="BaseEntity.cs" />
     <Compile Include="Branch.cs" />
+    <Compile Include="Good.cs" />
+    <Compile Include="GoodCategory.cs" />
+    <Compile Include="GoodUnit.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="OrderBranch.cs" />
+    <Compile Include="OrderBranchStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="wmContext.cs" />
   </ItemGroup>
