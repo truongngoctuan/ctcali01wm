@@ -21,11 +21,13 @@ namespace wm.Model
     public class BranchGoodCategory
     {
         [Key, Column(Order = 0)]
-        public int BranchID { get; set; }
+        public int BranchId { get; set; }
         [Key, Column(Order = 1)]
-        public int GoodCategoryID { get; set; }
+        public int GoodCategoryId { get; set; }
 
+        [ForeignKey("BranchId")]
         public virtual Branch Branch { get; set; }
+        [ForeignKey("GoodCategoryId")]
         public virtual GoodCategory GoodCategory { get; set; }
 
         public int Ranking { get; set; }

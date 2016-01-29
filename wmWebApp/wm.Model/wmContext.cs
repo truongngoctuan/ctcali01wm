@@ -17,6 +17,8 @@ namespace wm.Model
         }
 
         public DbSet<Branch> Branches { get; set; }//testing TEntity
+        public DbSet<GoodCategory> GoodCategories { get; set; }//testing TEntity
+        public DbSet<BranchGoodCategory> BranchGoodCategories { get; set; }//testing TEntity
         public DbSet<Item> Items { get; set; }//testing auditable
 
         public override int SaveChanges()

@@ -7,137 +7,110 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using wm.Model;
-using wm.Web2.Models;
 
 namespace wm.Web2.Controllers
 {
-    //many-to-many with addition informations, using checkboxes
-    //http://www.asp.net/mvc/overview/getting-started/getting-started-with-ef-using-mvc/updating-related-data-with-the-entity-framework-in-an-asp-net-mvc-application
-    public class BranchesController : Controller
+    public class GoodCategoriesController : Controller
     {
         private wmContext db = new wmContext();
 
-        // GET: Branches
+        // GET: GoodCategories
         public ActionResult Index()
         {
-            return View(db.Branches.ToList());
+            return View(db.GoodCategories.ToList());
         }
 
-        // GET: Branches/Details/5
+        // GET: GoodCategories/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Branch branch = db.Branches.Find(id);
-            if (branch == null)
+            GoodCategory goodCategory = db.GoodCategories.Find(id);
+            if (goodCategory == null)
             {
                 return HttpNotFound();
             }
-            return View(branch);
+            return View(goodCategory);
         }
 
-        // GET: Branches/Create
+        // GET: GoodCategories/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Branches/Create
+        // POST: GoodCategories/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name")] Branch branch)
+        public ActionResult Create([Bind(Include = "Id,Name")] GoodCategory goodCategory)
         {
             if (ModelState.IsValid)
             {
-                db.Branches.Add(branch);
+                db.GoodCategories.Add(goodCategory);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(branch);
+            return View(goodCategory);
         }
 
-        // GET: Branches/Edit/5
+        // GET: GoodCategories/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Branch branch = db.Branches.Find(id);
-            if (branch == null)
+            GoodCategory goodCategory = db.GoodCategories.Find(id);
+            if (goodCategory == null)
             {
                 return HttpNotFound();
             }
-
-            PopulateBranchGoodCategoryData(null);
-            return View(branch);
+            return View(goodCategory);
         }
 
-        private void PopulateBranchGoodCategoryData(Branch filterOwner)
-        {
-            var allList = db.GoodCategories;
-            var filterId = new HashSet<int>();
-            if (filterOwner != null)
-            {
-                filterId = new HashSet<int>(filterOwner.BranchGoodCategories.Select(g => g.GoodCategoryId));
-            }
-            
-            var viewModel = new List<BranchGoodCategoryViewModel>();
-            foreach (var item in allList)
-            {
-                viewModel.Add(new BranchGoodCategoryViewModel
-                {
-                    CategoryId = item.Id,
-                    Name = item.Name,
-                    IsChecked = filterId.Contains(item.Id)
-                });
-            }
-            ViewBag.BranchGoodCategories = viewModel;
-        }
-
-        // POST: Branches/Edit/5
+        // POST: GoodCategories/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name")] Branch branch)
+        public ActionResult Edit([Bind(Include = "Id,Name")] GoodCategory goodCategory)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(branch).State = EntityState.Modified;
+                db.Entry(goodCategory).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(branch);
+            return View(goodCategory);
         }
 
-        // GET: Branches/Delete/5
+        // GET: GoodCategories/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Branch branch = db.Branches.Find(id);
-            if (branch == null)
+            GoodCategory goodCategory = db.GoodCategories.Find(id);
+            if (goodCategory == null)
             {
                 return HttpNotFound();
             }
-            return View(branch);
+            return View(goodCategory);
         }
 
-        // POST: Branches/Delete/5
+        // POST: GoodCategories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Branch branch = db.Branches.Find(id);
-            db.Branches.Remove(branch);
+            GoodCategory goodCategory = db.GoodCategories.Find(id);
+            db.GoodCategories.Remove(goodCategory);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
