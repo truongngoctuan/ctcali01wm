@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -11,6 +12,20 @@ using wm.Web2.Models;
 
 namespace wm.Web2.Controllers
 {
+    public class OrderItemViewModel
+    {
+        public int Id { get; set; }
+        [Required]
+        public string Name { get; set; }
+        public uint Quantity { get; set; }
+        public uint RecommendedQuantity { get; set; }
+    }
+
+    public class PlacingOrderViewModel
+    {
+        public OrderItemViewModel[] data { get; set; }
+    }
+
     //many-to-many with addition informations, using checkboxes
     //http://www.asp.net/mvc/overview/getting-started/getting-started-with-ef-using-mvc/updating-related-data-with-the-entity-framework-in-an-asp-net-mvc-application
     public class BranchesController : Controller
@@ -21,6 +36,29 @@ namespace wm.Web2.Controllers
         public ActionResult Index()
         {
             return View(db.Branches.ToList());
+        }
+
+        // GET: PlacingOrder
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult CreateEditBranchGoodCategory()
+        {
+            IEnumerable<BranchGoodCategoryViewModel> Items = new List<BranchGoodCategoryViewModel>()
+            {
+                new BranchGoodCategoryViewModel { CategoryId = 1, Name = "Item 1", IsChecked = true, Ranking = 1},
+                new BranchGoodCategoryViewModel { CategoryId = 2, Name = "Item 2", IsChecked = true, Ranking = 2},
+                new BranchGoodCategoryViewModel { CategoryId = 3, Name = "Item 3", IsChecked = false, Ranking = 3},
+                new BranchGoodCategoryViewModel { CategoryId = 4, Name = "Item 4", IsChecked = true, Ranking = 4},
+                new BranchGoodCategoryViewModel { CategoryId = 5, Name = "Item 5", IsChecked = false, Ranking = 5}
+            };
+            return Json(Items);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult PlacingOrder(PlacingOrderViewModel model)
+        {
+            return Json(model);
         }
 
         // GET: Branches/Details/5
