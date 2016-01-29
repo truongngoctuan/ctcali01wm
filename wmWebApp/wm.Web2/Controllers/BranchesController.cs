@@ -23,7 +23,7 @@ namespace wm.Web2.Controllers
 
     public class PlacingOrderViewModel
     {
-        public OrderItemViewModel[] data { get; set; }
+        public BranchGoodCategoryViewModel[] data { get; set; }
     }
 
     //many-to-many with addition informations, using checkboxes
