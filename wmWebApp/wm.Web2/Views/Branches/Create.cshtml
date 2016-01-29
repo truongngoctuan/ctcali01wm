@@ -129,8 +129,16 @@
 
             //console.log("sending data to server: " + JSON.stringify({ data: hot.getSourceData() }));
 
+            //only send checked items to server
+            var dataOutputFiltered = [];
+            for (i = 0; i < dataInput.length; i++) {
+                if (dataInput[i].IsChecked == true) {
+                    dataOutputFiltered.push(dataInput[i]);
+                }
+            }
+
             ajaxPOSTRequest('@Url.Action("PlacingOrder")',
-                { data: dataInput },
+                { data: dataOutputFiltered },
                 function (data, textStatus, XMLHttpRequest) {
                     var dataObject = JSON.parse(data);
 
