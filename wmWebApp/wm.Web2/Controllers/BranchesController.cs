@@ -111,9 +111,11 @@ namespace wm.Web2.Controllers
                 model.BranchGoodCategories.Add(newObject);
             }
 
+            //post-processing
+
             Service.Update(model);
 
-            return Json("ok");
+            return Json(new ReturnJsonObject<int> { status = ReturnStatus.ok.ToString(), data = 0 });
         }
 
         [HttpPost]
