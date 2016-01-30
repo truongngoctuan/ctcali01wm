@@ -117,7 +117,7 @@ namespace wm.Web2.Controllers
                 {
                     Branch = model,
                     GoodCategory = _goodCategoryService.GetById(itemId),
-                    Ranking = nRankedItem
+                    Ranking = nRankedItem + 1
                 };
                 nRankedItem++;
 
@@ -125,6 +125,11 @@ namespace wm.Web2.Controllers
             }
 
             //post-processing
+            //re-index ranking
+            for (int i = 0; i < model.BranchGoodCategories.Count(); i++)
+            {
+                model.BranchGoodCategories.ElementAt(i).Ranking = i;
+            }
 
             Service.Update(model);
             return Json(new ReturnJsonObject<int> { status = ReturnStatus.ok.ToString(), data = 0 });
