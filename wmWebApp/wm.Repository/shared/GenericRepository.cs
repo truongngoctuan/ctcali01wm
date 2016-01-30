@@ -10,57 +10,62 @@ using wm.Model;
 
 namespace wm.Repository
 {
-    public interface IGenericRepository<T> where T : BaseEntity
+    public interface IGenericRepository<TEntity> where TEntity : BaseEntity
     {
-        IEnumerable<T> GetAll();
-        IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate);
-        T Add(T entity);
-        T Delete(T entity);
-        void Edit(T entity);
+        IEnumerable<TEntity> GetAll();
+        IEnumerable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate);
+        TEntity Add(TEntity entity);
+        TEntity Delete(TEntity entity);
+        void Edit(TEntity entity);
         void Save();
-        void AddOrUpdate(T entity);
+        void AddOrUpdate(TEntity entity);
+
+        IEnumerable<TEntity> Get(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "");
     }
 
-    public abstract class GenericRepository<T> : IGenericRepository<T>
-      where T : BaseEntity
+    public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
+      where TEntity : BaseEntity
     {
         protected DbContext _entities;
-        protected readonly IDbSet<T> _dbset;
+        protected readonly IDbSet<TEntity> _dbset;
 
         public GenericRepository(DbContext context)
         {
             _entities = context;
-            _dbset = context.Set<T>();
+            _dbset = context.Set<TEntity>();
         }
 
-        public virtual IEnumerable<T> GetAll()
+        public virtual IEnumerable<TEntity> GetAll()
         {
 
-            return _dbset.AsEnumerable<T>();
+            return _dbset.AsEnumerable<TEntity>();
         }
 
-        public IEnumerable<T> FindBy(System.Linq.Expressions.Expression<Func<T, bool>> predicate)
+        public IEnumerable<TEntity> FindBy(System.Linq.Expressions.Expression<Func<TEntity, bool>> predicate)
         {
 
-            IEnumerable<T> query = _dbset.Where(predicate).AsEnumerable();
+            IEnumerable<TEntity> query = _dbset.Where(predicate).AsEnumerable();
             return query;
         }
 
-        public virtual T Add(T entity)
+        public virtual TEntity Add(TEntity entity)
         {
             return _dbset.Add(entity);
         }
 
-        public virtual T Delete(T entity)
+        public virtual TEntity Delete(TEntity entity)
         {
             return _dbset.Remove(entity);
         }
 
-        public virtual void Edit(T entity)
+        public virtual void Edit(TEntity entity)
         {
             _entities.Entry(entity).State = System.Data.Entity.EntityState.Modified;
         }
-        public virtual void AddOrUpdate(T entity)
+        public virtual void AddOrUpdate(TEntity entity)
         {
             _dbset.AddOrUpdate(entity);
         }
@@ -68,6 +73,34 @@ namespace wm.Repository
         public virtual void Save()
         {
             _entities.SaveChanges();
+        }
+
+        public virtual IEnumerable<TEntity> Get(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "")
+        {
+            IQueryable<TEntity> query = _dbset;
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            foreach (var includeProperty in includeProperties.Split
+                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+
+            if (orderBy != null)
+            {
+                return orderBy(query).ToList();
+            }
+            else
+            {
+                return query.ToList();
+            }
         }
     }
 }

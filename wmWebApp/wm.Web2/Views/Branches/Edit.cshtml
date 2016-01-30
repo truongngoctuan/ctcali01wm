@@ -201,7 +201,7 @@
                 function (data, textStatus, XMLHttpRequest) {
                     var dataObject = JSON.parse(data);
                     if (dataObject.status = "ok") {
-                        window.location.href = '@Url.Action("Edit", new { id = Model.Id})';
+                        //window.location.href = '@Url.Action("Edit", new { id = Model.Id})';
                     }
                     else {
                         console.log("error IncludeExcludeNNData");
@@ -244,13 +244,12 @@
         function saveOrder() {
             console.log("local data: " + JSON.stringify({ data: dataInputOrder }));
 
-
             ajaxPOSTRequest('@Url.Action("SortNNData")',
                 { id: @Model.Id, data: dataInputOrder },
                 function (data, textStatus, XMLHttpRequest) {
                     var dataObject = JSON.parse(data);
                     if (dataObject.status = "ok") {
-                        window.location.href = '@Url.Action("Edit", new { id = Model.Id, isInEx = false})';
+                        //window.location.href = '@Url.Action("Edit", new { id = Model.Id, isInEx = false})';
                     }
                     else {
                         console.log("error SortNNData");

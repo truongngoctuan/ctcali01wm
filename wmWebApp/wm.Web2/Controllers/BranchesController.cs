@@ -20,11 +20,14 @@ namespace wm.Web2.Controllers
         IBranchService _service;
         IBranchService Service { get { return _service; } }
         IGoodCategoryService _goodCategoryService;
+        IBranchGoodCategoryService _branchGoodCategoryService;
         public BranchesController(IBranchService Service, 
-            IGoodCategoryService GoodCategoryService)
+            IGoodCategoryService GoodCategoryService,
+            IBranchGoodCategoryService BranchGoodCategoryService)
         {
             _service = Service;
             _goodCategoryService = GoodCategoryService;
+            _branchGoodCategoryService = BranchGoodCategoryService;
         }
         // GET: Branches
         public ActionResult Index()
@@ -36,45 +39,34 @@ namespace wm.Web2.Controllers
         [AllowAnonymous]
         public ActionResult PopulateData(int? id, bool isInEx)//, PlacingOrderViewModel nnData)
         {
-            var model = (id == null) ? null : Service.GetById((int)id);
-            if (isInEx)
-            {
-                var items = PopulateNNData(model);
-                return Json(items);
-            }
-            else
-            {
-                var items = PopulateNNData(model, false);
-                return Json(items);
-            }
+            var items = PopulateNNData(id, isInEx);
+            return Json(items);
         }
 
-        private IEnumerable<BranchInExItemViewModel> PopulateNNData(Branch filterOwner, bool isInEx = true)
+        private IEnumerable<BranchInExItemViewModel> PopulateNNData(int? id, bool isInEx = true)
         {
+            if (id == null) throw new Exception("id shouldn't be null");
+
             IEnumerable<BranchInExItemViewModel> viewModel = new List<BranchInExItemViewModel>();
             if (isInEx)
             {//return all, with some checked items
                 var allList = _goodCategoryService.GetAll();
-
-                //get list of checked item
-                var filterIdList = new HashSet<int>();
-                if (filterOwner != null)
-                {
-                    filterIdList = new HashSet<int>(filterOwner.BranchGoodCategories.Select(g => g.GoodCategoryId));
-                }
+                var filteredList = _branchGoodCategoryService.GetByBranchId((int)id);
 
                 //binding data
                 viewModel = allList.Select(t => new BranchInExItemViewModel
                 {
                     CategoryId = t.Id,
                     Name = t.Name,
-                    IsChecked = filterIdList.Contains(t.Id)
+                    IsChecked = filteredList.Any(s => s.GoodCategoryId == t.Id)
                 });
             }
             else
             {//return only checked item
+                var filteredList = _branchGoodCategoryService.GetByBranchId((int)id, "GoodCategory");
+
                 //binding data
-                viewModel = filterOwner.BranchGoodCategories
+                viewModel = filteredList
                     .OrderBy(t => t.Ranking)
                     .Select(t => new BranchInExItemViewModel
                 {
