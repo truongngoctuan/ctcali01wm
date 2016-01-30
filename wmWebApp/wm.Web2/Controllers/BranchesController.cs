@@ -80,6 +80,8 @@ namespace wm.Web2.Controllers
             return viewModel;
         }
 
+
+        //TODO: bulk update/delete/add EntityFramework.Extended
         [HttpPost]
         [AllowAnonymous]
         public ActionResult IncludeExcludeNNData(int id, BranchInExViewModel inputViewModel)
@@ -129,50 +131,24 @@ namespace wm.Web2.Controllers
         [AllowAnonymous]
         public ActionResult SortNNData(int id, BranchInExViewModel inputViewModel)
         {
-            var model = Service.GetById(id);
+            var filteredList = _branchGoodCategoryService.GetByBranchId((int)id);
 
             //remove
 
             //edit - update ranking
             foreach (var item in inputViewModel.data)
             {
-                var editObject = model.BranchGoodCategories.Where(t => t.GoodCategoryId == item.CategoryId).First();
+                var editObject = filteredList.Where(t => t.GoodCategoryId == item.CategoryId).First();
                 editObject.Ranking = item.Ranking;
+                _branchGoodCategoryService.Update(editObject);
             }
 
             //add new item
 
             //post-processing
 
-            Service.Update(model);
-
             return Json(new ReturnJsonObject<int> { status = ReturnStatus.ok.ToString(), data = 0 });
         }
-
-        //[HttpPost]
-        //[AllowAnonymous]
-        //public ActionResult PlacingOrder(int id, PlacingOrderViewModel inputViewModel)
-        //{
-        //    var model = Service.GetById(id);
-        //    var oldLinking = model.BranchGoodCategories;
-        //    var newLinking = inputViewModel.data.Select(t => new BranchGoodCategory
-        //    {
-        //        Branch = Service.GetById(model.Id),
-        //        GoodCategory = _goodCategoryService.GetById(t.CategoryId),
-        //        Ranking = t.Ranking
-        //    });
-
-        //    foreach(var item in newLinking)
-        //    {
-        //        var match = oldLinking.Where(t => t.GoodCategoryId == item.GoodCategoryId).First();
-        //        if(match == null)
-        //        {
-        //            //model.BranchGoodCategories.Add()
-        //        }
-        //    }
-
-        //    return Json(model);
-        //}
 
         // GET: Branches/Details/5
         public ActionResult Details(int? id)
