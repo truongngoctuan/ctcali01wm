@@ -90,7 +90,7 @@
             startCols: 2,
             rowHeaders: true,
             colHeaders: false,
-            manualRowMove: true,
+            //manualRowMove: true,
             dataSchema: { Id: null, Name: null, RecommendedQuantity: null, Quantity: null },
             columns: [//TODO: change colorbackground for readonly
               //{ data: 'CategoryId', readOnly: true },
@@ -129,7 +129,7 @@
         });
 
         $(document).ready(function () {
-            ajaxPOSTRequest('@Url.Action("PopulateData")', {},
+            ajaxPOSTRequest('@Url.Action("PopulateData")', {id : @Model.Id},
                 function (data, textStatus, XMLHttpRequest) {
                     console.log("client received: " + data);
 
@@ -152,8 +152,8 @@
                 }
             }
 
-            ajaxPOSTRequest('@Url.Action("PlacingOrder")',
-                { data: dataOutputFiltered },
+            ajaxPOSTRequest('@Url.Action("IncludeExcludeNNData")',
+                { id: @Model.Id, data: dataOutputFiltered },
                 function (data, textStatus, XMLHttpRequest) {
                     var dataObject = JSON.parse(data);
 

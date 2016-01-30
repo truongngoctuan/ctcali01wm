@@ -24,6 +24,7 @@ namespace wm.Web2.Controllers
 
     public class PlacingOrderViewModel
     {
+        public int Id { get; set; }
         public BranchGoodCategoryViewModel[] data { get; set; }
     }
 
@@ -79,10 +80,73 @@ namespace wm.Web2.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult PlacingOrder(PlacingOrderViewModel model)
-        {
-            return Json(model);
+        public ActionResult IncludeExcludeNNData(int id, PlacingOrderViewModel inputViewModel)
+        {//only checkbox, not ranking
+            var model = Service.GetById(id);
+            var oldLinkingIdList = model.BranchGoodCategories.Select(t => t.GoodCategoryId);
+            var newLinkingIdList = (inputViewModel.data == null) ? new List<int>() : inputViewModel.data.Select(t => t.CategoryId);
+
+            var removeIds = oldLinkingIdList.Where(t => !newLinkingIdList.Contains(t)).ToList();
+            var editIds = oldLinkingIdList.Where(t => newLinkingIdList.Contains(t));
+            var newIds = newLinkingIdList.Where(t => !oldLinkingIdList.Contains(t));
+
+            //remove
+            foreach (var itemId in removeIds)
+            {
+                var removeObject = model.BranchGoodCategories.Where(t => t.GoodCategoryId == itemId).First();
+                model.BranchGoodCategories.Remove(removeObject);
+            }
+
+            //edit - do nothing
+
+            //add new item
+            foreach (var itemId in newIds)
+            {
+                var newObject = new BranchGoodCategory
+                {
+                    Branch = model,
+                    GoodCategory = _goodCategoryService.GetById(itemId)
+                };
+
+                model.BranchGoodCategories.Add(newObject);
+            }
+
+            Service.Update(model);
+
+            return Json("ok");
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult ReOrderNNData(int id, PlacingOrderViewModel inputViewModel)
+        {
+            return View();
+        }
+
+        //[HttpPost]
+        //[AllowAnonymous]
+        //public ActionResult PlacingOrder(int id, PlacingOrderViewModel inputViewModel)
+        //{
+        //    var model = Service.GetById(id);
+        //    var oldLinking = model.BranchGoodCategories;
+        //    var newLinking = inputViewModel.data.Select(t => new BranchGoodCategory
+        //    {
+        //        Branch = Service.GetById(model.Id),
+        //        GoodCategory = _goodCategoryService.GetById(t.CategoryId),
+        //        Ranking = t.Ranking
+        //    });
+
+        //    foreach(var item in newLinking)
+        //    {
+        //        var match = oldLinking.Where(t => t.GoodCategoryId == item.GoodCategoryId).First();
+        //        if(match == null)
+        //        {
+        //            //model.BranchGoodCategories.Add()
+        //        }
+        //    }
+
+        //    return Json(model);
+        //}
 
         // GET: Branches/Details/5
         public ActionResult Details(int? id)
