@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -17,6 +18,7 @@ namespace wm.Repository
         T Delete(T entity);
         void Edit(T entity);
         void Save();
+        void AddOrUpdate(T entity);
     }
 
     public abstract class GenericRepository<T> : IGenericRepository<T>
@@ -57,6 +59,10 @@ namespace wm.Repository
         public virtual void Edit(T entity)
         {
             _entities.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+        }
+        public virtual void AddOrUpdate(T entity)
+        {
+            _dbset.AddOrUpdate(entity);
         }
 
         public virtual void Save()

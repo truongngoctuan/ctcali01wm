@@ -19,6 +19,7 @@ namespace wm.Service
         void Delete(T entity);
         IEnumerable<T> GetAll();
         void Update(T entity);
+        void AddOrUpdate(T entity);
     }
 
     public abstract class EntityService<T> : IEntityService<T> where T : BaseEntity
@@ -47,6 +48,10 @@ namespace wm.Service
             if (entity == null) throw new ArgumentNullException("entity");
             _repository.Edit(entity);
             _unitOfWork.Commit();
+        }
+        public virtual void AddOrUpdate(T entity)
+        {
+            _repository.AddOrUpdate(entity);
         }
 
         public virtual void Delete(T entity)

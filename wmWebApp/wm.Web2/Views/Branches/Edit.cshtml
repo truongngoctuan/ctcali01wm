@@ -7,56 +7,185 @@
 
 <h2>Edit</h2>
 
+<div class="row">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <h4>Edit basic informations</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="row">
+    <h4>Update good categories</h4>
+    <hr />
     
-    <div class="form-horizontal">
-        <h4>Branch</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                @{
-                    List<wm.Web2.Models.BranchGoodCategoryViewModel> cates = ViewBag.BranchGoodCategories;
-
-                    foreach (var item in cates)
-                    {
-                        <input type="checkbox"
-                               name="selectedCourses"
-                               value="@item.CategoryId"
-                               @(Html.Raw(item.IsChecked ? "checked=\"checked\"" : "")) />
-                            @item.Name
-                            <br />
-                    }
-                }
-
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+    <div class="form-group row col-md-10 col-md-offset-2">
+        <div id="example" class=""></div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button name="save" id="save" class="btn btn-danger" onclick="saveOrder()">Save</button>
         </div>
     </div>
-}
 
-<div>
+    
+</div>
+
+<div class="row">
+    <hr />
     @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        //================================================================================
+        //helper
+        function ajaxPOSTRequest(href, dataObject, onSuccessCallback) {
+            $.ajax({
+                url: href,
+                data: dataObject,
+                cache: false,
+                type: "POST",
+                dataType: "html",
+                success: onSuccessCallback
+            });
+        }
+        //================================================================================
+        var $$ = function (id) {
+            return document.getElementById(id);
+        },
+    container = $$('example'),
+    exampleConsole = $$('example1console'),
+    autosave = $$('autosave'),
+    load = $$('load'),
+    save = $$('save'),
+    autosaveNotification,
+    hot,
+    dataInput;
+
+        hot = new Handsontable(container, {
+            startRows: 1,
+            startCols: 2,
+            rowHeaders: true,
+            colHeaders: false,
+            manualRowMove: true,
+            dataSchema: { Id: null, Name: null, RecommendedQuantity: null, Quantity: null },
+            columns: [//TODO: change colorbackground for readonly
+              //{ data: 'CategoryId', readOnly: true },
+              { data: 'Name', readOnly: true },
+              { data: 'IsChecked', type: 'checkbox' },
+            ],
+            afterChange: function (change, source) {
+                if (source === 'loadData') {
+                    return; //don't save this change
+                }
+                //if (!autosave.checked) {
+                //    return;
+                //}
+                clearTimeout(autosaveNotification);
+                console.log("change: " + JSON.stringify(hot.getSourceDataAtRow(change[0][0])));
+
+                @*$.ajax({
+                    url: '@Url.Action("PlacingOrder")',
+                    data: JSON.stringify({ data: change }),
+                    cache: false,
+                    type: "POST",
+                    dataType: "html",
+                    success: function (data, textStatus, XMLHttpRequest) {
+                        console.log(data);
+                    }
+                });*@
+
+
+            },
+            afterRowMove: function (startRow, endRow) {
+                var temp = dataInput[startRow].Ranking;
+                dataInput[startRow].Ranking = dataInput[endRow].Ranking;
+                dataInput[endRow].Ranking = temp;
+                console.log("Move row: " + startRow + " " + endRow);
+            }
+        });
+
+        $(document).ready(function () {
+            ajaxPOSTRequest('@Url.Action("PopulateData")', {},
+                function (data, textStatus, XMLHttpRequest) {
+                    console.log("client received: " + data);
+
+                    dataInput = JSON.parse(data);
+                    hot.loadData(dataInput);
+
+                });
+        });
+
+        function saveOrder() {
+            console.log("local data: " + JSON.stringify({ data: dataInput }));
+
+            //console.log("sending data to server: " + JSON.stringify({ data: hot.getSourceData() }));
+
+            //only send checked items to server
+            var dataOutputFiltered = [];
+            for (i = 0; i < dataInput.length; i++) {
+                if (dataInput[i].IsChecked == true) {
+                    dataOutputFiltered.push(dataInput[i]);
+                }
+            }
+
+            ajaxPOSTRequest('@Url.Action("PlacingOrder")',
+                { data: dataOutputFiltered },
+                function (data, textStatus, XMLHttpRequest) {
+                    var dataObject = JSON.parse(data);
+
+                    //hot.loadData(dataObject);
+                    console.log("server receive data: " + data);
+
+                    //// save all cell's data
+                    //ajax('scripts/json/save.json', 'GET', JSON.stringify({ data: hot.getData() }), function (res) {
+                    //    var response = JSON.parse(res.response);
+
+                    //    if (response.result === 'ok') {
+                    //        exampleConsole.innerText = 'Data saved';
+                    //    }
+                    //    else {
+                    //        exampleConsole.innerText = 'Save error';
+                    //    }
+                    //});
+                });
+        }
+
+
+
+        //Handsontable.Dom.addEvent(autosave, 'click', function () {
+        //    if (autosave.checked) {
+        //        exampleConsole.innerText = 'Changes will be autosaved';
+        //    }
+        //    else {
+        //        exampleConsole.innerText = 'Changes will not be autosaved';
+        //    }
+        //});
+
+    </script>
 }
+
+
