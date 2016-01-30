@@ -84,46 +84,44 @@ namespace wm.Web2.Controllers
         [AllowAnonymous]
         public ActionResult IncludeExcludeNNData(int id, BranchInExViewModel inputViewModel)
         {//only checkbox, not ranking
-            var model = Service.GetById(id);
-            var oldLinkingIdList = model.BranchGoodCategories.Select(t => t.GoodCategoryId);
-            var newLinkingIdList = (inputViewModel.data == null) ? new List<int>() : inputViewModel.data.Select(t => t.CategoryId);
+            var oldLinkingList = _branchGoodCategoryService.GetByBranchId((int)id);
+            var newLinkingList = (inputViewModel.data == null) ?
+                new List<BranchGoodCategory>() :
+                inputViewModel.data.Select(t => new BranchGoodCategory {
+                    BranchId = id,
+                    GoodCategoryId = t.CategoryId//enough data
+                });
 
-            var removeIds = oldLinkingIdList.Where(t => !newLinkingIdList.Contains(t)).ToList();
-            var editIds = oldLinkingIdList.Where(t => newLinkingIdList.Contains(t));
-            var newIds = newLinkingIdList.Where(t => !oldLinkingIdList.Contains(t));
+            var removeList = oldLinkingList.Where(t => !newLinkingList.Any(u => u.GoodCategoryId == t.GoodCategoryId));
+            var editList = oldLinkingList.Where(t => newLinkingList.Any(u => u.GoodCategoryId == t.GoodCategoryId));
+            var newList = newLinkingList.Where(t => !oldLinkingList.Any(u => u.GoodCategoryId == t.GoodCategoryId));
 
             //remove
-            foreach (var itemId in removeIds)
+            foreach (var item in removeList)
             {
-                var removeObject = model.BranchGoodCategories.Where(t => t.GoodCategoryId == itemId).First();
-                model.BranchGoodCategories.Remove(removeObject);
+                _branchGoodCategoryService.Delete(item);
             }
 
-            //edit - do nothing
+            //edit - just re-index
+            for (int i = 0; i < editList.Count(); i++)
+            {
+                editList.ElementAt(i).Ranking = i;
+                _branchGoodCategoryService.Update(editList.ElementAt(i));
+            }
 
             //add new item
-            int nRankedItem = model.BranchGoodCategories.Count();
-            foreach (var itemId in newIds)
+            int nRankedItem = editList.Count();
+            foreach (var itemId in newList)
             {
-                var newObject = new BranchGoodCategory
-                {
-                    Branch = model,
-                    GoodCategory = _goodCategoryService.GetById(itemId),
-                    Ranking = nRankedItem + 1
-                };
+                itemId.Ranking = nRankedItem;
                 nRankedItem++;
 
-                model.BranchGoodCategories.Add(newObject);
+                _branchGoodCategoryService.Create(itemId);
             }
 
             //post-processing
-            //re-index ranking
-            for (int i = 0; i < model.BranchGoodCategories.Count(); i++)
-            {
-                model.BranchGoodCategories.ElementAt(i).Ranking = i;
-            }
 
-            Service.Update(model);
+            //Service.Update(model);
             return Json(new ReturnJsonObject<int> { status = ReturnStatus.ok.ToString(), data = 0 });
         }
 
