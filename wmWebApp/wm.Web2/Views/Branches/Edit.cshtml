@@ -39,7 +39,14 @@
     <h4>Update good categories</h4>
     <hr />
     <div class="row form-group col-md-10 col-md-offset-2">
-        <input type="checkbox" id="cbSwitchToOrder" /> Enable sort
+        @if (ViewBag.isInEx == true)
+        {
+            <input type="checkbox" id="cbSwitchToOrder" />
+        }
+        else {
+            <input type="checkbox" id="cbSwitchToOrder" checked="checked" />
+        }
+         Enable sort
     </div>
     <div id="groupIncludeExclude">
         <div class="form-group row col-md-10 col-md-offset-2"> Check/Uncheck Items</div>
@@ -103,10 +110,29 @@
     dataInput,
         dataInputOrder;
 
+        function cbSwitchToOrderFunction(obj) {
+            var $this = $(obj);
+            // $this will contain a reference to the checkbox
+            if ($this.is(':checked')) {
+                // the checkbox was checked
+                //load ordering
+                $("#groupIncludeExclude").hide();
+                $("#groupOrder").show();
+                loadOrder();
+            } else {
+                // the checkbox was unchecked
+                //load include/exclude
+                $("#groupIncludeExclude").show();
+                $("#groupOrder").hide();
+                loadIncludeExclude();
+            }
+        }
         $(document).ready(function () {
-            $("#groupIncludeExclude").show();
-            $("#groupOrder").hide();
-            loadIncludeExclude();
+            cbSwitchToOrderFunction($('#cbSwitchToOrder'));
+
+            //$("#groupIncludeExclude").show();
+            //$("#groupOrder").hide();
+            //loadIncludeExclude();
         });
 
         //switch
@@ -224,7 +250,7 @@
                 function (data, textStatus, XMLHttpRequest) {
                     var dataObject = JSON.parse(data);
                     if (dataObject.status = "ok") {
-                        window.location.href = '@Url.Action("Edit", new { id = Model.Id})';
+                        window.location.href = '@Url.Action("Edit", new { id = Model.Id, isInEx = false})';
                     }
                     else {
                         console.log("error SortNNData");

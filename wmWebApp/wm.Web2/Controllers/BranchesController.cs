@@ -217,7 +217,7 @@ namespace wm.Web2.Controllers
         }
 
         // GET: Branches/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, bool isInEx = true)
         {
             if (id == null)
             {
@@ -228,6 +228,7 @@ namespace wm.Web2.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.isInEx = isInEx;
             return View(branch);
         }
 
