@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BranchGoodCategoryService.cs" />
     <Compile Include="BranchService.cs" />
     <Compile Include="GoodCategoryService.cs" />
     <Compile Include="ItemService.cs" />

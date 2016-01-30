@@ -18,7 +18,7 @@ namespace wm.Model
         public virtual ICollection<BranchGoodCategory> BranchGoodCategories { get; set; }
     }
 
-    public class BranchGoodCategory
+    public class BranchGoodCategory : BaseEntity
     {
         [Key, Column(Order = 0)]
         public int BranchId { get; set; }

@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BranchGoodCategoryRepository.cs" />
     <Compile Include="BranchRepository.cs" />
     <Compile Include="GoodCategoryRepository.cs" />
     <Compile Include="shared\GenericRepository.cs" />

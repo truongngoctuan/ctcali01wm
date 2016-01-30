@@ -13,21 +13,6 @@ using wm.Web2.Models;
 
 namespace wm.Web2.Controllers
 {
-    public class OrderItemViewModel
-    {
-        public int Id { get; set; }
-        [Required]
-        public string Name { get; set; }
-        public uint Quantity { get; set; }
-        public uint RecommendedQuantity { get; set; }
-    }
-
-    public class PlacingOrderViewModel
-    {
-        public int Id { get; set; }
-        public BranchGoodCategoryViewModel[] data { get; set; }
-    }
-
     //many-to-many with addition informations, using checkboxes
     //http://www.asp.net/mvc/overview/getting-started/getting-started-with-ef-using-mvc/updating-related-data-with-the-entity-framework-in-an-asp-net-mvc-application
     public class BranchesController : BaseController
@@ -35,7 +20,8 @@ namespace wm.Web2.Controllers
         IBranchService _service;
         IBranchService Service { get { return _service; } }
         IGoodCategoryService _goodCategoryService;
-        public BranchesController(IBranchService Service, IGoodCategoryService GoodCategoryService)
+        public BranchesController(IBranchService Service, 
+            IGoodCategoryService GoodCategoryService)
         {
             _service = Service;
             _goodCategoryService = GoodCategoryService;
@@ -46,41 +32,65 @@ namespace wm.Web2.Controllers
             return View(Service.GetAll());
         }
 
-        // GET: PlacingOrder
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult PopulateData(int? id)//, PlacingOrderViewModel nnData)
+        public ActionResult PopulateData(int? id, bool isInEx)//, PlacingOrderViewModel nnData)
         {
             var model = (id == null) ? null : Service.GetById((int)id);
-            var items = PopulateManyToManyData(model);
-            return Json(items);
+            if (isInEx)
+            {
+                var items = PopulateNNData(model);
+                return Json(items);
+            }
+            else
+            {
+                var items = PopulateNNData(model, false);
+                return Json(items);
+            }
         }
 
-        private IEnumerable<BranchGoodCategoryViewModel> PopulateManyToManyData(Branch filterOwner)
+        private IEnumerable<BranchInExItemViewModel> PopulateNNData(Branch filterOwner, bool isInEx = true)
         {
-            var allList = _goodCategoryService.GetAll();
+            IEnumerable<BranchInExItemViewModel> viewModel = new List<BranchInExItemViewModel>();
+            if (isInEx)
+            {//return all, with some checked items
+                var allList = _goodCategoryService.GetAll();
 
-            //get list of checked item
-            var filterIdList = new HashSet<int>();
-            if (filterOwner != null)
-            {
-                filterIdList = new HashSet<int>(filterOwner.BranchGoodCategories.Select(g => g.GoodCategoryId));
+                //get list of checked item
+                var filterIdList = new HashSet<int>();
+                if (filterOwner != null)
+                {
+                    filterIdList = new HashSet<int>(filterOwner.BranchGoodCategories.Select(g => g.GoodCategoryId));
+                }
+
+                //binding data
+                viewModel = allList.Select(t => new BranchInExItemViewModel
+                {
+                    CategoryId = t.Id,
+                    Name = t.Name,
+                    IsChecked = filterIdList.Contains(t.Id)
+                });
             }
-
-            //binding data
-            var viewModel = allList.Select(t => new BranchGoodCategoryViewModel
-            {
-                CategoryId = t.Id,
-                Name = t.Name,
-                IsChecked = filterIdList.Contains(t.Id)
-            });
+            else
+            {//return only checked item
+                //binding data
+                viewModel = filterOwner.BranchGoodCategories
+                    .OrderBy(t => t.Ranking)
+                    .Select(t => new BranchInExItemViewModel
+                {
+                    CategoryId = t.GoodCategoryId,
+                    Name = t.GoodCategory.Name,
+                    Ranking = t.Ranking,
+                    IsChecked = true
+                });
+            }
 
             return viewModel;
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult IncludeExcludeNNData(int id, PlacingOrderViewModel inputViewModel)
+        public ActionResult IncludeExcludeNNData(int id, BranchInExViewModel inputViewModel)
         {//only checkbox, not ranking
             var model = Service.GetById(id);
             var oldLinkingIdList = model.BranchGoodCategories.Select(t => t.GoodCategoryId);
@@ -100,13 +110,16 @@ namespace wm.Web2.Controllers
             //edit - do nothing
 
             //add new item
+            int nRankedItem = model.BranchGoodCategories.Count();
             foreach (var itemId in newIds)
             {
                 var newObject = new BranchGoodCategory
                 {
                     Branch = model,
-                    GoodCategory = _goodCategoryService.GetById(itemId)
+                    GoodCategory = _goodCategoryService.GetById(itemId),
+                    Ranking = nRankedItem
                 };
+                nRankedItem++;
 
                 model.BranchGoodCategories.Add(newObject);
             }
@@ -114,15 +127,31 @@ namespace wm.Web2.Controllers
             //post-processing
 
             Service.Update(model);
-
             return Json(new ReturnJsonObject<int> { status = ReturnStatus.ok.ToString(), data = 0 });
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult ReOrderNNData(int id, PlacingOrderViewModel inputViewModel)
+        public ActionResult SortNNData(int id, BranchInExViewModel inputViewModel)
         {
-            return View();
+            var model = Service.GetById(id);
+
+            //remove
+
+            //edit - update ranking
+            foreach (var item in inputViewModel.data)
+            {
+                var editObject = model.BranchGoodCategories.Where(t => t.GoodCategoryId == item.CategoryId).First();
+                editObject.Ranking = item.Ranking;
+            }
+
+            //add new item
+
+            //post-processing
+
+            Service.Update(model);
+
+            return Json(new ReturnJsonObject<int> { status = ReturnStatus.ok.ToString(), data = 0 });
         }
 
         //[HttpPost]
