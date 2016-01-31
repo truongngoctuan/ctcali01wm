@@ -10,6 +10,7 @@ namespace wm.Web2.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(Model.wmContext context)
@@ -37,15 +38,19 @@ namespace wm.Web2.Migrations
             context.GoodCategories.AddOrUpdate(new Model.GoodCategory { Id = 3, Name = "category 3" });
             context.GoodCategories.AddOrUpdate(new Model.GoodCategory { Id = 4, Name = "category 4" });
 
+            context.SaveChanges();
+
             context.BranchGoodCategories.AddOrUpdate(new Model.BranchGoodCategory { BranchId = 1, GoodCategoryId = 1, Ranking = 0 });
             context.BranchGoodCategories.AddOrUpdate(new Model.BranchGoodCategory { BranchId = 1, GoodCategoryId = 2, Ranking = 1 });
             context.BranchGoodCategories.AddOrUpdate(new Model.BranchGoodCategory { BranchId = 1, GoodCategoryId = 3, Ranking = 2 });
             context.BranchGoodCategories.AddOrUpdate(new Model.BranchGoodCategory { BranchId = 2, GoodCategoryId = 2, Ranking = 0 });
             context.BranchGoodCategories.AddOrUpdate(new Model.BranchGoodCategory { BranchId = 2, GoodCategoryId = 3, Ranking = 1 });
+            context.SaveChanges();
 
             context.GoodUnits.AddOrUpdate(new Model.GoodUnit { Id = 1, Name = "unit 1" });
             context.GoodUnits.AddOrUpdate(new Model.GoodUnit { Id = 2, Name = "unit 2" });
             context.GoodUnits.AddOrUpdate(new Model.GoodUnit { Id = 3, Name = "unit 3" });
+            context.SaveChanges();
 
             context.Goods.AddOrUpdate(new Model.Good { Id = 1, Name = "good 1", UnitId = 1});
             context.Goods.AddOrUpdate(new Model.Good { Id = 2, Name = "good 2", UnitId = 2 });
@@ -55,6 +60,7 @@ namespace wm.Web2.Migrations
             context.Goods.AddOrUpdate(new Model.Good { Id = 6, Name = "good 6", UnitId = 1 });
             context.Goods.AddOrUpdate(new Model.Good { Id = 7, Name = "good 7", UnitId = 2 });
             context.Goods.AddOrUpdate(new Model.Good { Id = 8, Name = "good 8", UnitId = 2 });
+            context.SaveChanges();
 
             context.GoodCategoryGoods.AddOrUpdate(new Model.GoodCategoryGood { GoodCategoryId = 1, GoodId = 1, Ranking = 0 });
             context.GoodCategoryGoods.AddOrUpdate(new Model.GoodCategoryGood { GoodCategoryId = 1, GoodId = 2, Ranking = 1 });
@@ -64,9 +70,11 @@ namespace wm.Web2.Migrations
             context.GoodCategoryGoods.AddOrUpdate(new Model.GoodCategoryGood { GoodCategoryId = 3, GoodId = 6, Ranking = 0 });
             context.GoodCategoryGoods.AddOrUpdate(new Model.GoodCategoryGood { GoodCategoryId = 3, GoodId = 7, Ranking = 1 });
             context.GoodCategoryGoods.AddOrUpdate(new Model.GoodCategoryGood { GoodCategoryId = 3, GoodId = 8, Ranking = 2 });
+            context.SaveChanges();
 
             context.Orders.AddOrUpdate(new Model.Order { Id = 1, BranchId = 1, CreatedDate = DateTime.UtcNow, OrderDay = DateTime.UtcNow, UpdatedDate = DateTime.UtcNow, Status = Model.OrderStatus.Started });
             context.Orders.AddOrUpdate(new Model.Order { Id = 2, BranchId = 2, CreatedDate = DateTime.UtcNow, OrderDay = DateTime.UtcNow, UpdatedDate = DateTime.UtcNow, Status = Model.OrderStatus.Started });
+            context.SaveChanges();
         }
     }
 }
