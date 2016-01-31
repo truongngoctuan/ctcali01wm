@@ -17,8 +17,11 @@ namespace wm.Model
         }
 
         public DbSet<Branch> Branches { get; set; }//testing TEntity
-        public DbSet<GoodCategory> GoodCategories { get; set; }//testing TEntity
-        public DbSet<BranchGoodCategory> BranchGoodCategories { get; set; }//testing TEntity
+        public DbSet<GoodCategory> GoodCategories { get; set; }
+        public DbSet<BranchGoodCategory> BranchGoodCategories { get; set; }
+        public DbSet<Good> Goods { get; set; }
+        public DbSet<GoodCategoryGood> GoodCategoryGoods { get; set; }
+        public DbSet<GoodUnit> GoodUnits { get; set; }
         public DbSet<Item> Items { get; set; }//testing auditable
 
         public override int SaveChanges()
@@ -55,6 +58,12 @@ namespace wm.Model
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            //one-to-many
+            modelBuilder.Entity<Good>()
+                        .HasRequired<GoodUnit>(s => s.Unit)
+                        .WithMany(s => s.Goods)
+                        .HasForeignKey(s => s.UnitId)
+                        .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);
         }

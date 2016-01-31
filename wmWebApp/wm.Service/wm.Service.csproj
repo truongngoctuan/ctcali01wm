@@ -42,7 +42,9 @@
   <ItemGroup>
     <Compile Include="BranchGoodCategoryService.cs" />
     <Compile Include="BranchService.cs" />
+    <Compile Include="GoodCategoryGoodService.cs" />
     <Compile Include="GoodCategoryService.cs" />
+    <Compile Include="GoodService.cs" />
     <Compile Include="ItemService.cs" />
     <Compile Include="shared\EntityService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

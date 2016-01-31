@@ -227,6 +227,8 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BranchesController.cs" />
     <Compile Include="Controllers\GoodCategoriesController.cs" />
+    <Compile Include="Controllers\GoodsController.cs" />
+    <Compile Include="Controllers\GoodUnitsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReturnJsonObject.cs" />
@@ -238,9 +240,14 @@
     <Compile Include="Migrations\201601290049003_init.Designer.cs">
       <DependentUpon>201601290049003_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601310234178_ModificationsForGood.cs" />
+    <Compile Include="Migrations\201601310234178_ModificationsForGood.Designer.cs">
+      <DependentUpon>201601310234178_ModificationsForGood.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BranchViewModel.cs" />
+    <Compile Include="Models\GoodCateogryViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Modules\EFModule.cs" />
@@ -316,6 +323,16 @@
     <Content Include="Views\GoodCategories\Details.cshtml" />
     <Content Include="Views\GoodCategories\Edit.cshtml" />
     <Content Include="Views\GoodCategories\Index.cshtml" />
+    <Content Include="Views\Goods\Create.cshtml" />
+    <Content Include="Views\Goods\Delete.cshtml" />
+    <Content Include="Views\Goods\Details.cshtml" />
+    <Content Include="Views\Goods\Edit.cshtml" />
+    <Content Include="Views\Goods\Index.cshtml" />
+    <Content Include="Views\GoodUnits\Create.cshtml" />
+    <Content Include="Views\GoodUnits\Delete.cshtml" />
+    <Content Include="Views\GoodUnits\Details.cshtml" />
+    <Content Include="Views\GoodUnits\Edit.cshtml" />
+    <Content Include="Views\GoodUnits\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -343,6 +360,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201601290049003_init.resx">
       <DependentUpon>201601290049003_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601310234178_ModificationsForGood.resx">
+      <DependentUpon>201601310234178_ModificationsForGood.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

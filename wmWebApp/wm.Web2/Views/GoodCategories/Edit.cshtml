@@ -34,10 +34,229 @@
     </div>
 }
 
+<div class="row">
+    <h4>Update good categories</h4>
+    <hr />
+    <div class="row form-group col-md-10 col-md-offset-2">
+        @if (ViewBag.isInEx == true)
+        {
+            <input type="checkbox" id="cbSwitchToOrder" />
+        }
+        else {
+            <input type="checkbox" id="cbSwitchToOrder" checked="checked" />
+        }
+        Enable sort
+    </div>
+    <div id="groupIncludeExclude">
+        <div class="form-group row col-md-10 col-md-offset-2"> Check/Uncheck Items</div>
+        <div class="form-group row col-md-10 col-md-offset-2">
+            <div id="hsIncludeExclude" class=""></div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button name="save" id="save" class="btn btn-danger" onclick="saveIncludeExclude()">Save</button>
+            </div>
+        </div>
+    </div>
+    <div id="groupOrder">
+        <div class="form-group row col-md-10 col-md-offset-2"> Sort Items</div>
+        <div class="form-group row col-md-10 col-md-offset-2">
+            <div id="hsOrder" class=""></div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button name="save" id="save" class="btn btn-danger" onclick="saveOrder()">Save</button>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
 
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        //================================================================================
+        //helper
+        function ajaxPOSTRequest(href, dataObject, onSuccessCallback) {
+            $.ajax({
+                url: href,
+                data: dataObject,
+                cache: false,
+                type: "POST",
+                dataType: "html",
+                success: onSuccessCallback
+            });
+        }
+        //================================================================================
+        var $$ = function (id) {
+            return document.getElementById(id);
+        },
+    container = $$('hsIncludeExclude'),
+    containerOrder = $$('hsOrder'),
+    autosave = $$('autosave'),
+    load = $$('load'),
+    save = $$('save'),
+    autosaveNotification,
+    hot,
+    hotOrder,
+    dataInput,
+        dataInputOrder;
+
+        function cbSwitchToOrderFunction(obj) {
+            var $this = $(obj);
+            // $this will contain a reference to the checkbox
+            if ($this.is(':checked')) {
+                // the checkbox was checked
+                //load ordering
+                $("#groupIncludeExclude").hide();
+                $("#groupOrder").show();
+                loadOrder();
+            } else {
+                // the checkbox was unchecked
+                //load include/exclude
+                $("#groupIncludeExclude").show();
+                $("#groupOrder").hide();
+                loadIncludeExclude();
+            }
+        }
+        $(document).ready(function () {
+            cbSwitchToOrderFunction($('#cbSwitchToOrder'));
+
+            //$("#groupIncludeExclude").show();
+            //$("#groupOrder").hide();
+            //loadIncludeExclude();
+        });
+
+        //switch
+        $('#cbSwitchToOrder').click(function() {
+            var $this = $(this);
+            // $this will contain a reference to the checkbox
+            if ($this.is(':checked')) {
+                // the checkbox was checked
+                //load ordering
+                $("#groupIncludeExclude").hide();
+                $("#groupOrder").show();
+                loadOrder();
+            } else {
+                // the checkbox was unchecked
+                //load include/exclude
+                $("#groupIncludeExclude").show();
+                $("#groupOrder").hide();
+                loadIncludeExclude();
+            }
+        });
+
+        hot = new Handsontable(container, {
+            startRows: 1,
+            startCols: 2,
+            rowHeaders: true,
+            colHeaders: false,
+            dataSchema: { Id: null, Name: null, RecommendedQuantity: null, Quantity: null },
+            columns: [//TODO: change colorbackground for readonly
+              //{ data: 'CategoryId', readOnly: true },
+              { data: 'Name', readOnly: true },
+              { data: 'IsChecked', type: 'checkbox' },
+            ],
+            afterChange: function (change, source) {
+                if (source === 'loadData') {
+                    return; //don't save this change
+                }
+                console.log("change: " + JSON.stringify(hot.getSourceDataAtRow(change[0][0])));
+
+            }
+        });
+
+        function loadIncludeExclude() {
+            ajaxPOSTRequest('@Url.Action("PopulateData")', {id : @Model.Id, isInEx: true},
+                function (data, textStatus, XMLHttpRequest) {
+                    console.log("client received: " + data);
+
+                    dataInput = JSON.parse(data);
+                    hot.loadData(dataInput);
+
+                });
+        }
+
+        function saveIncludeExclude() {
+            console.log("local data: " + JSON.stringify({ data: dataInput }));
+
+            //only send checked items to server
+            var dataOutputFiltered = [];
+            for (i = 0; i < dataInput.length; i++) {
+                if (dataInput[i].IsChecked == true) {
+                    dataOutputFiltered.push(dataInput[i]);
+                }
+            }
+
+            ajaxPOSTRequest('@Url.Action("IncludeExcludeNNData")',
+                { id: @Model.Id, data: dataOutputFiltered },
+                function (data, textStatus, XMLHttpRequest) {
+                    var dataObject = JSON.parse(data);
+                    if (dataObject.status = "ok") {
+                        //window.location.href = '@Url.Action("Edit", new { id = Model.Id})';
+                    }
+                    else {
+                        console.log("error IncludeExcludeNNData");
+                    }
+                });
+        }
+
+        //================================================================================
+        hotOrder = new Handsontable(containerOrder, {
+            startRows: 1,
+            startCols: 2,
+            rowHeaders: true,
+            colHeaders: false,
+            manualRowMove: true,
+            dataSchema: { Id: null, Name: null, RecommendedQuantity: null, Quantity: null },
+            columns: [//TODO: change colorbackground for readonly
+              //{ data: 'CategoryId', readOnly: true },
+              { data: 'Name', readOnly: true },
+              { data: 'Ranking', readOnly: true },
+              //{ data: 'IsChecked', type: 'checkbox' },
+            ],
+            afterRowMove: function (startRow, endRow) {
+                var temp = dataInputOrder[startRow].Ranking;
+                dataInputOrder[startRow].Ranking = dataInputOrder[endRow].Ranking;
+                dataInputOrder[endRow].Ranking = temp;
+                console.log("Move row: " + startRow + " " + endRow);
+            }
+        });
+
+        function loadOrder() {
+            ajaxPOSTRequest('@Url.Action("PopulateData")', {id : @Model.Id, isInEx: false},
+                function (data, textStatus, XMLHttpRequest) {
+                    console.log("client received: " + data);
+
+                    dataInputOrder = JSON.parse(data);
+                    hotOrder.loadData(dataInputOrder);
+
+                });
+        }
+        function saveOrder() {
+            console.log("local data: " + JSON.stringify({ data: dataInputOrder }));
+
+            ajaxPOSTRequest('@Url.Action("SortNNData")',
+                { id: @Model.Id, data: dataInputOrder },
+                function (data, textStatus, XMLHttpRequest) {
+                    var dataObject = JSON.parse(data);
+                    if (dataObject.status = "ok") {
+                        //window.location.href = '@Url.Action("Edit", new { id = Model.Id, isInEx = false})';
+                    }
+                    else {
+                        console.log("error SortNNData");
+                    }
+                });
+        }
+
+
+
+    </script>
 }

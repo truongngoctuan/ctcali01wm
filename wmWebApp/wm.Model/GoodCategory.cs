@@ -13,4 +13,19 @@ namespace wm.Model
         public string Name { get; set; }
         public virtual ICollection<BranchGoodCategory> BranchGoodCategories { get; set; }
     }
+
+    public class GoodCategoryGood : BaseEntity
+    {
+        [Key, Column(Order = 0)]
+        public int GoodCategoryId { get; set; }
+        [Key, Column(Order = 1)]
+        public int GoodId { get; set; }
+
+        [ForeignKey("GoodCategoryId")]
+        public virtual GoodCategory GoodCategory { get; set; }
+        [ForeignKey("GoodId")]
+        public virtual Good Good { get; set; }
+
+        public int Ranking { get; set; }
+    }
 }

@@ -52,7 +52,9 @@
   <ItemGroup>
     <Compile Include="BranchGoodCategoryRepository.cs" />
     <Compile Include="BranchRepository.cs" />
+    <Compile Include="GoodCategoryGoodRepository.cs" />
     <Compile Include="GoodCategoryRepository.cs" />
+    <Compile Include="GoodRepository.cs" />
     <Compile Include="shared\GenericRepository.cs" />
     <Compile Include="ItemRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
