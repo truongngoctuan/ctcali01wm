@@ -19,22 +19,28 @@ namespace wm.Web2.Controllers
             _branchGoodCategoryService = BranchGoodCategoryService;
         }
         // GET: Order
-        public ActionResult Index()
+        public ActionResult Index(int id, int? GoodCategoryId)
         {
-            var inputModel = Service.GetById(1);
+            var inputModel = Service.GetById(id);
             var filteredGoodCategoryList = _branchGoodCategoryService
                 .GetByBranchId(inputModel.BranchId, "GoodCategory")
                 .Select(t => t.GoodCategory);
 
-            ViewBag.GoodCategories = filteredGoodCategoryList;
-            return View();
+            if (GoodCategoryId == null)
+            {
+                GoodCategoryId = filteredGoodCategoryList.First().Id;
+            }
+            //ViewBag.GoodCategories = filteredGoodCategoryList;
+            ViewBag.OrderId = id;
+            ViewBag.GoodCategoryId = (int)GoodCategoryId;
+            return View(filteredGoodCategoryList);
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult PopulateData(int id, int goodCategoryId)//, PlacingOrderViewModel nnData)
+        public ActionResult PopulateData(int id, int GoodCategoryId)//, PlacingOrderViewModel nnData)
         {
-            var items = Service.PopulateData(id, goodCategoryId);
+            var items = Service.PopulateData(id, GoodCategoryId);
             return Json(items);
         }
 

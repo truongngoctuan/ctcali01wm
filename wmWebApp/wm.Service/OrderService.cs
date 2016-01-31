@@ -55,16 +55,16 @@ namespace wm.Service
             var returnData = new List<OrderBranchItem>();
             foreach (var item in allList)
             {
-                var match = filteredList.Where(t => t.GoodId == item.Id).First();
-                if (match != null)
+                var matches = filteredList.Where(t => t.GoodId == item.Id);
+                if (matches.Any())
                 {//return with data
                     returnData.Add(new OrderBranchItem
                     {
                         orderId = orderId,
                         goodId = item.Id,
                         Name = item.Name,
-                        Quantity = match.Quantity,
-                        Note = match.Note
+                        Quantity = matches.First().Quantity,
+                        Note = matches.First().Note
                     });
                 }
                 else
@@ -80,7 +80,7 @@ namespace wm.Service
                 }
             }
 
-            throw new NotImplementedException();
+            return returnData;
         }
 
         public void placingOrder(int orderId, IEnumerable<OrderBranchItem> items)

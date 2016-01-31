@@ -1,4 +1,4 @@
-﻿@model wm.Model.GoodCategory
+﻿@model IEnumerable<wm.Model.GoodCategory>
 
 @{
     ViewBag.Title = "Index";
@@ -11,10 +11,11 @@
 <div class="row">
     <h4>Update good categories</h4>
     <hr />
-    <div class="col-md-4">
-        @foreach (var item in ViewBag.GoodCategories)
+    <div class="col-md-4 list-group">
+        @foreach (var item in Model)
         {
-            <div class="col-md-12 GoodCategoryItem"><a href="@item.Id"> @item.Name</a></div>
+            <a href="@Url.Action("Index", "Orders", new { id = 1, GoodCategoryId = item.Id })"
+            class="list-group-item GoodCategoryItem"> @item.Name</a>
         }
     </div>
     <div class="col-md-8">
@@ -64,13 +65,18 @@
     hot,
     dataInput;
 
+        var OrderId = @ViewBag.OrderId;
+        var GoodCategoryId = @ViewBag.GoodCategoryId;
         $(document).ready(function () {
-            //$(".GoodCategoryItem").each(function (data) {
-            //    var aId = data.attr("href");
+            $(".GoodCategoryItem").each(function (index, value) {
+                $(this).click(function (e) {
+                    //alert("just after click");
+                    //TODO: ask for save before change to another category
+                    //e.preventDefault();
+                })
+            });
 
-            //});
-
-            loadIncludeExclude();
+            loadIncludeExclude(OrderId, GoodCategoryId);
         });
 
         hot = new Handsontable(container, {
@@ -99,8 +105,8 @@
             }
         });
 
-        @*function loadIncludeExclude() {
-            ajaxPOSTRequest('@Url.Action("PopulateData")', {id : @Model.Id, isInEx: true},
+        function loadIncludeExclude() {
+            ajaxPOSTRequest('@Url.Action("PopulateData")', {id : OrderId, GoodCategoryId: GoodCategoryId},
                 function (data, textStatus, XMLHttpRequest) {
                     console.log("client received: " + data);
 
@@ -108,7 +114,7 @@
                     hot.loadData(dataInput);
 
                 });
-        }*@
+        }
 
         @*function saveIncludeExclude() {
             console.log("local data: " + JSON.stringify({ data: dataInput }));
