@@ -68,6 +68,8 @@
         var OrderId = @ViewBag.OrderId;
         var GoodCategoryId = @ViewBag.GoodCategoryId;
         $(document).ready(function () {
+            $(".GoodCategoryItem[href$='"+ GoodCategoryId + "']").addClass("active");
+
             $(".GoodCategoryItem").each(function (index, value) {
                 $(this).click(function (e) {
                     //alert("just after click");
