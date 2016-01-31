@@ -12,6 +12,7 @@ namespace wm.Service
     {
         Good GetById(int Id);
         IEnumerable<Good> GetAllInclude();
+        //IEnumerable<Good> GetByGoodCategory(int categoryId);
     }
 
     public class GoodService : EntityService<Good>, IGoodService
@@ -34,5 +35,10 @@ namespace wm.Service
         {
             return _repos.Get(null, null, "Unit");
         }
+
+        //public IEnumerable<Good> GetByGoodCategory(int categoryId)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

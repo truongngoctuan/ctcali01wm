@@ -47,6 +47,9 @@
     <Compile Include="GoodService.cs" />
     <Compile Include="GoodUnitService.cs" />
     <Compile Include="ItemService.cs" />
+    <Compile Include="Model\OrderBranchItem.cs" />
+    <Compile Include="OrderGoodService.cs" />
+    <Compile Include="OrderService.cs" />
     <Compile Include="shared\EntityService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -60,6 +63,7 @@
       <Name>wm.Repository</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

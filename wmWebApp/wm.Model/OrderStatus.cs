@@ -1,6 +1,6 @@
 ﻿namespace wm.Model
 {
-    public enum OrderBranchStatus
+    public enum OrderStatus
     {
         Started,
         StaffConfirmed,

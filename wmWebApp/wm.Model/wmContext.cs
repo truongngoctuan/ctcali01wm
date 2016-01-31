@@ -22,7 +22,12 @@ namespace wm.Model
         public DbSet<Good> Goods { get; set; }
         public DbSet<GoodCategoryGood> GoodCategoryGoods { get; set; }
         public DbSet<GoodUnit> GoodUnits { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderGood> OrderGoods { get; set; }
         public DbSet<Item> Items { get; set; }//testing auditable
+
+
 
         public override int SaveChanges()
         {
