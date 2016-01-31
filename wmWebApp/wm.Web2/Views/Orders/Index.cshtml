@@ -82,15 +82,16 @@
         hot = new Handsontable(container, {
             startRows: 1,
             startCols: 2,
+            allowInvalid: false,
             rowHeaders: true,
-            colHeaders: false,
+            colHeaders: ['Name','InStock','RecommendQuantity', 'Quantity', 'Note', 'YourNote'],
             dataSchema: { Id: null, Name: null, RecommendedQuantity: null, Quantity: null },
             columns: [//TODO: change colorbackground for readonly
               //{ data: 'CategoryId', readOnly: true },
               { data: 'Name', readOnly: true },
               { data: 'InStock', readOnly: false },
               { data: 'RecommenedQuantity', readOnly: true },
-              { data: 'Quantity', readOnly: false },
+              { data: 'Quantity', readOnly: false, type : 'numeric',format: '0,0.00', allowInvalid: true},
               { data: 'Note', readOnly: true },
                 { data: 'YourNote', readOnly: false },
 
@@ -116,29 +117,21 @@
                 });
         }
 
-        @*function saveIncludeExclude() {
+        function saveIncludeExclude() {
             console.log("local data: " + JSON.stringify({ data: dataInput }));
 
-            //only send checked items to server
-            var dataOutputFiltered = [];
-            for (i = 0; i < dataInput.length; i++) {
-                if (dataInput[i].IsChecked == true) {
-                    dataOutputFiltered.push(dataInput[i]);
-                }
-            }
-
-            ajaxPOSTRequest('@Url.Action("placingOrder")',
-                { id: @Model.Id, data: dataOutputFiltered },
+            ajaxPOSTRequest('@Url.Action("placingOrderBranch")',
+                { id: OrderId, data: dataInput },
                 function (data, textStatus, XMLHttpRequest) {
                     var dataObject = JSON.parse(data);
                     if (dataObject.status = "ok") {
-                        //window.location.href = '@Url.Action("Edit", new { id = Model.Id})';
+
                     }
                     else {
                         console.log("error IncludeExcludeNNData");
                     }
                 });
-        }*@
+        }
 
     </script>
 }

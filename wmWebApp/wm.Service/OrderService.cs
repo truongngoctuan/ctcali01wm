@@ -85,7 +85,35 @@ namespace wm.Service
 
         public void placingOrder(int orderId, IEnumerable<OrderBranchItem> items)
         {
-            throw new NotImplementedException();
+            var allList = _orderGoodService.GetByOrderId(orderId);
+            foreach(var item in items)
+            {
+                if (item.Quantity > 0)
+                {
+                    var matches = allList.Where(s => s.GoodId == item.goodId);
+                    if (matches.Any())
+                    {
+                        var match = matches.First();
+                        match.Quantity = item.Quantity;
+                        match.Note = item.Note;
+                        _orderGoodService.Update(match);
+                    }
+                    else
+                    {
+                        _orderGoodService.Create(new OrderGood
+                        {
+                            OrderId = orderId,
+                            GoodId = item.goodId,
+                            Quantity = item.Quantity,
+                            Note = item.Note,
+                            CreatedDate = DateTime.UtcNow
+                        });
+                    }
+                }
+            }
+
         }
+
+
     }
 }
