@@ -10,7 +10,7 @@ namespace wm.Model
         {
             Goods = new List<Good>();
         }
-
+        [Display(Name = "Unit")]
         public string Name { get; set; }
 
         public virtual ICollection<Good> Goods { get; set; }
