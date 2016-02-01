@@ -28,7 +28,7 @@ namespace wm.Service
         
         public IEnumerable<BranchGoodCategory> GetByBranchId(int branchId, string include = "")
         {
-            return _repos.Get((s => s.BranchId == branchId), null, include);
+            return _repos.Get((s => s.BranchId == branchId), (s => s.OrderBy(t => t.Ranking)), include);
         }
 
         IEnumerable<BranchGoodCategory> IBranchGoodCategoryService.GetById(int branchId, int goodCategoryId)
