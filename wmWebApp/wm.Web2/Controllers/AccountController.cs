@@ -137,9 +137,11 @@ namespace wm.Web2.Controllers
                     var employee = new Employee
                     {
                         Id = user.Id,
-                        Name = model.UserName,
+                        Name = model.FullName,
+                        BranchId = model.BranchId,
+                        Role = model.Role
                     };
-                    Service.AddOrUpdate(employee);
+                    Service.Create(employee);
 
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
@@ -155,6 +157,7 @@ namespace wm.Web2.Controllers
             }
 
             // If we got this far, something failed, redisplay form
+            ViewBag.Branches = getBranches();
             return View(model);
         }
         
