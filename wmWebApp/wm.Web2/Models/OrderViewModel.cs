@@ -6,8 +6,8 @@ using wm.Service.Model;
 
 namespace wm.Web2.Models
 {
-    public class OrderViewModel
-    {
+	public class OrderViewModel
+	{
         public OrderBranchItem[] data { get; set; }
     }
 }
