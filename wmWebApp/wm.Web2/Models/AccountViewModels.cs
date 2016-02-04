@@ -65,6 +65,10 @@ namespace wm.Web2.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "UserName (for login)")]
+        public string UserName { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
