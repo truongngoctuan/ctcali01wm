@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using wm.Model;
 
 namespace wm.Web2.Models
 {
@@ -82,6 +83,10 @@ namespace wm.Web2.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public string FullName { get; set; }
+        public int BranchId { get; set; }
+        public EmployeeRole Role { get; set; }
     }
 
     public class ResetPasswordViewModel

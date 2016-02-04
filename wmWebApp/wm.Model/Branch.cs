@@ -16,6 +16,7 @@ namespace wm.Model
         public string Name { get; set; }
 
         public virtual ICollection<BranchGoodCategory> BranchGoodCategories { get; set; }
+        public virtual ICollection<Employee> Employees { get; set; }
     }
 
     public class BranchGoodCategory : BaseEntity

@@ -25,6 +25,7 @@ namespace wm.Model
 
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderGood> OrderGoods { get; set; }
+        public DbSet<Employee> Employees { get; set; }
         public DbSet<Item> Items { get; set; }//testing auditable
 
 

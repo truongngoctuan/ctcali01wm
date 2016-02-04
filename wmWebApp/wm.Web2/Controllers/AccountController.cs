@@ -9,23 +9,30 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using wm.Web2.Models;
+using wm.Model;
+using wm.Service;
+using System.Collections.Generic;
 
 namespace wm.Web2.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public AccountController()
-        {
-        }
+        IEmployeeService _service;
+        IBranchService _branchService;
+        IEmployeeService Service { get { return _service; } }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager,
+            IEmployeeService Service, IBranchService BranchService)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            _service = Service;
+            _branchService = BranchService;
         }
 
         public ApplicationSignInManager SignInManager
@@ -91,11 +98,26 @@ namespace wm.Web2.Controllers
             }
         }
 
+
+        private IEnumerable<SelectListItem> getBranches()
+        {
+            var list = _branchService.GetAll();
+            IEnumerable<SelectListItem> selectList = new List<SelectListItem>();
+            selectList = list.Select(o => new SelectListItem
+            {
+                Value = o.Id.ToString(),
+                Text = o.Name
+            });
+
+            return selectList;
+        }
+
         //
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewBag.Branches = getBranches();
             return View();
         }
 
@@ -112,6 +134,13 @@ namespace wm.Web2.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    var employee = new Employee
+                    {
+                        Id = user.Id,
+                        Name = model.UserName,
+                    };
+                    Service.AddOrUpdate(employee);
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771

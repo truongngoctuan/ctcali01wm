@@ -21,18 +21,7 @@ namespace wm.Web2
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
 
-            //Autofac Configuration
-            var builder = new Autofac.ContainerBuilder();
 
-            builder.RegisterControllers(typeof(MvcApplication).Assembly).PropertiesAutowired();
-
-            builder.RegisterModule(new RepositoryModule());
-            builder.RegisterModule(new ServiceModule());
-            builder.RegisterModule(new EFModule());
-
-            var container = builder.Build();
-
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
     }
 }

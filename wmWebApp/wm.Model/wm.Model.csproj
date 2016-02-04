@@ -52,6 +52,8 @@
     <Compile Include="AccountantCode.cs" />
     <Compile Include="BaseEntity.cs" />
     <Compile Include="Branch.cs" />
+    <Compile Include="Employee.cs" />
+    <Compile Include="EmployeeRole.cs" />
     <Compile Include="Good.cs" />
     <Compile Include="GoodCategory.cs" />
     <Compile Include="GoodUnit.cs" />
