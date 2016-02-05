@@ -26,6 +26,12 @@ namespace wm.Web2
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/lib/bootstrap/dist/css/bootstrap.min.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap-calendar").Include(
+                      "~/Content/lib/bootstrap-calendar/js/calendar.min.js",
+                      "~/Content/lib/bootstrap-calendar/css/calendar.min.css",
+                      "~/Content/lib/underscore/underscore-min.js"
+                      ));
         }
     }
 }

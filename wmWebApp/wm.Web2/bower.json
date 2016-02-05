@@ -1,8 +1,14 @@
 {
-	"name": "ASP.NET",
-	"private": true,
+  "name": "ASP.NET",
+  "private": true,
   "dependencies": {
     "handsontable": "0.21.0",
+    "bootstrap": "3.3.6",
+    "underscore": "1.8.3",
+    "bootstrap-calendar": "0.2.4"
+  },
+  "resolutions": {
+    "moment": "^2.9.0",
     "bootstrap": "3.3.6"
   }
 }
