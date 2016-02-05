@@ -7,17 +7,26 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using wm.Model;
+using wm.Service;
 
 namespace wm.Web2.Controllers
 {
-    public class EmployeesController : Controller
+    public class EmployeesController : BaseController
     {
-        private wmContext db = new wmContext();
+        IEmployeeService _service;
+        IEmployeeService Service { get { return _service; } }
+
+        IBranchService _branchService;
+        public EmployeesController(IEmployeeService Service, IBranchService BranchService)
+        {
+            _service = Service;
+            _branchService = BranchService;
+        }
 
         // GET: Employees
         public ActionResult Index()
         {
-            var employees = db.Employees.Include(e => e.Branch);
+            var employees = Service.GetAll("Branch");
             return View(employees.ToList());
         }
 
@@ -28,7 +37,7 @@ namespace wm.Web2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = db.Employees.Find(id);
+            Employee employee = Service.GetById(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -39,7 +48,7 @@ namespace wm.Web2.Controllers
         // GET: Employees/Create
         public ActionResult Create()
         {
-            ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name");
+            ViewBag.BranchId = new SelectList(_branchService.GetAll(), "Id", "Name");
             return View();
         }
 
@@ -52,12 +61,11 @@ namespace wm.Web2.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Employees.Add(employee);
-                db.SaveChanges();
+                Service.Create(employee);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name", employee.BranchId);
+            ViewBag.BranchId = new SelectList(_branchService.GetAll(), "Id", "Name", employee.BranchId);
             return View(employee);
         }
 
@@ -68,12 +76,12 @@ namespace wm.Web2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = db.Employees.Find(id);
+            Employee employee = Service.GetById(id);
             if (employee == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name", employee.BranchId);
+            ViewBag.BranchId = new SelectList(_branchService.GetAll(), "Id", "Name", employee.BranchId);
             return View(employee);
         }
 
@@ -86,11 +94,10 @@ namespace wm.Web2.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(employee).State = EntityState.Modified;
-                db.SaveChanges();
+                Service.Update(employee);
                 return RedirectToAction("Index");
             }
-            ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name", employee.BranchId);
+            ViewBag.BranchId = new SelectList(_branchService.GetAll(), "Id", "Name", employee.BranchId);
             return View(employee);
         }
 
@@ -101,7 +108,7 @@ namespace wm.Web2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = db.Employees.Find(id);
+            Employee employee = Service.GetById(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -114,19 +121,9 @@ namespace wm.Web2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            Employee employee = db.Employees.Find(id);
-            db.Employees.Remove(employee);
-            db.SaveChanges();
+            Employee employee = Service.GetById(id);
+            Service.Delete(employee);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

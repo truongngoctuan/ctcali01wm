@@ -8,12 +8,11 @@ using wm.Model;
 
 namespace wm.Repository
 {
-    public interface IItemRepository : IGenericRepository<Item>
+    public interface IItemRepository : IGenericIntKeyRepository<Item>
     {
-        Item GetById(int id);
     }
 
-    public class ItemRepository : GenericRepository<Item>, IItemRepository
+    public class ItemRepository : GenericIntKeyRepository<Item>, IItemRepository
     {
         public ItemRepository(DbContext context)
             : base(context)
@@ -21,15 +20,9 @@ namespace wm.Repository
 
         }
 
-        public override IEnumerable<Item> GetAll()
-        {
-            return _entities.Set<Item>().AsEnumerable();//.Include(x => x.Country).AsEnumerable();
-        }
-
-        public Item GetById(int id)
-        {
-            //return _dbset.Include(x => x.Country).Where(x => x.Id == id).FirstOrDefault();
-            return _dbset.Where(x => x.Id == id).FirstOrDefault();
-        }
+        //public override IEnumerable<Item> GetAll()
+        //{
+        //    return _entities.Set<Item>().AsEnumerable();//.Include(x => x.Country).AsEnumerable();
+        //}
     }
 }

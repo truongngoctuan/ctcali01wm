@@ -16,9 +16,9 @@ namespace wm.Service
     public class GoodUnitService : EntityService<GoodUnit>, IGoodUnitService
     {
         IUnitOfWork _unitOfWork;
-        IGoodUnitRepository _repos;
+        IGenericIntKeyRepository<GoodUnit> _repos;
 
-        public GoodUnitService(IUnitOfWork unitOfWork, IGoodUnitRepository Repos)
+        public GoodUnitService(IUnitOfWork unitOfWork, IGenericIntKeyRepository<GoodUnit> Repos)
             : base(unitOfWork, Repos)
         {
             _unitOfWork = unitOfWork;

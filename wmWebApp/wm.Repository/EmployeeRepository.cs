@@ -8,6 +8,7 @@ using wm.Model;
 
 namespace wm.Repository
 {
+    //because employee is special class
     public interface IEmployeeRepository : IGenericRepository<Employee>
     {
         Employee GetById(string id);

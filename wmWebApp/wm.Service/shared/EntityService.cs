@@ -17,9 +17,12 @@ namespace wm.Service
     {
         void Create(T entity);
         void Delete(T entity);
-        IEnumerable<T> GetAll();
+        IEnumerable<T> GetAll(string include = "");
+        //Employee GetById(int Id, string include = "");
         void Update(T entity);
         void AddOrUpdate(T entity);
+
+        
     }
 
     public abstract class EntityService<T> : IEntityService<T> where T : BaseEntity
@@ -61,9 +64,10 @@ namespace wm.Service
             _unitOfWork.Commit();
         }
 
-        public virtual IEnumerable<T> GetAll()
+        public virtual IEnumerable<T> GetAll(string include = "")
         {
-            return _repository.GetAll();
+            return _repository.Get(null, null, include);
         }
+
     }
 }
