@@ -51,8 +51,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BranchGoodCategoryRepository.cs" />
+    <Compile Include="BranchRepository.cs" />
     <Compile Include="EmployeeRepository.cs" />
     <Compile Include="GoodCategoryGoodRepository.cs" />
+    <Compile Include="GoodCategoryRepository.cs" />
+    <Compile Include="GoodRepository.cs" />
+    <Compile Include="GoodUnitRepository.cs" />
     <Compile Include="OrderGoodRepository.cs" />
     <Compile Include="OrderRepository.cs" />
     <Compile Include="shared\GenericRepository.cs" />

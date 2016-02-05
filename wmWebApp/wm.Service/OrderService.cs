@@ -20,12 +20,12 @@ namespace wm.Service
     public class OrderService : EntityService<Order>, IOrderService
     {
         IUnitOfWork _unitOfWork;
-        IGenericIntKeyRepository<Order> _repos;
+        IOrderRepository _repos;
         IOrderGoodService _orderGoodService;
         IGoodService _goodService;
         IGoodCategoryGoodService _goodCategoryGoodService;
 
-        public OrderService(IUnitOfWork unitOfWork, IGenericIntKeyRepository<Order> Repos,
+        public OrderService(IUnitOfWork unitOfWork, IOrderRepository Repos,
             IOrderGoodService OrderGoodService,
             IGoodCategoryGoodService GoodCategoryGoodService)
             : base(unitOfWork, Repos)

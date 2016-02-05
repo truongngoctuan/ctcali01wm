@@ -18,9 +18,9 @@ namespace wm.Service
     public class BranchService : EntityService<Branch>, IBranchService
     {
         IUnitOfWork _unitOfWork;
-        IGenericIntKeyRepository<Branch> _repos;
+        IBranchRepository _repos;
 
-        public BranchService(IUnitOfWork unitOfWork, IGenericIntKeyRepository<Branch> Repos)
+        public BranchService(IUnitOfWork unitOfWork, IBranchRepository Repos)
             : base(unitOfWork, Repos)
         {
             _unitOfWork = unitOfWork;
