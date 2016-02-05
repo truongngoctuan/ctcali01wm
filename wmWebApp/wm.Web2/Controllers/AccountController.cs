@@ -138,6 +138,7 @@ namespace wm.Web2.Controllers
                     var employee = new Employee
                     {
                         Id = user.Id,
+                        UserName = user.UserName,
                         Name = model.FullName,
                         BranchId = model.BranchId,
                         Role = model.Role
