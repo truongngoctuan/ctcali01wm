@@ -120,6 +120,7 @@ namespace wm.Repository
         public TEntity GetById(int id, string includeProperties = "")
         {
             IQueryable<TEntity> query = _dbset;
+            query = query.Where(s => s.Id == id);
 
             foreach (var includeProperty in includeProperties.Split
                 (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
