@@ -9,15 +9,14 @@ using wm.Service.Model;
 
 namespace wm.Service
 {
-    public interface IOrderService : IEntityService<Order>
+    public interface IOrderService : IEntityIntKeyService<Order>
     {
-        Order GetById(int Id);
         Order Create(int branchId, DateTime orderDate);
         IEnumerable<OrderBranchItem> PopulateData(int orderId, int goodCategoryId);
         void placingOrder(int orderId, IEnumerable<OrderBranchItem> items);
     }
 
-    public class OrderService : EntityService<Order>, IOrderService
+    public class OrderService : EntityIntKeyService<Order>, IOrderService
     {
         IUnitOfWork _unitOfWork;
         IOrderRepository _repos;
@@ -34,11 +33,6 @@ namespace wm.Service
             _repos = Repos;
             _orderGoodService = OrderGoodService;
             _goodCategoryGoodService = GoodCategoryGoodService;
-        }
-
-        public Order GetById(int Id)
-        {
-            return _repos.GetById(Id);
         }
 
         public Order Create(int branchId, DateTime orderDate)

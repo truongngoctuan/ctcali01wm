@@ -8,12 +8,11 @@ using wm.Repository;
 
 namespace wm.Service
 {
-    public interface IGoodUnitService : IEntityService<GoodUnit>
+    public interface IGoodUnitService : IEntityIntKeyService<GoodUnit>
     {
-        GoodUnit GetById(int Id);
     }
 
-    public class GoodUnitService : EntityService<GoodUnit>, IGoodUnitService
+    public class GoodUnitService : EntityIntKeyService<GoodUnit>, IGoodUnitService
     {
         IUnitOfWork _unitOfWork;
         IGoodUnitRepository _repos;
@@ -25,9 +24,5 @@ namespace wm.Service
             _repos = Repos;
         }
 
-        public GoodUnit GetById(int Id)
-        {
-            return _repos.GetById(Id);
-        }
     }
 }

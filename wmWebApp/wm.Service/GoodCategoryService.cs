@@ -8,12 +8,11 @@ using wm.Repository;
 
 namespace wm.Service
 {
-    public interface IGoodCategoryService : IEntityService<GoodCategory>
+    public interface IGoodCategoryService : IEntityIntKeyService<GoodCategory>
     {
-        GoodCategory GetById(int Id);
     }
 
-    public class GoodCategoryService : EntityService<GoodCategory>, IGoodCategoryService
+    public class GoodCategoryService : EntityIntKeyService<GoodCategory>, IGoodCategoryService
     {
         IUnitOfWork _unitOfWork;
         IGoodCategoryRepository _repos;
@@ -25,9 +24,5 @@ namespace wm.Service
             _repos = Repos;
         }
 
-        public GoodCategory GetById(int Id)
-        {
-            return _repos.GetById(Id);
-        }
     }
 }

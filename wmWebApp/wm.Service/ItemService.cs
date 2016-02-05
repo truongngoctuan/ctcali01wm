@@ -8,12 +8,11 @@ using wm.Repository;
 
 namespace wm.Service
 {
-    public interface IItemService : IEntityService<Item>
+    public interface IItemService : IEntityIntKeyService<Item>
     {
-        Item GetById(int Id);
     }
 
-    public class ItemService : EntityService<Item>, IItemService
+    public class ItemService : EntityIntKeyService<Item>, IItemService
     {
         IUnitOfWork _unitOfWork;
         IItemRepository _repos;
@@ -25,9 +24,5 @@ namespace wm.Service
             _repos = Repos;
         }
 
-        public Item GetById(int Id)
-        {
-            return _repos.GetById(Id);
-        }
     }
 }
