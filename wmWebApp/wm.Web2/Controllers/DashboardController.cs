@@ -40,10 +40,10 @@ namespace wm.Web2.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult PopulateEvents(DateTime monthInfo)
+        public ActionResult PopulateEvents(DateTime monthInfo, int branchId)
         {
 
-            var ordersInMonth = _orderService.GetAllOrdersInMonth(monthInfo);
+            var ordersInMonth = _orderService.GetAllOrdersInMonth(monthInfo, branchId);
             var events = ordersInMonth.Select(s => new MonthlyEventItemViewModel
             {
                 id = s.Id,
