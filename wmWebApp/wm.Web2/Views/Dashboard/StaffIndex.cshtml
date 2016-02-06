@@ -22,13 +22,91 @@
 @section Scripts {
 
     <script>
+        var calendar;
         $(document).ready(function () {
-            var calendar;
+            
+            loadCalendar();
 
-            postHelper('@Url.Action("PopulateEvents", "Dashboard")', {  monthInfo : '2016-02-06' },
-                function (data, textStatus, XMLHttpRequest) {
-                    var dataObject = JSON.parse(data);
-                    var resultObject = [];
+            //config button move pres or next for calendar
+            $('.btn-group button[data-calendar-nav]').each(function () {
+                var $this = $(this);
+                $this.click(function () {
+                    calendar.navigate($this.data('calendar-nav'));
+                });
+            });
+        });
+
+        
+        function loadCalendar() {
+            calendar = $("#calendar").calendar(
+            {
+                tmpl_path: "../Content/ExceptionLib/bootstrap-calendar/tmpls/",
+                day: '2016-02-06',//yyyy-MM-dd
+                view: 'month',
+                views: {
+                    year:  {
+                        enable: 0
+                    },
+                    month:  {
+                        enable: 1
+                    },
+                    week:  {
+                        enable: 0
+                    },
+                    day:   {
+                        enable: 0 //disabled
+                    }
+                },
+                events_source: events_source_function,
+                onAfterViewLoad: function (view) {
+                    $('.page-header2 div h3').text(this.getTitle());
+
+                    if (view == "month") {
+                        //$("#calendar .cal-month-day").click(function (e) {
+                        //    var clicked_date = $(this).find('span').attr('data-cal-date');
+                        //    //Do whatever you want. probably, a $.post or something to add the record on your db
+                        //    console.log("click event is activated : " + clicked_date);
+                        //});
+
+                        $("#calendar .cal-month-day").dblclick(function () {
+                            var clicked_date = $(this).find('span').attr('data-cal-date');
+
+                            bootbox.confirm("Do you want to create new order for day , branch ?", function (result) {
+                                if (result) {
+                                    //call a post to create an order
+                                    console.log("create new order");
+                                    //TODO: convert to datetime in asp.net
+                                    postHelper('@Url.Action("CreateOrderByStaff", "Orders")',
+                                        {
+                                            employeeId : '@Model.Id',
+                                            branchId : @Model.BranchId,
+                                            orderDay : clicked_date
+                                        },
+                                        function (data, textStatus, XMLHttpRequest) {
+
+                                        });
+
+
+                                }
+                            });
+                        });
+                    }
+                },
+
+            });
+        }//end of loadCalendar
+
+        function events_source_function() {
+            var resultObject = [];
+
+            $.ajax({
+                method: "POST",
+                url: '@Url.Action("PopulateEvents", "Dashboard")',
+                dataType: "json",
+                data: {  monthInfo : '2016-02-06' },
+                async:false,
+                success: function (data, textStatus, XMLHttpRequest) {
+                    var dataObject = data;
                     if (dataObject.success == 1) {
                         resultObject = dataObject.result;
 
@@ -37,83 +115,15 @@
                             resultObject[i].class = resultObject[i].classs;
                         }
 
-                        loadCalendar(resultObject);
+                        console.log("return resultObject" + resultObject.length);
 
                     }
+                },
+
             });
 
-
-            function loadCalendar(sourceEvents) {
-                calendar = $("#calendar").calendar(
-                {
-                    tmpl_path: "../Content/ExceptionLib/bootstrap-calendar/tmpls/",
-                    day: '2016-02-06',//yyyy-MM-dd
-                    view: 'month',
-                    views: {
-                        year:  {
-                            enable: 0
-                        },
-                        month:  {
-                            enable: 1
-                        },
-                        week:  {
-                            enable: 0
-                        },
-                        day:   {
-                            enable: 0 //disabled
-                        }
-                    },
-                    events_source: sourceEvents,
-                    onAfterViewLoad: function (view) {
-                        $('.page-header2 div h3').text(this.getTitle());
-
-                        if (view == "month") {
-                            $("#calendar .cal-month-day").click(function (e) {
-                                var clicked_date = $(this).find('span').attr('data-cal-date');
-                                //Do whatever you want. probably, a $.post or something to add the record on your db
-                                console.log(clicked_date);
-                            });
-
-                            $("#calendar .cal-month-day").dblclick(function () {
-                                var clicked_date = $(this).find('span').attr('data-cal-date');
-
-                                bootbox.confirm("Do you want to create new order for day , branch ?", function (result) {
-                                    if (result) {
-                                        //call a post to create an order
-                                        console.log("create new order");
-                                        //TODO: convert to datetime in asp.net
-                                        postHelper('@Url.Action("CreateOrderByStaff", "Orders")',
-                                            {
-                                                employeeId : '@Model.Id',
-                                                branchId : @Model.BranchId,
-                                                orderDay : clicked_date
-                                            },
-                                            function (data, textStatus, XMLHttpRequest) {
-
-                                            });
-
-
-                                    }
-                                });
-                            });
-                        }
-                    },
-
-
-
-                });
-            }
-
-
-            //$('.btn-group button[data-calendar-nav]').each(function () {
-            //    var $this = $(this);
-            //    $this.click(function () {
-            //        calendar.navigate($this.data('calendar-nav'));
-            //    });
-            //});
-
-
-        });
+            return resultObject;
+        }//end of events_source_function
 
     </script>
 }
