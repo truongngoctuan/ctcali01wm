@@ -4,32 +4,55 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>StaffIndex</h2>
-<div id="calendar"></div>
+<div class="page-header2 row">
+    <div class="col-md-6"> <h3></h3></div>
+    
+    <div class="pull-right form-inline col-md-6">
+        <div class="btn-group">
+            <button class="btn btn-primary" data-calendar-nav="prev"><< Prev</button>
+            <button class="btn" data-calendar-nav="today">Today</button>
+            <button class="btn btn-primary" data-calendar-nav="next">Next >></button>
+        </div>
+    </div>
+    
+</div>
+
+<div id="calendar" class="row"></div>
 @section Scripts {
 
     <script>
         $(document).ready(function () {
             var calendar = $("#calendar").calendar(
                 {
-                    tmpl_path: "http://localhost:61175/Content/ExceptionLib/bootstrap-calendar/tmpls/",
+                    tmpl_path: "../Content/ExceptionLib/bootstrap-calendar/tmpls/",
                     //events_source: function () { return []; },
                     day: '2016-02-06',//yyyy-MM-dd
                     view: 'month',
-                    events_source: [
-                        {
-                            "id": 293,
-                            "title": "Event 1",
-                            "url": "http://example.com",
-                            "class": "event-important",
-                            "start": 12039485678000, // Milliseconds
-                            "end": 1234576967000 // Milliseconds
-                        },
-                    ]
+                    events_source: [],
+                    onAfterViewLoad: function (view) {
+                        $('.page-header2 div h3').text(this.getTitle());
 
+                        if (view == "month") {
+                            $("#calendar .cal-month-day").click(function (e) {
+                                var clicked_date = $(this).find('span').attr('data-cal-date');
+                                //Do whatever you want. probably, a $.post or something to add the record on your db
+                                console.log(clicked_date);
+                            });
+                        }
+                    },
 
+                     
 
                 });
+
+            $('.btn-group button[data-calendar-nav]').each(function () {
+                var $this = $(this);
+                $this.click(function () {
+                    calendar.navigate($this.data('calendar-nav'));
+                });
+            });
+
+
 
         });
 

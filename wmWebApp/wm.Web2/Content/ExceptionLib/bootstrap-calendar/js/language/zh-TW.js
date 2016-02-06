@@ -2,14 +2,14 @@ if(!window.calendar_languages) {
 	window.calendar_languages = {};
 }
 
-window.calendar_languages['zh-CN'] = {
-	error_noview:     'Calendar: 没有发现视图 {0} ',
-	error_dateformat: 'Calendar: 日期格式不正确： {0}. 应当为 "now" 或者 "yyyy-mm-dd"',
-	error_loadurl:    'Calendar: 没有设置事件的 URL',
-	error_where:      'Calendar: 导航指示错误 {0}. 只能是 "next" 或 "prev" 或 "today"',
-	error_timedevide: 'Calendar: 时间分隔参数只能是被60整除的整数. 例如 10、15、30',
+window.calendar_languages['zh-TW'] = {
+	error_noview:     'Calendar: 找不到圖片 {0} ',
+	error_dateformat: 'Calendar: 日期格式錯誤： {0}. 應該以「now」表示，或「yyyy-mm-dd」',
+	error_loadurl:    'Calendar: 事件網址尚未設定',
+	error_where:      'Calendar: 錯誤的瀏覽方向 {0}。瀏覽方向只能是「下一個」或「上一個」或「今天」',
+	error_timedevide: 'Calendar: 時間分割的參數單位應該在 60 以內且無小數。例如說 10, 15, 30',
 
-	no_events_in_day: '今天没有事件。',
+	no_events_in_day: '今天沒有事件。',
 
 	title_year:       '{0}',
 	title_month:      '{1} 年 {0}',
@@ -17,11 +17,11 @@ window.calendar_languages['zh-CN'] = {
 	title_day:        '{3} 年 {2} {1} 日， {0} ',
 
 	week:        '第{0}周',
-	all_day:     '全天',
-	time:        '时间',
+	all_day:     '整天',
+	time:        '時間',
 	events:      '事件',
-	before_time: '结束早于时间轴',
-	after_time:  '开始晚于时间轴',
+	before_time: '時間軸結束前',
+	after_time:  '時間軸結束後',
 
 	m0:  '1 月',
 	m1:  '2 月',
@@ -61,10 +61,6 @@ window.calendar_languages['zh-CN'] = {
 
 	holidays:  {
 		'01-01': '元旦',
-		'08-03': '妇女节',
-		'01-05': '国际劳动节',
-		'04-05': '青年节',
-		'01-06': '儿童节',
-		'01-10': '国庆节'
+        '10-10': '國慶日',
 	}
 };
