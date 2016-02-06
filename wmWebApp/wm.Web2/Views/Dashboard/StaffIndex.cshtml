@@ -23,7 +23,28 @@
 
     <script>
         $(document).ready(function () {
-            var calendar = $("#calendar").calendar(
+            var calendar;
+
+            postHelper('@Url.Action("PopulateEvents", "Dashboard")', {  monthInfo : '2016-02-06' },
+                function (data, textStatus, XMLHttpRequest) {
+                    var dataObject = JSON.parse(data);
+                    var resultObject = [];
+                    if (dataObject.success == 1) {
+                        resultObject = dataObject.result;
+
+                        //modify return object
+                        for(var i = 0; i < resultObject.length; i++) {
+                            resultObject[i].class = resultObject[i].classs;
+                        }
+
+                        loadCalendar(resultObject);
+
+                    }
+            });
+
+
+            function loadCalendar(sourceEvents) {
+                calendar = $("#calendar").calendar(
                 {
                     tmpl_path: "../Content/ExceptionLib/bootstrap-calendar/tmpls/",
                     day: '2016-02-06',//yyyy-MM-dd
@@ -42,94 +63,54 @@
                             enable: 0 //disabled
                         }
                     },
-                    events_source: [
-    {
-        "id": 4,
-        "title": "un known title",
-        "url": null,
-        "class": "event-warning",
-        "start": 1454630400000,
-        "end": 1454630400001
-    },
-    {
-        "id": 5,
-        "title": "un known title",
-        "url": null,
-        "class": "event-important",
-        "start": 1455321600000,
-        "end": 1455321600001
-    },
-    {
-        "id": 6,
-        "title": "un known title",
-        "url": null,
-        "class": "event-important",
-        "start": 1455235200000,
-        "end": 1455235200001
-    },
-    {
-        "id": 7,
-        "title": "un known title",
-        "url": null,
-        "class": "event-important",
-        "start": 1454716800000,
-        "end": 1454716800001
-    },
-    {
-        "id": 8,
-        "title": "un known title",
-        "url": null,
-        "class": "event-important",
-        "start": 1455753600000,
-        "end": 1455753600001
-    }
-                    ],
-                onAfterViewLoad: function (view) {
-                    $('.page-header2 div h3').text(this.getTitle());
+                    events_source: sourceEvents,
+                    onAfterViewLoad: function (view) {
+                        $('.page-header2 div h3').text(this.getTitle());
 
-                    if (view == "month") {
-                        $("#calendar .cal-month-day").click(function (e) {
-                            var clicked_date = $(this).find('span').attr('data-cal-date');
-                            //Do whatever you want. probably, a $.post or something to add the record on your db
-                            console.log(clicked_date);
-                        });
-
-                        $("#calendar .cal-month-day").dblclick(function () {
-                            var clicked_date = $(this).find('span').attr('data-cal-date');
-
-                            bootbox.confirm("Do you want to create new order for day , branch ?", function (result) {
-                                if (result) {
-                                    //call a post to create an order
-                                    console.log("create new order");
-                                    //TODO: convert to datetime in asp.net
-                                    postHelper('@Url.Action("CreateOrderByStaff", "Orders")', 
-                                        {
-                                            employeeId : '@Model.Id',
-                                            branchId : @Model.BranchId,
-                                            orderDay : clicked_date
-                                        }, 
-                                        function (data, textStatus, XMLHttpRequest) {
-
-                                        });
-
-
-                                }
+                        if (view == "month") {
+                            $("#calendar .cal-month-day").click(function (e) {
+                                var clicked_date = $(this).find('span').attr('data-cal-date');
+                                //Do whatever you want. probably, a $.post or something to add the record on your db
+                                console.log(clicked_date);
                             });
-                        });
-                    }
-                },
+
+                            $("#calendar .cal-month-day").dblclick(function () {
+                                var clicked_date = $(this).find('span').attr('data-cal-date');
+
+                                bootbox.confirm("Do you want to create new order for day , branch ?", function (result) {
+                                    if (result) {
+                                        //call a post to create an order
+                                        console.log("create new order");
+                                        //TODO: convert to datetime in asp.net
+                                        postHelper('@Url.Action("CreateOrderByStaff", "Orders")',
+                                            {
+                                                employeeId : '@Model.Id',
+                                                branchId : @Model.BranchId,
+                                                orderDay : clicked_date
+                                            },
+                                            function (data, textStatus, XMLHttpRequest) {
+
+                                            });
+
+
+                                    }
+                                });
+                            });
+                        }
+                    },
 
 
 
                 });
+            }
 
-        $('.btn-group button[data-calendar-nav]').each(function () {
-            var $this = $(this);
-            $this.click(function () {
-                calendar.navigate($this.data('calendar-nav'));
-            });
-        });
 
+            //$('.btn-group button[data-calendar-nav]').each(function () {
+            //    var $this = $(this);
+            //    $this.click(function () {
+            //        calendar.navigate($this.data('calendar-nav'));
+            //    });
+            //});
 
 
         });
