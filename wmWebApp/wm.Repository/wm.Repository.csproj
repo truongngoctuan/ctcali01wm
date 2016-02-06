@@ -59,10 +59,10 @@
     <Compile Include="GoodUnitRepository.cs" />
     <Compile Include="OrderGoodRepository.cs" />
     <Compile Include="OrderRepository.cs" />
-    <Compile Include="shared\GenericRepository.cs" />
+    <Compile Include="Shared\GenericRepository.cs" />
     <Compile Include="ItemRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="shared\UnitOfWork.cs" />
+    <Compile Include="Shared\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\wm.Model\wm.Model.csproj">

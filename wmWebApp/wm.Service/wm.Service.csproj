@@ -51,7 +51,7 @@
     <Compile Include="Model\OrderBranchItem.cs" />
     <Compile Include="OrderGoodService.cs" />
     <Compile Include="OrderService.cs" />
-    <Compile Include="shared\EntityService.cs" />
+    <Compile Include="Shared\EntityService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
