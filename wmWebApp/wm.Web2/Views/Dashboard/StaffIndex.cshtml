@@ -1,10 +1,11 @@
-﻿
+﻿@model wm.Model.Employee
 @{
     ViewBag.Title = "StaffIndex";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="page-header2 row">
+    <div class="row">@Model.Id - @Model.UserName - @Model.Branch.Name</div>
     <div class="col-md-6"> <h3></h3></div>
 
     <div class="pull-right form-inline col-md-6">
@@ -50,6 +51,29 @@
                             var clicked_date = $(this).find('span').attr('data-cal-date');
                             //Do whatever you want. probably, a $.post or something to add the record on your db
                             console.log(clicked_date);
+                        });
+
+                        $("#calendar .cal-month-day").dblclick(function () {
+                            var clicked_date = $(this).find('span').attr('data-cal-date');
+
+                            bootbox.confirm("Do you want to create new order for day , branch ?", function (result) {
+                                if (result) {
+                                    //call a post to create an order
+                                    console.log("create new order");
+                                    //TODO: convert to datetime in asp.net
+                                    postHelper('@Url.Action("CreateOrderByStaff", "Orders")', 
+                                        {
+                                            employeeId : '@Model.Id',
+                                            branchId : @Model.BranchId,
+                                            orderDay : clicked_date
+                                        }, 
+                                        function (data, textStatus, XMLHttpRequest) {
+
+                                        });
+
+
+                                }
+                            });
                         });
                     }
                 },

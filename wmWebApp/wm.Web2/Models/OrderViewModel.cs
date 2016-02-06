@@ -10,4 +10,11 @@ namespace wm.Web2.Models
 	{
         public OrderBranchItem[] data { get; set; }
     }
+
+    public class CreateOrderByStaffViewModel
+    {
+        public string employeeId { get; set; }
+        public int branchId { get; set; }
+        public DateTime orderDay { get; set; }
+    }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using wm.Model;
 using wm.Service;
 using wm.Web2.Models;
 
@@ -58,5 +59,24 @@ namespace wm.Web2.Controllers
             //Service.Update(model);
             return Json(new ReturnJsonObject<int> { status = ReturnStatus.ok.ToString(), data = 0 });
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult CreateOrderByStaff(CreateOrderByStaffViewModel inputViewModel)
+        {
+            var model = new Order
+            {
+                BranchId = inputViewModel.branchId,
+                OrderDay = inputViewModel.orderDay,
+                CreatedBy = inputViewModel.employeeId,
+                Status = OrderStatus.Started,
+                Priority = 0
+            };
+
+            Service.Create(model);
+            return OkCode();
+        }
+
+
     }
 }

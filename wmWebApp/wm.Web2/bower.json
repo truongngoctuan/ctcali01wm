@@ -4,10 +4,7 @@
   "dependencies": {
     "handsontable": "0.21.0",
     "bootstrap": "3.3.6",
-    "underscore": "1.8.3"
-  },
-  "resolutions": {
-    "moment": "^2.9.0",
-    "bootstrap": "3.3.6"
+    "underscore": "1.8.3",
+    "bootbox": "4.4.0"
   }
 }
