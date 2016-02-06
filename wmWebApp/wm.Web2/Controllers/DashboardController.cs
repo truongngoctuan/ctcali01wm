@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using wm.Service;
+using wm.Web2.Models;
 
 namespace wm.Web2.Controllers
 {
@@ -14,9 +15,12 @@ namespace wm.Web2.Controllers
         IEmployeeService _service;
         IEmployeeService Service { get { return _service; } }
 
-        public DashboardController(IEmployeeService Service)
+        IOrderService _orderService;
+
+        public DashboardController(IEmployeeService Service, IOrderService OrderService)
         {
             _service = Service;
+            _orderService = OrderService;
         }
 
         [Authorize]
@@ -24,6 +28,7 @@ namespace wm.Web2.Controllers
         {
             return View();
         }
+
         [Authorize]
         public ActionResult StaffIndex()
         {
@@ -32,6 +37,34 @@ namespace wm.Web2.Controllers
 
             return View(employee);
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult PopulateEvents(DateTime monthInfo)
+        {
+
+            var ordersInMonth = _orderService.GetAllOrdersInMonth(monthInfo);
+            var events = ordersInMonth.Select(s => new MonthlyEventItemViewModel
+            {
+                id = s.Id,
+                title = "un known title",
+                classs = "event-important",
+                start = (Int64)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds,
+                end = (Int64)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds + 1
+            });
+
+            var result = new MonthlyEventsViewModel
+            {
+                success = 1,
+                result = events
+            };
+
+
+            return Json(result);
+        }
+
+
+
         [Authorize]
         public ActionResult AdminIndex()
         {
@@ -47,5 +80,7 @@ namespace wm.Web2.Controllers
         {
             return View();
         }
+
+        
     }
 }

@@ -14,6 +14,9 @@ namespace wm.Service
         Order Create(int branchId, DateTime orderDate);
         IEnumerable<OrderBranchItem> PopulateData(int orderId, int goodCategoryId);
         void placingOrder(int orderId, IEnumerable<OrderBranchItem> items);
+
+        //for dashboard
+        IEnumerable<Order> GetAllOrdersInMonth(DateTime monthIndicator);
     }
 
     public class OrderService : EntityIntKeyService<Order>, IOrderService
@@ -108,6 +111,21 @@ namespace wm.Service
 
         }
 
+
+        #region dashboard
+        public IEnumerable<Order> GetAllOrdersInMonth(DateTime monthIndicator)
+        {
+            DateTime startOfMonth = new DateTime(monthIndicator.Year,
+                                               monthIndicator.Month,
+                                               1);
+            DateTime endOfMonth = new DateTime(monthIndicator.Year,
+                                               monthIndicator.Month,
+                                               DateTime.DaysInMonth(monthIndicator.Year,
+                                                                    monthIndicator.Month));
+
+            return _repos.Get((s => startOfMonth <= s.OrderDay && s.OrderDay <= endOfMonth ), null, "");
+        }
+        #endregion
 
     }
 }
