@@ -38,4 +38,5 @@ namespace wm.Web2.Models
         public int BranchId { get; set; }
         public EmployeeRole Role { get; set; }
     }
+    
 }

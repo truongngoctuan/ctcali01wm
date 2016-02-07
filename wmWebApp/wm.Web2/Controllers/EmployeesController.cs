@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -17,10 +19,26 @@ namespace wm.Web2.Controllers
         IEmployeeService Service { get { return _service; } }
 
         IBranchService _branchService;
-        public EmployeesController(IEmployeeService Service, IBranchService BranchService)
+
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        public EmployeesController(IEmployeeService Service, IBranchService BranchService,
+            ApplicationUserManager userManager)
         {
             _service = Service;
             _branchService = BranchService;
+            _userManager = userManager;
         }
 
         // GET: Employees
@@ -90,10 +108,17 @@ namespace wm.Web2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Role,BranchId")] Employee employee)
+        public ActionResult Edit([Bind(Include = "Id,Name,Role,BranchId,PlainPassword")] Employee employee)
         {
+
             if (ModelState.IsValid)
             {
+                if (employee.PlainPassword != string.Empty)
+                {
+                    UserManager.RemovePassword(employee.Id);
+                    var result = UserManager.AddPassword(employee.Id, employee.PlainPassword);
+                }
+
                 Service.Update(employee);
                 return RedirectToAction("Index");
             }
@@ -121,8 +146,20 @@ namespace wm.Web2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            Employee employee = Service.GetById(id);
-            Service.Delete(employee);
+
+            var user = UserManager.FindById(id);
+            var result = UserManager.Delete(user);
+            if (result.Succeeded)
+            {
+                Employee employee = Service.GetById(id);
+                Service.Delete(employee);
+            }
+            else
+            {
+                
+            }
+            
+
             return RedirectToAction("Index");
         }
     }
