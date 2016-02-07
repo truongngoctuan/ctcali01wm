@@ -7,6 +7,7 @@ using Microsoft.Owin.Security.DataProtection;
 using Owin;
 using System.Web;
 using System.Web.Mvc;
+using wm.Model;
 using wm.Web2.Models;
 using wm.Web2.Modules;
 
@@ -22,7 +23,7 @@ namespace wm.Web2
             var builder = new Autofac.ContainerBuilder();
 
             // REGISTER DEPENDENCIES
-            builder.RegisterType<ApplicationDbContext>().AsSelf().InstancePerRequest();
+            builder.RegisterType<wmContext>().AsSelf().InstancePerRequest();
             builder.RegisterType<ApplicationUserStore>().As<IUserStore<ApplicationUser>>().InstancePerRequest();
             builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerRequest();
             builder.RegisterType<ApplicationSignInManager>().AsSelf().InstancePerRequest();

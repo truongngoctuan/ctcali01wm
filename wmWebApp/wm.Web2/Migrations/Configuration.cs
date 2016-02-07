@@ -24,7 +24,7 @@ namespace wm.Web2.Migrations
 
         protected void AddRoleIfNotExist(string roleName)
         {
-            var rm = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+            var rm = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new wmContext()));
 
             if (!rm.RoleExists(roleName))
             {
@@ -37,7 +37,7 @@ namespace wm.Web2.Migrations
 
         protected void CreateUser(Model.wmContext context, RegisterViewModel model)
         {
-            var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+            var user = new Model.ApplicationUser { UserName = model.UserName, Email = model.Email };
             ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
 
             var existingUser = userManager.FindByName(model.UserName);
