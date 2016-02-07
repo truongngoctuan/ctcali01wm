@@ -118,8 +118,8 @@ namespace wm.Web2.Controllers
                     UserManager.RemovePassword(employee.ApplicationUserId);
                     var result = UserManager.AddPassword(employee.ApplicationUserId, employee.PlainPassword);
                 }
+                if (employee.Role == EmployeeRole.SuperUser) employee.Role = EmployeeRole.Admin;
                 var employeeIndatabase = Service.GetByApplicationId(employee.ApplicationUserId);
-
                 switch (employeeIndatabase.Role)
                 {
                     case EmployeeRole.Admin:
