@@ -134,6 +134,35 @@ namespace wm.Web2.Controllers
                 var result = await UserManager.CreateAsync(user, model.PlainPassword);
                 if (result.Succeeded)
                 {
+                    switch(model.Role)
+                    {
+                        case EmployeeRole.Admin:
+                            {
+                                UserManager.AddToRole(user.Id, SystemRoles.Admin);
+                                break;
+                            }
+                        case EmployeeRole.StaffBranch:
+                            {
+                                UserManager.AddToRole(user.Id, SystemRoles.Staff);
+                                break;
+                            }
+                        case EmployeeRole.Manager:
+                            {
+                                UserManager.AddToRole(user.Id, SystemRoles.Manager);
+                                break;
+                            }
+                        case EmployeeRole.WarehouseKeeper:
+                            {
+                                UserManager.AddToRole(user.Id, SystemRoles.WarehouseKeeper);
+                                break;
+                            }
+                        default:
+                            {
+                                UserManager.AddToRole(user.Id, SystemRoles.Staff);
+                                break;
+                            }
+
+                    }
                     var employee = new Employee
                     {
                         PlainPassword = model.PlainPassword, //when user change password, this will be reset

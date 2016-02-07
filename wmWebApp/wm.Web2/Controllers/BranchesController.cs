@@ -213,7 +213,7 @@ namespace wm.Web2.Controllers
         {
             if (ModelState.IsValid)
             {
-                Service.AddOrUpdate(branch);
+                Service.Update(branch);
                 return RedirectToAction("Index");
             }
             return View(branch);

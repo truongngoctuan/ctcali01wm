@@ -18,7 +18,6 @@ namespace wm.Repository
         TEntity Delete(TEntity entity);
         void Edit(TEntity entity);
         void Save();
-        void AddOrUpdate(TEntity entity);
 
         IEnumerable<TEntity> Get(
             Expression<Func<TEntity, bool>> filter = null,
@@ -64,10 +63,6 @@ namespace wm.Repository
         public virtual void Edit(TEntity entity)
         {
             _entities.Entry(entity).State = System.Data.Entity.EntityState.Modified;
-        }
-        public virtual void AddOrUpdate(TEntity entity)
-        {
-            _dbset.AddOrUpdate(entity);
         }
 
         public virtual void Save()

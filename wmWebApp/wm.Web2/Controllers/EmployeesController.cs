@@ -118,6 +118,67 @@ namespace wm.Web2.Controllers
                     UserManager.RemovePassword(employee.Id);
                     var result = UserManager.AddPassword(employee.Id, employee.PlainPassword);
                 }
+                var employeeIndatabase = Service.GetById(employee.Id);
+
+                switch (employeeIndatabase.Role)
+                {
+                    case EmployeeRole.Admin:
+                        {
+                            UserManager.RemoveFromRole(employee.Id, SystemRoles.Admin);
+                            break;
+                        }
+                    case EmployeeRole.StaffBranch:
+                        {
+                            UserManager.RemoveFromRole(employee.Id, SystemRoles.Staff);
+                            break;
+                        }
+                    case EmployeeRole.Manager:
+                        {
+                            UserManager.RemoveFromRole(employee.Id, SystemRoles.Manager);
+                            break;
+                        }
+                    case EmployeeRole.WarehouseKeeper:
+                        {
+                            UserManager.RemoveFromRole(employee.Id, SystemRoles.WarehouseKeeper);
+                            break;
+                        }
+                    default:
+                        {
+                            UserManager.RemoveFromRole(employee.Id, SystemRoles.Staff);
+                            break;
+                        }
+                }
+
+                switch (employee.Role)
+                {
+                    case EmployeeRole.Admin:
+                        {
+                            UserManager.AddToRole(employee.Id, SystemRoles.Admin);
+                            break;
+                        }
+                    case EmployeeRole.StaffBranch:
+                        {
+                            UserManager.AddToRole(employee.Id, SystemRoles.Staff);
+                            break;
+                        }
+                    case EmployeeRole.Manager:
+                        {
+                            UserManager.AddToRole(employee.Id, SystemRoles.Manager);
+                            break;
+                        }
+                    case EmployeeRole.WarehouseKeeper:
+                        {
+                            UserManager.AddToRole(employee.Id, SystemRoles.WarehouseKeeper);
+                            break;
+                        }
+                    default:
+                        {
+                            UserManager.AddToRole(employee.Id, SystemRoles.Staff);
+                            break;
+                        }
+
+                }
+
 
                 Service.Update(employee);
                 return RedirectToAction("Index");
@@ -156,9 +217,9 @@ namespace wm.Web2.Controllers
             }
             else
             {
-                
+
             }
-            
+
 
             return RedirectToAction("Index");
         }
