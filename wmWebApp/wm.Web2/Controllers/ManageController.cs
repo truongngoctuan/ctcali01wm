@@ -100,7 +100,7 @@ namespace wm.Web2.Controllers
             if (result.Succeeded)
             {
                 //remove plain password
-                var employee = _employeeService.GetById(User.Identity.GetUserId());
+                var employee = _employeeService.GetByApplicationId(User.Identity.GetUserId());
                 employee.PlainPassword = string.Empty;
                 _employeeService.Update(employee);
 

@@ -13,7 +13,7 @@ namespace wm.Web2.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201602070925576_UserManagement"; }
+            get { return "201602071146025_UserManagement"; }
         }
         
         string IMigrationMetadata.Source

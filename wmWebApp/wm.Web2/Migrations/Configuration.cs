@@ -35,7 +35,7 @@ namespace wm.Web2.Migrations
 
         }
 
-        protected void CreateUser(Model.wmContext context, RegisterViewModel model, string systemRole)
+        protected void CreateUser(Model.wmContext context, int id, RegisterViewModel model, string systemRole)
         {
             var user = new Model.ApplicationUser { UserName = model.UserName, Email = model.Email };
             ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
@@ -48,7 +48,7 @@ namespace wm.Web2.Migrations
 
                 userManager.AddToRole(existingUser.Id, systemRole);
 
-                var existingEmployee = context.Employees.Where(s => s.Id == existingUser.Id).First();
+                var existingEmployee = context.Employees.Where(s => s.ApplicationUserId == existingUser.Id).First();
                 existingEmployee.PlainPassword = model.PlainPassword;
                 existingEmployee.UserName = user.UserName;
                 existingEmployee.Name = model.FullName;
@@ -71,8 +71,8 @@ namespace wm.Web2.Migrations
                     var employee = new Employee
                     {
                         PlainPassword = model.PlainPassword, //when user change password, this will be reset
-
-                        Id = IndatabaseUser.Id,
+                        Id = id,
+                        ApplicationUserId = IndatabaseUser.Id,
                         UserName = user.UserName,
                         Name = model.FullName,
                         BranchId = model.BranchId,
@@ -87,6 +87,10 @@ namespace wm.Web2.Migrations
         }
         protected override void Seed(Model.wmContext context)
         {
+            ////for debugger
+            //if (System.Diagnostics.Debugger.IsAttached == false)
+            //        System.Diagnostics.Debugger.Launch();
+
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
@@ -157,9 +161,9 @@ namespace wm.Web2.Migrations
             AddRoleIfNotExist(SystemRoles.Manager);
             AddRoleIfNotExist(SystemRoles.Staff);
 
-            CreateUser(context, new RegisterViewModel { UserName = "staff", Email = "tntuan0712494@gmail.com", FullName = "Staff name", BranchId = 1, PlainPassword = "asdasd", Role = EmployeeRole.StaffBranch }, SystemRoles.Staff);
-            CreateUser(context, new RegisterViewModel { UserName = "admin", Email = "tntuan0712494@gmail.com", FullName = "TNT", BranchId = 1, PlainPassword = "asdasd", Role = EmployeeRole.Admin }, SystemRoles.Admin);
-            CreateUser(context, new RegisterViewModel { UserName = "TNT", Email = "tntuan0712494@gmail.com", FullName = "TNT", BranchId = 1, PlainPassword = "qwerty", Role = EmployeeRole.SuperUser }, SystemRoles.SuperUser);
+            CreateUser(context, 1, new RegisterViewModel { UserName = "staff", Email = "tntuan0712494@gmail.com", FullName = "Staff name", BranchId = 1, PlainPassword = "asdasd", Role = EmployeeRole.StaffBranch }, SystemRoles.Staff);
+            CreateUser(context, 2, new RegisterViewModel { UserName = "admin", Email = "tntuan0712494@gmail.com", FullName = "TNT", BranchId = 1, PlainPassword = "asdasd", Role = EmployeeRole.Admin }, SystemRoles.Admin);
+            CreateUser(context, 3, new RegisterViewModel { UserName = "TNT", Email = "tntuan0712494@gmail.com", FullName = "TNT", BranchId = 1, PlainPassword = "qwerty", Role = EmployeeRole.SuperUser }, SystemRoles.SuperUser);
             #endregion
 
         }

@@ -8,10 +8,11 @@ namespace wm.Web2.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.Employees",
+                "dbo.Employee1",
                 c => new
                     {
-                        Id = c.String(nullable: false, maxLength: 128),
+                        Id = c.Int(nullable: false, identity: true),
+                        ApplicationUserId = c.String(),
                         UserName = c.String(),
                         Name = c.String(),
                         PlainPassword = c.String(),
@@ -99,21 +100,21 @@ namespace wm.Web2.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.Employees", "BranchId", "dbo.Branches");
+            DropForeignKey("dbo.Employee1", "BranchId", "dbo.Branches");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.Employees", new[] { "BranchId" });
+            DropIndex("dbo.Employee1", new[] { "BranchId" });
             DropColumn("dbo.Orders", "Priority");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
-            DropTable("dbo.Employees");
+            DropTable("dbo.Employee1");
         }
     }
 }

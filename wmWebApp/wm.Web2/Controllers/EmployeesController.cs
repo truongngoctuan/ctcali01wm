@@ -55,7 +55,7 @@ namespace wm.Web2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = Service.GetById(id);
+            Employee employee = Service.GetByApplicationId(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -88,13 +88,13 @@ namespace wm.Web2.Controllers
         }
 
         // GET: Employees/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = Service.GetById(id);
+            Employee employee = Service.GetById((int)id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -108,43 +108,43 @@ namespace wm.Web2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Role,BranchId,PlainPassword")] Employee employee)
+        public ActionResult Edit([Bind(Include = "Id,ApplicationUserId,Name,Role,BranchId,PlainPassword,UserName")] Employee employee)
         {
 
             if (ModelState.IsValid)
             {
                 if (employee.PlainPassword != string.Empty)
                 {
-                    UserManager.RemovePassword(employee.Id);
-                    var result = UserManager.AddPassword(employee.Id, employee.PlainPassword);
+                    UserManager.RemovePassword(employee.ApplicationUserId);
+                    var result = UserManager.AddPassword(employee.ApplicationUserId, employee.PlainPassword);
                 }
-                var employeeIndatabase = Service.GetById(employee.Id);
+                var employeeIndatabase = Service.GetByApplicationId(employee.ApplicationUserId);
 
                 switch (employeeIndatabase.Role)
                 {
                     case EmployeeRole.Admin:
                         {
-                            UserManager.RemoveFromRole(employee.Id, SystemRoles.Admin);
+                            UserManager.RemoveFromRole(employee.ApplicationUserId, SystemRoles.Admin);
                             break;
                         }
                     case EmployeeRole.StaffBranch:
                         {
-                            UserManager.RemoveFromRole(employee.Id, SystemRoles.Staff);
+                            UserManager.RemoveFromRole(employee.ApplicationUserId, SystemRoles.Staff);
                             break;
                         }
                     case EmployeeRole.Manager:
                         {
-                            UserManager.RemoveFromRole(employee.Id, SystemRoles.Manager);
+                            UserManager.RemoveFromRole(employee.ApplicationUserId, SystemRoles.Manager);
                             break;
                         }
                     case EmployeeRole.WarehouseKeeper:
                         {
-                            UserManager.RemoveFromRole(employee.Id, SystemRoles.WarehouseKeeper);
+                            UserManager.RemoveFromRole(employee.ApplicationUserId, SystemRoles.WarehouseKeeper);
                             break;
                         }
                     default:
                         {
-                            UserManager.RemoveFromRole(employee.Id, SystemRoles.Staff);
+                            UserManager.RemoveFromRole(employee.ApplicationUserId, SystemRoles.Staff);
                             break;
                         }
                 }
@@ -153,27 +153,27 @@ namespace wm.Web2.Controllers
                 {
                     case EmployeeRole.Admin:
                         {
-                            UserManager.AddToRole(employee.Id, SystemRoles.Admin);
+                            UserManager.AddToRole(employee.ApplicationUserId, SystemRoles.Admin);
                             break;
                         }
                     case EmployeeRole.StaffBranch:
                         {
-                            UserManager.AddToRole(employee.Id, SystemRoles.Staff);
+                            UserManager.AddToRole(employee.ApplicationUserId, SystemRoles.Staff);
                             break;
                         }
                     case EmployeeRole.Manager:
                         {
-                            UserManager.AddToRole(employee.Id, SystemRoles.Manager);
+                            UserManager.AddToRole(employee.ApplicationUserId, SystemRoles.Manager);
                             break;
                         }
                     case EmployeeRole.WarehouseKeeper:
                         {
-                            UserManager.AddToRole(employee.Id, SystemRoles.WarehouseKeeper);
+                            UserManager.AddToRole(employee.ApplicationUserId, SystemRoles.WarehouseKeeper);
                             break;
                         }
                     default:
                         {
-                            UserManager.AddToRole(employee.Id, SystemRoles.Staff);
+                            UserManager.AddToRole(employee.ApplicationUserId, SystemRoles.Staff);
                             break;
                         }
 
@@ -194,7 +194,7 @@ namespace wm.Web2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = Service.GetById(id);
+            Employee employee = Service.GetByApplicationId(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -212,7 +212,7 @@ namespace wm.Web2.Controllers
             var result = UserManager.Delete(user);
             if (result.Succeeded)
             {
-                Employee employee = Service.GetById(id);
+                Employee employee = Service.GetByApplicationId(id);
                 Service.Delete(employee);
             }
             else

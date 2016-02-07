@@ -33,7 +33,7 @@ namespace wm.Web2.Controllers
         public ActionResult StaffIndex()
         {
             var userId = User.Identity.GetUserId();
-            var employee = Service.GetById(userId);
+            var employee = Service.GetByApplicationId(userId);
 
             return View(employee);
         }

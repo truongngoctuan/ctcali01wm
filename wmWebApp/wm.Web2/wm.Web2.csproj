@@ -250,9 +250,9 @@
     <Compile Include="Migrations\201601311003508_AddOrder.Designer.cs">
       <DependentUpon>201601311003508_AddOrder.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201602070925576_UserManagement.cs" />
-    <Compile Include="Migrations\201602070925576_UserManagement.Designer.cs">
-      <DependentUpon>201602070925576_UserManagement.cs</DependentUpon>
+    <Compile Include="Migrations\201602071146025_UserManagement.cs" />
+    <Compile Include="Migrations\201602071146025_UserManagement.Designer.cs">
+      <DependentUpon>201602071146025_UserManagement.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -390,8 +390,8 @@
     <EmbeddedResource Include="Migrations\201601311003508_AddOrder.resx">
       <DependentUpon>201601311003508_AddOrder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201602070925576_UserManagement.resx">
-      <DependentUpon>201602070925576_UserManagement.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201602071146025_UserManagement.resx">
+      <DependentUpon>201602071146025_UserManagement.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

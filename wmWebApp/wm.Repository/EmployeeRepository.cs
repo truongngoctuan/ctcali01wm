@@ -11,7 +11,7 @@ namespace wm.Repository
     //because employee is special class
     public interface IEmployeeRepository : IGenericRepository<Employee>
     {
-        Employee GetById(string id);
+        Employee GetByApplicationUserId(string id);
     }
 
     public class EmployeeRepository : GenericRepository<Employee>, IEmployeeRepository
@@ -21,9 +21,9 @@ namespace wm.Repository
         {
 
         }
-        public Employee GetById(string id)
-        {
-            return FindBy(x => x.Id == id).FirstOrDefault();
+        public Employee GetByApplicationUserId(string id)
+        {//http://stackoverflow.com/questions/23201907/asp-net-mvc-attaching-an-entity-of-type-modelname-failed-because-another-ent
+            return _dbset.AsNoTracking().Where(s => s.ApplicationUserId == id).First();
         }
     }
 }

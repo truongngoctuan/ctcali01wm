@@ -167,7 +167,7 @@ namespace wm.Web2.Controllers
                     {
                         PlainPassword = model.PlainPassword, //when user change password, this will be reset
 
-                        Id = user.Id,
+                        ApplicationUserId = user.Id,
                         UserName = user.UserName,
                         Name = model.FullName,
                         BranchId = model.BranchId,

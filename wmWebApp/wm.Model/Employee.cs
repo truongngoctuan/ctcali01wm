@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace wm.Model
 {
-    public class Employee: BaseEntity
+    public class Employee: Entity<int>
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public string Id { get; set; }
+        public string ApplicationUserId { get; set; }
         public string UserName { get; set; }
         public string Name { get; set; }
         public string PlainPassword { get; set; } //when user reset password by themself, this field is emptied
