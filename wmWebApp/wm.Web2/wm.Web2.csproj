@@ -250,6 +250,10 @@
     <Compile Include="Migrations\201601311003508_AddOrder.Designer.cs">
       <DependentUpon>201601311003508_AddOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201602070925576_UserManagement.cs" />
+    <Compile Include="Migrations\201602070925576_UserManagement.Designer.cs">
+      <DependentUpon>201602070925576_UserManagement.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BranchViewModel.cs" />
@@ -385,6 +389,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201601311003508_AddOrder.resx">
       <DependentUpon>201601311003508_AddOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602070925576_UserManagement.resx">
+      <DependentUpon>201602070925576_UserManagement.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -35,7 +35,7 @@ namespace wm.Web2.Migrations
 
         }
 
-        protected void CreateUser(Model.wmContext context, RegisterViewModel model)
+        protected void CreateUser(Model.wmContext context, RegisterViewModel model, string systemRole)
         {
             var user = new Model.ApplicationUser { UserName = model.UserName, Email = model.Email };
             ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
@@ -46,14 +46,17 @@ namespace wm.Web2.Migrations
                 userManager.RemovePassword(existingUser.Id);
                 userManager.AddPassword(existingUser.Id, model.PlainPassword);
 
-                var existingEmployee = context.Employees.Where(s => s.Id == existingUser.Id).First();
+                userManager.AddToRole(existingUser.Id, systemRole);
 
+                var existingEmployee = context.Employees.Where(s => s.Id == existingUser.Id).First();
                 existingEmployee.PlainPassword = model.PlainPassword;
-                existingEmployee.Id = user.Id;
                 existingEmployee.UserName = user.UserName;
                 existingEmployee.Name = model.FullName;
                 existingEmployee.BranchId = model.BranchId;
                 existingEmployee.Role = model.Role;
+
+                context.Employees.AddOrUpdate(existingEmployee);
+                context.SaveChanges();
             }
             else
             {
@@ -61,11 +64,15 @@ namespace wm.Web2.Migrations
 
                 if (result.Succeeded)
                 {
+                    var IndatabaseUser = userManager.FindByName(user.UserName);
+
+                    userManager.AddToRole(IndatabaseUser.Id, systemRole);
+
                     var employee = new Employee
                     {
                         PlainPassword = model.PlainPassword, //when user change password, this will be reset
 
-                        Id = user.Id,
+                        Id = IndatabaseUser.Id,
                         UserName = user.UserName,
                         Name = model.FullName,
                         BranchId = model.BranchId,
@@ -92,8 +99,6 @@ namespace wm.Web2.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-
-
 
             context.Branches.AddOrUpdate(new Model.Branch { Id = 1, Name = "branch 1" });
             context.Branches.AddOrUpdate(new Model.Branch { Id = 2, Name = "branch 2" });
@@ -152,7 +157,9 @@ namespace wm.Web2.Migrations
             AddRoleIfNotExist(SystemRoles.Manager);
             AddRoleIfNotExist(SystemRoles.Staff);
 
-            CreateUser(context, new RegisterViewModel { UserName = "admin", Email = "tntuan0712494@gmail.com", FullName = "TNT", BranchId = 1, PlainPassword = "asdasd", Role = EmployeeRole.Admin });
+            CreateUser(context, new RegisterViewModel { UserName = "staff", Email = "tntuan0712494@gmail.com", FullName = "Staff name", BranchId = 1, PlainPassword = "asdasd", Role = EmployeeRole.Admin }, SystemRoles.Staff);
+            CreateUser(context, new RegisterViewModel { UserName = "admin", Email = "tntuan0712494@gmail.com", FullName = "TNT", BranchId = 1, PlainPassword = "asdasd", Role = EmployeeRole.Admin }, SystemRoles.Admin);
+            CreateUser(context, new RegisterViewModel { UserName = "TNT", Email = "tntuan0712494@gmail.com", FullName = "TNT", BranchId = 1, PlainPassword = "qwerty", Role = EmployeeRole.Admin }, SystemRoles.SuperUser);
             #endregion
 
         }
