@@ -4,6 +4,8 @@ namespace wm.Model
 {
     public enum EmployeeRole
     {
+        [Display(Name = "SuperUser")]
+        SuperUser = 999,
         [Display(Name = "StaffBranch")]
         StaffBranch = 0,
         [Display(Name = "Manager")]

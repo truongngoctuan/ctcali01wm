@@ -35,5 +35,10 @@ namespace wm.Service
         {
             return _repos.GetByApplicationUserId(Id);
         }
+
+        public override IEnumerable<Employee> GetAll(string include = "")
+        {
+            return _repos.Get((s => s.Role != EmployeeRole.SuperUser), null, include);
+        }
     }
 }

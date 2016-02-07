@@ -136,6 +136,12 @@ namespace wm.Web2.Controllers
                 {
                     switch(model.Role)
                     {
+                        case EmployeeRole.SuperUser:
+                            {//not allow to create superuser :D
+                                model.Role = EmployeeRole.Admin;
+                                UserManager.AddToRole(user.Id, SystemRoles.Admin);
+                                break;
+                            }
                         case EmployeeRole.Admin:
                             {
                                 UserManager.AddToRole(user.Id, SystemRoles.Admin);
