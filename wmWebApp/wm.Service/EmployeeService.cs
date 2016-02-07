@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using wm.Model;
@@ -12,6 +13,8 @@ namespace wm.Service
     {
         Employee GetById(int Id);
         Employee GetByApplicationId(string Id);
+        IEnumerable<Employee> ListDatatables(string SearchValue, string SortOrder, int Start, int Length, out int recordsTotal, out int recordsFiltered);
+
     }
 
     public class EmployeeService : EntityService<Employee>, IEmployeeService
@@ -40,5 +43,22 @@ namespace wm.Service
         {
             return _repos.Get((s => s.Role != EmployeeRole.SuperUser), null, include);
         }
+
+
+        public IEnumerable<Employee> ListDatatables(string SearchValue, string SortOrder, int Start, int Length, out int recordsTotal, out int recordsFiltered)
+        {
+            var SortOrderSplit = SortOrder.Split(' ');
+
+            var orderFunction = SortOrderSplit.Length == 2 ? _repos.GetOrderBy(SortOrderSplit[0], SortOrderSplit[1]) : _repos.GetOrderBy(SortOrderSplit[0]);
+
+            var resultTotal = _repos.Get(null, null, "", -1, -1);
+            var resulFiltered = _repos.Get(null, orderFunction, "", Start, Length);
+
+            recordsFiltered = resulFiltered.Count();
+            recordsTotal = resultTotal.Count();
+
+            return resulFiltered;
+        }
+
     }
 }

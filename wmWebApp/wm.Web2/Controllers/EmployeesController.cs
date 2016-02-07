@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using wm.Model;
 using wm.Service;
+using wm.Web2.Models;
 
 namespace wm.Web2.Controllers
 {
@@ -222,6 +223,45 @@ namespace wm.Web2.Controllers
 
 
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult List(DTParameters param)
+        {
+            try
+            {
+                int RecordsTotal = 0;
+                int RecordsFiltered = 0;
+
+                //get sorted/paginated
+                var resultSet = Service.ListDatatables(param.Search.Value, param.SortOrder, param.Start, param.Length, out RecordsTotal, out RecordsFiltered);
+
+                var resultViewModel = resultSet.Select(e => new EmployeeDatatablesListViewModel
+                {
+                    id = e.Id,
+                    Name = e.Name,
+                    BranchName = e.Branch.Name,
+                    RoleName = e.Role.ToString()
+                });
+
+                DTResult<EmployeeDatatablesListViewModel> DTResult = new DTResult<EmployeeDatatablesListViewModel>
+                {
+                    draw = param.Draw,
+                    data = resultViewModel.ToList(),
+                    recordsFiltered = RecordsFiltered,
+                    recordsTotal = RecordsTotal
+                };
+
+                return Json(DTResult);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    error = ex.Message
+                });
+            }
+
         }
     }
 }

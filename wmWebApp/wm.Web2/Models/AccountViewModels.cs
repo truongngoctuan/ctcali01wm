@@ -38,5 +38,13 @@ namespace wm.Web2.Models
         public int BranchId { get; set; }
         public EmployeeRole Role { get; set; }
     }
-    
+
+    public class EmployeeDatatablesListViewModel
+    {
+        public int id { get; set; }
+        public string Name { get; set; }
+        public string BranchName { get; set; }
+        public string RoleName { get; set; }
+    }
+
 }

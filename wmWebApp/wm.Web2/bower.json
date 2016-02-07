@@ -6,6 +6,7 @@
     "bootstrap": "3.3.6",
     "underscore": "1.8.3",
     "bootbox": "4.4.0",
-    "moment": "2.11.2"
+    "moment": "2.11.2",
+    "DataTables": "1.10.10"
   }
 }
