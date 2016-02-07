@@ -87,15 +87,6 @@ namespace wm.Repository
                 query = query.Where(filter);
             }
 
-            if (Start >= 0 )
-            {
-                query = query.Skip(Start);
-            }
-
-            if (Length > 0)
-            {
-                query = query.Take(Length);
-            }
 
             foreach (var includeProperty in includeProperties.Split
                 (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
@@ -103,14 +94,31 @@ namespace wm.Repository
                 query = query.Include(includeProperty);
             }
 
+            IOrderedQueryable<TEntity> orderedQuery = null;
             if (orderBy != null)
             {
-                return orderBy(query).AsEnumerable();
+                orderedQuery = orderBy(query);
             }
             else
             {
-                return query.AsEnumerable();
+                orderedQuery = query.OrderBy(s => 0);
             }
+
+
+            if (Start >= 0)
+            {
+                query = orderedQuery.Skip(Start);
+            }
+            else
+            {
+                query = orderedQuery.AsQueryable();
+            }
+
+            if (Length > 0)
+            {
+                query = query.Take(Length);
+            }
+            return query.AsEnumerable<TEntity>();
         }
 
         //http://stackoverflow.com/questions/16009694/dynamic-funciqueryabletentity-iorderedqueryabletentity-expression

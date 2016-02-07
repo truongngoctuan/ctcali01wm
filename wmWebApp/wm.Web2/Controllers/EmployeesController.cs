@@ -224,7 +224,7 @@ namespace wm.Web2.Controllers
 
             return RedirectToAction("Index");
         }
-
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult List(DTParameters param)
         {
@@ -234,7 +234,7 @@ namespace wm.Web2.Controllers
                 int RecordsFiltered = 0;
 
                 //get sorted/paginated
-                var resultSet = Service.ListDatatables(param.Search.Value, param.SortOrder, param.Start, param.Length, out RecordsTotal, out RecordsFiltered);
+                var resultSet = Service.ListDatatables(param.Search.Value, "Name", param.Start, param.Length, out RecordsTotal, out RecordsFiltered);
 
                 var resultViewModel = resultSet.Select(e => new EmployeeDatatablesListViewModel
                 {
