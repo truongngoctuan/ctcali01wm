@@ -61,6 +61,7 @@
     <Compile Include="Order.cs" />
     <Compile Include="OrderStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SystemRoles.cs" />
     <Compile Include="wmContext.cs" />
   </ItemGroup>
   <ItemGroup>
