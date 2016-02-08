@@ -70,8 +70,8 @@ namespace wm.Web2.Controllers
             var events = ordersInMonth.Select(s => new MonthlyEventItemViewModel
             {
                 id = s.Id,
-                title = (s.Priority == 0) ? "Do order" : "View order",
-                url = (s.Priority == 0) ? "" : "",
+                title = (s.Status == OrderStatus.Started) ? "Do order" : "View order",
+                url = (s.Status == OrderStatus.Started) ? Url.Action("StaffOrder", "Orders", new { id = s.Id}) : "",
                 classs = "event-important",
                 start = (Int64)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds,
                 end = (Int64)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds + 1

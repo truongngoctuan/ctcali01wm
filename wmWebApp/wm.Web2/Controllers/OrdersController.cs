@@ -80,6 +80,14 @@ namespace wm.Web2.Controllers
             return OkCode();
         }
 
+        [AllowAnonymous]
+        public ActionResult StaffConfirmOrder(int id)
+        {
+            Service.ChangeStatus(id, OrderStatus.StaffConfirmed);
+
+            return RedirectToAction("GeneralIndex", "Dashboard");
+        }
+
         #endregion
     }
 }

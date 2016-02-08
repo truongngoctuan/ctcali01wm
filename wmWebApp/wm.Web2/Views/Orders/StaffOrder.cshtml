@@ -11,25 +11,32 @@
 <div class="row">
     <h4>Update good categories</h4>
     <hr />
-    <div class="col-md-4 list-group">
-        @foreach (var item in Model)
-        {
-            <a href="@Url.Action("StaffOrder", "Orders", new { id = 1, GoodCategoryId = item.Id })"
-            class="list-group-item GoodCategoryItem"> @item.Name</a>
-        }
-    </div>
-    <div class="col-md-8">
-        <div class="form-group row col-md-12">
-            <div id="hsIncludeExclude" class=""></div>
+    <div class="row">
+        <div class="col-md-4 list-group">
+            @foreach (var item in Model)
+            {
+                <a href="@Url.Action("StaffOrder", "Orders", new { id = 1, GoodCategoryId = item.Id })"
+                   class="list-group-item GoodCategoryItem">@item.Name</a>
+            }
         </div>
-        <div class="form-group">
-            <div class="col-md-12">
-                <button name="save" id="save" class="btn btn-danger" onclick="saveIncludeExclude()">Save</button>
+        <div class="col-md-8">
+            <div class="form-group row col-md-12">
+                <div id="hsIncludeExclude" class=""></div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <button name="save" id="save" class="btn btn-danger" onclick="saveIncludeExclude()">Save</button>
+                </div>
             </div>
         </div>
+
     </div>
 
+    <div class="row">
+        <a href="@Url.Action("StaffConfirmOrder", "Orders", new { id = ViewBag.OrderId  })"
+           class="btn btn-danger btn-large col-md-4 col-xs-12">Confirm</a>
 
+    </div>
 </div>
 
 @*<div>

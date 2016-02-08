@@ -17,6 +17,8 @@ namespace wm.Service
 
         //for dashboard
         IEnumerable<Order> GetAllOrdersInMonth(DateTime monthIndicator, int branchId);
+
+        void ChangeStatus(int id, OrderStatus status);
     }
 
     public class OrderService : EntityIntKeyService<Order>, IOrderService
@@ -109,6 +111,13 @@ namespace wm.Service
                 }
             }
 
+        }
+
+        public void ChangeStatus(int id, OrderStatus status)
+        {
+            var order = _repos.GetById(id);
+            order.Status = status;
+            Update(order);
         }
 
 
