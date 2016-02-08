@@ -51,11 +51,14 @@ namespace wm.Service
 
             var orderFunction = SortOrderSplit.Length == 2 ? _repos.GetOrderBy(SortOrderSplit[0], SortOrderSplit[1]) : _repos.GetOrderBy(SortOrderSplit[0]);
 
-            var resultTotal = _repos.Get(null, null, "", -1, -1);
-            recordsTotal = resultTotal.Count();
+            recordsTotal = _repos.Get().Count();
+            recordsFiltered = _repos.Get((s => SearchValue == null
+            || s.Name.Contains(SearchValue)),
+                orderFunction).Count();
 
-            var resulFiltered = _repos.Get((s => SearchValue == null || s.Name.Contains(SearchValue)), orderFunction, "Branch,", Start, Length);
-            recordsFiltered = resulFiltered.Count();
+            var resulFiltered = _repos.Get((s => SearchValue == null
+            || s.Name.Contains(SearchValue)),
+                orderFunction, "Branch", Start, Length);
 
             return resulFiltered;
         }

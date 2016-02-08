@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using wm.Model;
 using wm.Service;
+using wm.Web2.Models;
 
 namespace wm.Web2.Controllers
 {
@@ -25,8 +26,7 @@ namespace wm.Web2.Controllers
         // GET: Goods
         public ActionResult Index()
         {
-            var goods = Service.GetAllInclude();
-            return View(goods.ToList());
+            return View();
         }
         
         // GET: Goods/Create
@@ -109,12 +109,46 @@ namespace wm.Web2.Controllers
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult List(DTParameters param)
         {
-            if (disposing)
+            try
             {
+                int RecordsTotal = 0;
+                int RecordsFiltered = 0;
+
+                string paramSortOrder = param.SortOrder;
+                paramSortOrder = paramSortOrder.Replace("UnitName", "Unit.Name");
+                //get sorted/paginated
+                var resultSet = Service.ListDatatables(param.Search.Value, paramSortOrder, param.Start, param.Length, out RecordsTotal, out RecordsFiltered);
+
+                var resultViewModel = resultSet.Select(e => new GoodDatatablesListViewModel
+                {
+                    id = e.Id,
+                    Name = e.Name,
+                    UnitName = e.Unit.Name,
+                    GoodType = e.GoodType.ToString()
+                });
+
+                DTResult<GoodDatatablesListViewModel> DTResult = new DTResult<GoodDatatablesListViewModel>
+                {
+                    draw = param.Draw,
+                    data = resultViewModel.ToList(),
+                    recordsFiltered = RecordsFiltered,
+                    recordsTotal = RecordsTotal
+                };
+
+                return Json(DTResult);
             }
-            base.Dispose(disposing);
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    error = ex.Message
+                });
+            }
+
         }
     }
 }

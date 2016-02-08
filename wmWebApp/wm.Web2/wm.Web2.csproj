@@ -260,6 +260,7 @@
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\DatatablesViewModel.cs" />
     <Compile Include="Models\GoodCateogryViewModel.cs" />
+    <Compile Include="Models\GoodViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
     <Compile Include="Modules\EFModule.cs" />
