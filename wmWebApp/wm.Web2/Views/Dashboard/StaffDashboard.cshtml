@@ -23,8 +23,9 @@
 
     <script>
         var calendar;
+        var calendar_events;
         $(document).ready(function () {
-            
+
             loadCalendar();
 
             //config button move pres or next for calendar
@@ -36,7 +37,7 @@
             });
         });
 
-        
+
         function loadCalendar() {
             calendar = $("#calendar").calendar(
             {
@@ -69,26 +70,41 @@
                         //});
 
                         $("#calendar .cal-month-day").dblclick(function () {
+                            var IsAllowToCreateOrder = true;
+
                             var clicked_date = $(this).find('span').attr('data-cal-date');
-
-                            bootbox.confirm("Do you want to create new order for day , branch ?", function (result) {
-                                if (result) {
-                                    //call a post to create an order
-                                    console.log("create new order");
-                                    //TODO: convert to datetime in asp.net
-                                    postHelper('@Url.Action("StaffCreateOrder", "Orders")',
-                                        {
-                                            employeeId : '@Model.Id',
-                                            branchId : @Model.BranchId,
-                                            orderDay : clicked_date
-                                        },
-                                        function (data, textStatus, XMLHttpRequest) {
-                                            calendar.view();
-                                        });
-
-
+                            console.log(clicked_date);
+                            for(var i = 0; i < calendar_events.length; i++) {
+                                var calendar_event_unix_date = calendar_events[i].start;
+                                var timestamp = moment.unix(calendar_event_unix_date / 1000);
+                                //console.log( timestamp.format("YYYY-MM-DD") );
+                                if (clicked_date == timestamp.format("YYYY-MM-DD")) {
+                                    IsAllowToCreateOrder = false;
                                 }
-                            });
+                            }
+
+                            if (IsAllowToCreateOrder) {
+                                bootbox.confirm("Do you want to create new order for day , branch ?", function (result) {
+                                    if (result) {
+                                        //call a post to create an order
+                                        console.log("create new order");
+                                        //TODO: convert to datetime in asp.net
+                                        postHelper('@Url.Action("StaffCreateOrder", "Orders")',
+                                            {
+                                                employeeId : '@Model.Id',
+                                                branchId : @Model.BranchId,
+                                                orderDay : clicked_date
+                                            },
+                                            function (data, textStatus, XMLHttpRequest) {
+                                                calendar.view();
+                                            });
+
+
+                                    }
+                                });
+                            }
+
+
                         });
                     }
                 },
@@ -111,6 +127,7 @@
                 async:false,
                 success: function (data, textStatus, XMLHttpRequest) {
                     var dataObject = data;
+                    calendar_events = data.result;
                     if (dataObject.success == 1) {
                         resultObject = dataObject.result;
 

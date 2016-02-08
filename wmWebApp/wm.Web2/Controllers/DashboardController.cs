@@ -72,7 +72,7 @@ namespace wm.Web2.Controllers
                 id = s.Id,
                 title = (s.Status == OrderStatus.Started) ? "Do order" : "View order",
                 url = (s.Status == OrderStatus.Started) ? Url.Action("StaffOrder", "Orders", new { id = s.Id}) : "",
-                classs = "event-important",
+                classs = (s.Status == OrderStatus.Started) ? "event-important" : "event-success",
                 start = (Int64)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds,
                 end = (Int64)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds + 1
             });
