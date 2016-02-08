@@ -233,8 +233,12 @@ namespace wm.Web2.Controllers
                 int RecordsTotal = 0;
                 int RecordsFiltered = 0;
 
+
+                string paramSortOrder = param.SortOrder;
+                paramSortOrder = paramSortOrder.Replace("BranchName", "Branch.Name");
+                paramSortOrder = paramSortOrder.Replace("RoleName", "Role");
                 //get sorted/paginated
-                var resultSet = Service.ListDatatables(param.Search.Value, "Name", param.Start, param.Length, out RecordsTotal, out RecordsFiltered);
+                var resultSet = Service.ListDatatables(param.Search.Value, paramSortOrder, param.Start, param.Length, out RecordsTotal, out RecordsFiltered);
 
                 var resultViewModel = resultSet.Select(e => new EmployeeDatatablesListViewModel
                 {

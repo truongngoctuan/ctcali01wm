@@ -54,7 +54,7 @@ namespace wm.Service
             var resultTotal = _repos.Get(null, null, "", -1, -1);
             recordsTotal = resultTotal.Count();
 
-            var resulFiltered = _repos.Get(null, null, "", Start, Length);
+            var resulFiltered = _repos.Get((s => SearchValue == null || s.Name.Contains(SearchValue)), orderFunction, "Branch,", Start, Length);
             recordsFiltered = resulFiltered.Count();
 
             return resulFiltered;
