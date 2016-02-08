@@ -343,7 +343,6 @@
     <Content Include="Views\GoodCategories\Index.cshtml" />
     <Content Include="Views\Goods\Create.cshtml" />
     <Content Include="Views\Goods\Delete.cshtml" />
-    <Content Include="Views\Goods\Details.cshtml" />
     <Content Include="Views\Goods\Edit.cshtml" />
     <Content Include="Views\Goods\Index.cshtml" />
     <Content Include="Views\GoodUnits\Create.cshtml" />

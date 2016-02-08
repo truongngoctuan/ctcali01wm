@@ -28,22 +28,7 @@ namespace wm.Web2.Controllers
             var goods = Service.GetAllInclude();
             return View(goods.ToList());
         }
-
-        // GET: Goods/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Good good = Service.GetById((int)id);
-            if (good == null)
-            {
-                return HttpNotFound();
-            }
-            return View(good);
-        }
-
+        
         // GET: Goods/Create
         public ActionResult Create()
         {
@@ -56,7 +41,7 @@ namespace wm.Web2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,NameASCII,UnitId")] Good good)
+        public ActionResult Create([Bind(Include = "Id,Name,NameASCII,UnitId,GoodType")] Good good)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +74,7 @@ namespace wm.Web2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,NameASCII,UnitId")] Good good)
+        public ActionResult Edit([Bind(Include = "Id,Name,NameASCII,UnitId,GoodType")] Good good)
         {
             if (ModelState.IsValid)
             {

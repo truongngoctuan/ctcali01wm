@@ -129,14 +129,24 @@ namespace wm.Web2.Migrations
             context.GoodUnits.AddOrUpdate(new Model.GoodUnit { Id = 3, Name = "unit 3" });
             context.SaveChanges();
 
-            context.Goods.AddOrUpdate(new Model.Good { Id = 1, Name = "good 1", UnitId = 1 });
-            context.Goods.AddOrUpdate(new Model.Good { Id = 2, Name = "good 2", UnitId = 2 });
-            context.Goods.AddOrUpdate(new Model.Good { Id = 3, Name = "good 3", UnitId = 1 });
-            context.Goods.AddOrUpdate(new Model.Good { Id = 4, Name = "good 4", UnitId = 3 });
-            context.Goods.AddOrUpdate(new Model.Good { Id = 5, Name = "good 5", UnitId = 1 });
-            context.Goods.AddOrUpdate(new Model.Good { Id = 6, Name = "good 6", UnitId = 1 });
-            context.Goods.AddOrUpdate(new Model.Good { Id = 7, Name = "good 7", UnitId = 2 });
-            context.Goods.AddOrUpdate(new Model.Good { Id = 8, Name = "good 8", UnitId = 2 });
+            context.Goods.AddOrUpdate(new Model.Good { Id = 1, Name = "good 1", UnitId = 1, GoodType = GoodType.Normal });
+            context.Goods.AddOrUpdate(new Model.Good { Id = 2, Name = "good 2", UnitId = 2, GoodType = GoodType.Normal });
+            context.Goods.AddOrUpdate(new Model.Good { Id = 3, Name = "good 3", UnitId = 1, GoodType = GoodType.Normal });
+            context.Goods.AddOrUpdate(new Model.Good { Id = 4, Name = "good 4", UnitId = 3, GoodType = GoodType.Normal });
+            context.Goods.AddOrUpdate(new Model.Good { Id = 5, Name = "good 5", UnitId = 1, GoodType = GoodType.Normal });
+            context.Goods.AddOrUpdate(new Model.Good { Id = 6, Name = "good 6", UnitId = 1, GoodType = GoodType.Normal });
+            context.Goods.AddOrUpdate(new Model.Good { Id = 7, Name = "good 7", UnitId = 2, GoodType = GoodType.Normal });
+            context.Goods.AddOrUpdate(new Model.Good { Id = 8, Name = "good 8", UnitId = 2, GoodType = GoodType.Normal });
+
+            context.Goods.AddOrUpdate(new Model.Good { Id = 9, Name = "raw 1", UnitId = 2, GoodType = GoodType.RawKitChenGood });
+            context.Goods.AddOrUpdate(new Model.Good { Id = 10, Name = "raw 2", UnitId = 2, GoodType = GoodType.RawKitChenGood });
+            context.Goods.AddOrUpdate(new Model.Good { Id = 11, Name = "raw 3", UnitId = 1, GoodType = GoodType.RawKitChenGood });
+            context.Goods.AddOrUpdate(new Model.Good { Id = 12, Name = "raw 4", UnitId = 3, GoodType = GoodType.RawKitChenGood });
+
+            context.Goods.AddOrUpdate(new Model.Good { Id = 13, Name = "KitChenGood 1", UnitId = 2, GoodType = GoodType.KitChenGood });
+            context.Goods.AddOrUpdate(new Model.Good { Id = 14, Name = "KitChenGood 2", UnitId = 3, GoodType = GoodType.KitChenGood });
+            context.Goods.AddOrUpdate(new Model.Good { Id = 15, Name = "KitChenGood 3", UnitId = 1, GoodType = GoodType.KitChenGood });
+            context.Goods.AddOrUpdate(new Model.Good { Id = 16, Name = "KitChenGood 4", UnitId = 2, GoodType = GoodType.KitChenGood });
             context.SaveChanges();
 
             context.GoodCategoryGoods.AddOrUpdate(new Model.GoodCategoryGood { GoodCategoryId = 1, GoodId = 1, Ranking = 0 });
