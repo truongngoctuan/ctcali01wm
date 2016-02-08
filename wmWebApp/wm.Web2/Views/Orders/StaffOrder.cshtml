@@ -14,7 +14,7 @@
     <div class="col-md-4 list-group">
         @foreach (var item in Model)
         {
-            <a href="@Url.Action("Index", "Orders", new { id = 1, GoodCategoryId = item.Id })"
+            <a href="@Url.Action("StaffOrder", "Orders", new { id = 1, GoodCategoryId = item.Id })"
             class="list-group-item GoodCategoryItem"> @item.Name</a>
         }
     </div>
@@ -32,9 +32,9 @@
 
 </div>
 
-<div>
+@*<div>
     @Html.ActionLink("Back to List", "Index")
-</div>
+</div>*@
 
 
 @section Scripts {
@@ -109,7 +109,7 @@
         });
 
         function loadIncludeExclude() {
-            ajaxPOSTRequest('@Url.Action("PopulateData")', {id : OrderId, GoodCategoryId: GoodCategoryId},
+            ajaxPOSTRequest('@Url.Action("StaffPopulateData")', {id : OrderId, GoodCategoryId: GoodCategoryId},
                 function (data, textStatus, XMLHttpRequest) {
                     console.log("client received: " + data);
 
@@ -122,7 +122,7 @@
         function saveIncludeExclude() {
             console.log("local data: " + JSON.stringify({ data: dataInput }));
 
-            ajaxPOSTRequest('@Url.Action("placingOrderBranch")',
+            ajaxPOSTRequest('@Url.Action("StaffPlaceOrder")',
                 { id: OrderId, data: dataInput },
                 function (data, textStatus, XMLHttpRequest) {
                     var dataObject = JSON.parse(data);
@@ -130,7 +130,7 @@
 
                     }
                     else {
-                        console.log("error IncludeExcludeNNData");
+                        console.log("error saveIncludeExclude");
                     }
                 });
         }

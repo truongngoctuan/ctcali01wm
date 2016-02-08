@@ -31,7 +31,7 @@ namespace wm.Web2.Controllers
             var userId = GetUserId();
             if (UserManager.IsInRole(userId, SystemRoles.Staff))
             {
-                return RedirectToAction("StaffIndex");
+                return RedirectToAction("StaffDashboard");
             }
             if (UserManager.IsInRole(userId, SystemRoles.Manager))
             {
@@ -53,7 +53,7 @@ namespace wm.Web2.Controllers
         }
 
         [Authorize]
-        public ActionResult StaffIndex()
+        public ActionResult StaffDashboard()
         {
             var userId = User.Identity.GetUserId();
             var employee = Service.GetByApplicationId(userId);
@@ -63,14 +63,15 @@ namespace wm.Web2.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult PopulateEvents(DateTime monthInfo, int branchId)
+        public ActionResult StaffPopulateEvents(DateTime monthInfo, int branchId)
         {
 
             var ordersInMonth = _orderService.GetAllOrdersInMonth(monthInfo, branchId);
             var events = ordersInMonth.Select(s => new MonthlyEventItemViewModel
             {
                 id = s.Id,
-                title = "un known title",
+                title = (s.Priority == 0) ? "Do order" : "View order",
+                url = (s.Priority == 0) ? "" : "",
                 classs = "event-important",
                 start = (Int64)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds,
                 end = (Int64)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds + 1

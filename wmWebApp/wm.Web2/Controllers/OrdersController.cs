@@ -21,8 +21,10 @@ namespace wm.Web2.Controllers
             _service = Service;
             _branchGoodCategoryService = BranchGoodCategoryService;
         }
+
+        #region StaffOrder
         // GET: Order
-        public ActionResult Index(int id, int? GoodCategoryId)
+        public ActionResult StaffOrder(int id, int? GoodCategoryId)
         {
             var inputModel = Service.GetById(id);
             var filteredGoodCategoryList = _branchGoodCategoryService
@@ -41,7 +43,7 @@ namespace wm.Web2.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult PopulateData(int id, int GoodCategoryId)//, PlacingOrderViewModel nnData)
+        public ActionResult StaffPopulateData(int id, int GoodCategoryId)//, PlacingOrderViewModel nnData)
         {
             var items = Service.PopulateData(id, GoodCategoryId);
             return Json(items);
@@ -51,7 +53,7 @@ namespace wm.Web2.Controllers
         //TODO: bulk update/delete/add EntityFramework.Extended
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult PlacingOrderBranch(int id, OrderViewModel inputViewModel)
+        public ActionResult StaffPlaceOrder(int id, OrderViewModel inputViewModel)
         {
             Service.placingOrder(id, inputViewModel.data);
 
@@ -63,7 +65,7 @@ namespace wm.Web2.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult CreateOrderByStaff(CreateOrderByStaffViewModel inputViewModel)
+        public ActionResult StaffCreateOrder(CreateOrderByStaffViewModel inputViewModel)
         {
             var model = new Order
             {
@@ -78,6 +80,6 @@ namespace wm.Web2.Controllers
             return OkCode();
         }
 
-
+        #endregion
     }
 }

@@ -76,7 +76,7 @@
                                     //call a post to create an order
                                     console.log("create new order");
                                     //TODO: convert to datetime in asp.net
-                                    postHelper('@Url.Action("CreateOrderByStaff", "Orders")',
+                                    postHelper('@Url.Action("StaffCreateOrder", "Orders")',
                                         {
                                             employeeId : '@Model.Id',
                                             branchId : @Model.BranchId,
@@ -105,7 +105,7 @@
 
             $.ajax({
                 method: "POST",
-                url: '@Url.Action("PopulateEvents", "Dashboard")',
+                url: '@Url.Action("StaffPopulateEvents", "Dashboard")',
                 dataType: "json",
                 data: {  monthInfo : moment(startDate).format("YYYY-MM-DD"), branchId : @Model.BranchId},
                 async:false,
