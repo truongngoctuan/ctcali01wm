@@ -151,21 +151,6 @@ namespace wm.Web2.Controllers
             return Json(new ReturnJsonObject<int> { status = ReturnStatus.ok.ToString(), data = 0 });
         }
 
-        // GET: Branches/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Branch branch = Service.GetById((int)id);
-            if (branch == null)
-            {
-                return HttpNotFound();
-            }
-            return View(branch);
-        }
-
         // GET: Branches/Create
         public ActionResult Create()
         {
