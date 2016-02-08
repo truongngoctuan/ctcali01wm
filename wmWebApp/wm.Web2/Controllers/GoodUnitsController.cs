@@ -7,17 +7,23 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using wm.Model;
+using wm.Service;
 
 namespace wm.Web2.Controllers
 {
-    public class GoodUnitsController : Controller
+    public class GoodUnitsController : BaseController
     {
-        private wmContext db = new wmContext();
-
+        IGoodUnitService _service;
+        IGoodUnitService Service { get { return _service; } }
+        public GoodUnitsController(ApplicationUserManager userManager, 
+            IGoodUnitService Service):base(userManager)
+        {
+            _service = Service;
+        }
         // GET: GoodUnits
         public ActionResult Index()
         {
-            return View(db.GoodUnits.ToList());
+            return View(Service.GetAll());
         }
 
         // GET: GoodUnits/Details/5
@@ -27,7 +33,7 @@ namespace wm.Web2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            GoodUnit goodUnit = db.GoodUnits.Find(id);
+            GoodUnit goodUnit = Service.GetById((int)id);
             if (goodUnit == null)
             {
                 return HttpNotFound();
@@ -50,8 +56,7 @@ namespace wm.Web2.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.GoodUnits.Add(goodUnit);
-                db.SaveChanges();
+                Service.Create(goodUnit);
                 return RedirectToAction("Index");
             }
 
@@ -65,7 +70,7 @@ namespace wm.Web2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            GoodUnit goodUnit = db.GoodUnits.Find(id);
+            GoodUnit goodUnit = Service.GetById((int)id);
             if (goodUnit == null)
             {
                 return HttpNotFound();
@@ -82,8 +87,7 @@ namespace wm.Web2.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(goodUnit).State = EntityState.Modified;
-                db.SaveChanges();
+                Service.Update(goodUnit);
                 return RedirectToAction("Index");
             }
             return View(goodUnit);
@@ -96,7 +100,7 @@ namespace wm.Web2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            GoodUnit goodUnit = db.GoodUnits.Find(id);
+            GoodUnit goodUnit = Service.GetById((int)id);
             if (goodUnit == null)
             {
                 return HttpNotFound();
@@ -109,19 +113,9 @@ namespace wm.Web2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            GoodUnit goodUnit = db.GoodUnits.Find(id);
-            db.GoodUnits.Remove(goodUnit);
-            db.SaveChanges();
+            GoodUnit goodUnit = Service.GetById((int)id);
+            Service.Delete(goodUnit);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }
