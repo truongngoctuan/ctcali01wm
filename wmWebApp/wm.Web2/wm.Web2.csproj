@@ -348,7 +348,6 @@
     <Content Include="Views\Goods\Index.cshtml" />
     <Content Include="Views\GoodUnits\Create.cshtml" />
     <Content Include="Views\GoodUnits\Delete.cshtml" />
-    <Content Include="Views\GoodUnits\Details.cshtml" />
     <Content Include="Views\GoodUnits\Edit.cshtml" />
     <Content Include="Views\GoodUnits\Index.cshtml" />
     <Content Include="Views\Orders\StaffOrder.cshtml" />
