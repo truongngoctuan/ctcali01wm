@@ -14,9 +14,20 @@ namespace wm.Model
         [MaxLength(100)]
         [Display(Name = "Branch Name")]
         public string Name { get; set; }
+        public BranchType BranchType { get; set; }
 
         public virtual ICollection<BranchGoodCategory> BranchGoodCategories { get; set; }
         public virtual ICollection<Employee> Employees { get; set; }
+    }
+
+    public enum BranchType
+    {
+        [Display(Name = "Normal")]
+        Normal = 0,
+        [Display(Name = "Main Kitchen")]
+        MainKitchen = 1,
+        [Display(Name = "Main Warehouse")]
+        MainWarehouse = 2,
     }
 
     public class BranchGoodCategory : BaseEntity

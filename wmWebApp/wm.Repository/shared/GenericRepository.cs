@@ -25,6 +25,11 @@ namespace wm.Repository
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             string includeProperties = "",
             int Start = -1, int Length = -1);
+        IEnumerable<TEntity> GetAsNoTracking(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "",
+            int Start = -1, int Length = -1);
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> GetOrderBy(string orderColumn, string orderType = "asc");
 
     }
@@ -74,13 +79,13 @@ namespace wm.Repository
             _entities.SaveChanges();
         }
 
-        public virtual IEnumerable<TEntity> Get(
+        private IEnumerable<TEntity> GetWithSource(IQueryable<TEntity> source,
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             string includeProperties = "",
             int Start = -1, int Length = -1)
         {
-            IQueryable<TEntity> query = _dbset;
+            IQueryable<TEntity> query = source;
 
             if (filter != null)
             {
@@ -119,6 +124,25 @@ namespace wm.Repository
                 query = query.Take(Length);
             }
             return query.AsEnumerable<TEntity>();
+        }
+
+
+        public virtual IEnumerable<TEntity> Get(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "",
+            int Start = -1, int Length = -1)
+        {
+            return this.GetWithSource(_dbset, filter, orderBy, includeProperties, Start, Length);
+        }
+
+        public virtual IEnumerable<TEntity> GetAsNoTracking(
+    Expression<Func<TEntity, bool>> filter = null,
+    Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+    string includeProperties = "",
+    int Start = -1, int Length = -1)
+        {
+            return this.GetWithSource(_dbset.AsNoTracking(), filter, orderBy, includeProperties, Start, Length);
         }
 
         //http://stackoverflow.com/questions/16009694/dynamic-funciqueryabletentity-iorderedqueryabletentity-expression

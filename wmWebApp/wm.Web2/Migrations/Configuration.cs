@@ -104,11 +104,11 @@ namespace wm.Web2.Migrations
             //    );
             //
 
-            context.Branches.AddOrUpdate(new Model.Branch { Id = 1, Name = "branch 1" });
-            context.Branches.AddOrUpdate(new Model.Branch { Id = 2, Name = "branch 2" });
-            context.Branches.AddOrUpdate(new Model.Branch { Id = 3, Name = "branch 3" });
-            context.Branches.AddOrUpdate(new Model.Branch { Id = 4, Name = "branch 4" });
-            context.Branches.AddOrUpdate(new Model.Branch { Id = 5, Name = "branch 5" });
+            context.Branches.AddOrUpdate(new Model.Branch { Id = 1, Name = "branch 1", BranchType = BranchType.Normal });
+            context.Branches.AddOrUpdate(new Model.Branch { Id = 2, Name = "branch 2", BranchType = BranchType.Normal });
+            context.Branches.AddOrUpdate(new Model.Branch { Id = 3, Name = "branch 3", BranchType = BranchType.Normal });
+            context.Branches.AddOrUpdate(new Model.Branch { Id = 4, Name = "kitchen", BranchType = BranchType.MainKitchen });
+            context.Branches.AddOrUpdate(new Model.Branch { Id = 5, Name = "warehouse", BranchType = BranchType.MainWarehouse });
 
             context.GoodCategories.AddOrUpdate(new Model.GoodCategory { Id = 1, Name = "category 1" });
             context.GoodCategories.AddOrUpdate(new Model.GoodCategory { Id = 2, Name = "category 2" });

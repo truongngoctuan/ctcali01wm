@@ -177,11 +177,17 @@ namespace wm.Web2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name")] Branch branch)
+        public ActionResult Create([Bind(Include = "Id,Name,BranchType")] Branch branch)
         {
             if (ModelState.IsValid)
             {
-                Service.Create(branch);
+                var result = Service.Create(branch);
+                if (!result.IsSucceed)
+                {
+                    ModelState.AddModelError(string.Empty, result.Messages.ElementAt(0));
+                    return View(branch);
+                }
+                
                 return RedirectToAction("Index");
             }
 
@@ -210,11 +216,18 @@ namespace wm.Web2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name")] Branch branch)
+        public ActionResult Edit([Bind(Include = "Id,Name,BranchType")] Branch branch)
         {
             if (ModelState.IsValid)
             {
-                Service.Update(branch);
+                var result = Service.Update(branch);
+                if (!result.IsSucceed)
+                {
+                    ModelState.AddModelError(string.Empty, result.Messages.ElementAt(0));
+                    return View(branch);
+                }
+
+                
                 return RedirectToAction("Index");
             }
             return View(branch);

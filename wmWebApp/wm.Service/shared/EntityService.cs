@@ -19,7 +19,7 @@ namespace wm.Service
         void Delete(T entity);
         IEnumerable<T> GetAll(string include = "");
         //Employee GetById(int Id, string include = "");
-        void Update(T entity);
+        ServiceReturn Update(T entity);
     }
 
     public abstract class EntityService<T> : IEntityService<T> where T : BaseEntity
@@ -43,11 +43,13 @@ namespace wm.Service
             _unitOfWork.Commit();
         }
 
-        public virtual void Update(T entity)
+        public virtual ServiceReturn Update(T entity)
         {
             if (entity == null) throw new ArgumentNullException("entity");
             _repository.Edit(entity);
             _unitOfWork.Commit();
+
+            return ServiceReturn.Ok;
         }
 
         public virtual void Delete(T entity)
@@ -67,11 +69,11 @@ namespace wm.Service
     public interface IEntityIntKeyService<T> : IService
     where T : Entity<int>
     {
-        void Create(T entity);
+        ServiceReturn Create(T entity);
         void Delete(T entity);
         IEnumerable<T> GetAll(string include = "");
         //Employee GetById(int Id, string include = "");
-        void Update(T entity);
+        ServiceReturn Update(T entity);
         T GetById(int id, string include = "");
     }
 
@@ -86,7 +88,7 @@ namespace wm.Service
             _repository = repository;
         }
 
-        public virtual void Create(T entity)
+        public virtual ServiceReturn Create(T entity)
         {
             if (entity == null)
             {
@@ -94,13 +96,16 @@ namespace wm.Service
             }
             _repository.Add(entity);
             _unitOfWork.Commit();
+            return ServiceReturn.Ok;
         }
 
-        public virtual void Update(T entity)
+        public virtual ServiceReturn Update(T entity)
         {
             if (entity == null) throw new ArgumentNullException("entity");
             _repository.Edit(entity);
             _unitOfWork.Commit();
+
+            return ServiceReturn.Ok;
         }
 
         public virtual void Delete(T entity)
