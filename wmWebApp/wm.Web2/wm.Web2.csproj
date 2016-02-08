@@ -335,12 +335,10 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Branches\Create.cshtml" />
     <Content Include="Views\Branches\Delete.cshtml" />
-    <Content Include="Views\Branches\Details.cshtml" />
     <Content Include="Views\Branches\Edit.cshtml" />
     <Content Include="Views\Branches\Index.cshtml" />
     <Content Include="Views\GoodCategories\Create.cshtml" />
     <Content Include="Views\GoodCategories\Delete.cshtml" />
-    <Content Include="Views\GoodCategories\Details.cshtml" />
     <Content Include="Views\GoodCategories\Edit.cshtml" />
     <Content Include="Views\GoodCategories\Index.cshtml" />
     <Content Include="Views\Goods\Create.cshtml" />

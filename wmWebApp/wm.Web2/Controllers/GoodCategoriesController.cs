@@ -33,22 +33,7 @@ namespace wm.Web2.Controllers
         {
             return View(Service.GetAll());
         }
-
-        // GET: GoodCategories/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            GoodCategory goodCategory = Service.GetById((int)id);
-            if (goodCategory == null)
-            {
-                return HttpNotFound();
-            }
-            return View(goodCategory);
-        }
-
+        
         // GET: GoodCategories/Create
         public ActionResult Create()
         {
