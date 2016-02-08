@@ -21,9 +21,10 @@ namespace wm.Web2.Controllers
         IBranchService Service { get { return _service; } }
         IGoodCategoryService _goodCategoryService;
         IBranchGoodCategoryService _branchGoodCategoryService;
-        public BranchesController(IBranchService Service, 
+        public BranchesController(ApplicationUserManager userManager, 
+            IBranchService Service, 
             IGoodCategoryService GoodCategoryService,
-            IBranchGoodCategoryService BranchGoodCategoryService)
+            IBranchGoodCategoryService BranchGoodCategoryService): base(userManager)
         {
             _service = Service;
             _goodCategoryService = GoodCategoryService;

@@ -21,25 +21,11 @@ namespace wm.Web2.Controllers
 
         IBranchService _branchService;
 
-        private ApplicationUserManager _userManager;
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
-
-        public EmployeesController(IEmployeeService Service, IBranchService BranchService,
-            ApplicationUserManager userManager)
+        public EmployeesController(ApplicationUserManager userManager,
+            IEmployeeService Service, IBranchService BranchService) : base(userManager)
         {
             _service = Service;
             _branchService = BranchService;
-            _userManager = userManager;
         }
 
         // GET: Employees

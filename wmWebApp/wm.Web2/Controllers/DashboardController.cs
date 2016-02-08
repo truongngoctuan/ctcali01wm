@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using wm.Model;
 using wm.Service;
 using wm.Web2.Models;
 
@@ -17,7 +18,8 @@ namespace wm.Web2.Controllers
 
         IOrderService _orderService;
 
-        public DashboardController(IEmployeeService Service, IOrderService OrderService)
+        public DashboardController(ApplicationUserManager userManager, 
+            IEmployeeService Service, IOrderService OrderService) : base(userManager)
         {
             _service = Service;
             _orderService = OrderService;
@@ -26,6 +28,27 @@ namespace wm.Web2.Controllers
         [Authorize]
         public ActionResult GeneralIndex()
         {
+            var userId = GetUserId();
+            if (UserManager.IsInRole(userId, SystemRoles.Staff))
+            {
+                return RedirectToAction("StaffIndex");
+            }
+            if (UserManager.IsInRole(userId, SystemRoles.Manager))
+            {
+                return RedirectToAction("BranchManagerIndex");
+            }
+            if (UserManager.IsInRole(userId, SystemRoles.WarehouseKeeper))
+            {
+                return RedirectToAction("WhKeeperIndex");
+            }
+            if (UserManager.IsInRole(userId, SystemRoles.Admin))
+            {
+                return RedirectToAction("AdminIndex");
+            }
+            if (UserManager.IsInRole(userId, SystemRoles.SuperUser))
+            {
+                return RedirectToAction("AdminIndex");
+            }
             return View();
         }
 
@@ -76,7 +99,7 @@ namespace wm.Web2.Controllers
             return View();
         }
         [Authorize]
-        public ActionResult StockIndex()
+        public ActionResult WhKeeperIndex()
         {
             return View();
         }

@@ -14,8 +14,9 @@ namespace wm.Web2.Controllers
         IOrderService _service;
         IOrderService Service { get { return _service; } }
         IBranchGoodCategoryService _branchGoodCategoryService;
-        public OrdersController(IOrderService Service, 
-            IBranchGoodCategoryService BranchGoodCategoryService)
+        public OrdersController(ApplicationUserManager userManager, 
+            IOrderService Service, 
+            IBranchGoodCategoryService BranchGoodCategoryService): base(userManager)
         {
             _service = Service;
             _branchGoodCategoryService = BranchGoodCategoryService;

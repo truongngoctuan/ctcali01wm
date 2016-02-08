@@ -18,9 +18,10 @@ namespace wm.Web2.Controllers
         IGoodCategoryService Service { get { return _service; } }
         IGoodService _goodService;
         IGoodCategoryGoodService _goodCategoryGoodService;
-        public GoodCategoriesController(IGoodCategoryService Service,
+        public GoodCategoriesController(ApplicationUserManager userManager, 
+            IGoodCategoryService Service,
             IGoodService GoodService,
-            IGoodCategoryGoodService GoodCategoryGoodService)
+            IGoodCategoryGoodService GoodCategoryGoodService): base(userManager)
         {
             _service = Service;
             _goodService = GoodService;

@@ -19,7 +19,6 @@ namespace wm.Web2.Controllers
     public class AccountController : BaseController
     {
         private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
 
         IEmployeeService _service;
         IBranchService _branchService;
@@ -27,9 +26,8 @@ namespace wm.Web2.Controllers
 
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager,
-            IEmployeeService Service, IBranchService BranchService)
+            IEmployeeService Service, IBranchService BranchService) : base(userManager)
         {
-            UserManager = userManager;
             SignInManager = signInManager;
             _service = Service;
             _branchService = BranchService;
@@ -46,19 +44,7 @@ namespace wm.Web2.Controllers
                 _signInManager = value; 
             }
         }
-
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
-
+        
         //
         // GET: /Account/Login
         [AllowAnonymous]

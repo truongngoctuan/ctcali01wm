@@ -16,8 +16,8 @@ namespace wm.Web2.Controllers
         IGoodService _service;
         IGoodService Service { get { return _service; } }
         IGoodUnitService _goodUnitService;
-        public GoodsController(IGoodService Service,
-            IGoodUnitService GoodUnitService)
+        public GoodsController(ApplicationUserManager userManager, IGoodService Service,
+            IGoodUnitService GoodUnitService):base(userManager)
         {
             _service = Service;
             _goodUnitService = GoodUnitService;
