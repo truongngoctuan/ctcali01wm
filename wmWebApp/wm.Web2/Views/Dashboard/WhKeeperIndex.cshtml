@@ -1,0 +1,110 @@
+﻿
+@{
+    ViewBag.Title = "WhKeeperIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>WhKeeperIndex</h2>
+
+
+<div class="page-header2 row">
+    <div class="col-md-6"> <h3></h3></div>
+
+    <div class="pull-right form-inline col-md-6">
+        <div class="btn-group">
+            <button class="btn btn-primary" data-calendar-nav="prev"><< Prev</button>
+            <button class="btn" data-calendar-nav="today">Today</button>
+            <button class="btn btn-primary" data-calendar-nav="next">Next >></button>
+        </div>
+    </div>
+
+</div>
+
+<div id="calendar" class="row"></div>
+@section Scripts {
+
+    <script>
+        var calendar;
+        var calendar_events;
+        $(document).ready(function () {
+
+            loadCalendar();
+
+            //config button move pres or next for calendar
+            $('.btn-group button[data-calendar-nav]').each(function () {
+                var $this = $(this);
+                $this.click(function () {
+                    calendar.navigate($this.data('calendar-nav'));
+                });
+            });
+        });
+
+
+        function loadCalendar() {
+            calendar = $("#calendar").calendar(
+            {
+                tmpl_path: "../Content/ExceptionLib/bootstrap-calendar/tmpls/",
+                day: '2016-02-06',//yyyy-MM-dd
+                view: 'month',
+                views: {
+                    year:  {
+                        enable: 0
+                    },
+                    month:  {
+                        enable: 1
+                    },
+                    week:  {
+                        enable: 0
+                    },
+                    day:   {
+                        enable: 0 //disabled
+                    }
+                },
+                events_source: events_source_function,
+                onAfterViewLoad: function (view) {
+                    $('.page-header2 div h3').text(this.getTitle());
+
+                    if (view == "month") {
+                        
+                    }
+                },
+
+            });
+        }//end of loadCalendar
+
+        function events_source_function( start, end) {
+            var startDate = start;
+            var endDate = end;
+
+            console.log(moment(start).toASP());
+            var resultObject = [];
+
+            $.ajax({
+                method: "POST",
+                url: '@Url.Action("WhKeeperPopulateEvents", "Dashboard")',
+                dataType: "json",
+                data: {  monthInfo : moment(startDate).format("YYYY-MM-DD"), branchId : @Model.BranchId},
+                async:false,
+                success: function (data, textStatus, XMLHttpRequest) {
+                    var dataObject = data;
+                    calendar_events = data.result;
+                    if (dataObject.success == 1) {
+                        resultObject = dataObject.result;
+
+                        //modify return object
+                        for(var i = 0; i < resultObject.length; i++) {
+                            resultObject[i].class = resultObject[i].classs;
+                        }
+
+                        console.log("return resultObject" + resultObject.length);
+
+                    }
+                },
+
+            });
+
+            return resultObject;
+        }//end of events_source_function
+
+    </script>
+}

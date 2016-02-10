@@ -76,16 +76,10 @@ namespace wm.Web2.Controllers
             IEnumerable<CalendarEventItem> events = _calendarEventService.PopulateEvents(EmployeeRole.StaffBranch, monthInfo, branchId);
 
             var eventsResult = _mapper.Map<IEnumerable<CalendarEventItemViewModel>>(events);
-
-            //var eventsResult = events.Select(s => new CalendarEventItemViewModel
-            //{
-            //    id = s.id,
-            //    title = s.title,
-            //    url = Url.Action("StaffOrder", "Orders", new { id = s.id }),
-            //    classs = s.classs,
-            //    start = s.start,
-            //    end = s.end
-            //});
+            foreach(var item in eventsResult)
+            {
+                item.url = Url.Action("StaffOrder", "Orders", new { id = item.id });
+            }
 
             var result = new MonthlyEventsViewModel
             {
@@ -101,7 +95,7 @@ namespace wm.Web2.Controllers
         [Authorize]
         public ActionResult AdminIndex()
         {
-            return View();
+            return RedirectToAction("WhKeeperIndex");
         }
         [Authorize]
         public ActionResult BranchManagerIndex()
@@ -111,9 +105,34 @@ namespace wm.Web2.Controllers
         [Authorize]
         public ActionResult WhKeeperIndex()
         {
-            return View();
+            var userId = User.Identity.GetUserId();
+            var employee = Service.GetByApplicationId(userId);
+
+            return View(employee);
         }
 
-        
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult WhKeeperPopulateEvents(DateTime monthInfo, int branchId)
+        {
+            IEnumerable<CalendarEventItem> events = _calendarEventService.PopulateEvents(EmployeeRole.WarehouseKeeper, monthInfo, branchId);
+
+            var eventsResult = _mapper.Map<IEnumerable<CalendarEventItemViewModel>>(events);
+            foreach (var item in eventsResult)
+            {
+                item.url = Url.Action("StaffOrder", "Orders", new { id = item.id });
+            }
+
+            var result = new MonthlyEventsViewModel
+            {
+                success = 1,
+                result = eventsResult
+            };
+
+            return Json(result);
+        }
+
+
+
     }
 }

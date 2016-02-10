@@ -14,9 +14,11 @@ namespace wm.Service.CalendarEvent
     public class CalendarEventService : ICalendarEventService
     {
         IOrderService _orderService;
-        public CalendarEventService(IOrderService OrderService)
+        IBranchService _branchService;
+        public CalendarEventService(IOrderService OrderService, IBranchService BranchService)
         {
             _orderService = OrderService;
+            _branchService = BranchService;
         }
 
         private IEventCalendarStrategyBase GetAssociateStrategy(EmployeeRole role, int branchId)
@@ -33,15 +35,15 @@ namespace wm.Service.CalendarEvent
                     }
                 case EmployeeRole.WarehouseKeeper:
                     {
-                        return new WarehouseKeeperEventCalendarStrategy(_orderService);
+                        return new WarehouseKeeperEventCalendarStrategy(_orderService, _branchService);
                     }
                 case EmployeeRole.Admin:
                     {
-                        return new WarehouseKeeperEventCalendarStrategy(_orderService);
+                        return new WarehouseKeeperEventCalendarStrategy(_orderService, _branchService);
                     }
                 case EmployeeRole.SuperUser:
                     {
-                        return new WarehouseKeeperEventCalendarStrategy(_orderService);
+                        return new WarehouseKeeperEventCalendarStrategy(_orderService, _branchService);
                     }
             }
             return new StaffEventCalendarStrategy(_orderService, branchId);

@@ -5,6 +5,7 @@
         Started,
         StaffConfirmed,
         ManagerConfirmed,
-        Finished
+        Finished,
+        NotStarted
     }
 }
