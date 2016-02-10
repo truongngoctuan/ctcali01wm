@@ -2,7 +2,7 @@
 
 namespace wm.Service.CalendarEvent
 {
-    public class EventCalendarItem
+    public class CalendarEventItem
     {
         public int id { get; set; }
         public string title { get; set; }

@@ -9,7 +9,7 @@ namespace wm.Service.CalendarEvent
 {
     public interface ICalendarEventService
     {
-        IEnumerable<EventCalendarItem> PopulateEvents(EmployeeRole role, DateTime monthInfo, int branchId);
+        IEnumerable<CalendarEventItem> PopulateEvents(EmployeeRole role, DateTime monthInfo, int branchId);
     }
     public class CalendarEventService : ICalendarEventService
     {
@@ -46,7 +46,7 @@ namespace wm.Service.CalendarEvent
             }
             return new StaffEventCalendarStrategy(_orderService, branchId);
         }
-        public IEnumerable<EventCalendarItem> PopulateEvents(EmployeeRole role, DateTime monthInfo, int branchId)
+        public IEnumerable<CalendarEventItem> PopulateEvents(EmployeeRole role, DateTime monthInfo, int branchId)
         {
             var eventStrategy = this.GetAssociateStrategy(role, branchId);
 

@@ -9,6 +9,6 @@ namespace wm.Service.CalendarEvent
     abstract class IEventCalendarStrategyBase
     {
         protected IOrderService _orderService;
-        public abstract IEnumerable<EventCalendarItem> PopulateEvents(DateTime monthInfo);
+        public abstract IEnumerable<CalendarEventItem> PopulateEvents(DateTime monthInfo);
     }
 }

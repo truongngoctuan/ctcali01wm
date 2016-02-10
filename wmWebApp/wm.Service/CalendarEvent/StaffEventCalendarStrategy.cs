@@ -17,10 +17,10 @@ namespace wm.Service.CalendarEvent
             _orderService = OrderService;
             _branchId = branchId;
         }
-        public override IEnumerable<EventCalendarItem> PopulateEvents(DateTime monthInfo)
+        public override IEnumerable<CalendarEventItem> PopulateEvents(DateTime monthInfo)
         {
             var ordersInMonth = _orderService.GetAllOrdersInMonth(monthInfo, _branchId);
-            var events = ordersInMonth.Select(s => new EventCalendarItem
+            var events = ordersInMonth.Select(s => new CalendarEventItem
             {
                 id = s.Id,
                 title = (s.Status == OrderStatus.Started) ? "Do order" : "View order",

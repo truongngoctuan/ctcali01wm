@@ -1,13 +1,17 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
+using AutoMapper;
+using AutoMapper.Mappers;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.DataProtection;
 using Owin;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using wm.Model;
+using wm.Web2.App_Start;
 using wm.Web2.Models;
 using wm.Web2.Modules;
 
@@ -37,6 +41,26 @@ namespace wm.Web2
             builder.RegisterModule(new RepositoryModule());
             builder.RegisterModule(new ServiceModule());
             builder.RegisterModule(new EFModule());
+
+            //automapper
+            //current automapper is 4.1.1, 4.2.0 change configuration
+            //http://stackoverflow.com/questions/31321148/exception-when-i-try-to-combine-autofac-with-automappers-imappingengine
+            //http://www.paraesthesia.com/archive/2014/03/25/automapper-autofac-web-api-and-per-request-dependency-lifetime-scopes.aspx/
+
+            builder.RegisterType<AutoMapperWebProfiler>().As<Profile>();
+
+            builder.Register(ctx => new ConfigurationStore(new TypeMapFactory(), MapperRegistry.Mappers))
+                .AsImplementedInterfaces()
+                .SingleInstance()
+                .OnActivating(x =>
+                {
+                    foreach (var profile in x.Context.Resolve<IEnumerable<Profile>>())
+                    {
+                        x.Instance.AddProfile(profile);
+                    }
+                });
+
+            builder.RegisterType<MappingEngine>().As<IMappingEngine>();
 
             var container = builder.Build();
 

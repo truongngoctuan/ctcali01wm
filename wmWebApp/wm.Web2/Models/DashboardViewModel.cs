@@ -5,7 +5,7 @@ using System.Web;
 
 namespace wm.Web2.Models
 {
-    public class MonthlyEventItemViewModel
+    public class CalendarEventItemViewModel
     {
         public int id { get; set; }
         public string title { get; set; }
@@ -19,6 +19,6 @@ namespace wm.Web2.Models
     public class MonthlyEventsViewModel
     {
         public int success { get; set; }
-        public IEnumerable<MonthlyEventItemViewModel> result { get; set; }
+        public IEnumerable<CalendarEventItemViewModel> result { get; set; }
     }
 }

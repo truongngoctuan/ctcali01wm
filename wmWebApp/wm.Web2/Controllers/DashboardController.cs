@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,14 +20,17 @@ namespace wm.Web2.Controllers
 
         IOrderService _orderService;
         ICalendarEventService _calendarEventService;
+        private readonly IMappingEngine _mapper;
 
         public DashboardController(ApplicationUserManager userManager,
             ICalendarEventService CalendarEventService,
-        IEmployeeService Service, IOrderService OrderService) : base(userManager)
+        IEmployeeService Service, IOrderService OrderService,
+        IMappingEngine mapper) : base(userManager)
         {
             _service = Service;
             _orderService = OrderService;
             _calendarEventService = CalendarEventService;
+            _mapper = mapper;
         }
 
         [Authorize]
@@ -69,17 +73,19 @@ namespace wm.Web2.Controllers
         [AllowAnonymous]
         public ActionResult StaffPopulateEvents(DateTime monthInfo, int branchId)
         {
-            var events = _calendarEventService.PopulateEvents(EmployeeRole.StaffBranch, monthInfo, branchId);
+            IEnumerable<CalendarEventItem> events = _calendarEventService.PopulateEvents(EmployeeRole.StaffBranch, monthInfo, branchId);
 
-            var eventsResult = events.Select(s => new MonthlyEventItemViewModel
-            {
-                id = s.id,
-                title = s.title,
-                url = Url.Action("StaffOrder", "Orders", new { id = s.id }),
-                classs = s.classs,
-                start = s.start,
-                end = s.end
-            });
+            var eventsResult = _mapper.Map<IEnumerable<CalendarEventItemViewModel>>(events);
+
+            //var eventsResult = events.Select(s => new CalendarEventItemViewModel
+            //{
+            //    id = s.id,
+            //    title = s.title,
+            //    url = Url.Action("StaffOrder", "Orders", new { id = s.id }),
+            //    classs = s.classs,
+            //    start = s.start,
+            //    end = s.end
+            //});
 
             var result = new MonthlyEventsViewModel
             {

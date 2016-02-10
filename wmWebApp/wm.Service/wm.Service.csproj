@@ -73,6 +73,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Start\" />
     <Folder Include="BranchBehavior\" />
     <Folder Include="OrderBehavior\" />
   </ItemGroup>

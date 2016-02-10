@@ -12,7 +12,7 @@ namespace wm.Service.CalendarEvent
         {
             _orderService = OrderService;
         }
-        public override IEnumerable<EventCalendarItem> PopulateEvents(DateTime monthInfo)
+        public override IEnumerable<CalendarEventItem> PopulateEvents(DateTime monthInfo)
         {
             throw new NotImplementedException();
         }
