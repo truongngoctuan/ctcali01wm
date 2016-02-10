@@ -42,7 +42,14 @@
   <ItemGroup>
     <Compile Include="BranchGoodCategoryService.cs" />
     <Compile Include="BranchService.cs" />
+    <Compile Include="CalendarEvent\EventColorStatus.cs" />
+    <Compile Include="CalendarEvent\IEventCalendarStrategyBase.cs" />
+    <Compile Include="CalendarEvent\ManagerEventCalendarStrategy.cs" />
+    <Compile Include="CalendarEvent\StaffEventCalendarStrategy.cs" />
+    <Compile Include="CalendarEvent\WarehouseKeeperEventCalendarStrategy.cs" />
     <Compile Include="EmployeeService.cs" />
+    <Compile Include="CalendarEvent\EventCalendarItem.cs" />
+    <Compile Include="CalendarEvent\CalendarEventService.cs" />
     <Compile Include="GoodCategoryGoodService.cs" />
     <Compile Include="GoodCategoryService.cs" />
     <Compile Include="GoodService.cs" />

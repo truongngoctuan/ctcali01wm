@@ -16,7 +16,7 @@ namespace wm.Service
         void placingOrder(int orderId, IEnumerable<OrderBranchItem> items);
 
         //for dashboard
-        IEnumerable<Order> GetAllOrdersInMonth(DateTime monthIndicator, int branchId);
+        IEnumerable<Order> GetAllOrdersInMonth(DateTime monthIndicator, int branchId = 0);
 
         void ChangeStatus(int id, OrderStatus status);
     }
@@ -122,7 +122,7 @@ namespace wm.Service
 
 
         #region dashboard
-        public IEnumerable<Order> GetAllOrdersInMonth(DateTime monthIndicator, int branchId)
+        public IEnumerable<Order> GetAllOrdersInMonth(DateTime monthIndicator, int branchId = 0)
         {
             DateTime startOfMonth = new DateTime(monthIndicator.Year,
                                                monthIndicator.Month,
@@ -131,7 +131,10 @@ namespace wm.Service
                                                monthIndicator.Month,
                                                DateTime.DaysInMonth(monthIndicator.Year,
                                                                     monthIndicator.Month));
-
+            if (branchId == 0)
+            {
+                return _repos.Get((s => startOfMonth <= s.OrderDay && s.OrderDay <= endOfMonth), null, "");
+            }
             return _repos.Get((s => startOfMonth <= s.OrderDay && s.OrderDay <= endOfMonth && s.BranchId == branchId), null, "");
         }
         #endregion

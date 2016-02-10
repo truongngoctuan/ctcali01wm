@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using wm.Model;
 using wm.Service;
+using wm.Service.CalendarEvent;
 using wm.Web2.Models;
 
 namespace wm.Web2.Controllers
@@ -17,12 +18,15 @@ namespace wm.Web2.Controllers
         IEmployeeService Service { get { return _service; } }
 
         IOrderService _orderService;
+        ICalendarEventService _calendarEventService;
 
-        public DashboardController(ApplicationUserManager userManager, 
-            IEmployeeService Service, IOrderService OrderService) : base(userManager)
+        public DashboardController(ApplicationUserManager userManager,
+            ICalendarEventService CalendarEventService,
+        IEmployeeService Service, IOrderService OrderService) : base(userManager)
         {
             _service = Service;
             _orderService = OrderService;
+            _calendarEventService = CalendarEventService;
         }
 
         [Authorize]
@@ -65,24 +69,23 @@ namespace wm.Web2.Controllers
         [AllowAnonymous]
         public ActionResult StaffPopulateEvents(DateTime monthInfo, int branchId)
         {
+            var events = _calendarEventService.PopulateEvents(EmployeeRole.StaffBranch, monthInfo, branchId);
 
-            var ordersInMonth = _orderService.GetAllOrdersInMonth(monthInfo, branchId);
-            var events = ordersInMonth.Select(s => new MonthlyEventItemViewModel
+            var eventsResult = events.Select(s => new MonthlyEventItemViewModel
             {
-                id = s.Id,
-                title = (s.Status == OrderStatus.Started) ? "Do order" : "View order",
-                url = (s.Status == OrderStatus.Started) ? Url.Action("StaffOrder", "Orders", new { id = s.Id}) : "",
-                classs = (s.Status == OrderStatus.Started) ? "event-important" : "event-success",
-                start = (Int64)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds,
-                end = (Int64)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds + 1
+                id = s.id,
+                title = s.title,
+                url = Url.Action("StaffOrder", "Orders", new { id = s.id }),
+                classs = s.classs,
+                start = s.start,
+                end = s.end
             });
 
             var result = new MonthlyEventsViewModel
             {
                 success = 1,
-                result = events
+                result = eventsResult
             };
-
 
             return Json(result);
         }
