@@ -231,6 +231,9 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BranchesController.cs" />
+    <Compile Include="Controllers\CalendarEventStrategy\CalendarEventControllerHelper.cs" />
+    <Compile Include="Controllers\CalendarEventStrategy\CalendarEventStrategyBaseControllerHelper.cs" />
+    <Compile Include="Controllers\CalendarEventStrategy\StaffCalendarEventStrategyControllerHelper.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\GoodCategoriesController.cs" />

@@ -5,54 +5,70 @@ using System.Text;
 using System.Threading.Tasks;
 using wm.Model;
 
-namespace wm.Service.CalendarEvent
+namespace wm.Service
 {
     public interface ICalendarEventService
     {
-        IEnumerable<Order> PopulateEvents(EmployeeRole role, DateTime monthInfo, int branchId);
+        EmployeeRole Role { get; set; }
+
+        IEnumerable<Order> PopulateEvents(DateTime monthInfo, int branchId);
     }
     public class CalendarEventService : ICalendarEventService
     {
         IOrderService _orderService;
         IBranchService _branchService;
+
+        public EmployeeRole Role { get; set; }
+
+        CalendarEventStrategyBase _eventCalendarStrategy;
+        CalendarEventStrategyBase EventCalendarStrategy
+        {
+            get
+            {
+                if (_eventCalendarStrategy == null) { //init
+                    _eventCalendarStrategy = GetAssociateStrategy(Role);
+                }
+                return _eventCalendarStrategy;
+            }
+        }
         public CalendarEventService(IOrderService OrderService, IBranchService BranchService)
         {
             _orderService = OrderService;
             _branchService = BranchService;
         }
 
-        private IEventCalendarStrategyBase GetAssociateStrategy(EmployeeRole role, int branchId)
+        private CalendarEventStrategyBase GetAssociateStrategy(EmployeeRole role)
         {
-            switch(role)
+            switch (role)
             {
                 case EmployeeRole.Manager:
                     {
-                        return new ManagerEventCalendarStrategy(_orderService);
+                        return new ManagerCalendarEventStrategy(_orderService);
                     }
                 case EmployeeRole.StaffBranch:
                     {
-                        return new StaffEventCalendarStrategy(_orderService, branchId);
+                        return new StaffCalendarEventStrategy(_orderService);
                     }
                 case EmployeeRole.WarehouseKeeper:
                     {
-                        return new WarehouseKeeperEventCalendarStrategy(_orderService, _branchService);
+                        return new WarehouseKeeperCalendarEventStrategy(_orderService, _branchService);
                     }
                 case EmployeeRole.Admin:
                     {
-                        return new WarehouseKeeperEventCalendarStrategy(_orderService, _branchService);
+                        return new WarehouseKeeperCalendarEventStrategy(_orderService, _branchService);
                     }
                 case EmployeeRole.SuperUser:
                     {
-                        return new WarehouseKeeperEventCalendarStrategy(_orderService, _branchService);
+                        return new WarehouseKeeperCalendarEventStrategy(_orderService, _branchService);
                     }
             }
-            return new StaffEventCalendarStrategy(_orderService, branchId);
+            return new StaffCalendarEventStrategy(_orderService);
         }
-        public IEnumerable<Order> PopulateEvents(EmployeeRole role, DateTime monthInfo, int branchId)
+        public IEnumerable<Order> PopulateEvents(DateTime monthInfo, int branchId)
         {
-            var eventStrategy = this.GetAssociateStrategy(role, branchId);
+            //var eventStrategy = this.GetAssociateStrategy(role, branchId);
 
-            return eventStrategy.PopulateEvents(monthInfo);
+            return EventCalendarStrategy.PopulateEvents(monthInfo, branchId);
         }
     }
 }

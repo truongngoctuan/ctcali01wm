@@ -30,7 +30,7 @@ textarea {
 
 /*calendar event css*/
 .event-not-started {
-  
+  background-color: #b0aeae;
 }
 .event-started {
   background-color: #a40202;

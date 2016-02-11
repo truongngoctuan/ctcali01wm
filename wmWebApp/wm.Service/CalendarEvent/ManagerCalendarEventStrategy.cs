@@ -5,15 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using wm.Model;
 
-namespace wm.Service.CalendarEvent
+namespace wm.Service
 {
-    class ManagerEventCalendarStrategy : IEventCalendarStrategyBase
+    class ManagerCalendarEventStrategy : CalendarEventStrategyBase
     {
-        public ManagerEventCalendarStrategy(IOrderService OrderService)
+        public ManagerCalendarEventStrategy(IOrderService OrderService)
         {
             _orderService = OrderService;
         }
-        public override IEnumerable<Order> PopulateEvents(DateTime monthInfo)
+        public override IEnumerable<Order> PopulateEvents(DateTime monthInfo, int branchId)
         {
             throw new NotImplementedException();
         }

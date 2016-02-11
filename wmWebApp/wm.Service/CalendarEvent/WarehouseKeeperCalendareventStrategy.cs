@@ -5,17 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using wm.Model;
 
-namespace wm.Service.CalendarEvent
+namespace wm.Service
 {
-    class WarehouseKeeperEventCalendarStrategy : IEventCalendarStrategyBase
+    class WarehouseKeeperCalendarEventStrategy : CalendarEventStrategyBase
     {
         IBranchService _branchService;
-        public WarehouseKeeperEventCalendarStrategy(IOrderService OrderService, IBranchService BranchService)
+        public WarehouseKeeperCalendarEventStrategy(IOrderService OrderService, IBranchService BranchService)
         {
             _orderService = OrderService;
             _branchService = BranchService;
         }
-        public override IEnumerable<Order> PopulateEvents(DateTime monthInfo)
+        public override IEnumerable<Order> PopulateEvents(DateTime monthInfo, int branchId)
         {
             var ordersInMonth = _orderService.GetAllOrdersInMonth(monthInfo);
 

@@ -42,13 +42,11 @@
   <ItemGroup>
     <Compile Include="BranchGoodCategoryService.cs" />
     <Compile Include="BranchService.cs" />
-    <Compile Include="CalendarEvent\EventColorStatus.cs" />
-    <Compile Include="CalendarEvent\IEventCalendarStrategyBase.cs" />
-    <Compile Include="CalendarEvent\ManagerEventCalendarStrategy.cs" />
-    <Compile Include="CalendarEvent\StaffEventCalendarStrategy.cs" />
-    <Compile Include="CalendarEvent\WarehouseKeeperEventCalendarStrategy.cs" />
+    <Compile Include="CalendarEvent\CalendarEventStrategyBase.cs" />
+    <Compile Include="CalendarEvent\ManagerCalendarEventStrategy.cs" />
+    <Compile Include="CalendarEvent\StaffCalendarEventStrategy.cs" />
+    <Compile Include="CalendarEvent\WarehouseKeeperCalendarEventStrategy.cs" />
     <Compile Include="EmployeeService.cs" />
-    <Compile Include="CalendarEvent\EventCalendarItem.cs" />
     <Compile Include="CalendarEvent\CalendarEventService.cs" />
     <Compile Include="GoodCategoryGoodService.cs" />
     <Compile Include="GoodCategoryService.cs" />
@@ -56,8 +54,12 @@
     <Compile Include="GoodUnitService.cs" />
     <Compile Include="ItemService.cs" />
     <Compile Include="Model\OrderBranchItem.cs" />
+    <Compile Include="Order2Service.cs" />
     <Compile Include="OrderGoodService.cs" />
     <Compile Include="OrderService.cs" />
+    <Compile Include="OrderServiceHelper\OrderGeneralService.cs" />
+    <Compile Include="OrderServiceHelper\OrderStrategyBase.cs" />
+    <Compile Include="OrderServiceHelper\StaffOrderStrategy.cs" />
     <Compile Include="Shared\EntityService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\ServiceReturn.cs" />
@@ -75,7 +77,6 @@
   <ItemGroup>
     <Folder Include="App_Start\" />
     <Folder Include="BranchBehavior\" />
-    <Folder Include="OrderBehavior\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

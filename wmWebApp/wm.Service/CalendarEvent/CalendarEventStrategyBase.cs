@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using wm.Model;
 
-namespace wm.Service.CalendarEvent
+namespace wm.Service
 {
-    abstract class IEventCalendarStrategyBase
+    abstract class CalendarEventStrategyBase
     {
         protected IOrderService _orderService;
-        public abstract IEnumerable<Order> PopulateEvents(DateTime monthInfo);
+        public abstract IEnumerable<Order> PopulateEvents(DateTime monthInfo, int branchId);
     }
 }
