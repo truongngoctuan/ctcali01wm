@@ -319,7 +319,7 @@
   margin-bottom: 2px;
   -webkit-box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.4);
   box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.4);
-  border-radius: 8px;
+  /*border-radius: 8px;*/
   border: 1px solid #ffffff;
 }
 .event-block {
@@ -333,6 +333,10 @@
 }
 .event-important {
   background-color: #ad2121;
+}
+
+.event-info2 {
+  /*background-color: #1e90ff;*/
 }
 .event-info {
   background-color: #1e90ff;

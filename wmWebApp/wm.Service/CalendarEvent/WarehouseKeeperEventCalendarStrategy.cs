@@ -15,7 +15,7 @@ namespace wm.Service.CalendarEvent
             _orderService = OrderService;
             _branchService = BranchService;
         }
-        public override IEnumerable<CalendarEventItem> PopulateEvents(DateTime monthInfo)
+        public override IEnumerable<Order> PopulateEvents(DateTime monthInfo)
         {
             var ordersInMonth = _orderService.GetAllOrdersInMonth(monthInfo);
 
@@ -48,17 +48,7 @@ namespace wm.Service.CalendarEvent
                 }
             }
 
-            var events = fakeOrdersInmonth.Select(s => new CalendarEventItem
-            {
-                id = s.Id,
-                title = (s.Status == OrderStatus.NotStarted) ? "Do order" : "Confirm order",
-                url = s.Id.ToString(),
-                classs = (s.Status == OrderStatus.NotStarted) ? EventColorStatus.NotStarted : EventColorStatus.Started,
-                start = (Int64)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds,
-                end = (Int64)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds + 1
-            });
-
-            return events;
+            return fakeOrdersInmonth;
         }
     }
 }

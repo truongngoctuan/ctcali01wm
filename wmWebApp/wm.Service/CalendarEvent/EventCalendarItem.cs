@@ -1,4 +1,5 @@
 ﻿using System;
+using wm.Model;
 
 namespace wm.Service.CalendarEvent
 {
@@ -6,9 +7,10 @@ namespace wm.Service.CalendarEvent
     {
         public int id { get; set; }
         public string title { get; set; }
-        public string url { get; set; }
-        public string classs { get; set; }
         public Int64 start { get; set; }
         public Int64 end { get; set; }
+        public string status { get; set; }
+        public OrderStatus orderStatus { get; set; }
+
     }
 }

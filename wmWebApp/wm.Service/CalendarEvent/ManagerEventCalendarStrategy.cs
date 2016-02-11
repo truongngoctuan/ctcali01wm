@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using wm.Model;
 
 namespace wm.Service.CalendarEvent
 {
@@ -12,7 +13,7 @@ namespace wm.Service.CalendarEvent
         {
             _orderService = OrderService;
         }
-        public override IEnumerable<CalendarEventItem> PopulateEvents(DateTime monthInfo)
+        public override IEnumerable<Order> PopulateEvents(DateTime monthInfo)
         {
             throw new NotImplementedException();
         }

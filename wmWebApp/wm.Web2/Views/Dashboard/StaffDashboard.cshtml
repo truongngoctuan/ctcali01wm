@@ -134,6 +134,28 @@
                         //modify return object
                         for(var i = 0; i < resultObject.length; i++) {
                             resultObject[i].class = resultObject[i].classs;
+                            switch(resultObject[i].status) {
+                                case "NotStarted": {
+                                    resultObject[i].class = "event-not-started";
+                                    break;
+                                }
+                                case "Started": {
+                                    resultObject[i].class = "event-started";
+                                    break;
+                                }
+                                case "StaffConfirmed": {
+                                    resultObject[i].class = "event-staff-confirmed";
+                                    break;
+                                }
+                                case "ManagerConfirmed": {
+                                    resultObject[i].class = "event-manager-confirmed";
+                                    break;
+                                }
+                                case "Finished": {
+                                    resultObject[i].class = "event-finished";
+                                    break;
+                                }
+                            }
                         }
 
                         console.log("return resultObject" + resultObject.length);

@@ -27,3 +27,20 @@ textarea {
 .handsontable .manualRowMover {
     height: 15px !important; 
 }
+
+/*calendar event css*/
+.event-not-started {
+  
+}
+.event-started {
+  background-color: #a40202;
+}
+.event-staff-confirmed {
+  background-color: #ff6a00;
+}
+.event-manager-confirmed {
+  background-color: #e4c100;
+}
+.event-finished {
+  background-color: #00b900;
+}
