@@ -19,22 +19,55 @@ namespace wm.Web2.Controllers
         IEmployeeService Service { get { return _service; } }
 
         IOrderService _orderService;
-        //ICalendarEventService _calendarEventService;
         private readonly IMappingEngine _mapper;
 
-        ICalendarEventControllerHelper _calendarEventHelper;
-        ICalendarEventControllerHelper CalendarEventHelper
-        { 
+        #region Calendar event strategy
+        ICalendarEventService _calendarEventService;
+        CalendarEventStrategyBase _strategyBase;
+        CalendarEventStrategyBase StrategyBase
+        {
             get
-            {//lazy loading
-                if (!_calendarEventHelper.isInit())
+            {
+                if (_strategyBase == null)
                 {
                     var employee = Service.GetByApplicationId(GetUserId());
-                    _calendarEventHelper.Role = employee.Role;
+                    _calendarEventService.Role = employee.Role;
+                    _strategyBase = GetAssociateStrategy(employee.Role);
                 }
-                return _calendarEventHelper;
+                return _strategyBase;
             }
         }
+
+
+        private CalendarEventStrategyBase GetAssociateStrategy(EmployeeRole role)
+        {
+            switch (role)
+            {
+                case EmployeeRole.Manager:
+                    {
+                        return new StaffCalendarEventStrategy(_calendarEventService);
+                    }
+                case EmployeeRole.StaffBranch:
+                    {
+                        return new StaffCalendarEventStrategy(_calendarEventService);
+                    }
+                case EmployeeRole.WarehouseKeeper:
+                    {
+                        return new StaffCalendarEventStrategy(_calendarEventService);
+                    }
+                case EmployeeRole.Admin:
+                    {
+                        return new StaffCalendarEventStrategy(_calendarEventService);
+                    }
+                case EmployeeRole.SuperUser:
+                    {
+                        return new StaffCalendarEventStrategy(_calendarEventService);
+                    }
+            }
+            return new StaffCalendarEventStrategy(_calendarEventService);
+        }
+        #endregion
+
         public DashboardController(ApplicationUserManager userManager,
             ICalendarEventService CalendarEventService,
         IEmployeeService Service, IOrderService OrderService,
@@ -42,7 +75,7 @@ namespace wm.Web2.Controllers
         {
             _service = Service;
             _orderService = OrderService;
-            _calendarEventHelper = new CalendarEventControllerHelper(CalendarEventService);
+            _calendarEventService = CalendarEventService;
 
             _mapper = mapper;
         }
@@ -57,19 +90,19 @@ namespace wm.Web2.Controllers
             }
             if (UserManager.IsInRole(userId, SystemRoles.Manager))
             {
-                return RedirectToAction("BranchManagerIndex");
+                return RedirectToAction("ManagerDashboard");
             }
             if (UserManager.IsInRole(userId, SystemRoles.WarehouseKeeper))
             {
-                return RedirectToAction("WhKeeperIndex");
+                return RedirectToAction("WhKeeperDashboard");
             }
             if (UserManager.IsInRole(userId, SystemRoles.Admin))
             {
-                return RedirectToAction("AdminIndex");
+                return RedirectToAction("AdminDashboard");
             }
             if (UserManager.IsInRole(userId, SystemRoles.SuperUser))
             {
-                return RedirectToAction("AdminIndex");
+                return RedirectToAction("AdminDashboard");
             }
             return View();
         }
@@ -83,25 +116,20 @@ namespace wm.Web2.Controllers
             return View(employee);
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        public ActionResult StaffPopulateEvents(DateTime monthInfo, int branchId)
+        [Authorize]
+        public ActionResult AdminDashboard()
         {
-            return Json(CalendarEventHelper.PopulateEvents(Url, monthInfo, branchId));
+            return RedirectToAction("WhKeeperDashboard");
         }
 
         [Authorize]
-        public ActionResult AdminIndex()
+        public ActionResult ManagerDashboard()
         {
-            return RedirectToAction("WhKeeperIndex");
+            return View("StaffDashboard");
         }
+
         [Authorize]
-        public ActionResult BranchManagerIndex()
-        {
-            return View();
-        }
-        [Authorize]
-        public ActionResult WhKeeperIndex()
+        public ActionResult WhKeeperDashboard()
         {
             var userId = User.Identity.GetUserId();
             var employee = Service.GetByApplicationId(userId);
@@ -110,39 +138,11 @@ namespace wm.Web2.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
-        public ActionResult WhKeeperPopulateEvents(DateTime monthInfo, int branchId)
+        [Authorize]
+        public ActionResult PopulateEvents(DateTime monthInfo, int branchId)
         {
-            return Json(CalendarEventHelper.PopulateEvents(Url, monthInfo, branchId));
-            //IEnumerable<Order> ordersInMonth = _calendarEventService.PopulateEvents(monthInfo, branchId);
-            //var eventsResult = ordersInMonth.Select(s => new CalendarEventItemViewModel
-            //{
-            //    id = s.Id,
-            //    title = (s.Status == OrderStatus.Started) ? "Do order" : "View order",
-            //    status = s.Status.ToString(),
-            //    url = Url.Action("StaffOrder", "Orders", new { id = s.Id }),
-            //start = (Int64)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds,
-            //    end = (Int64)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds + 1
-            //});
-
-
-            ////var eventsResult = _mapper.Map<IEnumerable<CalendarEventItemViewModel>>(events);
-            ////foreach (var item in eventsResult)
-            ////{
-            ////    item.url = Url.Action("StaffOrder", "Orders", new { id = item.id });
-            ////    //TODO: status
-            ////}
-
-            //var result = new MonthlyEventsViewModel
-            //{
-            //    success = 1,
-            //    result = eventsResult
-            //};
-
-            return Json("");
+            return Json(StrategyBase.PopulateEvents(Url, monthInfo, branchId));
         }
-
-
 
     }
 }

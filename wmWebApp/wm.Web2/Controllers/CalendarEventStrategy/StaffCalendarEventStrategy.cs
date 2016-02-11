@@ -9,9 +9,9 @@ using wm.Web2.Models;
 
 namespace wm.Web2.Controllers.CalendarEventStrategy
 {
-    public class StaffCalendarEventStrategyControllerHelper : CalendarEventStrategyBaseControllerHelper
+    public class StaffCalendarEventStrategy : CalendarEventStrategyBase
     {
-        public StaffCalendarEventStrategyControllerHelper(
+        public StaffCalendarEventStrategy(
                     ICalendarEventService calendarEventService) : base(calendarEventService)
         {
 

@@ -81,7 +81,7 @@
 
             $.ajax({
                 method: "POST",
-                url: '@Url.Action("WhKeeperPopulateEvents", "Dashboard")',
+                url: '@Url.Action("PopulateEvents", "Dashboard")',
                 dataType: "json",
                 data: {  monthInfo : moment(startDate).format("YYYY-MM-DD"), branchId : @Model.BranchId},
                 async:false,

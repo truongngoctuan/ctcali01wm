@@ -9,10 +9,10 @@ using wm.Web2.Models;
 
 namespace wm.Web2.Controllers.CalendarEventStrategy
 {
-    public abstract class CalendarEventStrategyBaseControllerHelper
+    public abstract class CalendarEventStrategyBase
     {
         protected ICalendarEventService _calendarEventService;
-        public CalendarEventStrategyBaseControllerHelper(
+        public CalendarEventStrategyBase(
                     ICalendarEventService calendarEventService)
         {
             _calendarEventService = calendarEventService;

@@ -231,9 +231,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BranchesController.cs" />
-    <Compile Include="Controllers\CalendarEventStrategy\CalendarEventControllerHelper.cs" />
-    <Compile Include="Controllers\CalendarEventStrategy\CalendarEventStrategyBaseControllerHelper.cs" />
-    <Compile Include="Controllers\CalendarEventStrategy\StaffCalendarEventStrategyControllerHelper.cs" />
+    <Compile Include="Controllers\CalendarEventStrategy\CalendarEventStrategyBase.cs" />
+    <Compile Include="Controllers\CalendarEventStrategy\StaffCalendarEventStrategy.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\GoodCategoriesController.cs" />
@@ -364,10 +363,11 @@
     <Content Include="Views\Employees\Edit.cshtml" />
     <Content Include="Views\Employees\Index.cshtml" />
     <Content Include="Views\Dashboard\StaffDashboard.cshtml" />
-    <Content Include="Views\Dashboard\WhKeeperIndex.cshtml" />
+    <Content Include="Views\Dashboard\WhKeeperDashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\OrderStrategy\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
