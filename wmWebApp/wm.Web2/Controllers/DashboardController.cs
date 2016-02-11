@@ -19,20 +19,20 @@ namespace wm.Web2.Controllers
         IEmployeeService Service { get { return _service; } }
 
         IOrderService _orderService;
-        ICalendarEventService _calendarEventService;
+        //ICalendarEventService _calendarEventService;
         private readonly IMappingEngine _mapper;
 
-        ICalendarEventControllerHelper _calendarEventStrategy;
-        ICalendarEventControllerHelper CalendarEventStrategy
+        ICalendarEventControllerHelper _calendarEventHelper;
+        ICalendarEventControllerHelper CalendarEventHelper
         { 
             get
             {//lazy loading
-                if(_calendarEventStrategy == null)
+                if (!_calendarEventHelper.isInit())
                 {
                     var employee = Service.GetByApplicationId(GetUserId());
-                    _calendarEventStrategy = new CalendarEventControllerHelper(employee.Role, _calendarEventService);
+                    _calendarEventHelper.Role = employee.Role;
                 }
-                return _calendarEventStrategy;
+                return _calendarEventHelper;
             }
         }
         public DashboardController(ApplicationUserManager userManager,
@@ -42,7 +42,8 @@ namespace wm.Web2.Controllers
         {
             _service = Service;
             _orderService = OrderService;
-            _calendarEventService = CalendarEventService;
+            _calendarEventHelper = new CalendarEventControllerHelper(CalendarEventService);
+
             _mapper = mapper;
         }
 
@@ -86,7 +87,7 @@ namespace wm.Web2.Controllers
         [AllowAnonymous]
         public ActionResult StaffPopulateEvents(DateTime monthInfo, int branchId)
         {
-            return Json(CalendarEventStrategy.PopulateEvents(Url, monthInfo, branchId));
+            return Json(CalendarEventHelper.PopulateEvents(Url, monthInfo, branchId));
         }
 
         [Authorize]
@@ -112,32 +113,33 @@ namespace wm.Web2.Controllers
         [AllowAnonymous]
         public ActionResult WhKeeperPopulateEvents(DateTime monthInfo, int branchId)
         {
-            IEnumerable<Order> ordersInMonth = _calendarEventService.PopulateEvents(monthInfo, branchId);
-            var eventsResult = ordersInMonth.Select(s => new CalendarEventItemViewModel
-            {
-                id = s.Id,
-                title = (s.Status == OrderStatus.Started) ? "Do order" : "View order",
-                status = s.Status.ToString(),
-                url = Url.Action("StaffOrder", "Orders", new { id = s.Id }),
-            start = (Int64)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds,
-                end = (Int64)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds + 1
-            });
-
-
-            //var eventsResult = _mapper.Map<IEnumerable<CalendarEventItemViewModel>>(events);
-            //foreach (var item in eventsResult)
+            return Json(CalendarEventHelper.PopulateEvents(Url, monthInfo, branchId));
+            //IEnumerable<Order> ordersInMonth = _calendarEventService.PopulateEvents(monthInfo, branchId);
+            //var eventsResult = ordersInMonth.Select(s => new CalendarEventItemViewModel
             //{
-            //    item.url = Url.Action("StaffOrder", "Orders", new { id = item.id });
-            //    //TODO: status
-            //}
+            //    id = s.Id,
+            //    title = (s.Status == OrderStatus.Started) ? "Do order" : "View order",
+            //    status = s.Status.ToString(),
+            //    url = Url.Action("StaffOrder", "Orders", new { id = s.Id }),
+            //start = (Int64)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds,
+            //    end = (Int64)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds + 1
+            //});
 
-            var result = new MonthlyEventsViewModel
-            {
-                success = 1,
-                result = eventsResult
-            };
 
-            return Json(result);
+            ////var eventsResult = _mapper.Map<IEnumerable<CalendarEventItemViewModel>>(events);
+            ////foreach (var item in eventsResult)
+            ////{
+            ////    item.url = Url.Action("StaffOrder", "Orders", new { id = item.id });
+            ////    //TODO: status
+            ////}
+
+            //var result = new MonthlyEventsViewModel
+            //{
+            //    success = 1,
+            //    result = eventsResult
+            //};
+
+            return Json("");
         }
 
 

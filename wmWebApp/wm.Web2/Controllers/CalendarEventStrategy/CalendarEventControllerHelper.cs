@@ -12,19 +12,31 @@ namespace wm.Web2.Controllers.CalendarEventStrategy
 {
     public interface ICalendarEventControllerHelper
     {
+        EmployeeRole Role { set; }
+        bool isInit();
+
         MonthlyEventsViewModel PopulateEvents(UrlHelper Url, DateTime monthInfo, int branchId);
     }
 
     public class CalendarEventControllerHelper :ICalendarEventControllerHelper
     {
+        public EmployeeRole Role {
+            set {
+                _calendarEventService.Role = value;
+                _strategyBase = GetAssociateStrategy(value);
+            }
+        }
         CalendarEventStrategyBaseControllerHelper _strategyBase;
 
         ICalendarEventService _calendarEventService;
-        public CalendarEventControllerHelper(EmployeeRole role, ICalendarEventService calendarEventService)
+        public CalendarEventControllerHelper(ICalendarEventService calendarEventService)
         {
             _calendarEventService = calendarEventService;
-            _calendarEventService.Role = role;
-            _strategyBase = GetAssociateStrategy(role);
+        }
+
+        public bool isInit()
+        {
+            return (_strategyBase != null);
         }
 
         private CalendarEventStrategyBaseControllerHelper GetAssociateStrategy(EmployeeRole role)
