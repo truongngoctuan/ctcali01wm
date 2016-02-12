@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using wm.Model;
 using wm.Repository;
 
@@ -17,7 +13,7 @@ namespace wm.Service
     public class OrderGoodService : EntityService<OrderGood>, IOrderGoodService
     {
         IUnitOfWork _unitOfWork;
-        IOrderGoodRepository _repos;
+        readonly IOrderGoodRepository _repos;
 
         public OrderGoodService(IUnitOfWork unitOfWork, IOrderGoodRepository Repos)
             : base(unitOfWork, Repos)

@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using wm.Model;
 using wm.Repository;
-using wm.Service.Model;
 
 namespace wm.Service.OrderServiceHelper
 {
@@ -18,7 +13,7 @@ namespace wm.Service.OrderServiceHelper
     public class OrderGeneralService : EntityIntKeyService<Order>, IOrderGeneralService
     {
         IUnitOfWork _unitOfWork;
-        IOrderRepository _repos;
+        readonly IOrderRepository _repos;
         IOrderGoodService _orderGoodService;
         IGoodService _goodService;
         IGoodCategoryGoodService _goodCategoryGoodService;

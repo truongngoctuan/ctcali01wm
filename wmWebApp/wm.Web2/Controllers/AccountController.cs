@@ -1,7 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -20,17 +17,16 @@ namespace wm.Web2.Controllers
     {
         private ApplicationSignInManager _signInManager;
 
-        IEmployeeService _service;
-        IBranchService _branchService;
-        IEmployeeService Service { get { return _service; } }
+        readonly IBranchService _branchService;
+        private IEmployeeService Service { get; }
 
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager,
-            IEmployeeService Service, IBranchService BranchService) : base(userManager)
+            IEmployeeService service, IBranchService branchService) : base(userManager)
         {
             SignInManager = signInManager;
-            _service = Service;
-            _branchService = BranchService;
+            Service = service;
+            _branchService = branchService;
         }
 
         public ApplicationSignInManager SignInManager
@@ -75,9 +71,6 @@ namespace wm.Web2.Controllers
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
@@ -85,11 +78,10 @@ namespace wm.Web2.Controllers
         }
 
 
-        private IEnumerable<SelectListItem> getBranches()
+        private IEnumerable<SelectListItem> GetBranches()
         {
             var list = _branchService.GetAll();
-            IEnumerable<SelectListItem> selectList = new List<SelectListItem>();
-            selectList = list.Select(o => new SelectListItem
+            IEnumerable<SelectListItem> selectList = list.Select(o => new SelectListItem
             {
                 Value = o.Id.ToString(),
                 Text = o.Name
@@ -103,7 +95,7 @@ namespace wm.Web2.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            ViewBag.Branches = getBranches();
+            ViewBag.Branches = GetBranches();
             return View();
         }
 
@@ -181,7 +173,7 @@ namespace wm.Web2.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            ViewBag.Branches = getBranches();
+            ViewBag.Branches = GetBranches();
             return View(model);
         }
         

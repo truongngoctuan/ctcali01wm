@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using wm.Model;
 using wm.Service;
@@ -17,18 +13,17 @@ namespace wm.Web2.Controllers
     //http://www.asp.net/mvc/overview/getting-started/getting-started-with-ef-using-mvc/updating-related-data-with-the-entity-framework-in-an-asp-net-mvc-application
     public class BranchesController : BaseController
     {
-        IBranchService _service;
-        IBranchService Service { get { return _service; } }
-        IGoodCategoryService _goodCategoryService;
-        IBranchGoodCategoryService _branchGoodCategoryService;
+        private IBranchService Service { get; }
+        readonly IGoodCategoryService _goodCategoryService;
+        readonly IBranchGoodCategoryService _branchGoodCategoryService;
         public BranchesController(ApplicationUserManager userManager, 
-            IBranchService Service, 
-            IGoodCategoryService GoodCategoryService,
-            IBranchGoodCategoryService BranchGoodCategoryService): base(userManager)
+            IBranchService service, 
+            IGoodCategoryService goodCategoryService,
+            IBranchGoodCategoryService branchGoodCategoryService): base(userManager)
         {
-            _service = Service;
-            _goodCategoryService = GoodCategoryService;
-            _branchGoodCategoryService = BranchGoodCategoryService;
+            Service = service;
+            _goodCategoryService = goodCategoryService;
+            _branchGoodCategoryService = branchGoodCategoryService;
         }
         // GET: Branches
         public ActionResult Index()
@@ -48,7 +43,7 @@ namespace wm.Web2.Controllers
         {
             if (id == null) throw new Exception("id shouldn't be null");
 
-            IEnumerable<BranchInExItemViewModel> viewModel = new List<BranchInExItemViewModel>();
+            IEnumerable<BranchInExItemViewModel> viewModel;
             if (isInEx)
             {//return all, with some checked items
                 var allList = _goodCategoryService.GetAll();
@@ -124,7 +119,7 @@ namespace wm.Web2.Controllers
 
             //post-processing
 
-            //Service.Update(model);
+            //service.Update(model);
             return Json(new ReturnJsonObject<int> { status = ReturnStatus.ok.ToString(), data = 0 });
         }
 

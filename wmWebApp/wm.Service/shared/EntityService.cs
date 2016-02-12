@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using wm.Model;
 using wm.Repository;
 
@@ -24,8 +21,8 @@ namespace wm.Service
 
     public abstract class EntityService<T> : IEntityService<T> where T : BaseEntity
     {
-        IUnitOfWork _unitOfWork;
-        IGenericRepository<T> _repository;
+        readonly IUnitOfWork _unitOfWork;
+        readonly IGenericRepository<T> _repository;
 
         public EntityService(IUnitOfWork unitOfWork, IGenericRepository<T> repository)
         {
@@ -79,8 +76,8 @@ namespace wm.Service
 
     public abstract class EntityIntKeyService<T> : IEntityIntKeyService<T> where T : Entity<int>
     {
-        IUnitOfWork _unitOfWork;
-        IGenericIntKeyRepository<T> _repository;
+        readonly IUnitOfWork _unitOfWork;
+        readonly IGenericIntKeyRepository<T> _repository;
 
         public EntityIntKeyService(IUnitOfWork unitOfWork, IGenericIntKeyRepository<T> repository)
         {

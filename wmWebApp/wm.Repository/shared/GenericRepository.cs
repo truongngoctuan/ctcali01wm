@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using wm.Model;
 
 namespace wm.Repository
@@ -52,7 +49,7 @@ namespace wm.Repository
             return _dbset.AsEnumerable<TEntity>();
         }
 
-        public IEnumerable<TEntity> FindBy(System.Linq.Expressions.Expression<Func<TEntity, bool>> predicate)
+        public IEnumerable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate)
         {
 
             IEnumerable<TEntity> query = _dbset.Where(predicate).AsEnumerable();
@@ -71,7 +68,7 @@ namespace wm.Repository
 
         public virtual void Edit(TEntity entity)
         {
-            _entities.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+            _entities.Entry(entity).State = EntityState.Modified;
         }
 
         public virtual void Save()
@@ -133,7 +130,7 @@ namespace wm.Repository
             string includeProperties = "",
             int Start = -1, int Length = -1)
         {
-            return this.GetWithSource(_dbset, filter, orderBy, includeProperties, Start, Length);
+            return GetWithSource(_dbset, filter, orderBy, includeProperties, Start, Length);
         }
 
         public virtual IEnumerable<TEntity> GetAsNoTracking(
@@ -142,7 +139,7 @@ namespace wm.Repository
     string includeProperties = "",
     int Start = -1, int Length = -1)
         {
-            return this.GetWithSource(_dbset.AsNoTracking(), filter, orderBy, includeProperties, Start, Length);
+            return GetWithSource(_dbset.AsNoTracking(), filter, orderBy, includeProperties, Start, Length);
         }
 
         //http://stackoverflow.com/questions/16009694/dynamic-funciqueryabletentity-iorderedqueryabletentity-expression

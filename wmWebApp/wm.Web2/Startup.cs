@@ -12,7 +12,6 @@ using System.Web;
 using System.Web.Mvc;
 using wm.Model;
 using wm.Web2.App_Start;
-using wm.Web2.Models;
 using wm.Web2.Modules;
 
 [assembly: OwinStartupAttribute(typeof(wm.Web2.Startup))]
@@ -24,7 +23,7 @@ namespace wm.Web2
         {
             //https://www.talksharp.com/configuring-autofac-to-work-with-the-aspnet-identity-framework-in-mvc-5
             //Autofac Configuration
-            var builder = new Autofac.ContainerBuilder();
+            var builder = new ContainerBuilder();
 
             // REGISTER DEPENDENCIES
             builder.RegisterType<wmContext>().AsSelf().InstancePerRequest();

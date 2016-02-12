@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using wm.Model;
 using wm.Repository;
 
@@ -20,7 +16,7 @@ namespace wm.Service
     public class EmployeeService : EntityService<Employee>, IEmployeeService
     {
         IUnitOfWork _unitOfWork;
-        IEmployeeRepository _repos;
+        readonly IEmployeeRepository _repos;
 
         public EmployeeService(IUnitOfWork unitOfWork, IEmployeeRepository Repos)
             : base(unitOfWork, Repos)

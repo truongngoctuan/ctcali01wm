@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -52,7 +50,7 @@ namespace wm.Model
         {
             var modifiedEntries = ChangeTracker.Entries()
                 .Where(x => x.Entity is IAuditableEntity
-                    && (x.State == System.Data.Entity.EntityState.Added || x.State == System.Data.Entity.EntityState.Modified));
+                    && (x.State == EntityState.Added || x.State == EntityState.Modified));
 
             foreach (var entry in modifiedEntries)
             {
@@ -62,14 +60,14 @@ namespace wm.Model
                     string identityName = Thread.CurrentPrincipal.Identity.Name;
                     DateTime now = DateTime.UtcNow;
 
-                    if (entry.State == System.Data.Entity.EntityState.Added)
+                    if (entry.State == EntityState.Added)
                     {
                         entity.CreatedBy = identityName;
                         entity.CreatedDate = now;
                     }
                     else {
-                        base.Entry(entity).Property(x => x.CreatedBy).IsModified = false;
-                        base.Entry(entity).Property(x => x.CreatedDate).IsModified = false;
+                        Entry(entity).Property(x => x.CreatedBy).IsModified = false;
+                        Entry(entity).Property(x => x.CreatedDate).IsModified = false;
                     }
 
                     entity.UpdatedBy = identityName;

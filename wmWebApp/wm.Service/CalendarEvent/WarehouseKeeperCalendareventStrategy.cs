@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using wm.Model;
 
 namespace wm.Service
 {
     class WarehouseKeeperCalendarEventStrategy : CalendarEventStrategyBase
     {
-        IBranchService _branchService;
+        readonly IBranchService _branchService;
         public WarehouseKeeperCalendarEventStrategy(IOrderService OrderService, IBranchService BranchService)
         {
             _orderService = OrderService;

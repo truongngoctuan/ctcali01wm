@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using wm.Model;
 using wm.Service;
@@ -14,10 +11,10 @@ namespace wm.Web2.Controllers
 {
     public class GoodCategoriesController : BaseController
     {
-        IGoodCategoryService _service;
+        readonly IGoodCategoryService _service;
         IGoodCategoryService Service { get { return _service; } }
-        IGoodService _goodService;
-        IGoodCategoryGoodService _goodCategoryGoodService;
+        readonly IGoodService _goodService;
+        readonly IGoodCategoryGoodService _goodCategoryGoodService;
         public GoodCategoriesController(ApplicationUserManager userManager, 
             IGoodCategoryService Service,
             IGoodService GoodService,

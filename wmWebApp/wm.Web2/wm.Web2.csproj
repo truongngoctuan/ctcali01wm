@@ -240,6 +240,8 @@
     <Compile Include="Controllers\GoodUnitsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Controllers\OrderStrategy\OrderControllerStrategyBase.cs" />
+    <Compile Include="Controllers\OrderStrategy\StaffOrderControllerStrategy.cs" />
     <Compile Include="Controllers\ReturnJsonObject.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
@@ -286,15 +288,6 @@
     <Content Include="Content\ExceptionLib\bootstrap-calendar\js\app.js" />
     <Content Include="Content\ExceptionLib\bootstrap-calendar\js\calendar.js" />
     <Content Include="Content\ExceptionLib\bootstrap-calendar\js\calendar.min.js" />
-    <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\day.html" />
-    <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\events-list.html" />
-    <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\modal.html" />
-    <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\month-day.html" />
-    <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\month.html" />
-    <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\week-days.html" />
-    <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\week.html" />
-    <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\year-month.html" />
-    <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\year.html" />
     <Content Include="Content\lib\bootstrap\dist\css\bootstrap.css" />
     <Content Include="Content\lib\underscore\underscore-min.js" />
     <Content Include="Content\Site.js" />
@@ -331,11 +324,9 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />
@@ -367,7 +358,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\OrderStrategy\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

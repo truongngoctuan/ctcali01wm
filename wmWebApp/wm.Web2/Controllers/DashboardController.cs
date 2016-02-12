@@ -1,28 +1,24 @@
 ﻿using AutoMapper;
 using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using wm.Model;
 using wm.Service;
 using wm.Web2.Controllers.CalendarEventStrategy;
-using wm.Web2.Models;
 
 namespace wm.Web2.Controllers
 {
     [Authorize]
     public class DashboardController : BaseController
     {
-        IEmployeeService _service;
-        IEmployeeService Service { get { return _service; } }
+        private IEmployeeService Service { get; }
 
         IOrderService _orderService;
         private readonly IMappingEngine _mapper;
 
         #region Calendar event strategy
-        ICalendarEventService _calendarEventService;
+
+        readonly ICalendarEventService _calendarEventService;
         CalendarEventStrategyBase _strategyBase;
         CalendarEventStrategyBase StrategyBase
         {
@@ -73,7 +69,7 @@ namespace wm.Web2.Controllers
         IEmployeeService Service, IOrderService OrderService,
         IMappingEngine mapper) : base(userManager)
         {
-            _service = Service;
+            this.Service = Service;
             _orderService = OrderService;
             _calendarEventService = CalendarEventService;
 

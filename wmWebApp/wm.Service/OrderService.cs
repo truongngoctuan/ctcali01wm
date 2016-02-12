@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using wm.Model;
 using wm.Repository;
 using wm.Service.Model;
@@ -24,10 +22,10 @@ namespace wm.Service
     public class OrderService : EntityIntKeyService<Order>, IOrderService
     {
         IUnitOfWork _unitOfWork;
-        IOrderRepository _repos;
-        IOrderGoodService _orderGoodService;
+        readonly IOrderRepository _repos;
+        readonly IOrderGoodService _orderGoodService;
         IGoodService _goodService;
-        IGoodCategoryGoodService _goodCategoryGoodService;
+        readonly IGoodCategoryGoodService _goodCategoryGoodService;
 
         public OrderService(IUnitOfWork unitOfWork, IOrderRepository Repos,
             IOrderGoodService OrderGoodService,

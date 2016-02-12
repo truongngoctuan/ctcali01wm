@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using wm.Model;
 using wm.Repository;
 
@@ -17,7 +14,7 @@ namespace wm.Service
     public class BranchGoodCategoryService : EntityService<BranchGoodCategory>, IBranchGoodCategoryService
     {
         IUnitOfWork _unitOfWork;
-        IBranchGoodCategoryRepository _repos;
+        readonly IBranchGoodCategoryRepository _repos;
 
         public BranchGoodCategoryService(IUnitOfWork unitOfWork, IBranchGoodCategoryRepository Repos)
             : base(unitOfWork, Repos)

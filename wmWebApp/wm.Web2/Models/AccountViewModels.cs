@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using wm.Model;
 
 namespace wm.Web2.Models
@@ -46,5 +45,4 @@ namespace wm.Web2.Models
         public string BranchName { get; set; }
         public string RoleName { get; set; }
     }
-
 }

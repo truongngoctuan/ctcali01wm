@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
+﻿using System.Net;
 using System.Web.Mvc;
 using wm.Model;
 using wm.Service;
@@ -13,7 +7,7 @@ namespace wm.Web2.Controllers
 {
     public class GoodUnitsController : BaseController
     {
-        IGoodUnitService _service;
+        readonly IGoodUnitService _service;
         IGoodUnitService Service { get { return _service; } }
         public GoodUnitsController(ApplicationUserManager userManager, 
             IGoodUnitService Service):base(userManager)
@@ -24,21 +18,6 @@ namespace wm.Web2.Controllers
         public ActionResult Index()
         {
             return View(Service.GetAll());
-        }
-
-        // GET: GoodUnits/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            GoodUnit goodUnit = Service.GetById((int)id);
-            if (goodUnit == null)
-            {
-                return HttpNotFound();
-            }
-            return View(goodUnit);
         }
 
         // GET: GoodUnits/Create

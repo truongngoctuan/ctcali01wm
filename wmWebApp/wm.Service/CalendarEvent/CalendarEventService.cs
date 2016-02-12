@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using wm.Model;
 
 namespace wm.Service
@@ -15,8 +12,8 @@ namespace wm.Service
     }
     public class CalendarEventService : ICalendarEventService
     {
-        IOrderService _orderService;
-        IBranchService _branchService;
+        readonly IOrderService _orderService;
+        readonly IBranchService _branchService;
 
         public EmployeeRole Role { get; set; }
 

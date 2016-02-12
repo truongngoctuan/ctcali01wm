@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using wm.Model;
 using wm.Service;
@@ -14,9 +10,9 @@ namespace wm.Web2.Controllers
 {
     public class GoodsController : BaseController
     {
-        IGoodService _service;
+        readonly IGoodService _service;
         IGoodService Service { get { return _service; } }
-        IGoodUnitService _goodUnitService;
+        readonly IGoodUnitService _goodUnitService;
         public GoodsController(ApplicationUserManager userManager, IGoodService Service,
             IGoodUnitService GoodUnitService):base(userManager)
         {
