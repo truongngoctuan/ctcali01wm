@@ -11,7 +11,7 @@ namespace wm.Service
     {
         Order Create(int branchId, DateTime orderDate);
         IEnumerable<OrderBranchItem> PopulateData(int orderId, int goodCategoryId);
-        void placingOrder(int orderId, IEnumerable<OrderBranchItem> items);
+        void Place(int orderId, IEnumerable<OrderBranchItem> items);
 
         //for dashboard
         IEnumerable<Order> GetAllOrdersInMonth(DateTime monthIndicator, int branchId = 0);
@@ -80,7 +80,7 @@ namespace wm.Service
             return returnData;
         }
 
-        public void placingOrder(int orderId, IEnumerable<OrderBranchItem> items)
+        public void Place(int orderId, IEnumerable<OrderBranchItem> items)
         {
             var allList = _orderGoodService.GetByOrderId(orderId);
             foreach(var item in items)

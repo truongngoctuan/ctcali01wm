@@ -89,7 +89,7 @@
                                         //call a post to create an order
                                         console.log("create new order");
                                         //TODO: convert to datetime in asp.net
-                                        postHelper('@Url.Action("StaffCreateOrder", "Orders")',
+                                        postHelper('@Url.Action("Create", "Orders")',
                                             {
                                                 employeeId : '@Model.Id',
                                                 branchId : @Model.BranchId,

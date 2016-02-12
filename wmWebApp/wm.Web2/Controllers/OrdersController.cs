@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using wm.Model;
 using wm.Service;
+using wm.Web2.Controllers.OrderStrategy;
 using wm.Web2.Models;
 
 namespace wm.Web2.Controllers
@@ -10,12 +11,59 @@ namespace wm.Web2.Controllers
     {
         private IOrderService Service { get; }
         readonly IBranchGoodCategoryService _branchGoodCategoryService;
-        public OrdersController(ApplicationUserManager userManager, 
-            IOrderService service, 
-            IBranchGoodCategoryService branchGoodCategoryService): base(userManager)
+
+        #region strategy
+
+        private IEmployeeService EmployeeService { get; set; }
+        OrderControllerStrategyBase _strategyBase;
+        private OrderControllerStrategyBase StrategyBase
+        {
+            get
+            {
+                if (_strategyBase != null) return _strategyBase;
+
+                var employee = EmployeeService.GetByApplicationId(GetUserId());
+                //_calendarEventService.Role = employee.Role;
+                _strategyBase = GetAssociateStrategy(employee.Role);
+                return _strategyBase;
+            }
+        }
+
+        private OrderControllerStrategyBase GetAssociateStrategy(EmployeeRole role)
+        {
+            switch (role)
+            {
+                case EmployeeRole.Manager:
+                    {
+                        return new StaffOrderControllerStrategy(Service);
+                    }
+                case EmployeeRole.StaffBranch:
+                    {
+                        return new StaffOrderControllerStrategy(Service);
+                    }
+                case EmployeeRole.WarehouseKeeper:
+                    {
+                        return new StaffOrderControllerStrategy(Service);
+                    }
+                case EmployeeRole.Admin:
+                    {
+                        return new StaffOrderControllerStrategy(Service);
+                    }
+                case EmployeeRole.SuperUser:
+                    {
+                        return new StaffOrderControllerStrategy(Service);
+                    }
+            }
+            return new StaffOrderControllerStrategy(Service);
+        }
+        #endregion
+        public OrdersController(ApplicationUserManager userManager,
+            IOrderService service,
+            IBranchGoodCategoryService branchGoodCategoryService, IEmployeeService employeeService) : base(userManager)
         {
             Service = service;
             _branchGoodCategoryService = branchGoodCategoryService;
+            EmployeeService = employeeService;
         }
 
         #region StaffOrder
@@ -39,9 +87,9 @@ namespace wm.Web2.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult StaffPopulateData(int id, int goodCategoryId)//, PlacingOrderViewModel nnData)
+        public ActionResult PopulateData(int id, int goodCategoryId)//, PlacingOrderViewModel nnData)
         {
-            var items = Service.PopulateData(id, goodCategoryId);
+            var items = StrategyBase.PopulateData(id, goodCategoryId);
             return Json(items);
         }
 
@@ -49,38 +97,24 @@ namespace wm.Web2.Controllers
         //TODO: bulk update/delete/add EntityFramework.Extended
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult StaffPlaceOrder(int id, OrderViewModel inputViewModel)
+        public ActionResult Place(int id, OrderViewModel inputViewModel)
         {
-            Service.placingOrder(id, inputViewModel.data);
-
-            //post-processing
-
-            //service.Update(model);
-            return Json(new ReturnJsonObject<int> { Status = ReturnStatus.Ok.ToString(), Data = 0 });
+            Service.Place(id, inputViewModel.data);
+            return OkCode();
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult StaffCreateOrder(CreateOrderByStaffViewModel inputViewModel)
+        public ActionResult Create(CreateOrderByStaffViewModel inputViewModel)
         {
-            var model = new Order
-            {
-                BranchId = inputViewModel.branchId,
-                OrderDay = inputViewModel.orderDay,
-                CreatedBy = inputViewModel.employeeId,
-                Status = OrderStatus.Started,
-                Priority = 0
-            };
-
-            Service.Create(model);
+            StrategyBase.Create(inputViewModel.orderDay, inputViewModel.employeeId, inputViewModel.branchId);
             return OkCode();
         }
 
         [AllowAnonymous]
-        public ActionResult StaffConfirmOrder(int id)
+        public ActionResult Confirm(int id)
         {
-            Service.ChangeStatus(id, OrderStatus.StaffConfirmed);
-
+            StrategyBase.Confirm(id);
             return RedirectToAction("GeneralIndex", "Dashboard");
         }
 

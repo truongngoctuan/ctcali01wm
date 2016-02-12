@@ -33,7 +33,7 @@
     </div>
 
     <div class="row">
-        <a href="@Url.Action("StaffConfirmOrder", "Orders", new { id = ViewBag.OrderId  })"
+        <a href="@Url.Action("Confirm", "Orders", new { id = ViewBag.OrderId  })"
            class="btn btn-danger btn-large col-md-4 col-xs-12">Confirm</a>
 
     </div>
@@ -116,7 +116,7 @@
         });
 
         function loadIncludeExclude() {
-            ajaxPOSTRequest('@Url.Action("StaffPopulateData")', {id : OrderId, GoodCategoryId: GoodCategoryId},
+            ajaxPOSTRequest('@Url.Action("PopulateData")', {id : OrderId, GoodCategoryId: GoodCategoryId},
                 function (data, textStatus, XMLHttpRequest) {
                     console.log("client received: " + data);
 
@@ -129,7 +129,7 @@
         function saveIncludeExclude() {
             console.log("local Data: " + JSON.stringify({ data: dataInput }));
 
-            ajaxPOSTRequest('@Url.Action("StaffPlaceOrder")',
+            ajaxPOSTRequest('@Url.Action("Place")',
                 { id: OrderId, data: dataInput },
                 function (data, textStatus, XMLHttpRequest) {
                     var dataObject = JSON.parse(data);
