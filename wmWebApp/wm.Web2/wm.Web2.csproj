@@ -241,6 +241,7 @@
     <Compile Include="Controllers\GoodUnitsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Controllers\OrderStrategy\ManagerOrderControllerStrategy.cs" />
     <Compile Include="Controllers\OrderStrategy\OrderControllerStrategyBase.cs" />
     <Compile Include="Controllers\OrderStrategy\StaffOrderControllerStrategy.cs" />
     <Compile Include="Controllers\ReturnJsonObject.cs" />

@@ -37,7 +37,7 @@ namespace wm.Web2.Controllers
             {
                 case EmployeeRole.Manager:
                     {
-                        return new StaffOrderControllerStrategy(Service);
+                        return new ManagerOrderControllerStrategy(Service);
                     }
                 case EmployeeRole.StaffBranch:
                     {

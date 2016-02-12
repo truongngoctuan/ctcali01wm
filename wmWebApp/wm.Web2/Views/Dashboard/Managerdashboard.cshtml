@@ -113,7 +113,7 @@
             return resultObject;
         } //end of events_source_function
 
-        function confirmCreateOrder() {
+        function confirmCreateOrder(clickedDate) {
             bootbox.confirm("Do you want to create new order for day " + clickedDate, function(result) {
                 if (result) {
                     $.ajax({
@@ -125,9 +125,8 @@
                         },
                         cache: false,
                         type: "POST",
-                        dataType: "html",
-                        success: function(data2) {
-                            var dataObject = JSON.parse(data2);
+                        dataType: "json",
+                        success: function(dataObject) {
                             if (dataObject.Status === "Ok") {
                                 var redirectUrl = '@Url.Action("ManagerEditOrder", "Orders")' + '/' + dataObject.Result.toString();
                                 changeWindowLocation(redirectUrl);
@@ -158,7 +157,7 @@
                     }
 
                     if (isAllowToCreateOrder) {
-                        confirmCreateOrder();
+                        confirmCreateOrder(clickedDate);
                     }
 
 
