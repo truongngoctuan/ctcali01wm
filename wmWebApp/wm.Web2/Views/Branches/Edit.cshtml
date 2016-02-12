@@ -191,7 +191,7 @@
                 { id: @Model.Id, data: dataOutputFiltered },
                 function (data, textStatus, XMLHttpRequest) {
                     var dataObject = JSON.parse(data);
-                    if (dataObject.status = "Ok") {
+                    if (dataObject.Status = "Ok") {
                         location.reload();
                         //window.location.href = '@Url.Action("Edit", new { id = Model.Id})';
                     }
@@ -256,7 +256,7 @@
                 { id: @Model.Id, data: dataInputOrder },
                 function (data, textStatus, XMLHttpRequest) {
                     var dataObject = JSON.parse(data);
-                    if (dataObject.status = "Ok") {
+                    if (dataObject.Status = "Ok") {
                         location.reload();
                         //window.location.href = '@Url.Action("Edit", new { id = Model.Id, isInEx = false})';
                     }
