@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using wm.Model;
 using wm.Service;
 using wm.Service.Model;
@@ -14,9 +15,10 @@ namespace wm.Web2.Controllers.OrderStrategy
         {
         }
 
-        public override IEnumerable<OrderBranchItem> PopulateData(int orderId, int goodCategoryId)
+        public override JsonResult PopulateData(int orderId, int goodCategoryId)
         {
-            return Service.PopulateData(orderId, goodCategoryId);
+            var items = Service.PopulateData(orderId, goodCategoryId);
+            return new JsonResult() { Data = items };
         }
 
         public override Order Create(DateTime orderDay, string userId, int branchId)

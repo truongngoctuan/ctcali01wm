@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web.Mvc;
 using wm.Model;
 using wm.Service;
 using wm.Service.Model;
@@ -14,7 +15,8 @@ namespace wm.Web2.Controllers.OrderStrategy
         {
             Service = service;
         }
-        public abstract IEnumerable<OrderBranchItem> PopulateData(int orderId, int goodCategoryId);
+        //controller is a Json helper
+        public abstract JsonResult PopulateData(int orderId, int goodCategoryId);
 
         public abstract Order Create(DateTime orderDay, string userId, int branchId);
         public abstract void Place(int orderId, OrderBranchItem[] data);

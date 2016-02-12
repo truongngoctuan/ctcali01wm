@@ -8,6 +8,9 @@ namespace wm.Model
     public class Order: AuditableEntity<int>
     {
         public int BranchId { get; set; }
+        [ForeignKey("BranchId")]
+        public virtual Branch Branch { get; set; }
+
         public OrderStatus Status { get; set; }
         public DateTime OrderDay { get; set; }
 

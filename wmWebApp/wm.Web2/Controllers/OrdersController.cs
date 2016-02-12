@@ -145,8 +145,7 @@ namespace wm.Web2.Controllers
         [HttpPost]
         public ActionResult PopulateData(int orderId, int goodCategoryId)//, PlacingOrderViewModel nnData)
         {
-            var items = StrategyBase.PopulateData(orderId, goodCategoryId);
-            return Json(items);
+            return StrategyBase.PopulateData(orderId, goodCategoryId);
         }
 
 

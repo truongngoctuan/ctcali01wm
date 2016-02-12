@@ -14,6 +14,7 @@ namespace wm.Model
 
         public virtual ICollection<BranchGoodCategory> BranchGoodCategories { get; set; }
         public virtual ICollection<Employee> Employees { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 
     public enum BranchType
