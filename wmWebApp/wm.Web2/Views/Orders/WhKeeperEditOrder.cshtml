@@ -1,0 +1,154 @@
+﻿@model IEnumerable<wm.Model.GoodCategory>
+@{
+    ViewBag.Title = "ManagerEditOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Warehouse keeper EditOrder</h2>
+
+
+<div class="row">
+    <h4>Update good categories</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4 list-group">
+            @foreach (var item in Model)
+            {
+                <button onclick="clickGoodCategoryItem('@Url.Action("WhKeeperEditOrder", "Orders", new { id = ViewBag.OrderId, GoodCategoryId = item.Id })')" class="list-group-item GoodCategoryItem" id="GoodCategoryItem@{@item.Id}">@item.Name</button>
+    }
+        </div>
+        <div class="col-md-8">
+            <div class="form-group row col-md-12">
+                <div id="hsIncludeExclude" class=""></div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <button name="save" id="save" class="btn btn-danger" onclick="saveIncludeExclude()">Save</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <a href="@Url.Action("Confirm", "Orders" , new { id=ViewBag.OrderId })"
+           class="btn btn-danger btn-large col-md-4 col-xs-12">Confirm</a>
+
+    </div>
+</div>
+
+@*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@<div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        //================================================================================
+        //helper
+        function ajaxPOSTRequest(href, dataObject, onSuccessCallback) {
+            $.ajax({
+                url: href,
+                data: dataObject,
+                cache: false,
+                type: "POST",
+                dataType: "html",
+                success: onSuccessCallback
+            });
+        }
+        //================================================================================
+        var $$ = function (id) {
+            return document.getElementById(id);
+        },
+    container = $$('hsIncludeExclude'),
+    autosave = $$('autosave'),
+    load = $$('load'),
+    save = $$('save'),
+    autosaveNotification,
+    hot,
+    dataInput;
+
+        var OrderId = @ViewBag.OrderId;
+        var GoodCategoryId = @ViewBag.GoodCategoryId;
+        var isDataChanged = false;
+        $(document).ready(function () {
+            $(".GoodCategoryItem[id$='"+ GoodCategoryId + "']").addClass("active");//for decoration
+
+            loadIncludeExclude(OrderId, GoodCategoryId);
+        });
+
+        function clickGoodCategoryItem(url) {
+            if (isDataChanged) {
+                //confirm before change page
+                bootbox.confirm("There are unsave data, do you want to leave this page ? ", function(result) {
+                    if (result) {
+                        console.log("still want to leave this page");
+                        window.location.href = url;
+                    }
+                });
+
+
+            } else {
+                window.location.href = url;
+            }
+        }
+
+        hot = new Handsontable(container, {
+            startRows: 1,
+            startCols: 2,
+            allowInvalid: false,
+            rowHeaders: true,
+            colHeaders: ['Name','InStock','RecommendQuantity', 'Quantity', 'Note', 'YourNote'],
+            dataSchema: { Id: null, Name: null, RecommendedQuantity: null, Quantity: null },
+            columns: [//TODO: change colorbackground for readonly
+              //{ Data: 'CategoryId', readOnly: true },
+              { data: 'Name', readOnly: true },
+              { data: 'InStock', readOnly: false },
+              { data: 'RecommenedQuantity', readOnly: true },
+              { data: 'Quantity', readOnly: false, type : 'numeric',format: '0,0.00', allowInvalid: true},
+              { data: 'Note', readOnly: true },
+                { data: 'YourNote', readOnly: false }
+
+              //{ Data: 'IsChecked', type: 'checkbox' },
+            ],
+            afterChange: function (change, source) {
+                if (source === 'loadData') {
+                    return; //don't save this change
+                }
+                console.log("change: " + JSON.stringify(hot.getSourceDataAtRow(change[0][0])));
+                isDataChanged = true;
+            }
+        });
+
+        function loadIncludeExclude() {
+            ajaxPOSTRequest('@Url.Action("PopulateData")', {orderId : OrderId, goodCategoryId: GoodCategoryId},
+                function (data) {
+                    console.log("client received: " + data);
+
+                    dataInput = JSON.parse(data);
+                    hot.loadData(dataInput);
+
+                });
+        }
+
+        function saveIncludeExclude() {
+            console.log("local Data: " + JSON.stringify({ data: dataInput }));
+
+            ajaxPOSTRequest('@Url.Action("Place")',
+                { id: OrderId, data: dataInput },
+                function (data) {
+                    var dataObject = JSON.parse(data);
+                    if (dataObject.Status === "Ok") {
+                        isDataChanged = false;
+                    }
+                    else {
+                        console.log("error saveIncludeExclude");
+                    }
+                });
+        }
+
+    </script>
+}

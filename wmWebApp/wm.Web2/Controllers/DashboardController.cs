@@ -46,15 +46,15 @@ namespace wm.Web2.Controllers
                     }
                 case EmployeeRole.WarehouseKeeper:
                     {
-                        return new StaffCalendarEventStrategy(_calendarEventService);
+                        return new WhKeeperCalendarEventStrategy(_calendarEventService);
                     }
                 case EmployeeRole.Admin:
                     {
-                        return new StaffCalendarEventStrategy(_calendarEventService);
+                        return new WhKeeperCalendarEventStrategy(_calendarEventService);
                     }
                 case EmployeeRole.SuperUser:
                     {
-                        return new StaffCalendarEventStrategy(_calendarEventService);
+                        return new WhKeeperCalendarEventStrategy(_calendarEventService);
                     }
             }
             return new StaffCalendarEventStrategy(_calendarEventService);

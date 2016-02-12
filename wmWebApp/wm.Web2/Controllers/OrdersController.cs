@@ -120,6 +120,26 @@ namespace wm.Web2.Controllers
             ViewBag.GoodCategoryId = (int)goodCategoryId;
             return View(filteredGoodCategoryList);
         }
+
+        public ActionResult WhKeeperEditOrder(int id, int? goodCategoryId)
+        {
+            IEnumerable<GoodCategory> filteredGoodCategoryList;
+            goodCategoryId = GetAssociateGoodCategories(id, out filteredGoodCategoryList, goodCategoryId);
+
+            ViewBag.OrderId = id;
+            ViewBag.GoodCategoryId = (int)goodCategoryId;
+            return View(filteredGoodCategoryList);
+        }
+
+        public ActionResult WhKeeperDetailsOrder(int id, int? goodCategoryId)
+        {
+            IEnumerable<GoodCategory> filteredGoodCategoryList;
+            goodCategoryId = GetAssociateGoodCategories(id, out filteredGoodCategoryList, goodCategoryId);
+
+            ViewBag.OrderId = id;
+            ViewBag.GoodCategoryId = (int)goodCategoryId;
+            return View(filteredGoodCategoryList);
+        }
         #endregion
 
         [HttpPost]
@@ -150,5 +170,7 @@ namespace wm.Web2.Controllers
             StrategyBase.Confirm(id);
             return RedirectToAction("GeneralIndex", "Dashboard");
         }
+
+
     }
 }
