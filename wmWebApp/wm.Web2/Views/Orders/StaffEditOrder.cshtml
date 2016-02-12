@@ -12,9 +12,12 @@
         <div class="col-md-4 list-group">
             @foreach (var item in Model)
             {
-                <a href="@Url.Action("StaffEditOrder", "Orders", new { id = ViewBag.OrderId, GoodCategoryId = item.Id })"
-                   class="list-group-item GoodCategoryItem">@item.Name</a>
-            }
+                <button onclick="clickGoodCategoryItem('@Url.Action("StaffEditOrder", "Orders", new { id = ViewBag.OrderId, GoodCategoryId = item.Id })')" class="list-group-item GoodCategoryItem" id="GoodCategoryItem@{@item.Id}">@item.Name</button>
+
+
+                @*<a href="@Url.Action("StaffEditOrder", "Orders", new { id = ViewBag.OrderId, GoodCategoryId = item.Id })"
+                    class="list-group-item GoodCategoryItem">@item.Name</a>*@
+    }
         </div>
         <div class="col-md-8">
             <div class="form-group row col-md-12">
@@ -37,8 +40,8 @@
 </div>
 
 @*<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>*@
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
 
 
 @section Scripts {
@@ -71,19 +74,28 @@
 
         var OrderId = @ViewBag.OrderId;
         var GoodCategoryId = @ViewBag.GoodCategoryId;
+        var isDataChanged = false;
         $(document).ready(function () {
-            $(".GoodCategoryItem[href$='"+ GoodCategoryId + "']").addClass("active");
-
-            $(".GoodCategoryItem").each(function (index, value) {
-                $(this).click(function(e) {
-                    //alert("just after click");
-                    //TODO: ask for save before change to another category
-                    //e.preventDefault();
-                });
-            });
+            $(".GoodCategoryItem[id$='"+ GoodCategoryId + "']").addClass("active");//for decoration
 
             loadIncludeExclude(OrderId, GoodCategoryId);
         });
+
+        function clickGoodCategoryItem(url) {
+            if (isDataChanged) {
+                //confirm before change page
+                bootbox.confirm("There are unsave data, do you want to leave this page ? ", function(result) {
+                    if (result) {
+                        console.log("still want to leave this page");
+                        window.location.href = url;
+                    }
+                });
+
+
+            } else {
+                window.location.href = url;
+            }
+        }
 
         hot = new Handsontable(container, {
             startRows: 1,
@@ -108,7 +120,7 @@
                     return; //don't save this change
                 }
                 console.log("change: " + JSON.stringify(hot.getSourceDataAtRow(change[0][0])));
-
+                isDataChanged = true;
             }
         });
 
@@ -131,7 +143,7 @@
                 function (data) {
                     var dataObject = JSON.parse(data);
                     if (dataObject.Status === "Ok") {
-
+                        isDataChanged = false;
                     }
                     else {
                         console.log("error saveIncludeExclude");
