@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using wm.Model;
 
-namespace wm.Service
+namespace wm.Service.CalendarEvent
 {
     public interface ICalendarEventService
     {
@@ -28,10 +28,10 @@ namespace wm.Service
                 return _eventCalendarStrategy;
             }
         }
-        public CalendarEventService(IOrderService OrderService, IBranchService BranchService)
+        public CalendarEventService(IOrderService orderService, IBranchService branchService)
         {
-            _orderService = OrderService;
-            _branchService = BranchService;
+            _orderService = orderService;
+            _branchService = branchService;
         }
 
         private CalendarEventStrategyBase GetAssociateStrategy(EmployeeRole role)

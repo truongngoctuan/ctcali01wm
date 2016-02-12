@@ -1,0 +1,171 @@
+﻿@model wm.Model.Employee
+@{
+    ViewBag.Title = "Managerdashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Manager Dashboard</h2>
+
+<div class="page-header2 row">
+    <div class="col-md-6"> <h3></h3></div>
+
+    <div class="pull-right form-inline col-md-6">
+        <div class="btn-group">
+            <button class="btn btn-primary" Data-calendar-nav="prev"><< Prev</button>
+            <button class="btn" Data-calendar-nav="today">Today</button>
+            <button class="btn btn-primary" Data-calendar-nav="next">Next >></button>
+        </div>
+    </div>
+
+</div>
+
+<div id="calendar" class="row"></div>
+
+@section Scripts {
+
+    <script>
+        var calendar;
+        var calendar_events;
+        $(document).ready(function() {
+            loadCalendar();
+            configButtonPresNextCalendar();
+        });
+
+        function loadCalendar() {
+            calendar = $("#calendar").calendar(
+            {
+                tmpl_path: "../Content/ExceptionLib/bootstrap-calendar/tmpls/",
+                day: '2016-02-06', //yyyy-MM-dd
+                view: 'month',
+                views: {
+                    year: {
+                        enable: 0
+                    },
+                    month: {
+                        enable: 1
+                    },
+                    week: {
+                        enable: 0
+                    },
+                    day: {
+                        enable: 0 //disabled
+                    }
+                },
+                events_source: events_source_function,
+                onAfterViewLoad: onAfterViewLoadFunc
+            });
+        } //end of loadCalendar
+
+        function events_source_function(start, end) {
+            var startDate = start;
+            var endDate = end;
+
+            var resultObject = [];
+
+            $.ajax({
+                method: "POST",
+                url: '@Url.Action("PopulateEvents", "Dashboard")',
+                dataType: "json",
+                data: { monthInfo: moment(startDate).format("YYYY-MM-DD"), branchId: @Model.BranchId },
+                async: false,
+                success: function(dataObject) {
+                    calendar_events = dataObject.result;
+                    if (dataObject.success === 1) {
+                        resultObject = dataObject.result;
+
+                        //modify return object
+                        for (var i = 0; i < resultObject.length; i++) {
+                            switch (resultObject[i].status) {
+                                case "NotStarted":
+                                    {
+                                        resultObject[i].class = "event-not-started";
+                                        break;
+                                    }
+                                case "Started":
+                                    {
+                                        resultObject[i].class = "event-started";
+                                        break;
+                                    }
+                                case "StaffConfirmed":
+                                    {
+                                        resultObject[i].class = "event-staff-confirmed";
+                                        break;
+                                    }
+                                case "ManagerConfirmed":
+                                    {
+                                        resultObject[i].class = "event-manager-confirmed";
+                                        break;
+                                    }
+                                case "Finished":
+                                    {
+                                        resultObject[i].class = "event-finished";
+                                        break;
+                                    }
+                            }
+                        }
+
+                        console.log("return resultObject" + resultObject.length);
+
+                    }
+                }
+            });
+
+            return resultObject;
+        } //end of events_source_function
+
+        function confirmCreateOrder() {
+            bootbox.confirm("Do you want to create new order for day " + clickedDate, function(result) {
+                if (result) {
+                    $.ajax({
+                        url: '@Url.Action("Create", "Orders")',
+                        data: {
+                            employeeId: '@Model.Id',
+                            branchId: @Model.BranchId,
+                            orderDay: clickedDate
+                        },
+                        cache: false,
+                        type: "POST",
+                        dataType: "html",
+                        success: function(data2) {
+                            var dataObject = JSON.parse(data2);
+                            if (dataObject.Status === "Ok") {
+                                var redirectUrl = '@Url.Action("ManagerEditOrder", "Orders")' + '/' + dataObject.Result.toString();
+                                changeWindowLocation(redirectUrl);
+                            }
+                        }
+                    });
+
+
+                }
+            });
+        }
+
+        function onAfterViewLoadFunc(view) {
+            $('.page-header2 div h3').text(this.getTitle());
+
+            if (view === "month") {
+                $("#calendar .cal-month-day").dblclick(function() {
+                    var isAllowToCreateOrder = true;
+
+                    var clickedDate = $(this).find('span').attr('Data-cal-date');
+                    console.log(clickedDate);
+                    for (var i = 0; i < calendar_events.length; i++) {
+                        var calendarEventUnixDate = calendar_events[i].start;
+                        var timestamp = moment.unix(calendarEventUnixDate / 1000);
+                        if (clickedDate === timestamp.format("YYYY-MM-DD")) {
+                            isAllowToCreateOrder = false;
+                        }
+                    }
+
+                    if (isAllowToCreateOrder) {
+                        confirmCreateOrder();
+                    }
+
+
+                });
+            }
+        }
+
+    </script>
+}
+

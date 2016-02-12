@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using wm.Model;
 
-namespace wm.Service
+namespace wm.Service.CalendarEvent
 {
     abstract class CalendarEventStrategyBase
     {
-        protected IOrderService _orderService;
+        protected IOrderService OrderService { get; set; }
         public abstract IEnumerable<Order> PopulateEvents(DateTime monthInfo, int branchId);
     }
 }

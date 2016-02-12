@@ -3,6 +3,7 @@ using System;
 using System.Web.Mvc;
 using wm.Model;
 using wm.Service;
+using wm.Service.CalendarEvent;
 using wm.Web2.Controllers.CalendarEventStrategy;
 
 namespace wm.Web2.Controllers
@@ -37,7 +38,7 @@ namespace wm.Web2.Controllers
             {
                 case EmployeeRole.Manager:
                     {
-                        return new StaffCalendarEventStrategy(_calendarEventService);
+                        return new ManagerCalenderEventStrategy(_calendarEventService);
                     }
                 case EmployeeRole.StaffBranch:
                     {
@@ -113,7 +114,10 @@ namespace wm.Web2.Controllers
         [Authorize]
         public ActionResult ManagerDashboard()
         {
-            return View("StaffDashboard");
+            var userId = User.Identity.GetUserId();
+            var employee = Service.GetByApplicationId(userId);
+
+            return View(employee);
         }
 
         [Authorize]

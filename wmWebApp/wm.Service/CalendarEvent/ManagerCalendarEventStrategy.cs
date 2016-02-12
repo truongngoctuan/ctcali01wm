@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using wm.Model;
 
-namespace wm.Service
+namespace wm.Service.CalendarEvent
 {
     class ManagerCalendarEventStrategy : CalendarEventStrategyBase
     {
-        public ManagerCalendarEventStrategy(IOrderService OrderService)
+        public ManagerCalendarEventStrategy(IOrderService orderService)
         {
-            _orderService = OrderService;
+            OrderService = orderService;
         }
         public override IEnumerable<Order> PopulateEvents(DateTime monthInfo, int branchId)
         {
-            throw new NotImplementedException();
+            var ordersInMonth = OrderService.GetAllOrdersInMonth(monthInfo, branchId);
+            return ordersInMonth;
         }
     }
 }

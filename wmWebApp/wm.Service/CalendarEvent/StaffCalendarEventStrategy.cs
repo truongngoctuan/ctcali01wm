@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using wm.Model;
 
-namespace wm.Service
+namespace wm.Service.CalendarEvent
 {
 
     class StaffCalendarEventStrategy : CalendarEventStrategyBase
     {
-        public StaffCalendarEventStrategy(IOrderService OrderService)
+        public StaffCalendarEventStrategy(IOrderService orderService)
         {
-            _orderService = OrderService;
+            OrderService = orderService;
         }
         public override IEnumerable<Order> PopulateEvents(DateTime monthInfo, int branchId)
         {
-            var ordersInMonth = _orderService.GetAllOrdersInMonth(monthInfo, branchId);
+            var ordersInMonth = OrderService.GetAllOrdersInMonth(monthInfo, branchId);
             return ordersInMonth;
         }
     }

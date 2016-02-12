@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using wm.Model;
 using wm.Service;
@@ -67,19 +68,22 @@ namespace wm.Web2.Controllers
             EmployeeService = employeeService;
         }
 
-        #region StaffOrder
-        // GET: Order(index page, no care, load template, the same for each role)
-        public ActionResult StaffEditOrder(int id, int? goodCategoryId)
+        int? GetAssociateGoodCategories(int orderId, 
+            out IEnumerable<GoodCategory> filteredGoodCategoryList,
+            int? goodCategoryId)
         {
-            var inputModel = Service.GetById(id);
-            var filteredGoodCategoryList = _branchGoodCategoryService
+            var inputModel = Service.GetById(orderId);
+            filteredGoodCategoryList = _branchGoodCategoryService
                 .GetByBranchId(inputModel.BranchId, "GoodCategory")
                 .Select(t => t.GoodCategory);
 
-            if (goodCategoryId == null)
-            {
-                goodCategoryId = filteredGoodCategoryList.First().Id;
-            }
+            return goodCategoryId ?? filteredGoodCategoryList.First().Id;
+        }
+        // GET: Order(index page, no care, load template, the same for each role)
+        public ActionResult StaffEditOrder(int id, int? goodCategoryId)
+        {
+            IEnumerable<GoodCategory> filteredGoodCategoryList;
+            goodCategoryId = GetAssociateGoodCategories(id, out filteredGoodCategoryList, goodCategoryId);
 
             ViewBag.OrderId = id;
             ViewBag.GoodCategoryId = (int)goodCategoryId;
@@ -88,20 +92,34 @@ namespace wm.Web2.Controllers
 
         public ActionResult StaffDetailsOrder(int id, int? goodCategoryId)
         {
-            var inputModel = Service.GetById(id);
-            var filteredGoodCategoryList = _branchGoodCategoryService
-                .GetByBranchId(inputModel.BranchId, "GoodCategory")
-                .Select(t => t.GoodCategory);
-
-            if (goodCategoryId == null)
-            {
-                goodCategoryId = filteredGoodCategoryList.First().Id;
-            }
+            IEnumerable<GoodCategory> filteredGoodCategoryList;
+            goodCategoryId = GetAssociateGoodCategories(id, out filteredGoodCategoryList, goodCategoryId);
 
             ViewBag.OrderId = id;
             ViewBag.GoodCategoryId = (int)goodCategoryId;
             return View(filteredGoodCategoryList);
         }
+
+        public ActionResult ManagerEditOrder(int id, int? goodCategoryId)
+        {
+            IEnumerable<GoodCategory> filteredGoodCategoryList;
+            goodCategoryId = GetAssociateGoodCategories(id, out filteredGoodCategoryList, goodCategoryId);
+
+            ViewBag.OrderId = id;
+            ViewBag.GoodCategoryId = (int)goodCategoryId;
+            return View(filteredGoodCategoryList);
+        }
+
+        public ActionResult ManagerDetailsOrder(int id, int? goodCategoryId)
+        {
+            IEnumerable<GoodCategory> filteredGoodCategoryList;
+            goodCategoryId = GetAssociateGoodCategories(id, out filteredGoodCategoryList, goodCategoryId);
+
+            ViewBag.OrderId = id;
+            ViewBag.GoodCategoryId = (int)goodCategoryId;
+            return View(filteredGoodCategoryList);
+        }
+
 
         [HttpPost]
         public ActionResult PopulateData(int orderId, int goodCategoryId)//, PlacingOrderViewModel nnData)
@@ -131,7 +149,5 @@ namespace wm.Web2.Controllers
             StrategyBase.Confirm(id);
             return RedirectToAction("GeneralIndex", "Dashboard");
         }
-
-        #endregion
     }
 }

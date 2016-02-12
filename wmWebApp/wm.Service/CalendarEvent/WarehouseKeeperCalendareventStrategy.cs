@@ -3,26 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using wm.Model;
 
-namespace wm.Service
+namespace wm.Service.CalendarEvent
 {
     class WarehouseKeeperCalendarEventStrategy : CalendarEventStrategyBase
     {
         readonly IBranchService _branchService;
-        public WarehouseKeeperCalendarEventStrategy(IOrderService OrderService, IBranchService BranchService)
+        public WarehouseKeeperCalendarEventStrategy(IOrderService orderService, IBranchService branchService)
         {
-            _orderService = OrderService;
-            _branchService = BranchService;
+            OrderService = orderService;
+            _branchService = branchService;
         }
         public override IEnumerable<Order> PopulateEvents(DateTime monthInfo, int branchId)
         {
-            var ordersInMonth = _orderService.GetAllOrdersInMonth(monthInfo);
+            var ordersInMonth = OrderService.GetAllOrdersInMonth(monthInfo);
 
             //add fake orders
             var fakeOrdersInmonth = new List<Order>();
             var branchList = _branchService.GetAll();
             //for eachday
             var daysInMonth = DateTime.DaysInMonth(monthInfo.Year, monthInfo.Month);
-            for (int i = 1; i <= daysInMonth; i++)
+            for (var i = 1; i <= daysInMonth; i++)
             {
                 foreach(var branch in branchList)
                 {

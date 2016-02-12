@@ -1,9 +1,11 @@
 ﻿@model IEnumerable<wm.Model.GoodCategory>
-
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "ManagerEditOrder";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<h2>ManagerEditOrder</h2>
+
 
 <div class="row">
     <h4>Update good categories</h4>
@@ -29,7 +31,7 @@
     </div>
 
     <div class="row">
-        <a href="@Url.Action("Confirm", "Orders", new { id = ViewBag.OrderId  })"
+        <a href="@Url.Action("Confirm", "Orders" , new { id=ViewBag.OrderId })"
            class="btn btn-danger btn-large col-md-4 col-xs-12">Confirm</a>
 
     </div>
@@ -37,7 +39,8 @@
 
 @*<div>
         @Html.ActionLink("Back to List", "Index")
-    </div>*@
+    </div>*@<div>
+</div>
 
 
 @section Scripts {
