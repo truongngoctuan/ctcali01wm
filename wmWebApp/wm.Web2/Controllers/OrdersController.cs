@@ -56,7 +56,7 @@ namespace wm.Web2.Controllers
             //post-processing
 
             //service.Update(model);
-            return Json(new ReturnJsonObject<int> { status = ReturnStatus.ok.ToString(), data = 0 });
+            return Json(new ReturnJsonObject<int> { Status = ReturnStatus.Ok.ToString(), Data = 0 });
         }
 
         [HttpPost]

@@ -96,7 +96,7 @@
             colHeaders: ['Name','InStock','RecommendQuantity', 'Quantity', 'Note', 'YourNote'],
             dataSchema: { Id: null, Name: null, RecommendedQuantity: null, Quantity: null },
             columns: [//TODO: change colorbackground for readonly
-              //{ data: 'CategoryId', readOnly: true },
+              //{ Data: 'CategoryId', readOnly: true },
               { data: 'Name', readOnly: true },
               { data: 'InStock', readOnly: false },
               { data: 'RecommenedQuantity', readOnly: true },
@@ -104,7 +104,7 @@
               { data: 'Note', readOnly: true },
                 { data: 'YourNote', readOnly: false },
 
-              //{ data: 'IsChecked', type: 'checkbox' },
+              //{ Data: 'IsChecked', type: 'checkbox' },
             ],
             afterChange: function (change, source) {
                 if (source === 'loadData') {
@@ -127,13 +127,13 @@
         }
 
         function saveIncludeExclude() {
-            console.log("local data: " + JSON.stringify({ data: dataInput }));
+            console.log("local Data: " + JSON.stringify({ data: dataInput }));
 
             ajaxPOSTRequest('@Url.Action("StaffPlaceOrder")',
                 { id: OrderId, data: dataInput },
                 function (data, textStatus, XMLHttpRequest) {
                     var dataObject = JSON.parse(data);
-                    if (dataObject.status = "ok") {
+                    if (dataObject.status = "Ok") {
 
                     }
                     else {

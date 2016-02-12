@@ -7,11 +7,11 @@ namespace wm.Web2.Models
     /// <summary>
     /// A full result, as understood by jQuery DataTables.
     /// </summary>
-    /// <typeparam name="T">The data type of each row.</typeparam>
+    /// <typeparam name="T">The Data type of each row.</typeparam>
     public class DTResult<T>
     {
         /// <summary>
-        /// The draw counter that this object is a response to - from the draw parameter sent as part of the data request.
+        /// The draw counter that this object is a response to - from the draw parameter sent as part of the Data request.
         /// Note that it is strongly recommended for security reasons that you cast this parameter to an integer, rather than simply echoing back to the client what it sent in the draw parameter, in order to prevent Cross Site Scripting (XSS) attacks.
         /// </summary>
         public int draw { get; set; }
@@ -22,13 +22,13 @@ namespace wm.Web2.Models
         public int recordsTotal { get; set; }
 
         /// <summary>
-        /// Total records, after filtering (i.e. the total number of records after filtering has been applied - not just the number of records being returned for this page of data).
+        /// Total records, after filtering (i.e. the total number of records after filtering has been applied - not just the number of records being returned for this page of Data).
         /// </summary>
         public int recordsFiltered { get; set; }
 
         /// <summary>
-        /// The data to be displayed in the table.
-        /// This is an array of data source objects, one for each row, which will be used by DataTables.
+        /// The Data to be displayed in the table.
+        /// This is an array of Data source objects, one for each row, which will be used by DataTables.
         /// Note that this parameter's name can be changed using the ajaxDT option's dataSrc property.
         /// </summary>
         public IEnumerable<T> data { get; set; }
@@ -56,8 +56,8 @@ namespace wm.Web2.Models
         }
 
         /// <summary>
-        /// Add this data property to the row's dt-tag tr node allowing abstract data to be added to the node, using the HTML5 data-* attributes.
-        /// This uses the jQuery data() method to set the data, which can also then be used for later retrieval (for example on a click event).
+        /// Add this Data property to the row's dt-tag tr node allowing abstract Data to be added to the node, using the HTML5 Data-* attributes.
+        /// This uses the jQuery Data() method to set the Data, which can also then be used for later retrieval (for example on a click event).
         /// </summary>
         public virtual object DT_RowData
         {
@@ -89,7 +89,7 @@ namespace wm.Web2.Models
 
         /// <summary>
         /// Paging first record indicator.
-        /// This is the start point in the current data set (0 index based - i.e. 0 is the first record).
+        /// This is the start point in the current Data set (0 index based - i.e. 0 is the first record).
         /// </summary>
         public int Start { get; set; }
 
@@ -126,7 +126,7 @@ namespace wm.Web2.Models
     public class DTColumn
     {
         /// <summary>
-        /// Column's data source, as defined by columns.data.
+        /// Column's Data source, as defined by columns.Data.
         /// </summary>
         public string Data { get; set; }
 
@@ -190,7 +190,7 @@ namespace wm.Web2.Models
 
         /// <summary>
         /// true if the global filter should be treated as a regular expression for advanced searching, false otherwise.
-        /// Note that normally server-side processing scripts will not perform regular expression searching for performance reasons on large data sets, but it is technically possible and at the discretion of your script.
+        /// Note that normally server-side processing scripts will not perform regular expression searching for performance reasons on large Data sets, but it is technically possible and at the discretion of your script.
         /// </summary>
         public bool Regex { get; set; }
     }

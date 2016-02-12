@@ -10,9 +10,9 @@
 
     <div class="pull-right form-inline col-md-6">
         <div class="btn-group">
-            <button class="btn btn-primary" data-calendar-nav="prev"><< Prev</button>
-            <button class="btn" data-calendar-nav="today">Today</button>
-            <button class="btn btn-primary" data-calendar-nav="next">Next >></button>
+            <button class="btn btn-primary" Data-calendar-nav="prev"><< Prev</button>
+            <button class="btn" Data-calendar-nav="today">Today</button>
+            <button class="btn btn-primary" Data-calendar-nav="next">Next >></button>
         </div>
     </div>
 
@@ -29,7 +29,7 @@
             loadCalendar();
 
             //config button move pres or next for calendar
-            $('.btn-group button[data-calendar-nav]').each(function () {
+            $('.btn-group button[Data-calendar-nav]').each(function () {
                 var $this = $(this);
                 $this.click(function () {
                     calendar.navigate($this.data('calendar-nav'));
@@ -64,7 +64,7 @@
 
                     if (view == "month") {
                         //$("#calendar .cal-month-day").click(function (e) {
-                        //    var clicked_date = $(this).find('span').attr('data-cal-date');
+                        //    var clicked_date = $(this).find('span').attr('Data-cal-date');
                         //    //Do whatever you want. probably, a $.post or something to add the record on your db
                         //    console.log("click event is activated : " + clicked_date);
                         //});
@@ -72,7 +72,7 @@
                         $("#calendar .cal-month-day").dblclick(function () {
                             var IsAllowToCreateOrder = true;
 
-                            var clicked_date = $(this).find('span').attr('data-cal-date');
+                            var clicked_date = $(this).find('span').attr('Data-cal-date');
                             console.log(clicked_date);
                             for(var i = 0; i < calendar_events.length; i++) {
                                 var calendar_event_unix_date = calendar_events[i].start;

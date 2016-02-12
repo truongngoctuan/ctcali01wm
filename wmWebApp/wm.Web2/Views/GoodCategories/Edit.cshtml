@@ -143,7 +143,7 @@
             colHeaders: false,
             dataSchema: { Id: null, Name: null, RecommendedQuantity: null, Quantity: null },
             columns: [//TODO: change colorbackground for readonly
-              //{ data: 'CategoryId', readOnly: true },
+              //{ Data: 'CategoryId', readOnly: true },
               { data: 'Name', readOnly: true },
               { data: 'IsChecked', type: 'checkbox' },
             ],
@@ -168,7 +168,7 @@
         }
 
         function saveIncludeExclude() {
-            console.log("local data: " + JSON.stringify({ data: dataInput }));
+            console.log("local Data: " + JSON.stringify({ data: dataInput }));
 
             //only send checked items to server
             var dataOutputFiltered = [];
@@ -178,16 +178,16 @@
                 }
             }
 
-            ajaxPOSTRequest('@Url.Action("IncludeExcludeNNData")',
+            ajaxPOSTRequest('@Url.Action("IncludeExcludeNnData")',
                 { id: @Model.Id, data: dataOutputFiltered },
                 function (data, textStatus, XMLHttpRequest) {
                     var dataObject = JSON.parse(data);
-                    if (dataObject.status = "ok") {
+                    if (dataObject.status = "Ok") {
                         location.reload();
                         //window.location.href = '@Url.Action("Edit", new { id = Model.Id})';
                     }
                     else {
-                        console.log("error IncludeExcludeNNData");
+                        console.log("error IncludeExcludeNnData");
                     }
                 });
         }
@@ -207,10 +207,10 @@
             manualRowMove: true,
             dataSchema: { Id: null, Name: null, RecommendedQuantity: null, Quantity: null },
             columns: [//TODO: change colorbackground for readonly
-              //{ data: 'CategoryId', readOnly: true },
+              //{ Data: 'CategoryId', readOnly: true },
               { data: 'Name', readOnly: true },
               { data: 'Ranking', readOnly: true },
-              //{ data: 'IsChecked', type: 'checkbox' },
+              //{ Data: 'IsChecked', type: 'checkbox' },
             ],
             afterRowMove: function (startRow, endRow) {
                 if (startRow > endRow) {
@@ -241,18 +241,18 @@
                 });
         }
         function saveOrder() {
-            console.log("local data: " + JSON.stringify({ data: dataInputOrder }));
+            console.log("local Data: " + JSON.stringify({ data: dataInputOrder }));
 
-            ajaxPOSTRequest('@Url.Action("SortNNData")',
+            ajaxPOSTRequest('@Url.Action("SortNnData")',
                 { id: @Model.Id, data: dataInputOrder },
                 function (data, textStatus, XMLHttpRequest) {
                     var dataObject = JSON.parse(data);
-                    if (dataObject.status = "ok") {
+                    if (dataObject.status = "Ok") {
                         location.reload();
                         //window.location.href = '@Url.Action("Edit", new { id = Model.Id, isInEx = false})';
                     }
                     else {
-                        console.log("error SortNNData");
+                        console.log("error SortNnData");
                     }
                 });
         }

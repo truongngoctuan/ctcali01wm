@@ -10,14 +10,13 @@ namespace wm.Web2.Controllers
 {
     public class GoodsController : BaseController
     {
-        readonly IGoodService _service;
-        IGoodService Service { get { return _service; } }
+        private IGoodService Service { get; }
         readonly IGoodUnitService _goodUnitService;
-        public GoodsController(ApplicationUserManager userManager, IGoodService Service,
-            IGoodUnitService GoodUnitService):base(userManager)
+        public GoodsController(ApplicationUserManager userManager, IGoodService service,
+            IGoodUnitService goodUnitService):base(userManager)
         {
-            _service = Service;
-            _goodUnitService = GoodUnitService;
+            Service = service;
+            _goodUnitService = goodUnitService;
         }
         // GET: Goods
         public ActionResult Index()
@@ -111,13 +110,13 @@ namespace wm.Web2.Controllers
         {
             try
             {
-                int RecordsTotal = 0;
-                int RecordsFiltered = 0;
+                int recordsTotal;
+                int recordsFiltered;
 
                 string paramSortOrder = param.SortOrder;
                 paramSortOrder = paramSortOrder.Replace("UnitName", "Unit.Name");
                 //get sorted/paginated
-                var resultSet = Service.ListDatatables(param.Search.Value, paramSortOrder, param.Start, param.Length, out RecordsTotal, out RecordsFiltered);
+                var resultSet = Service.ListDatatables(param.Search.Value, paramSortOrder, param.Start, param.Length, out recordsTotal, out recordsFiltered);
 
                 var resultViewModel = resultSet.Select(e => new GoodDatatablesListViewModel
                 {
@@ -127,15 +126,15 @@ namespace wm.Web2.Controllers
                     GoodType = e.GoodType.ToString()
                 });
 
-                DTResult<GoodDatatablesListViewModel> DTResult = new DTResult<GoodDatatablesListViewModel>
+                var dtResult = new DTResult<GoodDatatablesListViewModel>
                 {
                     draw = param.Draw,
                     data = resultViewModel.ToList(),
-                    recordsFiltered = RecordsFiltered,
-                    recordsTotal = RecordsTotal
+                    recordsFiltered = recordsFiltered,
+                    recordsTotal = recordsTotal
                 };
 
-                return Json(DTResult);
+                return Json(dtResult);
             }
             catch (Exception ex)
             {

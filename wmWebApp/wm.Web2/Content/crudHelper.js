@@ -15,7 +15,7 @@
                         dataType: "html",
                         success: function (data, textStatus, XMLHttpRequest) {
                             var dataObject = JSON.parse(data);
-                            if (dataObject["status"] == "ok") {
+                            if (dataObject["status"] == "Ok") {
                                 document.oTable.draw();
                             }
                         }

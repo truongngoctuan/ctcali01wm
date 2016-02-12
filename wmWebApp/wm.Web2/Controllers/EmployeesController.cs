@@ -11,16 +11,15 @@ namespace wm.Web2.Controllers
 {
     public class EmployeesController : BaseController
     {
-        readonly IEmployeeService _service;
-        IEmployeeService Service { get { return _service; } }
+        private IEmployeeService Service { get; }
 
         readonly IBranchService _branchService;
 
         public EmployeesController(ApplicationUserManager userManager,
-            IEmployeeService Service, IBranchService BranchService) : base(userManager)
+            IEmployeeService service, IBranchService branchService) : base(userManager)
         {
-            _service = Service;
-            _branchService = BranchService;
+            Service = service;
+            _branchService = branchService;
         }
 
         // GET: Employees
@@ -59,7 +58,7 @@ namespace wm.Web2.Controllers
                 if (employee.PlainPassword != string.Empty)
                 {
                     UserManager.RemovePassword(employee.ApplicationUserId);
-                    var result = UserManager.AddPassword(employee.ApplicationUserId, employee.PlainPassword);
+                    UserManager.AddPassword(employee.ApplicationUserId, employee.PlainPassword);
                 }
                 if (employee.Role == EmployeeRole.SuperUser) employee.Role = EmployeeRole.Admin;
                 var employeeIndatabase = Service.GetByApplicationId(employee.ApplicationUserId);
@@ -172,15 +171,15 @@ namespace wm.Web2.Controllers
         {
             try
             {
-                int RecordsTotal = 0;
-                int RecordsFiltered = 0;
+                int recordsTotal;
+                int recordsFiltered;
 
 
-                string paramSortOrder = param.SortOrder;
+                var paramSortOrder = param.SortOrder;
                 paramSortOrder = paramSortOrder.Replace("BranchName", "Branch.Name");
                 paramSortOrder = paramSortOrder.Replace("RoleName", "Role");
                 //get sorted/paginated
-                var resultSet = Service.ListDatatables(param.Search.Value, paramSortOrder, param.Start, param.Length, out RecordsTotal, out RecordsFiltered);
+                var resultSet = Service.ListDatatables(param.Search.Value, paramSortOrder, param.Start, param.Length, out recordsTotal, out recordsFiltered);
 
                 var resultViewModel = resultSet.Select(e => new EmployeeDatatablesListViewModel
                 {
@@ -190,15 +189,15 @@ namespace wm.Web2.Controllers
                     RoleName = e.Role.ToString()
                 });
 
-                DTResult<EmployeeDatatablesListViewModel> DTResult = new DTResult<EmployeeDatatablesListViewModel>
+                var dtResult = new DTResult<EmployeeDatatablesListViewModel>
                 {
                     draw = param.Draw,
                     data = resultViewModel.ToList(),
-                    recordsFiltered = RecordsFiltered,
-                    recordsTotal = RecordsTotal
+                    recordsFiltered = recordsFiltered,
+                    recordsTotal = recordsTotal
                 };
 
-                return Json(DTResult);
+                return Json(dtResult);
             }
             catch (Exception ex)
             {

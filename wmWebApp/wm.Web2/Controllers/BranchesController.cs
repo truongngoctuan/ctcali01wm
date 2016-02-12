@@ -10,7 +10,7 @@ using wm.Web2.Models;
 namespace wm.Web2.Controllers
 {
     //many-to-many with addition informations, using checkboxes
-    //http://www.asp.net/mvc/overview/getting-started/getting-started-with-ef-using-mvc/updating-related-data-with-the-entity-framework-in-an-asp-net-mvc-application
+    //http://www.asp.net/mvc/overview/getting-started/getting-started-with-ef-using-mvc/updating-related-Data-with-the-entity-framework-in-an-asp-net-mvc-application
     public class BranchesController : BaseController
     {
         private IBranchService Service { get; }
@@ -35,11 +35,11 @@ namespace wm.Web2.Controllers
         [AllowAnonymous]
         public ActionResult PopulateData(int? id, bool isInEx)//, PlacingOrderViewModel nnData)
         {
-            var items = PopulateNNData(id, isInEx);
+            var items = PopulateNnData(id, isInEx);
             return Json(items);
         }
 
-        private IEnumerable<BranchInExItemViewModel> PopulateNNData(int? id, bool isInEx = true)
+        private IEnumerable<BranchInExItemViewModel> PopulateNnData(int? id, bool isInEx = true)
         {
             if (id == null) throw new Exception("id shouldn't be null");
 
@@ -49,7 +49,7 @@ namespace wm.Web2.Controllers
                 var allList = _goodCategoryService.GetAll();
                 var filteredList = _branchGoodCategoryService.GetByBranchId((int)id);
 
-                //binding data
+                //binding Data
                 viewModel = allList.Select(t => new BranchInExItemViewModel
                 {
                     CategoryId = t.Id,
@@ -61,7 +61,7 @@ namespace wm.Web2.Controllers
             {//return only checked item
                 var filteredList = _branchGoodCategoryService.GetByBranchId((int)id, "GoodCategory");
 
-                //binding data
+                //binding Data
                 viewModel = filteredList
                     .OrderBy(t => t.Ranking)
                     .Select(t => new BranchInExItemViewModel
@@ -87,7 +87,7 @@ namespace wm.Web2.Controllers
                 new List<BranchGoodCategory>() :
                 inputViewModel.data.Select(t => new BranchGoodCategory {
                     BranchId = id,
-                    GoodCategoryId = t.CategoryId//enough data
+                    GoodCategoryId = t.CategoryId//enough Data
                 });
 
             var removeList = oldLinkingList.Where(t => !newLinkingList.Any(u => u.GoodCategoryId == t.GoodCategoryId));
@@ -120,12 +120,12 @@ namespace wm.Web2.Controllers
             //post-processing
 
             //service.Update(model);
-            return Json(new ReturnJsonObject<int> { status = ReturnStatus.ok.ToString(), data = 0 });
+            return Json(new ReturnJsonObject<int> { Status = ReturnStatus.Ok.ToString(), Data = 0 });
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult SortNNData(int id, BranchInExViewModel inputViewModel)
+        public ActionResult SortNnData(int id, BranchInExViewModel inputViewModel)
         {
             var filteredList = _branchGoodCategoryService.GetByBranchId((int)id);
 
@@ -143,7 +143,7 @@ namespace wm.Web2.Controllers
 
             //post-processing
 
-            return Json(new ReturnJsonObject<int> { status = ReturnStatus.ok.ToString(), data = 0 });
+            return Json(new ReturnJsonObject<int> { Status = ReturnStatus.Ok.ToString(), Data = 0 });
         }
 
         // GET: Branches/Create
@@ -233,7 +233,7 @@ namespace wm.Web2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Branch branch = Service.GetById((int)id);
+            var branch = Service.GetById(id);
             Service.Delete(branch);
             return RedirectToAction("Index");
         }

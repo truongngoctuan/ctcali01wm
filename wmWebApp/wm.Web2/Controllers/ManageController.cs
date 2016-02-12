@@ -14,18 +14,18 @@ namespace wm.Web2.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        public IEmployeeService _employeeService { get; set; }
+        private IEmployeeService EmployeeService { get; set; }
 
         public ManageController()
         {
         }
 
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager,
-             IEmployeeService EmployeeService)
+             IEmployeeService employeeService)
         {
             UserManager = userManager;
             SignInManager = signInManager;
-            _employeeService = EmployeeService;
+            EmployeeService = employeeService;
         }
 
         public ApplicationSignInManager SignInManager
@@ -98,9 +98,9 @@ namespace wm.Web2.Controllers
             if (result.Succeeded)
             {
                 //remove plain password
-                var employee = _employeeService.GetByApplicationId(User.Identity.GetUserId());
+                var employee = EmployeeService.GetByApplicationId(User.Identity.GetUserId());
                 employee.PlainPassword = string.Empty;
-                _employeeService.Update(employee);
+                EmployeeService.Update(employee);
 
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
@@ -125,8 +125,6 @@ namespace wm.Web2.Controllers
         }
 
 #region Helpers
-        // Used for XSRF protection when adding external logins
-        private const string XsrfKey = "XsrfId";
 
         private IAuthenticationManager AuthenticationManager
         {
@@ -150,16 +148,6 @@ namespace wm.Web2.Controllers
             if (user != null)
             {
                 return user.PasswordHash != null;
-            }
-            return false;
-        }
-
-        private bool HasPhoneNumber()
-        {
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            if (user != null)
-            {
-                return user.PhoneNumber != null;
             }
             return false;
         }

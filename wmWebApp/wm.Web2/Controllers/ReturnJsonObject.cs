@@ -2,13 +2,13 @@
 {
     public enum ReturnStatus
     {
-        ok,
-        errror
+        Ok,
+        Errror
     }
     public class ReturnJsonObject<T>
     {
-        public string status { get; set; }
-        public T data { get; set; }
-        public string[] errors { get; set; }
+        public string Status { get; set; }
+        public T Data { get; set; }
+        public string[] Errors { get; set; }
     }
 }

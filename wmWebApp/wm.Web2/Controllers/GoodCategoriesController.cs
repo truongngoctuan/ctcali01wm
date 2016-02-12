@@ -11,18 +11,17 @@ namespace wm.Web2.Controllers
 {
     public class GoodCategoriesController : BaseController
     {
-        readonly IGoodCategoryService _service;
-        IGoodCategoryService Service { get { return _service; } }
+        private IGoodCategoryService Service { get; }
         readonly IGoodService _goodService;
         readonly IGoodCategoryGoodService _goodCategoryGoodService;
         public GoodCategoriesController(ApplicationUserManager userManager, 
-            IGoodCategoryService Service,
-            IGoodService GoodService,
-            IGoodCategoryGoodService GoodCategoryGoodService): base(userManager)
+            IGoodCategoryService service,
+            IGoodService goodService,
+            IGoodCategoryGoodService goodCategoryGoodService): base(userManager)
         {
-            _service = Service;
-            _goodService = GoodService;
-            _goodCategoryGoodService = GoodCategoryGoodService;
+            Service = service;
+            _goodService = goodService;
+            _goodCategoryGoodService = goodCategoryGoodService;
         }
 
         // GET: GoodCategories
@@ -88,21 +87,21 @@ namespace wm.Web2.Controllers
         [AllowAnonymous]
         public ActionResult PopulateData(int? id, bool isInEx)//, PlacingOrderViewModel nnData)
         {
-            var items = PopulateNNData(id, isInEx);
+            var items = PopulateNnData(id, isInEx);
             return Json(items);
         }
 
-        private IEnumerable<GoodCategoryInExItemViewModel> PopulateNNData(int? id, bool isInEx = true)
+        private IEnumerable<GoodCategoryInExItemViewModel> PopulateNnData(int? id, bool isInEx = true)
         {
             if (id == null) throw new Exception("id shouldn't be null");
 
-            IEnumerable<GoodCategoryInExItemViewModel> viewModel = new List<GoodCategoryInExItemViewModel>();
+            IEnumerable<GoodCategoryInExItemViewModel> viewModel;
             if (isInEx)
             {//return all, with some checked items
                 var allList = _goodService.GetAll();
                 var filteredList = _goodCategoryGoodService.GetByGoodCategoryId((int)id);
 
-                //binding data
+                //binding Data
                 viewModel = allList.Select(t => new GoodCategoryInExItemViewModel
                 {
                     GoodId = t.Id,
@@ -114,7 +113,7 @@ namespace wm.Web2.Controllers
             {//return only checked item
                 var filteredList = _goodCategoryGoodService.GetByGoodCategoryId((int)id, "Good");
 
-                //binding data
+                //binding Data
                 viewModel = filteredList
                     .OrderBy(t => t.Ranking)
                     .Select(t => new GoodCategoryInExItemViewModel
@@ -133,16 +132,14 @@ namespace wm.Web2.Controllers
         //TODO: bulk update/delete/add EntityFramework.Extended
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult IncludeExcludeNNData(int id, GoodCategoryInExViewModel inputViewModel)
+        public ActionResult IncludeExcludeNnData(int id, GoodCategoryInExViewModel inputViewModel)
         {//only checkbox, not ranking
             var oldLinkingList = _goodCategoryGoodService.GetByGoodCategoryId((int)id);
-            var newLinkingList = (inputViewModel.data == null) ?
-                new List<GoodCategoryGood>() :
-                inputViewModel.data.Select(t => new GoodCategoryGood
-                {
-                    GoodCategoryId = id,
-                    GoodId = t.GoodId//enough data
-                });
+            var newLinkingList = inputViewModel.data?.Select(t => new GoodCategoryGood
+            {
+                GoodCategoryId = id,
+                GoodId = t.GoodId//enough Data
+            }) ?? new List<GoodCategoryGood>();
 
             var removeList = oldLinkingList.Where(t => !newLinkingList.Any(u => u.GoodId == t.GoodId));
             var editList = oldLinkingList.Where(t => newLinkingList.Any(u => u.GoodId == t.GoodId));
@@ -173,13 +170,13 @@ namespace wm.Web2.Controllers
 
             //post-processing
 
-            //Service.Update(model);
-            return Json(new ReturnJsonObject<int> { status = ReturnStatus.ok.ToString(), data = 0 });
+            //service.Update(model);
+            return Json(new ReturnJsonObject<int> { Status = ReturnStatus.Ok.ToString(), Data = 0 });
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult SortNNData(int id, GoodCategoryInExViewModel inputViewModel)
+        public ActionResult SortNnData(int id, GoodCategoryInExViewModel inputViewModel)
         {
             var filteredList = _goodCategoryGoodService.GetByGoodCategoryId((int)id);
 
@@ -188,7 +185,7 @@ namespace wm.Web2.Controllers
             //edit - update ranking
             foreach (var item in inputViewModel.data)
             {
-                var editObject = filteredList.Where(t => t.GoodId == item.GoodId).First();
+                var editObject = filteredList.First(t => t.GoodId == item.GoodId);
                 editObject.Ranking = item.Ranking;
                 _goodCategoryGoodService.Update(editObject);
             }
@@ -197,7 +194,7 @@ namespace wm.Web2.Controllers
 
             //post-processing
 
-            return Json(new ReturnJsonObject<int> { status = ReturnStatus.ok.ToString(), data = 0 });
+            return Json(new ReturnJsonObject<int> { Status = ReturnStatus.Ok.ToString(), Data = 0 });
         }
 
         // GET: GoodCategories/Delete/5

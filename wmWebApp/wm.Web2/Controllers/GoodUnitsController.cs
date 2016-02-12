@@ -7,12 +7,12 @@ namespace wm.Web2.Controllers
 {
     public class GoodUnitsController : BaseController
     {
-        readonly IGoodUnitService _service;
-        IGoodUnitService Service { get { return _service; } }
+        private IGoodUnitService Service { get; }
+
         public GoodUnitsController(ApplicationUserManager userManager, 
-            IGoodUnitService Service):base(userManager)
+            IGoodUnitService service):base(userManager)
         {
-            _service = Service;
+            Service = service;
         }
         // GET: GoodUnits
         public ActionResult Index()
@@ -92,7 +92,7 @@ namespace wm.Web2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            GoodUnit goodUnit = Service.GetById((int)id);
+            var goodUnit = Service.GetById(id);
             Service.Delete(goodUnit);
             return RedirectToAction("Index");
         }
