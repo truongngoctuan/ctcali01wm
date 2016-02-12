@@ -17,6 +17,7 @@ namespace wm.Web2.Controllers.OrderStrategy
         public abstract IEnumerable<OrderBranchItem> PopulateData(int orderId, int goodCategoryId);
 
         public abstract Order Create(DateTime orderDay, string userId, int branchId);
+        public abstract void Place(int orderId, OrderBranchItem[] data);
         public abstract void Confirm(int orderId);
     }
 }

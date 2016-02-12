@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using wm.Model;
@@ -17,16 +18,32 @@ namespace wm.Web2.Controllers.CalendarEventStrategy
         }
         public override MonthlyEventsViewModel PopulateEvents(UrlHelper url, DateTime monthInfo, int branchId)
         {
-            var events = _calendarEventService.PopulateEvents(monthInfo, branchId);
-            var eventsResult = events.Select(s => new CalendarEventItemViewModel
+            var orders = _calendarEventService.PopulateEvents(monthInfo, branchId);
+            var eventsResult = new List<CalendarEventItemViewModel>();
+            foreach (var order in orders)
             {
-                id = s.Id,
-                title = (s.Status == OrderStatus.Started) ? "Do order" : "View order",
-                status = s.Status.ToString(),
-                url = (s.Status == OrderStatus.Started) ? url.Action("StaffEditOrder", "Orders", new { id = s.Id }) : url.Action("StaffDetailsOrder", "Orders", new { id = s.Id }),
-                start = (long)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds,
-                end = (long)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds + 1
-            });
+                var newItem = new CalendarEventItemViewModel
+                {
+                    id = order.Id,
+                    status = order.Status.ToString(),
+                    start = (long) (order.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds,
+                    end = (long) (order.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds + 1
+                };
+
+                if (order.Priority <= (int)EmployeeRole.StaffBranch)
+                {
+                    newItem.title = "Make order";
+                    newItem.url = url.Action("StaffEditOrder", "Orders", new { id = order.Id });
+                }
+                else
+                {
+                    newItem.title = "View order";
+                    newItem.url = url.Action("StaffDetailsOrder", "Orders", new { id = order.Id });
+                }
+
+
+                eventsResult.Add(newItem);
+            }
 
             var result = new MonthlyEventsViewModel
             {

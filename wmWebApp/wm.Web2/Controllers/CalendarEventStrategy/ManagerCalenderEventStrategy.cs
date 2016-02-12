@@ -22,8 +22,14 @@ namespace wm.Web2.Controllers.CalendarEventStrategy
             var eventsResult = new List<CalendarEventItemViewModel>();
             foreach (var order in orders)
             {
-                var newItem = new CalendarEventItemViewModel();
-                newItem.id = order.Id;
+                var newItem = new CalendarEventItemViewModel
+                {
+                    id = order.Id,
+                    status = order.Status.ToString(),
+                    start = (long) (order.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds,
+                    end = (long) (order.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds + 1
+                };
+
                 if (order.Priority <= (int) EmployeeRole.Manager)
                 {
                     newItem.title = "Confirm order";
@@ -34,9 +40,7 @@ namespace wm.Web2.Controllers.CalendarEventStrategy
                     newItem.title = "View order";
                     newItem.url = url.Action("ManagerDetailsOrder", "Orders", new { id = order.Id });
                 }
-                newItem.status = order.Status.ToString();
-                newItem.start = (long) (order.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds;
-                newItem.end = (long) (order.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds + 1;
+
 
                 eventsResult.Add(newItem);
             }

@@ -32,8 +32,20 @@ namespace wm.Web2.Controllers.OrderStrategy
             return model;
         }
 
+        public override void Place(int orderId, OrderBranchItem[] data)
+        {
+            var order = Service.GetById(orderId);
+            if (!(order.Priority <= (int) EmployeeRole.StaffBranch)) return;
+
+            Service.Place(orderId, data);
+
+            order.Priority = (int)EmployeeRole.StaffBranch;
+            Service.Update(order);
+        }
+
         public override void Confirm(int orderId)
         {
+            //TODO: check permission
             var order = Service.GetById(orderId);
             order.Priority = (int)EmployeeRole.Manager;
             Service.Update(order);

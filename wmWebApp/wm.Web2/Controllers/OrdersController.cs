@@ -68,6 +68,7 @@ namespace wm.Web2.Controllers
             EmployeeService = employeeService;
         }
 
+        #region edit/details pages
         int? GetAssociateGoodCategories(int orderId, 
             out IEnumerable<GoodCategory> filteredGoodCategoryList,
             int? goodCategoryId)
@@ -119,7 +120,7 @@ namespace wm.Web2.Controllers
             ViewBag.GoodCategoryId = (int)goodCategoryId;
             return View(filteredGoodCategoryList);
         }
-
+        #endregion
 
         [HttpPost]
         public ActionResult PopulateData(int orderId, int goodCategoryId)//, PlacingOrderViewModel nnData)
@@ -133,7 +134,7 @@ namespace wm.Web2.Controllers
         [HttpPost]
         public ActionResult Place(int id, OrderViewModel inputViewModel)
         {
-            Service.Place(id, inputViewModel.data);
+            StrategyBase.Place(id, inputViewModel.data);
             return OkCode();
         }
 
