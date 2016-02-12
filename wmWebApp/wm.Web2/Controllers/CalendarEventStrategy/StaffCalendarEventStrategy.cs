@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using wm.Model;
@@ -15,24 +14,24 @@ namespace wm.Web2.Controllers.CalendarEventStrategy
         {
 
         }
-        public override MonthlyEventsViewModel PopulateEvents(UrlHelper Url, DateTime monthInfo, int branchId)
+        public override MonthlyEventsViewModel PopulateEvents(UrlHelper url, DateTime monthInfo, int branchId)
         {
-            IEnumerable<Order> events = _calendarEventService.PopulateEvents(monthInfo, branchId);
+            var events = _calendarEventService.PopulateEvents(monthInfo, branchId);
             var eventsResult = events.Select(s => new CalendarEventItemViewModel
             {
                 id = s.Id,
                 title = (s.Status == OrderStatus.Started) ? "Do order" : "View order",
                 status = s.Status.ToString(),
                 //TODO: auto redirect to StaffViewOrder
-                url = Url.Action("StaffOrder", "Orders", new { id = s.Id }),
-                start = (Int64)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds,
-                end = (Int64)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds + 1
+                url = (s.Status == OrderStatus.Started) ? url.Action("StaffEditOrder", "Orders", new { id = s.Id }) : url.Action("StaffDetailsOrder", "Orders", new { id = s.Id }),
+                start = (long)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds,
+                end = (long)(s.OrderDay.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds + 1
             });
 
             //var eventsResult = _mapper.Map<IEnumerable<CalendarEventItemViewModel>>(events);
             foreach (var item in eventsResult)
             {
-                item.url = Url.Action("StaffOrder", "Orders", new { id = item.id });
+                item.url = url.Action("StaffEditOrder", "Orders", new { id = item.id });
             }
 
             var result = new MonthlyEventsViewModel

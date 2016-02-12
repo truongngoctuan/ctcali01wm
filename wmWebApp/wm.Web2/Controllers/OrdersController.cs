@@ -68,7 +68,24 @@ namespace wm.Web2.Controllers
 
         #region StaffOrder
         // GET: Order(index page, no care, load template, the same for each role)
-        public ActionResult StaffOrder(int id, int? goodCategoryId)
+        public ActionResult StaffEditOrder(int id, int? goodCategoryId)
+        {
+            var inputModel = Service.GetById(id);
+            var filteredGoodCategoryList = _branchGoodCategoryService
+                .GetByBranchId(inputModel.BranchId, "GoodCategory")
+                .Select(t => t.GoodCategory);
+
+            if (goodCategoryId == null)
+            {
+                goodCategoryId = filteredGoodCategoryList.First().Id;
+            }
+
+            ViewBag.OrderId = id;
+            ViewBag.GoodCategoryId = (int)goodCategoryId;
+            return View(filteredGoodCategoryList);
+        }
+
+        public ActionResult StaffDetailsOrder(int id, int? goodCategoryId)
         {
             var inputModel = Service.GetById(id);
             var filteredGoodCategoryList = _branchGoodCategoryService

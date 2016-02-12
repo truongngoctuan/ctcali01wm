@@ -13,6 +13,6 @@ namespace wm.Web2.Controllers.CalendarEventStrategy
         {
             _calendarEventService = calendarEventService;
         }
-        public abstract MonthlyEventsViewModel PopulateEvents(UrlHelper Url, DateTime monthInfo, int branchId);
+        public abstract MonthlyEventsViewModel PopulateEvents(UrlHelper url, DateTime monthInfo, int branchId);
     }
 }

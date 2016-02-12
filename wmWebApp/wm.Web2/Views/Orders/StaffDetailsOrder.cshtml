@@ -1,0 +1,98 @@
+﻿@model IEnumerable<wm.Model.GoodCategory>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+
+<div class="row">
+    <h4>Update good categories</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4 list-group">
+            @foreach (var item in Model)
+            {
+                <a href="@Url.Action("StaffDetailsOrder", "Orders", new { id = ViewBag.OrderId, GoodCategoryId = item.Id })"
+                   class="list-group-item GoodCategoryItem">@item.Name</a>
+            }
+        </div>
+        <div class="col-md-8">
+            <div class="form-group row col-md-12">
+                <div id="hsIncludeExclude" class=""></div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        //================================================================================
+        //helper
+        function ajaxPOSTRequest(href, dataObject, onSuccessCallback) {
+            $.ajax({
+                url: href,
+                data: dataObject,
+                cache: false,
+                type: "POST",
+                dataType: "html",
+                success: onSuccessCallback
+            });
+        }
+        //================================================================================
+        var $$ = function (id) {
+            return document.getElementById(id);
+        },
+    container = $$('hsIncludeExclude'),
+    autosave = $$('autosave'),
+    load = $$('load'),
+    save = $$('save'),
+    autosaveNotification,
+    hot,
+    dataInput;
+
+        var OrderId = @ViewBag.OrderId;
+        var GoodCategoryId = @ViewBag.GoodCategoryId;
+        $(document).ready(function () {
+            $(".GoodCategoryItem[href$='"+ GoodCategoryId + "']").addClass("active");
+            loadIncludeExclude(OrderId, GoodCategoryId);
+        });
+
+        hot = new Handsontable(container, {
+            startRows: 1,
+            startCols: 2,
+            allowInvalid: false,
+            rowHeaders: true,
+            colHeaders: ['Name','InStock','RecommendQuantity', 'Quantity', 'Note', 'YourNote'],
+            dataSchema: { Id: null, Name: null, RecommendedQuantity: null, Quantity: null },
+            columns: [//TODO: change colorbackground for readonly
+              //{ Data: 'CategoryId', readOnly: true },
+              { data: 'Name', readOnly: true },
+              { data: 'InStock', readOnly: true },
+              { data: 'RecommenedQuantity', readOnly: true },
+              { data: 'Quantity', readOnly: true, type : 'numeric',format: '0,0.00', allowInvalid: true},
+              { data: 'Note', readOnly: true },
+                { data: 'YourNote', readOnly: true }
+
+              //{ Data: 'IsChecked', type: 'checkbox' },
+            ]
+        });
+
+        function loadIncludeExclude() {
+            ajaxPOSTRequest('@Url.Action("PopulateData")', {orderId : OrderId, goodCategoryId: GoodCategoryId},
+                function (data) {
+                    console.log("client received: " + data);
+
+                    dataInput = JSON.parse(data);
+                    hot.loadData(dataInput);
+
+                });
+        }
+    </script>
+}
