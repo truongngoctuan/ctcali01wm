@@ -7,6 +7,7 @@ using wm.Web2.Models;
 
 namespace wm.Web2.Controllers
 {
+    [Authorize]
     public class OrdersController : BaseController
     {
         private IOrderService Service { get; }
@@ -103,7 +104,6 @@ namespace wm.Web2.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public ActionResult PopulateData(int orderId, int goodCategoryId)//, PlacingOrderViewModel nnData)
         {
             var items = StrategyBase.PopulateData(orderId, goodCategoryId);
@@ -113,7 +113,6 @@ namespace wm.Web2.Controllers
 
         //TODO: bulk update/delete/add EntityFramework.Extended
         [HttpPost]
-        [AllowAnonymous]
         public ActionResult Place(int id, OrderViewModel inputViewModel)
         {
             Service.Place(id, inputViewModel.data);
@@ -121,14 +120,12 @@ namespace wm.Web2.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public ActionResult Create(CreateOrderByStaffViewModel inputViewModel)
         {
-            StrategyBase.Create(inputViewModel.orderDay, inputViewModel.employeeId, inputViewModel.branchId);
-            return OkCode();
+            Order newOrder = StrategyBase.Create(inputViewModel.orderDay, inputViewModel.employeeId, inputViewModel.branchId);
+            return Json(new ReturnJsonObject<int> {Status = ReturnStatus.Ok.ToString(), Result = newOrder.Id});
         }
 
-        [AllowAnonymous]
         public ActionResult Confirm(int id)
         {
             StrategyBase.Confirm(id);

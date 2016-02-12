@@ -120,7 +120,7 @@ namespace wm.Web2.Controllers
             //post-processing
 
             //service.Update(model);
-            return Json(new ReturnJsonObject<int> { Status = ReturnStatus.Ok.ToString(), Data = 0 });
+            return OkCode();
         }
 
         [HttpPost]
@@ -143,7 +143,7 @@ namespace wm.Web2.Controllers
 
             //post-processing
 
-            return Json(new ReturnJsonObject<int> { Status = ReturnStatus.Ok.ToString(), Data = 0 });
+            return OkCode();
         }
 
         // GET: Branches/Create

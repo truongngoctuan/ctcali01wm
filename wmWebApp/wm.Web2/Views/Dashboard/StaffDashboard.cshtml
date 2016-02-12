@@ -18,6 +18,7 @@
 </div>
 
 <div id="calendar" class="row"></div>
+
 @section Scripts {
 
     <script>
@@ -36,6 +37,9 @@
             });
         });
 
+        function changeWindowLocation(url) {
+            window.location.href = url;
+        }
 
         function loadCalendar() {
             calendar = $("#calendar").calendar(
@@ -61,7 +65,7 @@
                 onAfterViewLoad: function (view) {
                     $('.page-header2 div h3').text(this.getTitle());
 
-                    if (view == "month") {
+                    if (view === "month") {
                         //$("#calendar .cal-month-day").click(function (e) {
                         //    var clicked_date = $(this).find('span').attr('Data-cal-date');
                         //    //Do whatever you want. probably, a $.post or something to add the record on your db
@@ -69,34 +73,57 @@
                         //});
 
                         $("#calendar .cal-month-day").dblclick(function () {
-                            var IsAllowToCreateOrder = true;
+                            var isAllowToCreateOrder = true;
 
-                            var clicked_date = $(this).find('span').attr('Data-cal-date');
-                            console.log(clicked_date);
+                            var clickedDate = $(this).find('span').attr('Data-cal-date');
+                            console.log(clickedDate);
                             for(var i = 0; i < calendar_events.length; i++) {
-                                var calendar_event_unix_date = calendar_events[i].start;
-                                var timestamp = moment.unix(calendar_event_unix_date / 1000);
+                                var calendarEventUnixDate = calendar_events[i].start;
+                                var timestamp = moment.unix(calendarEventUnixDate / 1000);
                                 //console.log( timestamp.format("YYYY-MM-DD") );
-                                if (clicked_date == timestamp.format("YYYY-MM-DD")) {
-                                    IsAllowToCreateOrder = false;
+                                if (clickedDate === timestamp.format("YYYY-MM-DD")) {
+                                    isAllowToCreateOrder = false;
                                 }
                             }
 
-                            if (IsAllowToCreateOrder) {
-                                bootbox.confirm("Do you want to create new order for day , branch ?", function (result) {
+                            if (isAllowToCreateOrder) {
+                                bootbox.confirm("Do you want to create new order for day " + clickedDate, function (result) {
                                     if (result) {
-                                        //call a post to create an order
-                                        console.log("create new order");
-                                        //TODO: convert to datetime in asp.net
-                                        postHelper('@Url.Action("Create", "Orders")',
+                                        $.ajax({
+                                            url: '@Url.Action("Create", "Orders")',
+                                            data: {
+                                                employeeId: '@Model.Id',
+                                                branchId: @Model.BranchId,
+                                                orderDay: clickedDate
+                                            },
+                                            cache: false,
+                                            type: "POST",
+                                            dataType: "html",
+                                            success: function(data2) {
+                                                var dataObject = JSON.parse(data2);
+                                                if (dataObject.Status === "Ok") {
+                                                    //$('#testForm').submit();
+                                                    var aaaa = dataObject.Result;
+                                                    var asdasd = '@Url.Action("StaffEditOrder", "Orders")' + '/' + dataObject.Result.toString();
+                                                    changeWindowLocation(asdasd);
+                                                    @*window.location = '@Url.Action("StaffEditOrder", "Orders")' + '/' + data.Data;*@
+                                                }
+                                            }
+                                        });
+
+                                        @*changeWindowLocation('@Url.Action("StaffEditOrder", "Orders")' + '/' + 2);*@
+
+
+                                        @*postHelperJson('@Url.Action("Create", "Orders")',
                                             {
                                                 employeeId : '@Model.Id',
                                                 branchId : @Model.BranchId,
-                                                orderDay : clicked_date
-                                            },
-                                            function (data, textStatus, XMLHttpRequest) {
-                                                calendar.view();
-                                            });
+                                                orderDay : clickedDate
+                                            }, function(data) {
+                                                if (data.status === "Ok") {
+                                                    window.location.href = '@Url.Action("StaffEditOrder", "Orders")' + '/' + data.Data;
+                                                }
+                                        });*@
 
 
                                     }
@@ -115,7 +142,6 @@
             var startDate = start;
             var endDate = end;
 
-            console.log(moment(start).toASP());
             var resultObject = [];
 
             $.ajax({
@@ -124,10 +150,10 @@
                 dataType: "json",
                 data: {  monthInfo : moment(startDate).format("YYYY-MM-DD"), branchId : @Model.BranchId},
                 async:false,
-                success: function (data, textStatus, XMLHttpRequest) {
+                success: function (data) {
                     var dataObject = data;
                     calendar_events = data.result;
-                    if (dataObject.success == 1) {
+                    if (dataObject.success === 1) {
                         resultObject = dataObject.result;
 
                         //modify return object
@@ -159,8 +185,7 @@
                         console.log("return resultObject" + resultObject.length);
 
                     }
-                },
-
+                }
             });
 
             return resultObject;

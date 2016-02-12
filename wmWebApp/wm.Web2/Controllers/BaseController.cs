@@ -40,7 +40,7 @@ namespace wm.Web2.Controllers
 
         protected ActionResult OkCode()
         {
-            return Json(new ReturnJsonObject<int> { Status = ReturnStatus.Ok.ToString(), Data = 0 });
+            return Json(new ReturnJsonObject<int> { Status = ReturnStatus.Ok.ToString(), Result = 0 });
         }
         
     }

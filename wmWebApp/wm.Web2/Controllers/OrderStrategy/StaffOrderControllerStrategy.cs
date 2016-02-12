@@ -17,7 +17,7 @@ namespace wm.Web2.Controllers.OrderStrategy
             return Service.PopulateData(orderId, goodCategoryId);
         }
 
-        public override void Create(DateTime orderDay, string userId, int branchId)
+        public override Order Create(DateTime orderDay, string userId, int branchId)
         {
             var model = new Order
             {
@@ -29,6 +29,7 @@ namespace wm.Web2.Controllers.OrderStrategy
             };
 
             Service.Create(model);
+            return model;
         }
 
         public override void Confirm(int orderId)

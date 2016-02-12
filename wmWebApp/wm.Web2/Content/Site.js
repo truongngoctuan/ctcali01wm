@@ -9,9 +9,24 @@
     });
 }
 
-moment.fn.toASP = function () {
-    return '/Date(' + (+this) + this.format('ZZ') + ')/';
+function postHelperJson(url, data, successCallback) {
+    $.ajax({
+        url: url,
+        data: data,
+        cache: false,
+        type: "POST",
+        dataType: "json",
+        success: successCallback
+    });
 }
-//how to use:
-//var input = "2012-10-20T20:45:30";
-//var asp = moment(input).toASP();
+
+function getHelper(url, data, successCallback) {
+    $.ajax({
+        url: url,
+        data: data,
+        cache: false,
+        type: "GET",
+        dataType: "html",
+        success: successCallback
+    });
+}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using wm.Model;
 using wm.Service;
 using wm.Service.Model;
 
@@ -15,7 +16,7 @@ namespace wm.Web2.Controllers.OrderStrategy
         }
         public abstract IEnumerable<OrderBranchItem> PopulateData(int orderId, int goodCategoryId);
 
-        public abstract void Create(DateTime orderDay, string userId, int branchId);
+        public abstract Order Create(DateTime orderDay, string userId, int branchId);
         public abstract void Confirm(int orderId);
     }
 }
