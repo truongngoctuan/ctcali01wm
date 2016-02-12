@@ -15,7 +15,7 @@
         <div class="col-md-4 list-group">
             @foreach (var item in Model)
             {
-                <a href="@Url.Action("StaffOrder", "Orders", new { id = 1, GoodCategoryId = item.Id })"
+                <a href="@Url.Action("StaffOrder", "Orders", new { id = ViewBag.OrderId, GoodCategoryId = item.Id })"
                    class="list-group-item GoodCategoryItem">@item.Name</a>
             }
         </div>
@@ -78,11 +78,11 @@
             $(".GoodCategoryItem[href$='"+ GoodCategoryId + "']").addClass("active");
 
             $(".GoodCategoryItem").each(function (index, value) {
-                $(this).click(function (e) {
+                $(this).click(function(e) {
                     //alert("just after click");
                     //TODO: ask for save before change to another category
                     //e.preventDefault();
-                })
+                });
             });
 
             loadIncludeExclude(OrderId, GoodCategoryId);
@@ -102,7 +102,7 @@
               { data: 'RecommenedQuantity', readOnly: true },
               { data: 'Quantity', readOnly: false, type : 'numeric',format: '0,0.00', allowInvalid: true},
               { data: 'Note', readOnly: true },
-                { data: 'YourNote', readOnly: false },
+                { data: 'YourNote', readOnly: false }
 
               //{ Data: 'IsChecked', type: 'checkbox' },
             ],
@@ -116,8 +116,8 @@
         });
 
         function loadIncludeExclude() {
-            ajaxPOSTRequest('@Url.Action("PopulateData")', {id : OrderId, GoodCategoryId: GoodCategoryId},
-                function (data, textStatus, XMLHttpRequest) {
+            ajaxPOSTRequest('@Url.Action("PopulateData")', {orderId : OrderId, goodCategoryId: GoodCategoryId},
+                function (data) {
                     console.log("client received: " + data);
 
                     dataInput = JSON.parse(data);
@@ -131,9 +131,9 @@
 
             ajaxPOSTRequest('@Url.Action("Place")',
                 { id: OrderId, data: dataInput },
-                function (data, textStatus, XMLHttpRequest) {
+                function (data) {
                     var dataObject = JSON.parse(data);
-                    if (dataObject.status = "Ok") {
+                    if (dataObject.status === "Ok") {
 
                     }
                     else {

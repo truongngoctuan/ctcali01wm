@@ -79,7 +79,7 @@ namespace wm.Web2.Controllers
             {
                 goodCategoryId = filteredGoodCategoryList.First().Id;
             }
-            //ViewBag.GoodCategories = filteredGoodCategoryList;
+
             ViewBag.OrderId = id;
             ViewBag.GoodCategoryId = (int)goodCategoryId;
             return View(filteredGoodCategoryList);
@@ -87,9 +87,9 @@ namespace wm.Web2.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult PopulateData(int id, int goodCategoryId)//, PlacingOrderViewModel nnData)
+        public ActionResult PopulateData(int orderId, int goodCategoryId)//, PlacingOrderViewModel nnData)
         {
-            var items = StrategyBase.PopulateData(id, goodCategoryId);
+            var items = StrategyBase.PopulateData(orderId, goodCategoryId);
             return Json(items);
         }
 
