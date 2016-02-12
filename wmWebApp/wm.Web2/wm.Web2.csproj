@@ -245,6 +245,7 @@
     <Compile Include="Controllers\OrderStrategy\ManagerOrderControllerStrategy.cs" />
     <Compile Include="Controllers\OrderStrategy\OrderControllerStrategyBase.cs" />
     <Compile Include="Controllers\OrderStrategy\StaffOrderControllerStrategy.cs" />
+    <Compile Include="Controllers\OrderStrategy\WhKeeperOrderControllerStrategy.cs" />
     <Compile Include="Controllers\ReturnJsonObject.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">

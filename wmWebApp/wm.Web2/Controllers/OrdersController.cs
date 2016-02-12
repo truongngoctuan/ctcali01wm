@@ -45,15 +45,15 @@ namespace wm.Web2.Controllers
                     }
                 case EmployeeRole.WarehouseKeeper:
                     {
-                        return new StaffOrderControllerStrategy(Service);
+                        return new WhKeeperOrderControllerStrategy(Service);
                     }
                 case EmployeeRole.Admin:
                     {
-                        return new StaffOrderControllerStrategy(Service);
+                        return new WhKeeperOrderControllerStrategy(Service);
                     }
                 case EmployeeRole.SuperUser:
                     {
-                        return new StaffOrderControllerStrategy(Service);
+                        return new WhKeeperOrderControllerStrategy(Service);
                     }
             }
             return new StaffOrderControllerStrategy(Service);
