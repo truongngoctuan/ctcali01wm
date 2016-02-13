@@ -312,7 +312,7 @@
 }
 .event {
   display: block;
-  /*background-color: #c3c3c3;*/
+  background-color: #c3c3c3;
   width: 12px;
   height: 12px;
   margin-right: 2px;
@@ -324,7 +324,7 @@
 }
 .event-block {
   display: block;
-  /*background-color: #c3c3c3;*/
+  background-color: #c3c3c3;
   width: 20px;
   height: 100%;
 }
@@ -333,10 +333,6 @@
 }
 .event-important {
   background-color: #ad2121;
-}
-
-.event-info2 {
-  /*background-color: #1e90ff;*/
 }
 .event-info {
   background-color: #1e90ff;

@@ -64,18 +64,15 @@
                 onAfterViewLoad: function (view) {
                     $('.page-header2 div h3').text(this.getTitle());
 
-                    if (view == "month") {
+                    if (view === "month") {
                         
                     }
-                },
-
+                }
             });
         }//end of loadCalendar
 
         function events_source_function( start, end) {
             var startDate = start;
-            var endDate = end;
-
             var resultObject = [];
 
             $.ajax({
@@ -84,17 +81,21 @@
                 dataType: "json",
                 data: {  monthInfo : moment(startDate).format("YYYY-MM-DD"), branchId : @Model.BranchId},
                 async:false,
-                success: function (data, textStatus, XMLHttpRequest) {
+                success: function (data) {
                     var dataObject = data;
                     calendar_events = data.result;
-                    if (dataObject.success == 1) {
+                    if (dataObject.success === 1) {
                         resultObject = dataObject.result;
 
                         //modify return object
+                        var fake_event_id = -1;
                         for(var i = 0; i < resultObject.length; i++) {
                             switch(resultObject[i].status) {
-                                case "NotStarted": {
-                                    resultObject[i].class = "event-not-started";
+                                case "NotStarted":
+                                {
+                                    resultObject[i].id = fake_event_id;
+                                    fake_event_id--;
+                                    resultObject[i].class = "event-created";
                                     break;
                                 }
                                 case "Started": {
@@ -119,8 +120,7 @@
                         console.log("return resultObject" + resultObject.length);
 
                     }
-                },
-
+                }
             });
 
             return resultObject;
