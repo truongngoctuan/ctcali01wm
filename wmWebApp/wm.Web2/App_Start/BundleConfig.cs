@@ -29,7 +29,7 @@ namespace wm.Web2
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap-calendar").Include(
                 "~/Content/lib/underscore/underscore-min.js",
-                      "~/Content/ExceptionLib/bootstrap-calendar/js/calendar.min.js"
+                      "~/Content/ExceptionLib/bootstrap-calendar/js/calendar.js"
 
                       ));
 
