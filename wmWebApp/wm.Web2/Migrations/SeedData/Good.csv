@@ -1,0 +1,268 @@
+"Id","GoodCaegory.Id","Ranking","AccountantCode","GoodCategory.Name","Name","GoodUnit.Name","GoodUnit.Id","GoodType"
+1,1,0,"Khotong1428","hàng bếp tổng - món chính","Sườn xương","Miếng",1,1
+2,1,1,"Khotong1401","hàng bếp tổng - món chính","Sườn Đặc biệt","Miếng",1,1
+3,1,2,"Khotong1403","hàng bếp tổng - món chính","Heo nướng","Cây",2,1
+4,1,3,"Khotong1437","hàng bếp tổng - món chính","Sườn non","Miếng",1,1
+5,1,4,"Khotong1445","hàng bếp tổng - món chính","Sườn đùi gà","Cái",3,1
+6,1,5,"Khotong1454","hàng bếp tổng - món chính","Ba rọi nướng","Miếng",1,1
+7,1,6,"Khotong1450","hàng bếp tổng - món canh","NƯỚC BANH CANH","Phần",4,1
+8,2,0,"Khotong1461","hàng bếp tổng - món canh","Bún riêu cua","Phần",4,1
+9,2,1,"Khotong1462","hàng bếp tổng - món canh","Nước bún riêu cua","Phần",4,1
+10,2,2,"Khotong1457","hàng bếp tổng - món canh","CANH BÍ ĐỎ","Phần",4,1
+11,2,3,"Khotong1442","hàng bếp tổng - món canh","Khổ qua","Phần",4,1
+12,2,4,"Khotong1488","hàng bếp tổng - món canh","Nước Lèo Canh Chay","Phần",4,1
+13,2,5,"Khotong1455","hàng bếp tổng - món canh","Bún chả cá","Phần",4,1
+14,2,6,"Khotong1456","hàng bếp tổng - món canh","Nước bún chả cá","Phần",4,1
+15,2,7,"Khotong1466","hàng bếp tổng - món canh","Cháo trắng","Phần",4,1
+16,2,8,"Khotong1496","hàng bếp tổng - món canh","Bún Thái chay","Phần",4,1
+17,2,9,"Khotong1497","hàng bếp tổng - món canh","Nước bún Thái chay","Phần",4,1
+18,3,0,"Khotong1405","hàng bếp tổng - tủ mát bên ngoài","Chả","Bịch",5,1
+19,3,1,"Khotong1402","hàng bếp tổng - tủ mát bên ngoài","Tàu hũ ky","Miếng",1,1
+20,3,2,3540,"hàng bếp tổng - tủ mát bên ngoài","Nem chua","Hộp",6,1
+21,3,3,2502,"hàng bếp tổng - tủ mát bên ngoài","Sandwich","Bịch",5,1
+22,3,4,"Khotong1477","hàng bếp tổng - tủ mát bên ngoài","Chả cá kho thố","Phần",4,1
+23,3,5,"Khotong1478","hàng bếp tổng - tủ mát bên ngoài","Cá Basa kho tộ","Phần",4,1
+24,3,6,"Khotong1464","hàng bếp tổng - tủ mát bên ngoài","Tương đen","Bịch",5,1
+25,3,7,"Khotong1487","hàng bếp tổng - tủ mát bên ngoài","Sốt Khai vị","Phần",4,1
+26,3,8,3700,"hàng bếp tổng - tủ mát bên ngoài","Sốt Mayonaise","Tuýp",7,1
+27,3,9,"Khotong1471","hàng bếp tổng - tủ mát bên ngoài","Nước sốt tấm kẹp","Kg",8,1
+28,3,10,"Khotong1474","hàng bếp tổng - tủ mát bên ngoài","Chà bông","Kg",8,1
+29,3,11,"Khotong1473","hàng bếp tổng - tủ mát bên ngoài","Muối mè","Kg",8,1
+30,3,12,"Khotong1486","hàng bếp tổng - tủ mát bên ngoài","Kho quẹt chay","Phần",4,1
+31,3,13,"Khotong1459","hàng bếp tổng - tủ mát bên ngoài","Kho quẹt","Phần",4,1
+32,3,14,"Khotong1498","hàng bếp tổng - tủ mát bên ngoài","Chả chay kho nấm","Phần",4,1
+33,3,15,"Khotong1479","hàng bếp tổng - tủ mát bên ngoài","Dầu dấm","Lít",9,1
+34,3,16,"Khotong1485","hàng bếp tổng - tủ mát bên ngoài","Nước nhúng sườn","Bịch",5,1
+35,3,17,"Khotong1470","hàng bếp tổng - tủ mát bên ngoài","Gạo tấm kẹp","Kg",8,1
+36,3,18,"Khotong1433","hàng bếp tổng - tủ mát bên ngoài","Gà kho sả","Phần",4,1
+37,3,19,"Khotong1435","hàng bếp tổng - tủ mát bên ngoài","Ba rọi tôm rim","Phần",4,1
+38,3,20,3052,"hàng bếp tổng - tủ mát bên ngoài","Dưa món","Kg",8,1
+39,3,21,"Khotong1493","hàng bếp tổng - tủ mát bên ngoài","Nước sốt lẩu chay","Kg",8,1
+40,3,22,"Khotong1444","hàng bếp tổng - tủ mát bên ngoài","Cơm thập cẩm","Phần",4,1
+41,3,23,"Khotong1430","hàng bếp tổng - tủ mát bên ngoài","Chè chuối","Phần",4,1
+42,3,24,"Khotong1452","hàng bếp tổng - tủ mát bên ngoài","Đồ chua HÀ NỘI","Phần",4,1
+43,3,25,3674,"hàng bếp tổng - tủ mát bên ngoài","Mắm tôm","Kg",8,1
+44,4,0,"Khotong1438","hàng bếp tổng - tủ đông","Bánh canh giò heo","Phần",4,1
+45,4,1,"Khotong1440","hàng bếp tổng - tủ đông","Bánh canh thập cẩm","Phần",4,1
+46,4,2,"Khotong1439","hàng bếp tổng - tủ đông","Bánh canh thịt heo","Phần",4,1
+47,4,3,"Khotong1469","hàng bếp tổng - tủ đông","Bánh canh giò thịt","Phần",4,1
+48,4,4,"Khotong1419","hàng bếp tổng - tủ đông","Nem nướng","Cây",2,1
+49,4,5,"Khotong1406","hàng bếp tổng - tủ đông","Chả giò","Cuốn",10,1
+50,4,6,"Khotong1409","hàng bếp tổng - tủ đông","Cánh gà","Cái",3,1
+51,4,7,"Khotong1426","hàng bếp tổng - tủ đông","Tương đỏ","Bịch",5,1
+52,4,8,3704,"hàng bếp tổng - tủ đông","Tôm luộc","Kg",8,1
+53,4,9,"Khotong1482","hàng bếp tổng - tủ đông","Chạo cá nhỏ","Viên",11,1
+54,4,10,"Khotong1484","hàng bếp tổng - tủ đông","Xôi cá Nhỏ","Miếng",1,1
+55,4,11,"Khotong1425","hàng bếp tổng - tủ đông","Chạo cá","Cây",2,1
+56,4,12,3565,"hàng bếp tổng - tủ đông","Xôi chiên","Cây",2,1
+57,4,13,"Khotong1410","hàng bếp tổng - tủ đông","Đùi gà ướp","Cái",3,1
+58,4,14,"Khotong1483","hàng bếp tổng - tủ đông","Chả cá bọc trứng cút","Viên",11,1
+59,4,15,"Khotong1427","hàng bếp tổng - tủ đông","Chả giò chay","Cuốn",10,1
+60,4,16,3566,"hàng bếp tổng - tủ đông","Sườn chay","Miếng",1,1
+61,4,17,2519,"hàng bếp tổng - tủ đông","Khoai tây trẻ em","Phần",4,1
+62,4,18,2519,"hàng bếp tổng - tủ đông","Khoai tây thêm","Phần",4,1
+63,4,19,"Khotong1447","hàng bếp tổng - tủ đông","Bún chả HNỘI","Phần",4,1
+64,4,20,"Khotong1499","hàng bếp tổng - tủ đông","Bì chay 100 gam","Phần",4,1
+65,4,21,"Khotong1500","hàng bếp tổng - tủ đông","Bì chay 70 gam","Phần",4,1
+66,5,0,2529,"hàng bếp tổng - kho","Hạt điều màu","kg",8,1
+67,5,1,3017,"hàng bếp tổng - kho","Tiêu xay đen","Kg",8,1
+68,5,2,"Khotong1436","hàng bếp tổng - kho","Thín","Kg",8,1
+69,5,3,2042,"hàng bếp tổng - kho","Đậu phộng","Kg",8,1
+70,5,4,3051,"hàng bếp tổng - kho","Bánh tráng","Xấp",12,1
+71,5,5,2505,"hàng bếp tổng - kho","Bánh pía","Xấp",12,1
+72,5,6,2518,"hàng bếp tổng - kho","Bún tàu","Kg",8,1
+73,5,7,2553,"hàng bếp tổng - kho","Tiêu sọ xay","Kg",8,1
+74,6,0,"Khotong1446","hàng bếp tổng - nước mắm","MẮM CƠM","Lít",9,1
+75,6,1,"Khotong1453","hàng bếp tổng - nước mắm","Mắm bún thịt nướng","Lít",9,1
+76,6,2,"Khotong1451","hàng bếp tổng - nước mắm","Mắm bún HÀ NỘI","Lít",9,1
+77,6,3,"Khotong1465","hàng bếp tổng - nước mắm","Mắm chay","Lít",9,1
+78,7,0,3536,"hàng chợ -chung","Trứng cút","vĩ",13,0
+79,7,1,3537,"hàng chợ -chung","Trứng gà","quả",14,0
+80,7,2,3548,"hàng chợ -chung","Trứng vịt muối","quả",14,0
+81,7,3,3502,"hàng chợ -chung","Thịt nạc","kg",8,0
+82,7,4,3579,"hàng chợ -chung","Thịt nọng","kg",8,0
+83,7,5,3503,"hàng chợ -chung","Thịt xay","kg",8,0
+84,7,6,2063,"hàng chợ -chung","nam rom","kg",8,0
+85,7,7,4003,"hàng chợ -chung","TẰC","kg",8,0
+86,7,8,4012,"hàng chợ -chung","CAM","kg",8,0
+87,7,9,3514,"hàng chợ -chung","Lạp xưởng","kg",8,0
+88,7,10,2010,"hàng chợ -chung","Rau muống cọng","kg",8,0
+89,7,11,2009,"hàng chợ -chung","Rau muống bào","kg",8,0
+90,7,12,2050,"hàng chợ -chung","Chuối bào","kg",8,0
+91,7,13,3515,"hàng chợ -chung","Bì","kg",8,0
+92,7,14,2513,"hàng chợ -chung","Bánh canh","kg",8,0
+93,7,15,2512,"hàng chợ -chung","Bún","kg",8,0
+94,7,16,3069,"hàng chợ -chung","Củ sắn","kg",8,0
+95,7,17,3035,"hàng chợ -chung","Gừng","kg",8,0
+96,7,18,3007,"hàng chợ -chung","Tỏi","kg",8,0
+97,7,19,2044,"hàng chợ -chung","Dưa leo","kg",8,0
+98,7,20,3191,"hàng chợ -chung","Cà chua","kg",8,0
+99,7,21,3050,"hàng chợ -chung","Ớt batri","kg",8,0
+100,8,0,2024,"hàng chợ -hàng canh","Bí xanh","kg",8,0
+101,8,1,2134,"hàng chợ -hàng canh","Bí đỏ","kg",8,0
+102,8,2,2021,"hàng chợ -hàng canh","Khoai tây","kg",8,0
+103,8,3,2028,"hàng chợ -hàng canh","Su su","kg",8,0
+104,8,4,2004,"hàng chợ -hàng canh","Cải thảo","kg",8,0
+105,8,5,2022,"hàng chợ -hàng canh","Cà rốt","kg",8,0
+106,8,6,2019,"hàng chợ -hàng canh","Cải trắng","kg",8,0
+107,9,0,2002,"hàng chợ -chợ nhân viên","Cải ngọt","kg",8,0
+108,9,1,2006,"hàng chợ -chợ nhân viên","Bắp cải","kg",8,0
+109,9,2,2073,"hàng chợ -chợ nhân viên","Đậu đũa","kg",8,0
+110,9,3,3002,"hàng chợ -chợ nhân viên","Củ hành tây","kg",8,0
+111,9,4,"TANV24","hàng chợ -chợ nhân viên","ca nuc chien gion","kg",8,0
+112,9,5,2062,"hàng chợ -chợ nhân viên","Mồng tơi","kg",8,0
+113,9,6,3538,"hàng chợ -chợ nhân viên","Trứng vịt","kg",8,0
+114,9,7,"TANV12","hàng chợ -chợ nhân viên","Thịt gà","kg",8,0
+115,9,8,2134,"hàng chợ -chợ nhân viên","bi ho lo","kg",8,0
+116,9,9,2515,"hàng chợ -chợ nhân viên","Đậu hũ","kg",8,0
+117,9,10,"TANV02","hàng chợ -chợ nhân viên","Cá điêu hồng","kg",8,0
+118,10,0,2057,"hàng chợ -khác","Ớt hiểm","kg",8,0
+119,10,1,3040,"hàng chợ -khác","Chanh","kg",8,0
+120,10,2,3001,"hàng chợ -khác","Hành lá","kg",8,0
+121,10,3,3003,"hàng chợ -khác","Hành tím","kg",8,0
+122,10,4,3107,"hàng chợ -khác","Salad","kg",8,0
+123,10,5,2012,"hàng chợ -khác","Rau quế","kg",8,0
+124,10,6,2052,"hàng chợ -khác","Húng lủi","kg",8,0
+125,10,7,3038,"hàng chợ -khác","Ngò rí","kg",8,0
+126,10,8,2074,"hàng chợ -khác","Sả cây","kg",8,0
+127,10,9,2059,"hàng chợ -khác","Sả bào","kg",8,0
+128,10,10,3041,"hàng chợ -khác","Lá dứa","kg",8,0
+129,10,11,2081,"hàng chợ -khác","Ba rô","kg",8,0
+130,10,12,3053,"hàng chợ -khác","Đậu bắp","kg",8,0
+131,10,13,3037,"hàng chợ -khác","Hẹ bông","kg",8,0
+132,10,14,2507,"hàng chợ -khác","Gạo tấm","kg",8,0
+133,10,15,8008,"hàng chợ -khác","Gạo nhân viên","kg",8,0
+134,10,16,2014,"hàng chợ -khác","tia to","kg",8,0
+135,10,17,2102,"hàng chợ -khác","kinh gioi","kg",8,0
+136,10,18,5010,"hàng chợ -khác","Gass","kg",8,0
+137,10,19,3180,"hàng chợ -khác","thi la","kg",8,0
+138,10,20,5002,"hàng chợ -khác","Than","kg",8,0
+139,10,21,4002,"hàng chợ -khác","Thơm","trái",15,0
+140,10,22,2030,"hàng chợ -khác","Giá ăn","kg",8,0
+141,10,23,2061,"hàng chợ -khác","Me","kg",8,0
+142,10,24,3054,"hàng chợ -khác","Rau om","kg",8,0
+143,10,25,3039,"hàng chợ -khác","Ngò gai","kg",8,0
+144,10,26,3098,"hàng chợ -khác","Rau ngót","kg",8,0
+145,10,27,2069,"hàng chợ -khác","Cai Chua","kg",8,0
+146,10,28,2036,"hàng chợ -khác","Dau Que","kg",8,0
+147,10,29,"TANV19","hàng chợ -khác","Thịt vai","kg",8,0
+148,10,30,2105,"hàng chợ -khác","rau muong la","kg",8,0
+149,10,31,2016,"hàng chợ -khác","rau den","kg",8,0
+150,10,32,2050,"hàng chợ -khác","Nam Rom","Kg",8,0
+151,10,33,,"hàng chợ -khác","Bap Chuoi Bao","kg",8,0
+152,11,0,4001,"hàng bar - chung","Dưa hấu","kg",8,0
+153,11,1,4012,"hàng bar - chung","Cam","kg",8,0
+154,11,2,3080,"hàng bar - chung","Chanh","kg",8,0
+155,11,3,4008,"hàng bar - chung","Mãng cầu","kg",8,0
+156,11,4,4015,"hàng bar - chung","Táo ","kg",8,0
+157,11,5,4007,"hàng bar - chung","Dâu","kg",8,0
+158,11,6,4009,"hàng bar - chung","Sapoche","kg",8,0
+159,11,7,4014,"hàng bar - chung","Oåi","kg",8,0
+160,11,8,3081,"hàng bar - chung","Cà rốt","kg",8,0
+161,11,9,4011,"hàng bar - chung","Bơ","kg",8,0
+162,11,10,4006,"hàng bar - chung","Bưởi","kg",8,0
+163,11,11,1215,"hàng bar - chung","Dừa","kg",8,0
+164,11,12,4024,"hàng bar - chung","Thơm","trái",15,0
+165,11,13,901,"hàng bar - chung","Bánh Flan","cái",3,0
+166,11,14,2515,"hàng bar - chung","Rau má","lít",9,0
+167,11,15,1257,"hàng bar - chung","Đậu nành","lít",9,0
+168,11,16,"Khotong1441","hàng bar - chung","Đậu xanh","kg",8,0
+169,11,17,4017,"hàng bar - chung","Bột sắn","kg",8,0
+170,11,18,4061,"hàng bar - chung","Xí muội","kg",8,0
+171,11,19,4059,"hàng bar - chung","Chanh muối","kg",8,0
+172,11,20,3721,"hàng bar - chung","Siro dâu","chai",16,0
+173,11,21,"Khotong1463","hàng bar - chung","Yogurt","hũ",17,0
+174,11,22,"Khotong1431","hàng bar - chung","che dau xanh","Phần",4,0
+175,11,23,"Khotong1476","hàng bar - chung","bot dai","Phần",4,0
+176,11,24,3115,"hàng bar - chung","sua tuoi","bịch",5,0
+177,11,25,1208,"hàng bar - chung","Coke","lon",18,0
+178,11,26,1209,"hàng bar - chung","7 up","lon",18,0
+179,11,27,1210,"hàng bar - chung","Pepsi","lon",18,0
+180,11,28,1212,"hàng bar - chung","Soda","lon",18,0
+181,11,29,1224,"hàng bar - chung","Suối","thùng",19,0
+182,11,30,701,"hàng bar - chung",333,"lon",18,0
+183,11,31,1228,"hàng bar - chung","Red bull","lon",18,0
+184,11,32,710,"hàng bar - chung","Coke bình","lon",18,0
+185,11,33,1254,"hàng bar - chung","Coke light","lon",18,0
+186,11,34,703,"hàng bar - chung","Ken","chai",16,0
+187,11,35,702,"hàng bar - chung","Tiger","chai",16,0
+188,11,36,"Khotong1475","hàng bar - chung","Sương sao","Phần",4,0
+189,11,37,3035,"hàng bar - chung","Gừng","kg",8,0
+190,11,38,4043,"hàng bar - chung","Chanh Dâay","kg",8,0
+191,11,39,1279,"hàng bar - chung","Sữa Bắp","chai",16,0
+192,11,40,4060,"hàng bar - chung","Tắc Muối ","kg",8,0
+193,11,41,4003,"hàng bar - chung","tắc","kg",8,0
+194,11,42,3718,"hàng bar - chung","Hạt chia","gói",20,0
+195,12,0,3026,"hàng kho tổng - chung","Đường lẻ vang","kg",8,0
+196,12,1,3025,"hàng kho tổng - chung","Bột ngọt","kg",8,0
+197,12,2,3106,"hàng kho tổng - chung","Aji ngon","kg",8,0
+198,12,3,8015,"hàng kho tổng - chung","Order","kg",8,0
+199,12,4,6297,"hàng kho tổng - chung","Giấy lót bàn","kg",8,0
+200,12,5,8011,"hàng kho tổng - chung","Khuôn cơm","kg",8,0
+201,12,6,6098,"hàng kho tổng - chung","Hộp cơm cũ","kg",8,0
+202,12,7,4021,"hàng kho tổng - chung","Trà cám","kg",8,0
+203,12,8,3170,"hàng kho tổng - chung","Mắm bình nhân viên","kg",8,0
+204,12,9,1224,"hàng kho tổng - chung","Suối cali","kg",8,0
+205,12,10,3020,"hàng kho tổng - chung","Nước tương","kg",8,0
+206,12,11,3703,"hàng kho tổng - chung","Mắm khách","kg",8,0
+207,12,12,3129,"hàng kho tổng - chung","Tương cà","kg",8,0
+208,12,13,3083,"hàng kho tổng - chung","Tương ớt","kg",8,0
+209,12,14,8104,"hàng kho tổng - chung","Bàn chải sắt","kg",8,0
+210,12,15,3033,"hàng kho tổng - chung","Muối","kg",8,0
+211,12,16,3044,"hàng kho tổng - chung","Dấm","kg",8,0
+212,12,17,3125,"hàng kho tổng - chung","Dầu an","kg",8,0
+213,12,18,6185,"hàng kho tổng - chung","Bao 1 ly","kg",8,0
+214,12,19,6172,"hàng kho tổng - chung","bao dung OT","kg",8,0
+215,12,20,6002,"hàng kho tổng - chung","Bao rác màu","kg",8,0
+216,12,21,6003,"hàng kho tổng - chung","Bao rác đen","kg",8,0
+217,12,22,6292,"hàng kho tổng - chung","Bao tay vệ sinh","kg",8,0
+218,12,23,6185,"hàng kho tổng - chung","Bao tay xốp","kg",8,0
+219,12,24,6179,"hàng kho tổng - chung","Bao tay y tế","hộp",6,0
+220,12,25,6100,"hàng kho tổng - chung","Bao 1 hộp","hộp",6,0
+221,12,26,6100,"hàng kho tổng - chung","Bao 3 hộp","hộp",6,0
+222,12,27,6100,"hàng kho tổng - chung","Bao 5 hộp","hộp",6,0
+223,12,28,6315,"hàng kho tổng - chung","ỐNG HÚT DÀI","kg",8,0
+224,12,29,6172,"hàng kho tổng - chung","Bao do chua 10x18","kg",8,0
+225,12,30,6098,"hàng kho tổng - chung","Hộp cơm mới","kg",8,0
+226,12,31,8040,"hàng kho tổng - chung","Hộp canh","kg",8,0
+227,12,32,8045,"hàng kho tổng - chung","Hộp mắm","kg",8,0
+228,12,33,6099,"hàng kho tổng - chung","Hộp phở","kg",8,0
+229,12,34,6307,"hàng kho tổng - chung","Logo cơm tấm","kg",8,0
+230,12,35,6095,"hàng kho tổng - chung","LY+ Nắp ly mang về ","kg",8,0
+231,12,36,6188,"hàng kho tổng - chung","Đũa tre","kg",8,0
+232,12,37,6471,"hàng kho tổng - chung","Muỗng nhựa","bịch",5,0
+233,12,38,6008,"hàng kho tổng - chung","Giấy cuộn","kg",8,0
+234,12,39,6156,"hàng kho tổng - chung","Giấy vuông","kg",8,0
+235,12,40,6030,"hàng kho tổng - chung","Cây khuấy","kg",8,0
+236,12,41,6171,"hàng kho tổng - chung","Dây thun","kg",8,0
+237,12,42,6103,"hàng kho tổng - chung","Nước rửa chén","kg",8,0
+238,12,43,6519,"hàng kho tổng - chung","Nước lau kính","kg",8,0
+239,12,44,6482,"hàng kho tổng - chung","Nước rửa tay","kg",8,0
+240,12,45,6395,"hàng kho tổng - chung","Bột giặt","kg",8,0
+241,12,46,6300,"hàng kho tổng - chung","Nước lau sàn","kg",8,0
+242,12,47,6557,"hàng kho tổng - chung","Thuốc tẩy","kg",8,0
+243,12,48,6291,"hàng kho tổng - chung","Xịt muỗi","kg",8,0
+244,12,49,6023,"hàng kho tổng - chung","Xịt phòng","kg",8,0
+245,12,50,6257,"hàng kho tổng - chung","Bàn chải go","kg",8,0
+246,12,51,6168,"hàng kho tổng - chung","Cước sắt","kg",8,0
+247,12,52,6112,"hàng kho tổng - chung","Nhắc nồi","kg",8,0
+248,12,53,6181,"hàng kho tổng - chung","Khăn lau nhà","kg",8,0
+249,12,54,6296,"hàng kho tổng - chung","Sap Thom","cục",21,0
+250,12,55,6337,"hàng kho tổng - chung","Chổi lau nhà","cây",2,0
+251,12,56,6387,"hàng kho tổng - chung","Cây rửa ly","cây",2,0
+252,12,57,6009,"hàng kho tổng - chung","Giấy in bill","kg",8,0
+253,12,58,8018,"hàng kho tổng - chung","Phiếu giữ xe","kg",8,0
+254,12,59,6018,"hàng kho tổng - chung","Tăm tre","kg",8,0
+255,12,60,6122,"hàng kho tổng - chung","Bao đũa","kg",8,0
+256,12,61,6294,"hàng kho tổng - chung","Bao muỗng","kg",8,0
+257,12,62,8009,"hàng kho tổng - chung","Vim tolet","chai",16,0
+258,12,63,6163,"hàng kho tổng - chung","Mut chieu ","M",22,0
+259,12,64,6464,"hàng kho tổng - chung","Nia Nhua","bịch",5,0
+260,12,65,714,"hàng kho tổng - chung","Sua dac ","lon",18,0
+261,12,66,3115,"hàng kho tổng - chung","sua tuoi ","hộp",6,0
+262,12,67,904,"hàng kho tổng - chung","Lip ton","gói",20,0
+263,12,68,8098,"hàng kho tổng - chung","The Cham Cong","thẻ",23,0
+264,12,69,6477,"hàng kho tổng - chung","hộp bánh bao","Cây",2,0
+265,12,70,3026,"hàng kho tổng - chung","Đường trắng","kg",8,0
+266,12,71,4021,"hàng kho tổng - chung","Trà cám","kg",8,0
+267,12,72,2517,"hàng kho tổng - chung","Ca phê","kg",8,0

@@ -125,22 +125,24 @@ namespace wm.Web2.Controllers
             return View(filteredGoodCategoryList);
         }
 
-        public ActionResult WhKeeperEditOrder(int id, int? goodCategoryId, int branchId, DateTime? orderDay)
+        public ActionResult WhKeeperEditOrder(int id, int? goodCategoryId, int? branchId, DateTime? orderDay)
         {
-            //check constraint
-            var branchGoodCategoryList = _branchGoodCategoryService.GetByBranchId(branchId);
-            if (!branchGoodCategoryList.Any())
-            {
-                return View("EmptyGoodCategoryEditOrder");
-            }
             if (id == 0)
             {
                 //create order before doing anything else
                 var employee = EmployeeService.GetByApplicationId(GetUserId());
-                Order newOrder = StrategyBase.Create((DateTime)orderDay, employee.ApplicationUserId, branchId);
+                Order newOrder = StrategyBase.Create((DateTime)orderDay, employee.ApplicationUserId, (int)branchId);
                 id = newOrder.Id;
             }
+
             Order order = Service.GetById(id, "Branch");
+
+            //check constraint
+            var branchGoodCategoryList = _branchGoodCategoryService.GetByBranchId(order.BranchId);
+            if (!branchGoodCategoryList.Any())
+            {
+                return View("EmptyGoodCategoryEditOrder");
+            }
 
             IEnumerable<GoodCategory> filteredGoodCategoryList;
             goodCategoryId = GetAssociateGoodCategories(id, out filteredGoodCategoryList, goodCategoryId);

@@ -293,6 +293,10 @@
       <DependentUpon>201602130836182_InitCreateWithSomeData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\SeedData\Branch.csv" />
+    <EmbeddedResource Include="Migrations\SeedData\BranchGoodCategory.csv" />
+    <EmbeddedResource Include="Migrations\SeedData\GoodCategory.csv" />
+    <EmbeddedResource Include="Migrations\SeedData\GoodUnit.csv" />
+    <EmbeddedResource Include="Migrations\SeedData\Good.csv" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
