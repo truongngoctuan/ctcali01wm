@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using wm.Model;
@@ -121,8 +122,16 @@ namespace wm.Web2.Controllers
             return View(filteredGoodCategoryList);
         }
 
-        public ActionResult WhKeeperEditOrder(int id, int? goodCategoryId)
+        public ActionResult WhKeeperEditOrder(int id, int? goodCategoryId, int? branchId, DateTime? orderDay)
         {
+            if (id == 0)
+            {
+                //create order before doing anything else
+                var employee = EmployeeService.GetByApplicationId(GetUserId());
+                Order newOrder = StrategyBase.Create((DateTime)orderDay, employee.ApplicationUserId, (int)branchId);
+                id = newOrder.Id;
+            }
+
             IEnumerable<GoodCategory> filteredGoodCategoryList;
             goodCategoryId = GetAssociateGoodCategories(id, out filteredGoodCategoryList, goodCategoryId);
 

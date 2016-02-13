@@ -34,7 +34,7 @@ namespace wm.Web2.Controllers.CalendarEventStrategy
                 if (order.Priority <= (int)EmployeeRole.WarehouseKeeper)
                 {
                     newItem.title = String.Format("{0} - {1}", order.Branch.Name,"Make order");
-                    newItem.url = url.Action("WhKeeperEditOrder", "Orders", new { id = order.Id });
+                    newItem.url = url.Action("WhKeeperEditOrder", "Orders", new { id = order.Id, branchId = order.Branch.Id, orderDay = order.OrderDay});
                 }
                 else
                 {
