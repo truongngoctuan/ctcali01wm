@@ -11,9 +11,9 @@ namespace wm.Service.CalendarEvent
         {
             OrderService = orderService;
         }
-        public override IEnumerable<Order> PopulateEvents(DateTime monthInfo, int branchId)
+        public override IEnumerable<Order> PopulateEvents(DateTime monthInfo, int branchId, string include = "")
         {
-            var ordersInMonth = OrderService.GetAllOrdersInMonth(monthInfo, branchId);
+            var ordersInMonth = OrderService.GetAllOrdersInMonth(monthInfo, branchId, include);
             return ordersInMonth;
         }
     }

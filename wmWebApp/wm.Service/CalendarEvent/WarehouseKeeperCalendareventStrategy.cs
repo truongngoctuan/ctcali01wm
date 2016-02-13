@@ -13,9 +13,9 @@ namespace wm.Service.CalendarEvent
             OrderService = orderService;
             _branchService = branchService;
         }
-        public override IEnumerable<Order> PopulateEvents(DateTime monthInfo, int branchId)
+        public override IEnumerable<Order> PopulateEvents(DateTime monthInfo, int branchId, string include = "")
         {
-            var ordersInMonth = OrderService.GetAllOrdersInMonth(monthInfo);
+            var ordersInMonth = OrderService.GetAllOrdersInMonth(monthInfo, 0, include);
 
             //add fake orders
             var fakeOrdersInmonth = new List<Order>();
@@ -38,6 +38,7 @@ namespace wm.Service.CalendarEvent
                         {
                             Id = 0,
                             BranchId = branch.Id,
+                            Branch = branchList.First(s => s.Id == branchId),
                             OrderDay = new DateTime(monthInfo.Year, monthInfo.Month, i),
                             Priority = 0,
                             Status = OrderStatus.NotStarted

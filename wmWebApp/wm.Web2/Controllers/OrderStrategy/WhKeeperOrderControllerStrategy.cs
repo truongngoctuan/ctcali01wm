@@ -36,7 +36,7 @@ namespace wm.Web2.Controllers.OrderStrategy
         }
         private JsonResult PopulateDataMainKitchen(int orderId, int goodCategoryId)
         {
-            var items = Service.PopulateData(orderId, goodCategoryId);
+            var items = Service.PopulateMainKitchenData(orderId, goodCategoryId);
             return new JsonResult() { Data = items };
         }
 

@@ -54,12 +54,9 @@
     <Compile Include="GoodUnitService.cs" />
     <Compile Include="ItemService.cs" />
     <Compile Include="Model\OrderBranchItem.cs" />
-    <Compile Include="Order2Service.cs" />
+    <Compile Include="Model\OrderMainKitchenItem.cs" />
     <Compile Include="OrderGoodService.cs" />
     <Compile Include="OrderService.cs" />
-    <Compile Include="OrderServiceHelper\OrderGeneralService.cs" />
-    <Compile Include="OrderServiceHelper\OrderStrategyBase.cs" />
-    <Compile Include="OrderServiceHelper\StaffOrderStrategy.cs" />
     <Compile Include="Shared\EntityService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\ServiceReturn.cs" />

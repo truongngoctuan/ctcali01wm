@@ -18,6 +18,8 @@ namespace wm.Web2.Controllers.CalendarEventStrategy
         public override MonthlyEventsViewModel PopulateEvents(UrlHelper url, DateTime monthInfo, int branchId)
         {
             var orders = _calendarEventService.PopulateEvents(monthInfo, branchId);
+
+            //var branchList = 
             var eventsResult = new List<CalendarEventItemViewModel>();
             foreach (var order in orders)
             {
@@ -31,12 +33,12 @@ namespace wm.Web2.Controllers.CalendarEventStrategy
 
                 if (order.Priority <= (int)EmployeeRole.WarehouseKeeper)
                 {
-                    newItem.title = "Make order";
+                    newItem.title = String.Format("{0} - {1}", order.Branch.Name,"Make order");
                     newItem.url = url.Action("WhKeeperEditOrder", "Orders", new { id = order.Id });
                 }
                 else
                 {
-                    newItem.title = "View order";
+                    newItem.title = String.Format("{0} - {1}", order.Branch.Name, "Make order");
                     newItem.url = url.Action("WhKeeperDetailsOrder", "Orders", new { id = order.Id });
                 }
 

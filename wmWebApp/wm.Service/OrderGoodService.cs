@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using wm.Model;
 using wm.Repository;
 
@@ -8,6 +9,7 @@ namespace wm.Service
     {
         IEnumerable<OrderGood> GetById(int branchId, int goodCategoryId);
         IEnumerable<OrderGood> GetByOrderId(int orderId, string include = "");
+        IEnumerable<OrderGood> GetByOrderIdRange(IEnumerable<int> orderIds, GoodType? type = null);
     }
 
     public class OrderGoodService : EntityService<OrderGood>, IOrderGoodService
@@ -30,6 +32,11 @@ namespace wm.Service
         IEnumerable<OrderGood> IOrderGoodService.GetById(int orderId, int goodId)
         {
             return _repos.Get((s => s.OrderId == orderId && s.GoodId == goodId));
+        }
+
+        public IEnumerable<OrderGood> GetByOrderIdRange(IEnumerable<int> orderIds, GoodType? type = null)
+        {
+            return _repos.GetByOrderIdRange(orderIds, type);
         }
     }
 }

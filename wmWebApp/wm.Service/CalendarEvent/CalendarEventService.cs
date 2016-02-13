@@ -8,7 +8,7 @@ namespace wm.Service.CalendarEvent
     {
         EmployeeRole Role { get; set; }
 
-        IEnumerable<Order> PopulateEvents(DateTime monthInfo, int branchId);
+        IEnumerable<Order> PopulateEvents(DateTime monthInfo, int branchId, string include = "");
     }
     public class CalendarEventService : ICalendarEventService
     {
@@ -61,7 +61,7 @@ namespace wm.Service.CalendarEvent
             }
             return new StaffCalendarEventStrategy(_orderService);
         }
-        public IEnumerable<Order> PopulateEvents(DateTime monthInfo, int branchId)
+        public IEnumerable<Order> PopulateEvents(DateTime monthInfo, int branchId, string include = "")
         {
             //var eventStrategy = this.GetAssociateStrategy(role, branchId);
 

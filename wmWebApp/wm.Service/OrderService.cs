@@ -9,12 +9,12 @@ namespace wm.Service
 {
     public interface IOrderService : IEntityIntKeyService<Order>
     {
-        Order Create(int branchId, DateTime orderDate);
         IEnumerable<OrderBranchItem> PopulateData(int orderId, int goodCategoryId);
+        IEnumerable<OrderMainKitchenItem> PopulateMainKitchenData(int orderId, int goodCategoryId);
         void Place(int orderId, IEnumerable<OrderBranchItem> items);
 
         //for dashboard
-        IEnumerable<Order> GetAllOrdersInMonth(DateTime monthIndicator, int branchId = 0);
+        IEnumerable<Order> GetAllOrdersInMonth(DateTime monthIndicator, int branchId = 0, string include = "");
 
         void ChangeStatus(int id, OrderStatus status);
     }
@@ -24,23 +24,18 @@ namespace wm.Service
         IUnitOfWork _unitOfWork;
         readonly IOrderRepository _repos;
         readonly IOrderGoodService _orderGoodService;
-        IGoodService _goodService;
+        public IGoodService GoodService { get; }
         readonly IGoodCategoryGoodService _goodCategoryGoodService;
 
-        public OrderService(IUnitOfWork unitOfWork, IOrderRepository Repos,
-            IOrderGoodService OrderGoodService,
-            IGoodCategoryGoodService GoodCategoryGoodService)
-            : base(unitOfWork, Repos)
+        public OrderService(IUnitOfWork unitOfWork, IOrderRepository repos,
+            IOrderGoodService orderGoodService,
+            IGoodCategoryGoodService goodCategoryGoodService)
+            : base(unitOfWork, repos)
         {
             _unitOfWork = unitOfWork;
-            _repos = Repos;
-            _orderGoodService = OrderGoodService;
-            _goodCategoryGoodService = GoodCategoryGoodService;
-        }
-
-        public Order Create(int branchId, DateTime orderDate)
-        {
-            throw new NotImplementedException();
+            _repos = repos;
+            _orderGoodService = orderGoodService;
+            _goodCategoryGoodService = goodCategoryGoodService;
         }
 
         public IEnumerable<OrderBranchItem> PopulateData(int orderId, int goodCategoryId)
@@ -57,8 +52,8 @@ namespace wm.Service
                 {//return with data
                     returnData.Add(new OrderBranchItem
                     {
-                        orderId = orderId,
-                        goodId = item.Id,
+                        OrderId = orderId,
+                        GoodId = item.Id,
                         Name = item.Name,
                         Quantity = matches.First().Quantity,
                         Note = matches.First().Note
@@ -68,10 +63,71 @@ namespace wm.Service
                 {//return with default data
                     returnData.Add(new OrderBranchItem
                     {
-                        orderId = orderId,
-                        goodId = item.Id,
+                        OrderId = orderId,
+                        GoodId = item.Id,
                         Name = item.Name,
                         Quantity = 0,
+                        Note = ""
+                    });
+                }
+            }
+
+            return returnData;
+        }
+
+        public IEnumerable<OrderMainKitchenItem> PopulateMainKitchenData(int orderId, int goodCategoryId)
+        {
+            //TODO: filter with goodCategoryId too
+            var order = GetById(orderId);
+            var sameDateOrderIds = _repos.Get((s => s.OrderDay.Date == order.OrderDay.Date))
+                .Select(t => t.Id);
+            var orderGoodList = _orderGoodService.GetByOrderIdRange(sameDateOrderIds, GoodType.KitChenGood);
+            var quantityBranchTotal = orderGoodList.GroupBy(
+                s => s.Good.Id,
+                s => s.Quantity,
+                (key, g) => new
+                {
+                    GoodId = key,
+                    QuantityTotal = g.Sum()
+                }
+                );
+
+            var allList = _goodCategoryGoodService.GetByGoodCategoryId(goodCategoryId, "Good").Select(s => s.Good);
+            var filteredList = _orderGoodService.GetByOrderId(orderId);//TODO: have some redunrant but have no way to optimize yet
+
+            //get total data
+            //var quantityBranchList = _repos.
+            //binding data
+            var returnData = new List<OrderMainKitchenItem>();
+            foreach (var item in allList)
+            {
+                var quantityTotal = 0;
+                if (item.GoodType == GoodType.KitChenGood)
+                {
+                    quantityTotal = quantityBranchTotal.First(s => s.GoodId == item.Id).QuantityTotal;
+                }
+                var matches = filteredList.Where(t => t.GoodId == item.Id);
+                if (matches.Any())
+                {//return with data
+                    returnData.Add(new OrderMainKitchenItem
+                    {
+                        OrderId = orderId,
+                        GoodId = item.Id,
+                        Name = item.Name,
+                        Quantity = matches.First().Quantity,
+                        QuantityFromBranch = quantityTotal,
+                        Note = matches.First().Note
+                    });
+                }
+                else
+                {//return with default data
+                    returnData.Add(new OrderMainKitchenItem
+                    {
+                        OrderId = orderId,
+                        GoodId = item.Id,
+                        Name = item.Name,
+                        Quantity = 0,
+                        QuantityFromBranch = quantityTotal,
                         Note = ""
                     });
                 }
@@ -87,7 +143,7 @@ namespace wm.Service
             {
                 if (item.Quantity > 0)
                 {
-                    var matches = allList.Where(s => s.GoodId == item.goodId);
+                    var matches = allList.Where(s => s.GoodId == item.GoodId);
                     if (matches.Any())
                     {
                         var match = matches.First();
@@ -100,7 +156,7 @@ namespace wm.Service
                         _orderGoodService.Create(new OrderGood
                         {
                             OrderId = orderId,
-                            GoodId = item.goodId,
+                            GoodId = item.GoodId,
                             Quantity = item.Quantity,
                             Note = item.Note,
                             CreatedDate = DateTime.UtcNow
@@ -120,7 +176,7 @@ namespace wm.Service
 
 
         #region dashboard
-        public IEnumerable<Order> GetAllOrdersInMonth(DateTime monthIndicator, int branchId = 0)
+        public IEnumerable<Order> GetAllOrdersInMonth(DateTime monthIndicator, int branchId = 0, string include = "")
         {
             DateTime startOfMonth = new DateTime(monthIndicator.Year,
                                                monthIndicator.Month,
@@ -131,11 +187,13 @@ namespace wm.Service
                                                                     monthIndicator.Month));
             if (branchId == 0)
             {
-                return _repos.Get((s => startOfMonth <= s.OrderDay && s.OrderDay <= endOfMonth), null, "");
+                return _repos.Get((s => startOfMonth <= s.OrderDay && s.OrderDay <= endOfMonth), null, include);
             }
-            return _repos.Get((s => startOfMonth <= s.OrderDay && s.OrderDay <= endOfMonth && s.BranchId == branchId), null, "");
+            return _repos.Get((s => startOfMonth <= s.OrderDay && s.OrderDay <= endOfMonth && s.BranchId == branchId), null, include);
         }
         #endregion
 
     }
+
+
 }
