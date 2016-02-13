@@ -1,9 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace wm.Model
 {
     public class Employee: Entity<int>
     {
+        [Index]
+        [StringLength(36)]
         public string ApplicationUserId { get; set; }
         public string UserName { get; set; }
         public string Name { get; set; }

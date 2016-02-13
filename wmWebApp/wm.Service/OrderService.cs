@@ -40,8 +40,8 @@ namespace wm.Service
 
         public IEnumerable<OrderBranchItem> PopulateData(int orderId, int goodCategoryId)
         {
-            var allList = _goodCategoryGoodService.GetByGoodCategoryId(goodCategoryId, "Good").Select(s => s.Good);
-            var filteredList = _orderGoodService.GetByOrderId(orderId);//TODO: have some redunrant but have no way to optimize yet
+            var allList = _goodCategoryGoodService.GetByGoodCategoryId(goodCategoryId, "Good").Select(s => s.Good).ToList();
+            var filteredList = _orderGoodService.GetByOrderId(orderId).ToList();//TODO: have some redunrant but have no way to optimize yet
 
             //binding data
             var returnData = new List<OrderBranchItem>();
@@ -90,10 +90,10 @@ namespace wm.Service
                     GoodId = key,
                     QuantityTotal = g.Sum()
                 }
-                );
+                ).ToList();
 
-            var allList = _goodCategoryGoodService.GetByGoodCategoryId(goodCategoryId, "Good").Select(s => s.Good);
-            var filteredList = _orderGoodService.GetByOrderId(orderId);//TODO: have some redunrant but have no way to optimize yet
+            var allList = _goodCategoryGoodService.GetByGoodCategoryId(goodCategoryId, "Good").Select(s => s.Good).ToList();
+            var filteredList = _orderGoodService.GetByOrderId(orderId).AsEnumerable().ToList();//TODO: have some redunrant but have no way to optimize yet
 
             //get total data
             //var quantityBranchList = _repos.
