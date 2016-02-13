@@ -124,19 +124,15 @@ namespace wm.Web2.Controllers
 
         public ActionResult WhKeeperEditOrder(int id, int? goodCategoryId, int? branchId, DateTime? orderDay)
         {
-            Order order;
+            
             if (id == 0)
             {
                 //create order before doing anything else
                 var employee = EmployeeService.GetByApplicationId(GetUserId());
                 Order newOrder = StrategyBase.Create((DateTime) orderDay, employee.ApplicationUserId, (int) branchId);
                 id = newOrder.Id;
-                order = newOrder;
             }
-            else
-            {
-                order = Service.GetById(id);
-            }
+            Order order = Service.GetById(id, "Branch");
 
             IEnumerable<GoodCategory> filteredGoodCategoryList;
             goodCategoryId = GetAssociateGoodCategories(id, out filteredGoodCategoryList, goodCategoryId);
