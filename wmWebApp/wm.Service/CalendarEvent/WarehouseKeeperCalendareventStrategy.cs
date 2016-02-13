@@ -15,11 +15,11 @@ namespace wm.Service.CalendarEvent
         }
         public override IEnumerable<Order> PopulateEvents(DateTime monthInfo, int branchId, string include = "")
         {
-            var ordersInMonth = OrderService.GetAllOrdersInMonth(monthInfo, 0, include);
+            var ordersInMonth = OrderService.GetAllOrdersInMonth(monthInfo, 0, include).ToList();
 
             //add fake orders
             var fakeOrdersInmonth = new List<Order>();
-            var branchList = _branchService.GetAll();
+            var branchList = _branchService.GetAll().ToList();
             //for eachday
             var daysInMonth = DateTime.DaysInMonth(monthInfo.Year, monthInfo.Month);
             for (var i = 1; i <= daysInMonth; i++)
