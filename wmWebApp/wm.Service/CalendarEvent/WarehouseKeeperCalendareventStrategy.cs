@@ -38,7 +38,7 @@ namespace wm.Service.CalendarEvent
                         {
                             Id = 0,
                             BranchId = branch.Id,
-                            Branch = branchList.First(s => s.Id == branchId),
+                            Branch = branch,
                             OrderDay = new DateTime(monthInfo.Year, monthInfo.Month, i),
                             Priority = 0,
                             Status = OrderStatus.NotStarted

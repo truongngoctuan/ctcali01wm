@@ -38,7 +38,7 @@ namespace wm.Web2.Controllers.CalendarEventStrategy
                 }
                 else
                 {
-                    newItem.title = String.Format("{0} - {1}", order.Branch.Name, "Make order");
+                    newItem.title = String.Format("{0} - {1}", order.Branch.Name, "View order");
                     newItem.url = url.Action("WhKeeperDetailsOrder", "Orders", new { id = order.Id });
                 }
 
