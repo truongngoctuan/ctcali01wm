@@ -124,12 +124,18 @@ namespace wm.Web2.Controllers
 
         public ActionResult WhKeeperEditOrder(int id, int? goodCategoryId, int? branchId, DateTime? orderDay)
         {
+            Order order;
             if (id == 0)
             {
                 //create order before doing anything else
                 var employee = EmployeeService.GetByApplicationId(GetUserId());
-                Order newOrder = StrategyBase.Create((DateTime)orderDay, employee.ApplicationUserId, (int)branchId);
+                Order newOrder = StrategyBase.Create((DateTime) orderDay, employee.ApplicationUserId, (int) branchId);
                 id = newOrder.Id;
+                order = newOrder;
+            }
+            else
+            {
+                order = Service.GetById(id);
             }
 
             IEnumerable<GoodCategory> filteredGoodCategoryList;
@@ -137,6 +143,11 @@ namespace wm.Web2.Controllers
 
             ViewBag.OrderId = id;
             ViewBag.GoodCategoryId = (int)goodCategoryId;
+
+            if (order.Branch.BranchType == BranchType.MainKitchen)
+            {
+                return View("WhKeeperMainKitchenEditOrder", filteredGoodCategoryList);
+            }
             return View(filteredGoodCategoryList);
         }
 

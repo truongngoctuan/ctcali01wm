@@ -79,7 +79,7 @@ namespace wm.Service
         {
             //TODO: filter with goodCategoryId too
             var order = GetById(orderId);
-            var sameDateOrderIds = _repos.Get((s => s.OrderDay.Date == order.OrderDay.Date))
+            var sameDateOrderIds = _repos.Get((s => s.OrderDay == order.OrderDay))
                 .Select(t => t.Id);
             var orderGoodList = _orderGoodService.GetByOrderIdRange(sameDateOrderIds, GoodType.KitChenGood);
             var quantityBranchTotal = orderGoodList.GroupBy(
@@ -104,7 +104,12 @@ namespace wm.Service
                 var quantityTotal = 0;
                 if (item.GoodType == GoodType.KitChenGood)
                 {
-                    quantityTotal = quantityBranchTotal.First(s => s.GoodId == item.Id).QuantityTotal;
+                    var matchesGoodType = quantityBranchTotal.Where(s => s.GoodId == item.Id);
+                    if (matchesGoodType.Any())
+                    {
+                        quantityTotal = matchesGoodType.First().QuantityTotal;
+                    }
+                    
                 }
                 var matches = filteredList.Where(t => t.GoodId == item.Id);
                 if (matches.Any())

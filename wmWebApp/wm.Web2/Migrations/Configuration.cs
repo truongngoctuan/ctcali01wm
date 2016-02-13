@@ -116,6 +116,10 @@ namespace wm.Web2.Migrations
             context.BranchGoodCategories.AddOrUpdate(new BranchGoodCategory { BranchId = 1, GoodCategoryId = 3, Ranking = 2 });
             context.BranchGoodCategories.AddOrUpdate(new BranchGoodCategory { BranchId = 2, GoodCategoryId = 2, Ranking = 0 });
             context.BranchGoodCategories.AddOrUpdate(new BranchGoodCategory { BranchId = 2, GoodCategoryId = 3, Ranking = 1 });
+            context.BranchGoodCategories.AddOrUpdate(new BranchGoodCategory { BranchId = 3, GoodCategoryId = 1, Ranking = 0 });
+            context.BranchGoodCategories.AddOrUpdate(new BranchGoodCategory { BranchId = 4, GoodCategoryId = 1, Ranking = 0 });
+            context.BranchGoodCategories.AddOrUpdate(new BranchGoodCategory { BranchId = 4, GoodCategoryId = 2, Ranking = 1 });
+            context.BranchGoodCategories.AddOrUpdate(new BranchGoodCategory { BranchId = 4, GoodCategoryId = 3, Ranking = 2 });
             context.SaveChanges();
 
             context.GoodUnits.AddOrUpdate(new GoodUnit { Id = 1, Name = "unit 1" });
@@ -151,6 +155,10 @@ namespace wm.Web2.Migrations
             context.GoodCategoryGoods.AddOrUpdate(new GoodCategoryGood { GoodCategoryId = 3, GoodId = 6, Ranking = 0 });
             context.GoodCategoryGoods.AddOrUpdate(new GoodCategoryGood { GoodCategoryId = 3, GoodId = 7, Ranking = 1 });
             context.GoodCategoryGoods.AddOrUpdate(new GoodCategoryGood { GoodCategoryId = 3, GoodId = 8, Ranking = 2 });
+            //kitchen good
+            context.GoodCategoryGoods.AddOrUpdate(new GoodCategoryGood { GoodCategoryId = 1, GoodId = 13, Ranking = 3 });
+            context.GoodCategoryGoods.AddOrUpdate(new GoodCategoryGood { GoodCategoryId = 1, GoodId = 14, Ranking = 4 });
+            context.GoodCategoryGoods.AddOrUpdate(new GoodCategoryGood { GoodCategoryId = 1, GoodId = 15, Ranking = 5 });
             context.SaveChanges();
 
             context.Orders.AddOrUpdate(new Order { Id = 1, BranchId = 1, CreatedDate = DateTime.UtcNow, OrderDay = DateTime.UtcNow, UpdatedDate = DateTime.UtcNow, Status = OrderStatus.Started });
