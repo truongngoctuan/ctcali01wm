@@ -358,6 +358,7 @@
     <Content Include="Views\Orders\WhKeeperEditOrder.cshtml" />
     <Content Include="Views\Orders\WhKeeperDetailsOrder.cshtml" />
     <Content Include="Views\Orders\WhKeeperMainKitchenEditOrder.cshtml" />
+    <Content Include="Views\Orders\EmptyGoodCategoryEditOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

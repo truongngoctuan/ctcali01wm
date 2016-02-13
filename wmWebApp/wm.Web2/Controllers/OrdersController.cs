@@ -70,7 +70,7 @@ namespace wm.Web2.Controllers
         }
 
         #region edit/details pages
-        int? GetAssociateGoodCategories(int orderId, 
+        int? GetAssociateGoodCategories(int orderId,
             out IEnumerable<GoodCategory> filteredGoodCategoryList,
             int? goodCategoryId)
         {
@@ -78,8 +78,11 @@ namespace wm.Web2.Controllers
             filteredGoodCategoryList = _branchGoodCategoryService
                 .GetByBranchId(inputModel.BranchId, "GoodCategory")
                 .Select(t => t.GoodCategory);
-
-            return goodCategoryId ?? filteredGoodCategoryList.First().Id;
+            if (filteredGoodCategoryList.Any())
+            {
+                return goodCategoryId ?? filteredGoodCategoryList.First().Id;
+            }
+            return null;
         }
         // GET: Order(index page, no care, load template, the same for each role)
         public ActionResult StaffEditOrder(int id, int? goodCategoryId)
@@ -122,14 +125,19 @@ namespace wm.Web2.Controllers
             return View(filteredGoodCategoryList);
         }
 
-        public ActionResult WhKeeperEditOrder(int id, int? goodCategoryId, int? branchId, DateTime? orderDay)
+        public ActionResult WhKeeperEditOrder(int id, int? goodCategoryId, int branchId, DateTime? orderDay)
         {
-            
+            //check constraint
+            var branchGoodCategoryList = _branchGoodCategoryService.GetByBranchId(branchId);
+            if (!branchGoodCategoryList.Any())
+            {
+                return View("EmptyGoodCategoryEditOrder");
+            }
             if (id == 0)
             {
                 //create order before doing anything else
                 var employee = EmployeeService.GetByApplicationId(GetUserId());
-                Order newOrder = StrategyBase.Create((DateTime) orderDay, employee.ApplicationUserId, (int) branchId);
+                Order newOrder = StrategyBase.Create((DateTime)orderDay, employee.ApplicationUserId, branchId);
                 id = newOrder.Id;
             }
             Order order = Service.GetById(id, "Branch");
@@ -177,7 +185,7 @@ namespace wm.Web2.Controllers
         public ActionResult Create(CreateOrderByStaffViewModel inputViewModel)
         {
             Order newOrder = StrategyBase.Create(inputViewModel.orderDay, inputViewModel.employeeId, inputViewModel.branchId);
-            return Json(new ReturnJsonObject<int> {Status = ReturnStatus.Ok.ToString(), Result = newOrder.Id});
+            return Json(new ReturnJsonObject<int> { Status = ReturnStatus.Ok.ToString(), Result = newOrder.Id });
         }
 
         public ActionResult Confirm(int id)
