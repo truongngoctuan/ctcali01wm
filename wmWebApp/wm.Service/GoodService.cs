@@ -31,11 +31,14 @@ namespace wm.Service
 
             recordsTotal = _repos.Get().Count();
             recordsFiltered = _repos.Get((s => SearchValue == null
-            || s.Name.Contains(SearchValue)),
+            || s.Name.Contains(SearchValue)
+            || s.NameASCII.Contains(SearchValue)
+            ),
                 orderFunction).Count();
 
             var resulFiltered = _repos.Get((s => SearchValue == null 
-            || s.Name.Contains(SearchValue)), 
+            || s.Name.Contains(SearchValue)
+            || s.NameASCII.Contains(SearchValue)), 
                 orderFunction, "Unit", Start, Length);
 
             return resulFiltered;

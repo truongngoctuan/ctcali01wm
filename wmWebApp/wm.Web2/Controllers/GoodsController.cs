@@ -40,6 +40,7 @@ namespace wm.Web2.Controllers
         {
             if (ModelState.IsValid)
             {
+                good.NameASCII = good.Name.RemoveSign4VietnameseString();
                 Service.Create(good);
                 return RedirectToAction("Index");
             }
@@ -73,6 +74,7 @@ namespace wm.Web2.Controllers
         {
             if (ModelState.IsValid)
             {
+                good.NameASCII = good.Name.RemoveSign4VietnameseString();
                 Service.Update(good);
                 return RedirectToAction("Index");
             }
@@ -116,7 +118,7 @@ namespace wm.Web2.Controllers
                 string paramSortOrder = param.SortOrder;
                 paramSortOrder = paramSortOrder.Replace("UnitName", "Unit.Name");
                 //get sorted/paginated
-                var resultSet = Service.ListDatatables(param.Search.Value, paramSortOrder, param.Start, param.Length, out recordsTotal, out recordsFiltered);
+                var resultSet = Service.ListDatatables(param.Search.Value, paramSortOrder, param.Start, param.Length, out recordsTotal, out recordsFiltered).ToList();
 
                 var resultViewModel = resultSet.Select(e => new GoodDatatablesListViewModel
                 {

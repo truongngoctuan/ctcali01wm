@@ -150,10 +150,12 @@ namespace wm.Web2.Migrations
 
             SeedFromFile(context, "Good", (wmContext, reader) =>
             {
+                var name = reader.GetField<string>("Name");
                 var newObject = new Good
                 {
                     Id = reader.GetField<int>("Id"),
-                    Name = reader.GetField<string>("Name"),
+                    Name = name,
+                    NameASCII = name.RemoveSign4VietnameseString(),
                     UnitId = reader.GetField<int>("GoodUnit.Id"),
                     GoodType = (GoodType)reader.GetField<int>("GoodType"),
                     AccountantCode = reader.GetField<string>("AccountantCode")
