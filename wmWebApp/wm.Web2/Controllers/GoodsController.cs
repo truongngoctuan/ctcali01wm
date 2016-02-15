@@ -36,7 +36,7 @@ namespace wm.Web2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,NameASCII,UnitId,GoodType")] Good good)
+        public ActionResult Create(Good good)
         {
             if (ModelState.IsValid)
             {
@@ -69,7 +69,7 @@ namespace wm.Web2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,NameASCII,UnitId,GoodType")] Good good)
+        public ActionResult Edit(Good good)
         {
             if (ModelState.IsValid)
             {
@@ -123,7 +123,8 @@ namespace wm.Web2.Controllers
                     id = e.Id,
                     Name = e.Name,
                     UnitName = e.Unit.Name,
-                    GoodType = e.GoodType.ToString()
+                    GoodType = e.GoodType.ToString(),
+                    AccountantCode = e.AccountantCode
                 });
 
                 var dtResult = new DTResult<GoodDatatablesListViewModel>

@@ -6,7 +6,7 @@ namespace wm.Model
     {
         public string Name { get; set; }
         public string NameASCII { get; set; }
-
+        public string AccountantCode { get; set; }
         public int UnitId { get; set; }
 
         public GoodUnit Unit { get; set; }

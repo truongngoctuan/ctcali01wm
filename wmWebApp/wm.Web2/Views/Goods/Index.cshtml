@@ -14,36 +14,42 @@
 <div class="row">
     <table id="exampleTable01" class="table">
         <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Unit.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.GoodType)
-                </th>
-                <th>
-                    Toolbox
-                </th>
-            </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AccountantCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Unit.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GoodType)
+            </th>
+            <th>
+                Toolbox
+            </th>
+        </tr>
         </thead>
         <tfoot>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Unit.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.GoodType)
-                </th>
-                <th>
-                    Toolbox
-                </th>
-            </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AccountantCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Unit.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GoodType)
+            </th>
+            <th>
+                Toolbox
+            </th>
+        </tr>
         </tfoot>
     </table>
 </div>
@@ -66,6 +72,7 @@
                 "paging": true,
                 "deferRender": true,
                 "columns": [
+                { "data": "AccountantCode" },
                 { "data": "Name" },
                 { "data": "UnitName" },
                 { "data": "GoodType" },

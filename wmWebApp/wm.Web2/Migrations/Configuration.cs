@@ -155,7 +155,8 @@ namespace wm.Web2.Migrations
                     Id = reader.GetField<int>("Id"),
                     Name = reader.GetField<string>("Name"),
                     UnitId = reader.GetField<int>("GoodUnit.Id"),
-                    GoodType = (GoodType)reader.GetField<int>("GoodType")
+                    GoodType = (GoodType)reader.GetField<int>("GoodType"),
+                    AccountantCode = reader.GetField<string>("AccountantCode")
                 };
 
                 context.Goods.AddOrUpdate(newObject);
@@ -209,7 +210,10 @@ namespace wm.Web2.Migrations
                         doAction(context, csvReader);
                         //var FullNameANSCII = FullName.RemoveSign4VietnameseString();
                     }
+
+                    reader.Close();
                 }
+                stream.Close();
             }
 
             context.SaveChanges();
