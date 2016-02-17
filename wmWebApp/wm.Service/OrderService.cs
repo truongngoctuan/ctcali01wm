@@ -55,6 +55,7 @@ namespace wm.Service
                         OrderId = orderId,
                         GoodId = item.Id,
                         Name = item.Name,
+                        InStock = matches.First().InStock,
                         Quantity = matches.First().Quantity,
                         Note = matches.First().Note
                     });
@@ -66,6 +67,7 @@ namespace wm.Service
                         OrderId = orderId,
                         GoodId = item.Id,
                         Name = item.Name,
+                        InStock = 0,
                         Quantity = 0,
                         Note = ""
                     });
@@ -119,6 +121,7 @@ namespace wm.Service
                         OrderId = orderId,
                         GoodId = item.Id,
                         Name = item.Name,
+                        InStock = matches.First().InStock,
                         Quantity = matches.First().Quantity,
                         QuantityFromBranch = quantityTotal,
                         Note = matches.First().Note
@@ -131,6 +134,7 @@ namespace wm.Service
                         OrderId = orderId,
                         GoodId = item.Id,
                         Name = item.Name,
+                        InStock = 0,
                         Quantity = 0,
                         QuantityFromBranch = quantityTotal,
                         Note = ""
@@ -152,6 +156,7 @@ namespace wm.Service
                     if (matches.Any())
                     {
                         var match = matches.First();
+                        match.InStock = item.InStock;
                         match.Quantity = item.Quantity;
                         match.Note = item.Note;
                         _orderGoodService.Update(match);
@@ -162,6 +167,7 @@ namespace wm.Service
                         {
                             OrderId = orderId,
                             GoodId = item.GoodId,
+                            InStock = item.InStock,
                             Quantity = item.Quantity,
                             Note = item.Note,
                             CreatedDate = DateTime.UtcNow
