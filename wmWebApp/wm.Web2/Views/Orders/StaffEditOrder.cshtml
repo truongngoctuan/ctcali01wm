@@ -8,29 +8,29 @@
 <div class="row">
     <h4>Update good categories</h4>
     <hr />
-    <div class="row">
-        <div class="col-md-4 list-group">
-            @foreach (var item in Model)
+    <div class="col-md-12">
+        <div class="col-md-4">
+            <div class="list-group">
+                @foreach (var item in Model)
             {
-                <button onclick="clickGoodCategoryItem('@Url.Action("StaffEditOrder", "Orders", new { id = ViewBag.OrderId, GoodCategoryId = item.Id })')" class="list-group-item GoodCategoryItem" id="GoodCategoryItem@{@item.Id}">@item.Name</button>
+                    <button onclick="clickGoodCategoryItem('@Url.Action("StaffEditOrder", "Orders", new {id = ViewBag.OrderId, GoodCategoryId = item.Id})')" class="list-group-item GoodCategoryItem" id="GoodCategoryItem@{@item.Id}">@item.Name</button>
     }
-        </div>
-        <div class="col-md-8">
-            <div class="form-group row col-md-12">
+            </div>
+            <a href="@Url.Action("Confirm", "Orders", new {id = ViewBag.OrderId})"
+               class="btn btn-danger btn-large col-md-12 col-xs-12">Confirm</a>
+        </div>                                                                                                                                                              <div class="col-md-8">
+            <div class="form-group col-md-12">
                 <div id="hsIncludeExclude" class=""></div>
             </div>
-            <div class="form-group">
-                <div class="col-md-12">
-                    <button name="save" id="save" class="btn btn-danger" onclick="saveIncludeExclude()">Save</button>
-                </div>
+            <div class="form-group col-md-12">
+                <button name="save" id="save" class="btn btn-danger" onclick="saveIncludeExclude()">Save</button>
             </div>
         </div>
 
     </div>
 
-    <div class="row">
-        <a href="@Url.Action("Confirm", "Orders", new { id = ViewBag.OrderId  })"
-           class="btn btn-danger btn-large col-md-4 col-xs-12">Confirm</a>
+    <div class="col-md-12">
+
 
     </div>
 </div>
