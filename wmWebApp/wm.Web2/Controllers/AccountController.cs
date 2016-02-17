@@ -68,6 +68,8 @@ namespace wm.Web2.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    var employee = Service.GetByApplicationId(GetUserId());
+                    Session["rolePriority"] = (int)employee.Role;
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

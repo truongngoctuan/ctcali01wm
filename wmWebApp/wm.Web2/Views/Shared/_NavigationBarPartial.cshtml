@@ -1,0 +1,55 @@
+﻿@{
+    int? sessionRole = (int?)Session["rolePriority"];
+
+    if (sessionRole != null && sessionRole >= 5)
+    {
+        <ul class="nav navbar-nav">
+            @*<li><a href="#">Link</a></li>*@
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Quản lý <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li>@Html.ActionLink("Quản lý chi nhánh", "Index", "Branches")</li>
+                    <li>@Html.ActionLink("Quản lý nhân viên", "Index", "Employees")</li>
+                    <li>@Html.ActionLink("Quản lý danh mục hàng", "Index", "GoodCategories")</li>
+                    <li>@Html.ActionLink("Quản lý hàng", "Index", "Goods")</li>
+                    @*<li>@Html.ActionLink("Quản lý nhà cung cấp", "asd", "Prototype01")</li>*@
+                </ul>
+            </li>
+
+            @*<li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bếp tổng <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>@Html.ActionLink("Tổng hợp order hàng bếp tổng", "BepTongOrder", "Prototype01")</li>
+
+                        <li>@Html.ActionLink("Nhập hàng thực tế", "BepTongNhapThuc", "Prototype01")</li>
+
+                        <li class="divider"></li>
+                        <li>@Html.ActionLink("Quản lý định lượng", "BepTongQuanLyDinhLuong", "Prototype01")</li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Kho tổng <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="divider"></li>
+                        <li>@Html.ActionLink("Cập nhật tồn kho", "KhoTongCapNhatTonKho", "Prototype01")</li>
+                        <li>@Html.ActionLink("Cập nhật thực nhập kho", "KhoTongNhapThuc", "Prototype01")</li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Order <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>@Html.ActionLink("Xuất order bếp tổng theo nguyên vật liệu", "asd", "Prototype01")</li>
+                        <li>@Html.ActionLink("Xuất order chi nhánh + kho", "asd", "Prototype01")</li>
+                        <li class="divider"></li>
+                        <li>@Html.ActionLink("Phân bổ hàng theo nhà cung cấp", "asd", "Prototype01")</li>
+                        <li>@Html.ActionLink("Gọi hàng theo nhà cung cấp", "asd", "Prototype01")</li>
+                    </ul>
+                </li>*@
+        </ul>
+
+    }
+}
+

@@ -18,16 +18,18 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("ctKHO", "GeneralIndex", "Dashboard", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("ctKHO", "GeneralIndex", "Dashboard", new {area = ""}, new {@class = "navbar-brand"})
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-slide-dropdown">
+                @{
+                    if (Request.IsAuthenticated)
+                    {
+                        @Html.Partial("_NavigationBarPartial")
+                        @Html.Partial("_LoginPartial")
+                    }
+                }
+            </div><!-- /.navbar-collapse -->
         </div>
     </div>
     <div class="container body-content">

@@ -226,12 +226,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\AutoMapperWebProfiler.cs" />
-    <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\IdentityConfig.cs" />
-    <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\App_Start\AutoMapperWebProfiler.cs" />
+    <Compile Include="Controllers\App_Start\BundleConfig.cs" />
+    <Compile Include="Controllers\App_Start\FilterConfig.cs" />
+    <Compile Include="Controllers\App_Start\IdentityConfig.cs" />
+    <Compile Include="Controllers\App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BranchesController.cs" />
@@ -360,6 +360,7 @@
     <Content Include="Views\Orders\WhKeeperDetailsOrder.cshtml" />
     <Content Include="Views\Orders\WhKeeperMainKitchenEditOrder.cshtml" />
     <Content Include="Views\Orders\EmptyGoodCategoryEditOrder.cshtml" />
+    <Content Include="Views\Shared\_NavigationBarPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

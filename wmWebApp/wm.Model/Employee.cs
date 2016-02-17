@@ -5,8 +5,6 @@ namespace wm.Model
 {
     public class Employee: Entity<int>
     {
-        [Index]
-        [StringLength(36)]
         public string ApplicationUserId { get; set; }
         public string UserName { get; set; }
         public string Name { get; set; }
