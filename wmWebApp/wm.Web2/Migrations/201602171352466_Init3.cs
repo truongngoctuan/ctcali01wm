@@ -3,7 +3,7 @@ namespace wm.Web2.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitCreateWithSomeData : DbMigration
+    public partial class Init3 : DbMigration
     {
         public override void Up()
         {
@@ -98,6 +98,7 @@ namespace wm.Web2.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                         NameASCII = c.String(),
+                        AccountantCode = c.String(),
                         UnitId = c.Int(nullable: false),
                         GoodType = c.Int(nullable: false),
                     })

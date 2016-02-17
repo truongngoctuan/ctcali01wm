@@ -7,13 +7,13 @@ namespace wm.Web2.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class InitCreateWithSomeData : IMigrationMetadata
+    public sealed partial class Init3 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitCreateWithSomeData));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Init3));
         
         string IMigrationMetadata.Id
         {
-            get { return "201602130836182_InitCreateWithSomeData"; }
+            get { return "201602171352466_Init3"; }
         }
         
         string IMigrationMetadata.Source

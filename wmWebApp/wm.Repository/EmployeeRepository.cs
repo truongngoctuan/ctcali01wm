@@ -19,7 +19,7 @@ namespace wm.Repository
         }
         public Employee GetByApplicationUserId(string id)
         {//http://stackoverflow.com/questions/23201907/asp-net-mvc-attaching-an-entity-of-type-modelname-failed-because-another-ent
-            return _dbset.AsNoTracking().Where(s => s.ApplicationUserId == id).First();
+            return _dbset.AsNoTracking().First(s => s.ApplicationUserId == id);
         }
     }
 }

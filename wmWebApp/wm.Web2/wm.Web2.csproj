@@ -255,9 +255,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201602130836182_InitCreateWithSomeData.cs" />
-    <Compile Include="Migrations\201602130836182_InitCreateWithSomeData.Designer.cs">
-      <DependentUpon>201602130836182_InitCreateWithSomeData.cs</DependentUpon>
+    <Compile Include="Migrations\201602171352466_Init3.cs" />
+    <Compile Include="Migrations\201602171352466_Init3.Designer.cs">
+      <DependentUpon>201602171352466_Init3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -290,8 +290,8 @@
     </Content>
     <Content Include=".bowerrc" />
     <Content Include="bower.json" />
-    <EmbeddedResource Include="Migrations\201602130836182_InitCreateWithSomeData.resx">
-      <DependentUpon>201602130836182_InitCreateWithSomeData.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201602171352466_Init3.resx">
+      <DependentUpon>201602171352466_Init3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\SeedData\Branch.csv" />
     <EmbeddedResource Include="Migrations\SeedData\BranchGoodCategory.csv" />

@@ -68,8 +68,7 @@ namespace wm.Web2.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    var employee = Service.GetByApplicationId(GetUserId());
-                    Session["rolePriority"] = (int)employee.Role;
+                    return RedirectToAction("PostLogin", returnUrl);
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -77,6 +76,15 @@ namespace wm.Web2.Controllers
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
             }
+        }
+
+        public ActionResult PostLogin(string returnUrl)
+        {//http://stackoverflow.com/questions/25439275/asp-net-identity-user-identity-getuserid-is-always-null-and-user-identity-is
+            //After login, the data is added in to the response
+            //We should wait til next request 
+            var employee = Service.GetByApplicationId(GetUserId());
+            Session["rolePriority"] = (int)employee.Role;
+            return RedirectToLocal(returnUrl);
         }
 
 
