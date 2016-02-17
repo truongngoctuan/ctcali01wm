@@ -15,17 +15,21 @@
             <div class="list-group">
                 @foreach (var item in Model)
                 {
-                    <button onclick="clickGoodCategoryItem('@Url.Action("StaffEditOrder", "Orders", new {id = ViewBag.OrderId, GoodCategoryId = item.Id})')" class="list-group-item GoodCategoryItem" id="GoodCategoryItem@{@item.Id}">@item.Name</button>
+                    <button onclick="clickGoodCategoryItem('@Url.Action("ManagerEditOrder", "Orders", new {id = ViewBag.OrderId, GoodCategoryId = item.Id})')" class="list-group-item GoodCategoryItem" id="GoodCategoryItem@{ @item.Id }">@item.Name</button>
     }
             </div>
             <a href="@Url.Action("Confirm", "Orders" , new { id=ViewBag.OrderId })"
                class="btn btn-danger btn-large col-md-12 col-xs-12">Confirm</a>
-        </div>                                                                                                              <div class="col-md-8">
+        </div>
+        <div class="col-md-8">
+
             <div class="form-group col-md-12">
                 <div id="hsIncludeExclude" class=""></div>
             </div>
             <div class="form-group col-md-12">
-                <button name="save" id="save" class="btn btn-danger" onclick="saveIncludeExclude()">Save</button>
+                <button name="save" id="save" class="btn btn-danger col-md-4" onclick="saveIncludeExclude()">Save</button>
+                <div id="error-message" class="form-group col-md-12 text-warning"></div>
+                <div id="success-message" class="form-group col-md-12 text-info"></div>
             </div>
         </div>
 
@@ -138,9 +142,13 @@
                     var dataObject = JSON.parse(data);
                     if (dataObject.Status === "Ok") {
                         isDataChanged = false;
+                        $("#success-message").html("update success");
+                        $("#error-message").html("");
                     }
                     else {
                         console.log("error saveIncludeExclude");
+                        $("#success-message").html("");
+                        $("#error-message").html("update fail");
                     }
                 });
         }
