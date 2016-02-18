@@ -150,15 +150,16 @@ namespace wm.Service
             var allList = _orderGoodService.GetByOrderId(orderId);
             foreach(var item in items)
             {
-                if (item.Quantity > 0)
+                if (item.Quantity > 0 || item.InStock > 0 || item.YourNote != string.Empty)
                 {
+                    //TODO: update history for Note
                     var matches = allList.Where(s => s.GoodId == item.GoodId);
                     if (matches.Any())
                     {
                         var match = matches.First();
                         match.InStock = item.InStock;
                         match.Quantity = item.Quantity;
-                        match.Note = item.Note;
+                        match.Note += item.YourNote;
                         _orderGoodService.Update(match);
                     }
                     else
@@ -169,7 +170,7 @@ namespace wm.Service
                             GoodId = item.GoodId,
                             InStock = item.InStock,
                             Quantity = item.Quantity,
-                            Note = item.Note,
+                            Note = item.YourNote,
                             CreatedDate = DateTime.UtcNow
                         });
                     }
