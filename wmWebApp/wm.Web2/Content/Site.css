@@ -44,3 +44,11 @@ textarea {
 .event-finished {
   background-color: #00b900;
 }
+
+.form-group-with-header {
+    border: 1px solid #b0aeae;
+    border-top: 4px solid #a40202;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}

@@ -9,16 +9,29 @@
     <h4>Update good categories</h4>
     <hr />
     <div class="col-md-12">
+        <div class="col-md-12 form-group-with-header">
+                <form class="form-inline col-md-12" role="form" action="@Url.Action("DuplicateOrder", "Orders")">
+                    <div class="form-group">
+                        <input id="percentage" name="percentage" type="text" placeholder="put percentage here" class="form-control input-md">
+                    </div>
+
+                    <button class="btn btn-danger">Copy order</button>
+                </form>
+
+        </div>
         <div class="col-md-4">
             <div class="list-group">
                 @foreach (var item in Model)
-            {
+                {
                     <button onclick="clickGoodCategoryItem('@Url.Action("StaffEditOrder", "Orders", new {id = ViewBag.OrderId, GoodCategoryId = item.Id})')" class="list-group-item GoodCategoryItem" id="GoodCategoryItem@{@item.Id}">@item.Name</button>
     }
             </div>
             <a href="@Url.Action("Confirm", "Orders", new {id = ViewBag.OrderId})"
                class="btn btn-danger btn-large col-md-12 col-xs-12">Confirm</a>
-        </div>                                                                                                                                                              <div class="col-md-8">
+        </div>
+
+        <div class="col-md-8">
+
             <div class="form-group col-md-12">
                 <div id="hsIncludeExclude" class=""></div>
             </div>
