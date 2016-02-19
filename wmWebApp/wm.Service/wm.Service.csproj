@@ -65,6 +65,7 @@
     <Compile Include="Model\OrderMainKitchenItem.cs" />
     <Compile Include="OrderGoodService.cs" />
     <Compile Include="OrderService.cs" />
+    <Compile Include="OrderSummaryService.cs" />
     <Compile Include="PdfService.cs" />
     <Compile Include="Shared\EntityService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

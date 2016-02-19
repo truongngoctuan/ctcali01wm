@@ -226,6 +226,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ActionResults\BinaryContentResult.cs" />
     <Compile Include="Controllers\App_Start\AutoMapperWebProfiler.cs" />
     <Compile Include="Controllers\App_Start\BundleConfig.cs" />
     <Compile Include="Controllers\App_Start\FilterConfig.cs" />
@@ -250,6 +251,7 @@
     <Compile Include="Controllers\OrderStrategy\OrderControllerStrategyBase.cs" />
     <Compile Include="Controllers\OrderStrategy\StaffOrderControllerStrategy.cs" />
     <Compile Include="Controllers\OrderStrategy\WhKeeperOrderControllerStrategy.cs" />
+    <Compile Include="Controllers\OrderSummaryController.cs" />
     <Compile Include="Controllers\ReturnJsonObject.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
@@ -363,6 +365,8 @@
     <Content Include="Views\Orders\EmptyGoodCategoryEditOrder.cshtml" />
     <Content Include="Views\Shared\_NavigationBarPartial.cshtml" />
     <Content Include="Views\Test\Test.cshtml" />
+    <Content Include="Views\OrderSummary\SummaryMainKitchenOrder.cshtml" />
+    <Content Include="Views\Shared\LayoutTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

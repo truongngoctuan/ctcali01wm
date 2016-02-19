@@ -10,7 +10,7 @@ using iTextSharp.text.pdf;
 
 namespace wm.Service
 {
-    interface IPdfService
+    public interface IPdfService: IService
     {
         byte[] ConvertToPdf();
     }
