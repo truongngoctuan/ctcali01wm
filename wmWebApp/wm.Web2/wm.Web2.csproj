@@ -251,6 +251,7 @@
     <Compile Include="Controllers\OrderStrategy\StaffOrderControllerStrategy.cs" />
     <Compile Include="Controllers\OrderStrategy\WhKeeperOrderControllerStrategy.cs" />
     <Compile Include="Controllers\ReturnJsonObject.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -361,6 +362,7 @@
     <Content Include="Views\Orders\WhKeeperMainKitchenEditOrder.cshtml" />
     <Content Include="Views\Orders\EmptyGoodCategoryEditOrder.cshtml" />
     <Content Include="Views\Shared\_NavigationBarPartial.cshtml" />
+    <Content Include="Views\Test\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
