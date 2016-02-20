@@ -3,26 +3,56 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using wm.Model;
 using wm.Service;
 
 namespace wm.Web2.Controllers
 {
-    public class OrderSummaryController : Controller
+    public class OrderSummaryController : BaseController
     {
         private IPdfService PdfService { get; set; }
 
         public IOrderSummaryService OrderSummaryService { get; set; }
-        public OrderSummaryController(PdfService pdfService, IOrderSummaryService orderSummaryService)
+        public IOrderService OrderService { get; set; }
+        public IBranchService BranchService { get; set; }
+        public IGoodService GoodService { get; set; }
+        public OrderSummaryController(ApplicationUserManager userManager, IOrderSummaryService orderSummaryService, IOrderService orderService, IBranchService branchService, IGoodService goodService)
+            :base(userManager)
         {
-            PdfService = pdfService;
+            PdfService = new PdfService();
             OrderSummaryService = orderSummaryService;
+            OrderService = orderService;
+            BranchService = branchService;
+            GoodService = goodService;
         }
 
         // GET: OrderSummary
-        public ActionResult SummaryMainKitchenOrder(DateTime date, int branchId)
+        public ActionResult Index()
         {
+            var branches = BranchService.GetAll();//TODO: filter
+            var goods = GoodService.Get((s => s.GoodType == GoodType.KitChenGood)); //filter
 
+            ViewBag.branches = branches.Select(s => new { Id = s.Id, Name = s.Name});
+            ViewBag.goods = goods.Select(s => new { Id = s.Id, Name = s.Name });
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult SummaryMainKitchenOrder(DateTime date)
+        {
+            var orders = OrderService.Get((s => s.OrderDay == date));
+            var branches = BranchService.GetAll();//TODO: filter
+            var goods = GoodService.Get((s => s.GoodType == GoodType.KitChenGood)); //filter
+
+            var result = OrderSummaryService.SummarizeMainKitchenOrder(orders, goods, branches);
+
+            //convert to handsontable format
+            var resultViewModel = new List<List<int>>();
+            foreach (var item in result.Rows)
+            {
+                resultViewModel.Add(item.SummaryData.ToList());
+            }
+            return Json(resultViewModel);
         }
     }
 }

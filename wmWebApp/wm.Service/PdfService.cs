@@ -16,6 +16,10 @@ namespace wm.Service
     }
     public class PdfService : IPdfService
     {
+        public PdfService()
+        {
+            
+        }
         //http://stackoverflow.com/questions/25164257/how-to-convert-html-to-pdf-using-itextsharp
         //how to use xmlBuilder
 

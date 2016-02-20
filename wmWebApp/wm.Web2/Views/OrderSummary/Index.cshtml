@@ -1,0 +1,106 @@
+﻿@model wm.Service.Model.SummarizeMainKitchenOrderViewModel
+
+@{
+    ViewBag.Title = "ManagerDetailsOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="form-group col-md-12">
+    <div id="hsIncludeExclude" class=""></div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        //================================================================================
+        //helper
+        function ajaxPOSTRequest(href, dataObject, onSuccessCallback) {
+            $.ajax({
+                url: href,
+                data: dataObject,
+                cache: false,
+                type: "POST",
+                dataType: "html",
+                success: onSuccessCallback
+            });
+        }
+        //================================================================================
+
+        var $$ = function (id) {
+                return document.getElementById(id);
+            },
+            container = $$('hsIncludeExclude'),
+            autosave = $$('autosave'),
+            load = $$('load'),
+            save = $$('save'),
+            autosaveNotification,
+            hot,
+            dataInput,
+            colHeaderPreDefine,
+            rowHeaderPreDefine,
+                columnsPreDefine;
+
+        $(document).ready(function () {
+            //build colHeader
+            var branches = @Html.Raw(Json.Encode(ViewBag.branches));//Name only
+            colHeaderPreDefine = [''];
+            for (var i = 0; i < branches.length; i++) {
+                colHeaderPreDefine.push(branches[i].Name);
+            }
+
+            colHeaderPreDefine.push('Total');
+
+            //build columns
+            columnsPreDefine = [{ data: 0, readOnly: true, type : 'text'}];
+            for (var i = 0; i < branches.length; i++) {
+                columnsPreDefine.push({ data: i + 1, readOnly: true, type : 'numeric',format: '0,0.00'});
+            }
+            //build rowHeaders
+            var goods = @Html.Raw(Json.Encode(ViewBag.goods));//Name only
+            rowHeaderPreDefine = [];
+            for (var i = 0; i < goods.length; i++) {
+                rowHeaderPreDefine.push(goods[i].Name);
+            }
+
+            hot = new Handsontable(container, {
+                startRows: 1,
+                startCols: 2,
+                allowInvalid: false,
+                rowHeaders: true,
+                colHeaders: colHeaderPreDefine,
+                //dataSchema: { Id: null, Name: null, RecommendedQuantity: null, Quantity: null },
+                columns: columnsPreDefine
+                //TODO: readonly columns
+            });
+
+            loadIncludeExclude();
+        });
+
+        function loadIncludeExclude() {
+
+            ajaxPOSTRequest('@Url.Action("SummaryMainKitchenOrder")', {date : moment().format("YYYY-MM-DD")},
+                function (data) {
+                    console.log("client received: " + data);
+
+                    dataInput = JSON.parse(data);
+                    dataInput2 = [];
+                    for (var i = 0; i < dataInput.length; i++) {
+                        var tempData = [];
+                        tempData.push(rowHeaderPreDefine[i]);
+                        var total = 0;
+                        for (var j = 0; j < dataInput[i].length; j++) {
+                            tempData.push(dataInput[i][j]);
+                            total += dataInput[i][j];
+                        }
+                        tempData.push(total);
+                        dataInput2.push(tempData);
+                    }
+                    hot.loadData(dataInput2);
+
+                });
+        }
+    </script>
+}

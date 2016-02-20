@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using wm.Model;
 using wm.Repository;
 
@@ -17,6 +19,9 @@ namespace wm.Service
         IEnumerable<T> GetAll(string include = "");
         //Employee GetById(int Id, string include = "");
         ServiceReturn Update(T entity);
+        IEnumerable<T> Get(Expression<Func<T, bool>> filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            string include = "");
     }
 
     public abstract class EntityService<T> : IEntityService<T> where T : BaseEntity
@@ -61,6 +66,12 @@ namespace wm.Service
             return _repository.Get(null, null, include);
         }
 
+        public virtual IEnumerable<T> Get(Expression<Func<T, bool>> filter = null,
+Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+    string include = "")
+        {
+            return _repository.Get(filter, orderBy, include);
+        }
     }
 
     public interface IEntityIntKeyService<T> : IService
@@ -72,6 +83,10 @@ namespace wm.Service
         //Employee GetById(int Id, string include = "");
         ServiceReturn Update(T entity);
         T GetById(int id, string include = "");
+
+        IEnumerable<T> Get(Expression<Func<T, bool>> filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            string include = "");
     }
 
     public abstract class EntityIntKeyService<T> : IEntityIntKeyService<T> where T : Entity<int>
@@ -119,6 +134,13 @@ namespace wm.Service
         public T GetById(int id, string include = "")
         {
             return _repository.GetById(id, include);
+        }
+
+        public virtual IEnumerable<T> Get(Expression<Func<T, bool>> filter = null,
+    Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            string include = "")
+        {
+            return _repository.Get(filter, orderBy, include);
         }
     }
 }

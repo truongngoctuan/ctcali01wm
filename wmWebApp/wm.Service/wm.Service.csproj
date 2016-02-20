@@ -63,6 +63,7 @@
     <Compile Include="ItemService.cs" />
     <Compile Include="Model\OrderBranchItem.cs" />
     <Compile Include="Model\OrderMainKitchenItem.cs" />
+    <Compile Include="Model\OrderSummaryItem.cs" />
     <Compile Include="OrderGoodService.cs" />
     <Compile Include="OrderService.cs" />
     <Compile Include="OrderSummaryService.cs" />
