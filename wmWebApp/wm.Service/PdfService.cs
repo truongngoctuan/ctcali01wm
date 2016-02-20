@@ -31,11 +31,15 @@ namespace wm.Service
         
         public byte[] ConvertToPdf(string example_html, string example_css)
         {
+            BaseFont bf = BaseFont.CreateFont(Environment.GetEnvironmentVariable("windir") + @"\fonts\ARIALUNI.TTF", BaseFont.IDENTITY_H, true);
+            Font NormalFont = new iTextSharp.text.Font(bf, 12, Font.NORMAL, BaseColor.BLACK);
+
             MemoryStream ms = new MemoryStream();
             Document document = new Document(PageSize.A4.Rotate(), 25, 25, 30, 30);
             PdfWriter writer = PdfWriter.GetInstance(document, ms);
             document.Open();
-            document.Add(new Paragraph("Hello World"));
+
+            document.Add(new Paragraph("Hello World Trương Ngọc Tuấn", NormalFont));
 
 
             //Our sample HTML and CSS
@@ -47,12 +51,34 @@ namespace wm.Service
                 {
 
                     //Parse the HTML
-                    iTextSharp.tool.xml.XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, msHtml, msCss, Encoding.Unicode);
+                    //http://stackoverflow.com/questions/10329863/display-unicode-characters-in-converting-html-to-pdf
+                    //to display unicode, you need to change to proper font
+                    iTextSharp.tool.xml.XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, msHtml, msCss, Encoding.UTF8, new UnicodeFontFactory());
                 }
             }
             document.Close();
             writer.Close();
             return ms.GetBuffer();
+        }
+
+        public class UnicodeFontFactory : FontFactoryImp
+        {
+            private static readonly string FontPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts),
+              "arialuni.ttf");
+
+            private readonly BaseFont _baseFont;
+
+            public UnicodeFontFactory()
+            {
+                _baseFont = BaseFont.CreateFont(FontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+
+            }
+
+            public override Font GetFont(string fontname, string encoding, bool embedded, float size, int style, BaseColor color,
+              bool cached)
+            {
+                return new Font(_baseFont, size, style, color);
+            }
         }
     }
 }

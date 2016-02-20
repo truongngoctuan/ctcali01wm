@@ -70,7 +70,7 @@ namespace wm.Web2.Controllers
 
             ViewBag.branches = branches;
 
-
+            //var result_html = RenderViewToString4(this.ControllerContext, "SummaryMainKitchenOrderTemplate", result);
             var result_html = RenderActionResultToString(this.View(result));
             //var result_html = RenderViewToString(this, "SummaryMainKitchenOrderTemplate", null);
             var example_css = FileToString(Server.MapPath("~/Views/OrderSummary/SummaryMainKitchenOrderTemplate.css"));
@@ -101,17 +101,65 @@ namespace wm.Web2.Controllers
             }
             return readContents;
         }
-        public static string RenderViewToString(Controller controller, string viewName, object model)
-        {
-            controller.ViewData.Model = model;
-            using (StringWriter sw = new StringWriter())
-            {
-                ViewEngineResult viewResult = ViewEngines.Engines.FindView(controller.ControllerContext, viewName, null);
-                ViewContext viewContext = new ViewContext(controller.ControllerContext, viewResult.View, controller.ViewData, controller.TempData, sw);
-                viewResult.View.Render(viewContext, sw);
 
-                return sw.ToString();
+        public virtual string RenderView(ViewContext viewContext)
+        {
+            var response = viewContext.HttpContext.Response;
+            response.Flush();
+            var oldFilter = response.Filter;
+            Stream filter = null;
+            try
+            {
+                filter = new MemoryStream();
+                response.Filter = filter;
+                viewContext.View.Render(viewContext, viewContext.HttpContext.Response.Output);
+                response.Flush();
+                filter.Position = 0;
+                var reader = new StreamReader(filter, response.ContentEncoding);
+                return reader.ReadToEnd();
             }
+            finally
+            {
+                if (filter != null)
+                {
+                    filter.Dispose();
+                }
+                response.Filter = oldFilter;
+            }
+        }
+
+        static string RenderViewToString4(ControllerContext context,
+                                            string viewPath,
+                                            object model = null,
+                                            bool partial = false)
+        {
+            // first find the ViewEngine for this view
+            ViewEngineResult viewEngineResult = null;
+            if (partial)
+                viewEngineResult = ViewEngines.Engines.FindPartialView(context, viewPath);
+            else
+                viewEngineResult = ViewEngines.Engines.FindView(context, viewPath, null);
+
+            if (viewEngineResult == null)
+                throw new FileNotFoundException("View cannot be found.");
+
+            // get the view and attach the model to view data
+            var view = viewEngineResult.View;
+            context.Controller.ViewData.Model = model;
+
+            string result = null;
+
+            using (var sw = new StringWriter())
+            {
+                var ctx = new ViewContext(context, view,
+                                            context.Controller.ViewData,
+                                            context.Controller.TempData,
+                                            sw);
+                view.Render(ctx, sw);
+                result = sw.ToString();
+            }
+
+            return result;
         }
 
         protected string RenderActionResultToString(ActionResult result)

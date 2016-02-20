@@ -8,14 +8,14 @@
 <div class="row">
     <table id="exampleTable01" class="table table-striped">
         <thead>
-        <tr>
+        @*<tr>
             <th></th>
             @foreach (var branch in ViewBag.branches)
             {
                 <th>@branch</th>
             }
             <th>Total</th>
-        </tr>
+        </tr>*@
         </thead>
         @foreach (var row in Model.Rows)
         {
