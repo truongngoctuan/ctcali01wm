@@ -47,7 +47,7 @@ namespace wm.Service
                 {
 
                     //Parse the HTML
-                    iTextSharp.tool.xml.XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, msHtml, msCss);
+                    iTextSharp.tool.xml.XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, msHtml, msCss, Encoding.Unicode);
                 }
             }
             document.Close();

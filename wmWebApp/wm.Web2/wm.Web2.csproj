@@ -313,6 +313,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\OrderSummary\SummaryMainKitchenOrderTemplate.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -367,6 +368,8 @@
     <Content Include="Views\Test\Test.cshtml" />
     <Content Include="Views\OrderSummary\Index.cshtml" />
     <Content Include="Views\Shared\LayoutTemplate.cshtml" />
+    <Content Include="Views\OrderSummary\SummaryMainKitchenOrderTemplate.cshtml" />
+    <Content Include="Views\OrderSummary\SummaryMainKitchenOrderToPdf.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

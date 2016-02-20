@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using wm.Model;
 using wm.Service;
+using wm.Service.Model;
 using wm.Web2.Controllers.ActionResults;
 
 namespace wm.Web2.Controllers
@@ -18,7 +21,7 @@ namespace wm.Web2.Controllers
         public IBranchService BranchService { get; set; }
         public IGoodService GoodService { get; set; }
         public OrderSummaryController(ApplicationUserManager userManager, IOrderSummaryService orderSummaryService, IOrderService orderService, IBranchService branchService, IGoodService goodService)
-            :base(userManager)
+            : base(userManager)
         {
             PdfService = new PdfService();
             OrderSummaryService = orderSummaryService;
@@ -33,7 +36,7 @@ namespace wm.Web2.Controllers
             var branches = BranchService.GetAll();//TODO: filter
             var goods = GoodService.Get((s => s.GoodType == GoodType.KitChenGood)); //filter
 
-            ViewBag.branches = branches.Select(s => new { Id = s.Id, Name = s.Name});
+            ViewBag.branches = branches.Select(s => new { Id = s.Id, Name = s.Name });
             ViewBag.goods = goods.Select(s => new { Id = s.Id, Name = s.Name });
             return View();
         }
@@ -58,10 +61,86 @@ namespace wm.Web2.Controllers
 
         public ActionResult SummaryMainKitchenOrderToPdf()
         {
-            var example_html = @"<p>This <em>is </em><span class=""headline"" style=""text-decoration: underline;"">some</span> <strong>sample <em> text</em></strong><span style=""color: red;"">!!!</span></p>";
-            var example_css = @".headline{font-size:200%}";
-            byte[] buf = PdfService.ConvertToPdf(example_html, example_css);
+            DateTime date = DateTime.Now.Date;
+            var orders = OrderService.Get((s => s.OrderDay == date));
+            var branches = BranchService.GetAll();//TODO: filter
+            var goods = GoodService.Get((s => s.GoodType == GoodType.KitChenGood)); //filter
+
+            var result = OrderSummaryService.SummarizeMainKitchenOrder(orders, goods, branches);
+
+            ViewBag.branches = branches;
+
+
+            var result_html = RenderActionResultToString(this.View(result));
+            //var result_html = RenderViewToString(this, "SummaryMainKitchenOrderTemplate", null);
+            var example_css = FileToString(Server.MapPath("~/Views/OrderSummary/SummaryMainKitchenOrderTemplate.css"));
+
+            byte[] buf = PdfService.ConvertToPdf(result_html, example_css);
             return new BinaryContentResult(buf, "application / pdf");
         }
+
+        public ActionResult SummaryMainKitchenOrderTemplate()
+        {
+            DateTime date = DateTime.Now.Date;
+            var orders = OrderService.Get((s => s.OrderDay == date));
+            var branches = BranchService.GetAll();//TODO: filter
+            var goods = GoodService.Get((s => s.GoodType == GoodType.KitChenGood)); //filter
+
+            var result = OrderSummaryService.SummarizeMainKitchenOrder(orders, goods, branches);
+
+            ViewBag.branches = branches;
+            return View(result);
+        }
+
+        public static string FileToString(string path)
+        {
+            string readContents;
+            using (StreamReader streamReader = new StreamReader(path, Encoding.UTF8))
+            {
+                readContents = streamReader.ReadToEnd();
+            }
+            return readContents;
+        }
+        public static string RenderViewToString(Controller controller, string viewName, object model)
+        {
+            controller.ViewData.Model = model;
+            using (StringWriter sw = new StringWriter())
+            {
+                ViewEngineResult viewResult = ViewEngines.Engines.FindView(controller.ControllerContext, viewName, null);
+                ViewContext viewContext = new ViewContext(controller.ControllerContext, viewResult.View, controller.ViewData, controller.TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+
+                return sw.ToString();
+            }
+        }
+
+        protected string RenderActionResultToString(ActionResult result)
+        {
+            // Create memory writer.
+            var sb = new StringBuilder();
+            var memWriter = new StringWriter(sb);
+
+            // Create fake http context to render the view.
+            var fakeResponse = new HttpResponse(memWriter);
+            var fakeContext = new HttpContext(System.Web.HttpContext.Current.Request,
+                fakeResponse);
+            var fakeControllerContext = new ControllerContext(
+                new HttpContextWrapper(fakeContext),
+                this.ControllerContext.RouteData,
+                this.ControllerContext.Controller);
+            var oldContext = System.Web.HttpContext.Current;
+            System.Web.HttpContext.Current = fakeContext;
+
+            // Render the view.
+            result.ExecuteResult(fakeControllerContext);
+
+            // Restore old context.
+            System.Web.HttpContext.Current = oldContext;
+
+            // Flush memory and return output.
+            memWriter.Flush();
+            return sb.ToString();
+        }
+
     }
 }

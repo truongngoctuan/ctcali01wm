@@ -1,0 +1,36 @@
+﻿@model wm.Service.Model.SummarizeMainKitchenOrderViewModel
+@{
+    Layout = "";
+}
+
+<h2>ho ho ho :)</h2>
+
+<div class="row">
+    <table id="exampleTable01" class="table table-striped">
+        <thead>
+        <tr>
+            <th></th>
+            @foreach (var branch in ViewBag.branches)
+            {
+                <th>@branch</th>
+            }
+            <th>Total</th>
+        </tr>
+        </thead>
+        @foreach (var row in Model.Rows)
+        {
+            <tr>
+                <td>@row.Name</td>
+                @foreach (var item in row.SummaryData)
+                {
+                    <td>@item</td>
+                }
+                <td>@row.Total</td>
+            </tr>
+        }
+    </table>
+</div>
+
+<style media="screen" type="text/css">
+    
+</style>
