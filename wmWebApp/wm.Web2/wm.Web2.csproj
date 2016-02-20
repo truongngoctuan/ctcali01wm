@@ -368,7 +368,6 @@
     <Content Include="Views\Test\Test.cshtml" />
     <Content Include="Views\OrderSummary\Index.cshtml" />
     <Content Include="Views\Shared\LayoutTemplate.cshtml" />
-    <Content Include="Views\OrderSummary\SummaryMainKitchenOrderTemplate.cshtml" />
     <Content Include="Views\OrderSummary\SummaryMainKitchenOrderToPdf.cshtml" />
   </ItemGroup>
   <ItemGroup>

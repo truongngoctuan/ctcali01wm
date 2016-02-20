@@ -70,26 +70,11 @@ namespace wm.Web2.Controllers
 
             ViewBag.branches = branches;
 
-            //var result_html = RenderViewToString4(this.ControllerContext, "SummaryMainKitchenOrderTemplate", result);
             var result_html = RenderActionResultToString(this.View(result));
-            //var result_html = RenderViewToString(this, "SummaryMainKitchenOrderTemplate", null);
             var example_css = FileToString(Server.MapPath("~/Views/OrderSummary/SummaryMainKitchenOrderTemplate.css"));
 
             byte[] buf = PdfService.ConvertToPdf(result_html, example_css);
             return new BinaryContentResult(buf, "application / pdf");
-        }
-
-        public ActionResult SummaryMainKitchenOrderTemplate()
-        {
-            DateTime date = DateTime.Now.Date;
-            var orders = OrderService.Get((s => s.OrderDay == date));
-            var branches = BranchService.GetAll();//TODO: filter
-            var goods = GoodService.Get((s => s.GoodType == GoodType.KitChenGood)); //filter
-
-            var result = OrderSummaryService.SummarizeMainKitchenOrder(orders, goods, branches);
-
-            ViewBag.branches = branches;
-            return View(result);
         }
 
         public static string FileToString(string path)
@@ -102,66 +87,7 @@ namespace wm.Web2.Controllers
             return readContents;
         }
 
-        public virtual string RenderView(ViewContext viewContext)
-        {
-            var response = viewContext.HttpContext.Response;
-            response.Flush();
-            var oldFilter = response.Filter;
-            Stream filter = null;
-            try
-            {
-                filter = new MemoryStream();
-                response.Filter = filter;
-                viewContext.View.Render(viewContext, viewContext.HttpContext.Response.Output);
-                response.Flush();
-                filter.Position = 0;
-                var reader = new StreamReader(filter, response.ContentEncoding);
-                return reader.ReadToEnd();
-            }
-            finally
-            {
-                if (filter != null)
-                {
-                    filter.Dispose();
-                }
-                response.Filter = oldFilter;
-            }
-        }
-
-        static string RenderViewToString4(ControllerContext context,
-                                            string viewPath,
-                                            object model = null,
-                                            bool partial = false)
-        {
-            // first find the ViewEngine for this view
-            ViewEngineResult viewEngineResult = null;
-            if (partial)
-                viewEngineResult = ViewEngines.Engines.FindPartialView(context, viewPath);
-            else
-                viewEngineResult = ViewEngines.Engines.FindView(context, viewPath, null);
-
-            if (viewEngineResult == null)
-                throw new FileNotFoundException("View cannot be found.");
-
-            // get the view and attach the model to view data
-            var view = viewEngineResult.View;
-            context.Controller.ViewData.Model = model;
-
-            string result = null;
-
-            using (var sw = new StringWriter())
-            {
-                var ctx = new ViewContext(context, view,
-                                            context.Controller.ViewData,
-                                            context.Controller.TempData,
-                                            sw);
-                view.Render(ctx, sw);
-                result = sw.ToString();
-            }
-
-            return result;
-        }
-
+        //now, only use for summary, so no need to move to abstract class
         protected string RenderActionResultToString(ActionResult result)
         {
             // Create memory writer.

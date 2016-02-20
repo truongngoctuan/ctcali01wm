@@ -3,33 +3,29 @@
     Layout = "";
 }
 
-<h2>ho ho ho :)</h2>
+<h2>Report</h2>
 
 <div class="row">
-    say you do
-    Trương Ngọc Tuấn
-    Trương Ngọc Tuấn
-    Trương Ngọc Tuấn
     <table id="exampleTable01" class="table table-striped">
         <thead>
-        @*<tr>
-                <th></th>
+        <tr>
+                <th style="width: 100px;"></th>
                     @foreach (var item in ViewBag.branches)
                     {
-                        <th>@item.Name</th>
+                        <th style="width: 30px; font-size: 15px;"><b>@item.Name</b></th>
                     }
-                    <th>Total</th>
-            </tr>*@
+                    <th style="width: 40px; font-size: 15px;"><b>Total</b></th>
+            </tr>
         </thead>
         @foreach (var row in Model.Rows)
         {
-            <tr>
-                <td>@row.Name</td>
+            <tr style="height: 70px;">
+                <td style="font-size: 30px;"><b>@row.Name</b></td>
                 @foreach (var item in row.SummaryData)
                 {
-                    <td>@item</td>
+                    <td style="font-size: 30px;"><pre> </pre><b>@item</b><pre> </pre><div style="width: 2px; height: 2px; border-color: red; border-style: solid; border-width: 1px;"></div></td>
                 }
-                <td>@row.Total</td>
+                <td style="font-size: 30px; text-align: right;"><pre> </pre><b> @row.Total</b><pre> </pre></td>
             </tr>
         }
     </table>

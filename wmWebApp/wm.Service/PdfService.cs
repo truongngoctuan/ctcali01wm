@@ -31,19 +31,12 @@ namespace wm.Service
         
         public byte[] ConvertToPdf(string example_html, string example_css)
         {
-            BaseFont bf = BaseFont.CreateFont(Environment.GetEnvironmentVariable("windir") + @"\fonts\ARIALUNI.TTF", BaseFont.IDENTITY_H, true);
-            Font NormalFont = new iTextSharp.text.Font(bf, 12, Font.NORMAL, BaseColor.BLACK);
-
             MemoryStream ms = new MemoryStream();
             Document document = new Document(PageSize.A4.Rotate(), 25, 25, 30, 30);
             PdfWriter writer = PdfWriter.GetInstance(document, ms);
             document.Open();
 
-            document.Add(new Paragraph("Hello World Trương Ngọc Tuấn", NormalFont));
-
-
-            //Our sample HTML and CSS
-
+            //document.Add(new Paragraph("Hello World Trương Ngọc Tuấn", NormalFont));
 
             using (var msCss = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(example_css)))
             {
