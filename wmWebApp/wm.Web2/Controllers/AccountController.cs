@@ -68,7 +68,7 @@ namespace wm.Web2.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToAction("PostLogin", returnUrl);
+                    return RedirectToAction("PostLogin", "Account", returnUrl);
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
