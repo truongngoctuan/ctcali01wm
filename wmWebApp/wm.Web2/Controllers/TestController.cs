@@ -25,7 +25,9 @@ namespace wm.Web2.Controllers
 
         public ActionResult ToPdf()
         {
-            byte[] buf = PdfService.ConvertToPdf();
+            var example_html = @"<p>This <em>is </em><span class=""headline"" style=""text-decoration: underline;"">some</span> <strong>sample <em> text</em></strong><span style=""color: red;"">!!!</span></p>";
+            var example_css = @".headline{font-size:200%}";
+            byte[] buf = PdfService.ConvertToPdf(example_html, example_css);
             return new BinaryContentResult(buf, "application / pdf");
         }
     }

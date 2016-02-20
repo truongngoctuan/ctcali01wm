@@ -12,7 +12,7 @@ namespace wm.Service
 {
     public interface IPdfService: IService
     {
-        byte[] ConvertToPdf();
+        byte[] ConvertToPdf(string example_html, string example_css);
     }
     public class PdfService : IPdfService
     {
@@ -28,7 +28,8 @@ namespace wm.Service
 
         //http://www.c-sharpcorner.com/UploadFile/f2e803/basic-pdf-creation-using-itextsharp-part-ii/
         //useful link
-        public byte[] ConvertToPdf()
+        
+        public byte[] ConvertToPdf(string example_html, string example_css)
         {
             MemoryStream ms = new MemoryStream();
             Document document = new Document(PageSize.A4.Rotate(), 25, 25, 30, 30);
@@ -38,8 +39,7 @@ namespace wm.Service
 
 
             //Our sample HTML and CSS
-            var example_html = @"<p>This <em>is </em><span class=""headline"" style=""text-decoration: underline;"">some</span> <strong>sample <em> text</em></strong><span style=""color: red;"">!!!</span></p>";
-            var example_css = @".headline{font-size:200%}";
+
 
             using (var msCss = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(example_css)))
             {
