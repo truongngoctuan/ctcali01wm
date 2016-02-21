@@ -21,7 +21,7 @@
 
         </div>
 
-        @Html.Partial("_EditOrder_GoodCategory", new EditOrder_GoodCategoryViewModel {GoodCategories = Model, EditAction = "StaffEditOrder", orderId = ViewBag.OrderId })
+        @Html.Partial("_EditOrder_GoodCategory", new EditOrder_GoodCategoryViewModel { GoodCategories = Model, EditAction = "StaffEditOrder", orderId = ViewBag.OrderId })
 
 
         <div class="col-md-8">
@@ -51,10 +51,17 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
+    <script src="~/Content/EditOrderHelper.js"></script>
     <script>
-        $(document).ready(function () {
-            $(".GoodCategoryItem[id$='GoodCategoryItem"+ @ViewBag.GoodCategoryId + "']").addClass("active");//for decoration
+        $(document).ready(function() {
+            $(".GoodCategoryItem[id$='GoodCategoryItem" + @ViewBag.GoodCategoryId + "']").addClass("active"); //for decoration
+
+            window.isDataChanged = false;
         });
+    </script>
+
+    <script>
+        
 
         //================================================================================
         //helper
@@ -82,26 +89,11 @@
 
         var OrderId = @ViewBag.OrderId;
         var GoodCategoryId = @ViewBag.GoodCategoryId;
-        var isDataChanged = false;
         $(document).ready(function () {
             loadIncludeExclude(OrderId, GoodCategoryId);
         });
 
-        function clickGoodCategoryItem(url) {
-            if (isDataChanged) {
-                //confirm before change page
-                bootbox.confirm("There are unsave data, do you want to leave this page ? ", function(result) {
-                    if (result) {
-                        console.log("still want to leave this page");
-                        window.location.href = url;
-                    }
-                });
 
-
-            } else {
-                window.location.href = url;
-            }
-        }
 
         hot = new Handsontable(container, {
             startRows: 1,
@@ -126,7 +118,7 @@
                     return; //don't save this change
                 }
                 console.log("change: " + JSON.stringify(hot.getSourceDataAtRow(change[0][0])));
-                isDataChanged = true;
+                window.isDataChanged = true;
             }
         });
 
@@ -149,7 +141,7 @@
                 function (data) {
                     var dataObject = JSON.parse(data);
                     if (dataObject.Status === "Ok") {
-                        isDataChanged = false;
+                        window.isDataChanged = false;
                         $("#success-message").html("update success");
                         $("#error-message").html("");
                     }
