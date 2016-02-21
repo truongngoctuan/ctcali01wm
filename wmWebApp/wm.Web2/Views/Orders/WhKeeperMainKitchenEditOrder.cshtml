@@ -48,19 +48,6 @@
     </script>
 
     <script>
-        //================================================================================
-        //helper
-        function ajaxPOSTRequest(href, dataObject, onSuccessCallback) {
-            $.ajax({
-                url: href,
-                data: dataObject,
-                cache: false,
-                type: "POST",
-                dataType: "html",
-                success: onSuccessCallback
-            });
-        }
-        //================================================================================
         var $$ = function (id) {
                 return document.getElementById(id);
             },
@@ -111,7 +98,7 @@
         });
 
         function loadIncludeExclude() {
-            ajaxPOSTRequest('@Url.Action("PopulateData")', {orderId : OrderId, goodCategoryId: GoodCategoryId},
+            postHelper('@Url.Action("PopulateData")', {orderId : OrderId, goodCategoryId: GoodCategoryId},
                 function (data) {
                     console.log("client received: " + data);
 
@@ -124,7 +111,7 @@
         function saveIncludeExclude() {
             console.log("local Data: " + JSON.stringify({ data: dataInput }));
 
-            ajaxPOSTRequest('@Url.Action("Place")',
+            postHelper('@Url.Action("Place")',
                 { id: OrderId, data: dataInput },
                 function (data) {
                     var dataObject = JSON.parse(data);

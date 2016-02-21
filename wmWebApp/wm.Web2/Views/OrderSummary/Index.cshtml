@@ -39,7 +39,7 @@
 
         //================================================================================
         //helper
-        function ajaxPOSTRequest(href, dataObject, onSuccessCallback) {
+        function postHelper(href, dataObject, onSuccessCallback) {
             $.ajax({
                 url: href,
                 data: dataObject,
@@ -123,7 +123,7 @@
 
         function loadIncludeExclude() {
 
-            ajaxPOSTRequest('@Url.Action("SummaryMainKitchenOrder")', { date: getDateFromDatePicker() },
+            postHelper('@Url.Action("SummaryMainKitchenOrder")', { date: getDateFromDatePicker() },
                 function(data) {
                     dataInput = JSON.parse(data);
                     dataInput2 = [];

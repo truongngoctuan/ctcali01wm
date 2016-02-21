@@ -93,7 +93,7 @@
     <script>
         //================================================================================
         //helper
-        function ajaxPOSTRequest(href, dataObject, onSuccessCallback) {
+        function postHelper(href, dataObject, onSuccessCallback) {
             $.ajax({
                 url: href,
                 data: dataObject,
@@ -166,7 +166,7 @@
         });
 
         function loadIncludeExclude() {
-            ajaxPOSTRequest('@Url.Action("PopulateData")', {id : @Model.Id, isInEx: true},
+            postHelper('@Url.Action("PopulateData")', {id : @Model.Id, isInEx: true},
                 function (data, textStatus, XMLHttpRequest) {
                     console.log("client received: " + data);
 
@@ -187,7 +187,7 @@
                 }
             }
 
-            ajaxPOSTRequest('@Url.Action("IncludeExcludeNnData")',
+            postHelper('@Url.Action("IncludeExcludeNnData")',
                 { id: @Model.Id, data: dataOutputFiltered },
                 function (data, textStatus, XMLHttpRequest) {
                     var dataObject = JSON.parse(data);
@@ -240,7 +240,7 @@
         });
 
         function loadOrder() {
-            ajaxPOSTRequest('@Url.Action("PopulateData")', {id : @Model.Id, isInEx: false},
+            postHelper('@Url.Action("PopulateData")', {id : @Model.Id, isInEx: false},
                 function (data, textStatus, XMLHttpRequest) {
                     console.log("client received: " + data);
 
@@ -252,7 +252,7 @@
         function saveOrder() {
             console.log("local Data: " + JSON.stringify({ data: dataInputOrder }));
 
-            ajaxPOSTRequest('@Url.Action("SortNnData")',
+            postHelper('@Url.Action("SortNnData")',
                 { id: @Model.Id, data: dataInputOrder },
                 function (data, textStatus, XMLHttpRequest) {
                     var dataObject = JSON.parse(data);

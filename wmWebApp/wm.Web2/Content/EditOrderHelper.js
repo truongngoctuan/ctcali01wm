@@ -13,3 +13,4 @@
         window.location.href = url;
     }
 }
+
