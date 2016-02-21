@@ -48,8 +48,6 @@
         window.OrderId = @ViewBag.OrderId;
         window.GoodCategoryId = @ViewBag.GoodCategoryId;
         $(document).ready(function() {
-            InitStaffHandsontables();
-
             hot = new Handsontable(container, {
                 startRows: 1,
                 startCols: 2,

@@ -43,7 +43,7 @@ function saveIncludeExclude(url) {
 }
 
 
-function InitStaffHandsontables() {
+function InitStaffEditHandsontables() {
     hot = new Handsontable(container, {
         startRows: 1,
         startCols: 2,
@@ -59,6 +59,28 @@ function InitStaffHandsontables() {
             { data: 'Quantity', readOnly: false, type: 'numeric', format: '0,0.00', allowInvalid: true },
             { data: 'Note', readOnly: true },
             { data: 'YourNote', readOnly: false }
+
+            //{ Data: 'IsChecked', type: 'checkbox' },
+        ]
+    });
+}
+
+function InitStaffDetailsHandsontables() {
+    hot = new Handsontable(container, {
+        startRows: 1,
+        startCols: 2,
+        allowInvalid: false,
+        rowHeaders: true,
+        colHeaders: ['Name', 'InStock', 'RecommendQuantity', 'Quantity', 'Note', 'YourNote'],
+        dataSchema: { Id: null, Name: null, InStock: null, RecommendedQuantity: null, Quantity: null, Note: null, YourNote: null },
+        columns: [//TODO: change colorbackground for readonly
+            //{ Data: 'CategoryId', readOnly: true },
+            { data: 'Name', readOnly: true },
+            { data: 'InStock', readOnly: true },
+            { data: 'RecommenedQuantity', readOnly: true },
+            { data: 'Quantity', readOnly: true, type: 'numeric', format: '0,0.00' },
+            { data: 'Note', readOnly: true },
+            { data: 'YourNote', readOnly: true }
 
             //{ Data: 'IsChecked', type: 'checkbox' },
         ]
