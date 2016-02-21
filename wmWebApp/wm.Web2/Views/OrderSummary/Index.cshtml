@@ -7,17 +7,36 @@
 
 <h2>@ViewBag.Title</h2>
 
-<div class="form-group col-md-12">
-    <a href="@Url.Action("SummaryMainKitchenOrderToPdf", "OrderSummary")" class="btn btn-primary">Get Pdf</a>
+
+<div class="col-md-12">
+    <div id="dtpicker01" class="col-md-3"></div>
+    <div class="col-md-9">
+        <div class="form-group">
+            <button onclick="ToPdf()" class="btn btn-primary">Get Pdf</button>
+        </div>
+    </div>
 </div>
-<div class="form-group col-md-12">
-    <div id="hsIncludeExclude" class=""></div>
+
+<div class="col-md-12">
+    <button class="btn btn-primary" onclick="updateSummary()">Update summary</button>
+    <div class="form-group col-md-12">
+        <div id="hsIncludeExclude" class=""></div>
+    </div>
 </div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
+        function ToPdf() {
+            window.location.href = '@Url.Action("SummaryMainKitchenOrderToPdf", "OrderSummary")' + '?date=' + getDateFromDatePicker();
+        }
+
+        function updateSummary() {
+            loadIncludeExclude();
+        }
+
         //================================================================================
         //helper
         function ajaxPOSTRequest(href, dataObject, onSuccessCallback) {
@@ -30,9 +49,10 @@
                 success: onSuccessCallback
             });
         }
+
         //================================================================================
 
-        var $$ = function (id) {
+        var $$ = function(id) {
                 return document.getElementById(id);
             },
             container = $$('hsIncludeExclude'),
@@ -44,11 +64,26 @@
             dataInput,
             colHeaderPreDefine,
             rowHeaderPreDefine,
-                columnsPreDefine;
+            columnsPreDefine;
 
-        $(document).ready(function () {
+        var dtpicker01 = $('#dtpicker01'),
+            getDateFromDatePicker = function() {
+                return moment(dtpicker01.datepicker("getUTCDate")).format("YYYY-MM-DD");
+            }
+        
+        $(document).ready(function() {
+
+            $('#dtpicker01').datepicker({
+                todayBtn: "linked",
+                language: "vi",
+                keyboardNavigation: false,
+                todayHighlight: true
+            }).datepicker("setDate", "0");
+
+            console.log(getDateFromDatePicker());
+
             //build colHeader
-            var branches = @Html.Raw(Json.Encode(ViewBag.branches));//Name only
+            var branches = @Html.Raw(Json.Encode(ViewBag.branches)); //Name only
             colHeaderPreDefine = [''];
             for (var i = 0; i < branches.length; i++) {
                 colHeaderPreDefine.push(branches[i].Name);
@@ -57,12 +92,14 @@
             colHeaderPreDefine.push('Total');
 
             //build columns
-            columnsPreDefine = [{ data: 0, readOnly: true, type : 'text'}];
+            columnsPreDefine = [{ data: 0, readOnly: true, type: 'text' }];
             for (var i = 0; i < branches.length; i++) {
-                columnsPreDefine.push({ data: i + 1, readOnly: true, type : 'numeric',format: '0,0.00'});
+                columnsPreDefine.push({ data: i + 1, readOnly: true, type: 'numeric', format: '0,0.00' });
             }
+            columnsPreDefine.push({ data: branches.length + 1, readOnly: true, type: 'text' });
+
             //build rowHeaders
-            var goods = @Html.Raw(Json.Encode(ViewBag.goods));//Name only
+            var goods = @Html.Raw(Json.Encode(ViewBag.goods)); //Name only
             rowHeaderPreDefine = [];
             for (var i = 0; i < goods.length; i++) {
                 rowHeaderPreDefine.push(goods[i].Name);
@@ -80,14 +117,14 @@
             });
 
             loadIncludeExclude();
+
+
         });
 
         function loadIncludeExclude() {
 
-            ajaxPOSTRequest('@Url.Action("SummaryMainKitchenOrder")', {date : moment().format("YYYY-MM-DD")},
-                function (data) {
-                    console.log("client received: " + data);
-
+            ajaxPOSTRequest('@Url.Action("SummaryMainKitchenOrder")', { date: getDateFromDatePicker() },
+                function(data) {
                     dataInput = JSON.parse(data);
                     dataInput2 = [];
                     for (var i = 0; i < dataInput.length; i++) {

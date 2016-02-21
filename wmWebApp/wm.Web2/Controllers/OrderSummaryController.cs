@@ -59,9 +59,9 @@ namespace wm.Web2.Controllers
             return Json(resultViewModel);
         }
 
-        public ActionResult SummaryMainKitchenOrderToPdf()
+        public ActionResult SummaryMainKitchenOrderToPdf(DateTime date)
         {
-            DateTime date = DateTime.Now.Date;
+            //DateTime date = DateTime.Now.Date;
             var orders = OrderService.Get((s => s.OrderDay == date));
             var branches = BranchService.GetAll();//TODO: filter
             var goods = GoodService.Get((s => s.GoodType == GoodType.KitChenGood)); //filter

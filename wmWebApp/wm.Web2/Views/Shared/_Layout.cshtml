@@ -7,7 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/lib/handsontable/dist/handsontable.full.min.css" rel="stylesheet" />
-
+    <link href="~/Content/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
     <meta name="description" content="The description of my page" />
 </head>
 <body>
@@ -55,6 +55,7 @@
     <script src="~/Content/lib/DataTables/media/js/dataTables.bootstrap.min.js"></script>
     <script src="~/Content/lib/bootbox/bootbox.js"></script>
 
-    @RenderSection("scripts", required: false)
+    <script src="~/Content/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+@RenderSection("scripts", required: false)
 </body>
 </html>
