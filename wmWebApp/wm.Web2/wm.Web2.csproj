@@ -373,7 +373,8 @@
     <Content Include="Views\Orders\StaffEditOrderN.cshtml" />
     <Content Include="Views\Orders\_EditOrder_GoodCategory.cshtml" />
     <Content Include="Views\Orders\_DetailsOrder_GoodCategory.cshtml" />
-    <Content Include="Views\Orders\_EditDetailsOrder_Handsontable.cshtml" />
+    <Content Include="Views\Orders\_EditOrder_Handsontable.cshtml" />
+    <Content Include="Views\Orders\_DetailsOrder_Handsontable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

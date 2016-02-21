@@ -10,11 +10,11 @@
 
 <div class="row">
     <h4>Update good categories</h4>
-    <hr/>
+    <hr />
     <div class="row">
         @Html.Partial("_EditOrder_GoodCategory", new EditOrder_GoodCategoryViewModel { GoodCategories = Model, EditAction = "WhKeeperEditOrder", orderId = ViewBag.OrderId })
 
-        @Html.Partial("_EditDetailsOrder_Handsontable")
+        @Html.Partial("_EditOrder_Handsontable")
 
     </div>
 
@@ -28,8 +28,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-
-<script src="~/Content/EditOrderHelper.js"></script>
+    <script src="~/Content/EditOrderHelper.js"></script>
     <script>
         $(document).ready(function() {
             $(".GoodCategoryItem[id$='GoodCategoryItem" + @ViewBag.GoodCategoryId + "']").addClass("active"); //for decoration
@@ -40,8 +39,8 @@
 
     <script>
         var $$ = function(id) {
-                return document.getElementById(id);
-            },
+            return document.getElementById(id);
+        },
             container = $$('hsIncludeExclude'),
             hot;
 
@@ -81,4 +80,5 @@
 
 
     </script>
+
 }
