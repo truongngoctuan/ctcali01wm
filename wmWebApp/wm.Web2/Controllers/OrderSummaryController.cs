@@ -44,8 +44,8 @@ namespace wm.Web2.Controllers
         [HttpPost]
         public ActionResult SummaryMainKitchenOrder(DateTime date)
         {
-            var orders = OrderService.Get((s => s.OrderDay == date));
-            var branches = BranchService.GetAll();//TODO: filter
+            var orders = OrderService.Get((s => s.OrderDay == date), null, "Branch,OrderGoods");
+            var branches = BranchService.GetAll().ToList();//TODO: filter
             var goods = GoodService.Get((s => s.GoodType == GoodType.KitChenGood)); //filter
 
             var result = OrderSummaryService.SummarizeMainKitchenOrder(orders, goods, branches);
@@ -62,14 +62,13 @@ namespace wm.Web2.Controllers
         public ActionResult SummaryMainKitchenOrderToPdf(DateTime date)
         {
             //DateTime date = DateTime.Now.Date;
-            var orders = OrderService.Get((s => s.OrderDay == date));
-            var branches = BranchService.GetAll();//TODO: filter
+            var orders = OrderService.Get((s => s.OrderDay == date), null, "Branch,OrderGoods");
+            var branches = BranchService.GetAll().ToList();//TODO: filter
             var goods = GoodService.Get((s => s.GoodType == GoodType.KitChenGood)); //filter
 
             var result = OrderSummaryService.SummarizeMainKitchenOrder(orders, goods, branches);
 
             ViewBag.branches = branches;
-
             var result_html = RenderActionResultToString(this.View(result));
             var example_css = FileToString(Server.MapPath("~/Views/OrderSummary/SummaryMainKitchenOrderTemplate.css"));
 

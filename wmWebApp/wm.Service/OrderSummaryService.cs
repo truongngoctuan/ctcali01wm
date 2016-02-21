@@ -35,7 +35,7 @@ namespace wm.Service
                     {
                         Branch = s.Branch,
                         OrderGood = og
-                    }));
+                    })).ToList();
 
             var result = new List<SummarizeMainKitchenOrderItem>();
             foreach (var good in goodList)
