@@ -12,7 +12,7 @@
     <h4>Update good categories</h4>
     <hr />
     <div class="row">
-        @Html.Partial("_StaffEditOrder_GoodCategory", new StaffEditOrder_GoodCategoryViewModel { GoodCategories = Model, EditAction = "WhKeeperEditOrder", orderId = ViewBag.OrderId })
+        @Html.Partial("_EditOrder_GoodCategory", new EditOrder_GoodCategoryViewModel { GoodCategories = Model, EditAction = "WhKeeperEditOrder", orderId = ViewBag.OrderId })
 
         <div class="col-md-8">
             <div class="form-group col-md-12">

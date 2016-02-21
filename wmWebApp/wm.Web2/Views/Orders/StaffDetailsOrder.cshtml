@@ -1,4 +1,5 @@
-﻿@model IEnumerable<wm.Model.GoodCategory>
+﻿@using wm.Web2.Models
+@model IEnumerable<wm.Model.GoodCategory>
 
 @{
     ViewBag.Title = "Index";
@@ -9,13 +10,7 @@
     title here
     <hr />
     <div class="row">
-        <div class="col-md-4 list-group">
-            @foreach (var item in Model)
-            {
-                <a href="@Url.Action("StaffDetailsOrder", "Orders", new { id = ViewBag.OrderId, GoodCategoryId = item.Id })"
-                   class="list-group-item GoodCategoryItem">@item.Name</a>
-            }
-        </div>
+        @Html.Partial("_DetailsOrder_GoodCategory", new EditOrder_GoodCategoryViewModel { GoodCategories = Model, EditAction = "StaffDetailsOrder", orderId = ViewBag.OrderId })
         <div class="col-md-8">
             <div class="form-group row col-md-12">
                 <div id="hsIncludeExclude" class=""></div>
@@ -30,6 +25,14 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
+        $(document).ready(function () {
+            $(".GoodCategoryItem[id$='GoodCategoryItem"+ @ViewBag.GoodCategoryId + "']").addClass("active");//for decoration
+        });
+
+        function clickGoodCategoryItem(url) {
+            window.location.href = url;
+        }
+
         //================================================================================
         //helper
         function ajaxPOSTRequest(href, dataObject, onSuccessCallback) {
@@ -44,20 +47,19 @@
         }
         //================================================================================
         var $$ = function (id) {
-            return document.getElementById(id);
-        },
-    container = $$('hsIncludeExclude'),
-    autosave = $$('autosave'),
-    load = $$('load'),
-    save = $$('save'),
-    autosaveNotification,
-    hot,
-    dataInput;
+                return document.getElementById(id);
+            },
+            container = $$('hsIncludeExclude'),
+            autosave = $$('autosave'),
+            load = $$('load'),
+            save = $$('save'),
+            autosaveNotification,
+            hot,
+            dataInput;
 
         var OrderId = @ViewBag.OrderId;
         var GoodCategoryId = @ViewBag.GoodCategoryId;
         $(document).ready(function () {
-            $(".GoodCategoryItem[href$='"+ GoodCategoryId + "']").addClass("active");
             loadIncludeExclude(OrderId, GoodCategoryId);
         });
 
@@ -69,15 +71,15 @@
             colHeaders: ['Name','InStock','RecommendQuantity', 'Quantity', 'Note', 'YourNote'],
             dataSchema: { Id: null, Name: null, RecommendedQuantity: null, Quantity: null },
             columns: [//TODO: change colorbackground for readonly
-              //{ Data: 'CategoryId', readOnly: true },
-              { data: 'Name', readOnly: true },
-              { data: 'InStock', readOnly: true },
-              { data: 'RecommenedQuantity', readOnly: true },
-              { data: 'Quantity', readOnly: true, type : 'numeric',format: '0,0.00', allowInvalid: true},
-              { data: 'Note', readOnly: true },
+                //{ Data: 'CategoryId', readOnly: true },
+                { data: 'Name', readOnly: true },
+                { data: 'InStock', readOnly: true },
+                { data: 'RecommenedQuantity', readOnly: true },
+                { data: 'Quantity', readOnly: true, type : 'numeric',format: '0,0.00', allowInvalid: true},
+                { data: 'Note', readOnly: true },
                 { data: 'YourNote', readOnly: true }
 
-              //{ Data: 'IsChecked', type: 'checkbox' },
+                //{ Data: 'IsChecked', type: 'checkbox' },
             ]
         });
 

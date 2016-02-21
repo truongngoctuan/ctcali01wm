@@ -20,7 +20,7 @@
                 </form>
 
         </div>
-        @Html.Partial("_StaffEditOrder_GoodCategory", new StaffEditOrder_GoodCategoryViewModel { GoodCategories = Model, EditAction = "StaffEditOrder", orderId = ViewBag.OrderId })
+        @Html.Partial("_EditOrder_GoodCategory", new EditOrder_GoodCategoryViewModel { GoodCategories = Model, EditAction = "StaffEditOrder", orderId = ViewBag.OrderId })
 
         <div class="col-md-8">
 

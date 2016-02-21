@@ -19,7 +19,7 @@ namespace wm.Web2.Models
 
     //for partial view
     // ReSharper disable once InconsistentNaming
-    public class StaffEditOrder_GoodCategoryViewModel
+    public class EditOrder_GoodCategoryViewModel
     {
         public IEnumerable<GoodCategory> GoodCategories { get; set; }
         public string EditAction { get; set; }

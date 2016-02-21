@@ -21,7 +21,7 @@
 
         </div>
 
-        @Html.Partial("_StaffEditOrder_GoodCategory", new StaffEditOrder_GoodCategoryViewModel {GoodCategories = Model, EditAction = "StaffEditOrder", orderId = ViewBag.OrderId })
+        @Html.Partial("_EditOrder_GoodCategory", new EditOrder_GoodCategoryViewModel {GoodCategories = Model, EditAction = "StaffEditOrder", orderId = ViewBag.OrderId })
 
 
         <div class="col-md-8">
@@ -48,11 +48,14 @@
         @Html.ActionLink("Back to List", "Index")
     </div>*@
 
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
+        $(document).ready(function () {
+            $(".GoodCategoryItem[id$='GoodCategoryItem"+ @ViewBag.GoodCategoryId + "']").addClass("active");//for decoration
+        });
+
         //================================================================================
         //helper
         function ajaxPOSTRequest(href, dataObject, onSuccessCallback) {
@@ -67,22 +70,20 @@
         }
         //================================================================================
         var $$ = function (id) {
-            return document.getElementById(id);
-        },
-    container = $$('hsIncludeExclude'),
-    autosave = $$('autosave'),
-    load = $$('load'),
-    save = $$('save'),
-    autosaveNotification,
-    hot,
-    dataInput;
+                return document.getElementById(id);
+            },
+            container = $$('hsIncludeExclude'),
+            autosave = $$('autosave'),
+            load = $$('load'),
+            save = $$('save'),
+            autosaveNotification,
+            hot,
+            dataInput;
 
         var OrderId = @ViewBag.OrderId;
         var GoodCategoryId = @ViewBag.GoodCategoryId;
         var isDataChanged = false;
         $(document).ready(function () {
-            $(".GoodCategoryItem[id$='"+ GoodCategoryId + "']").addClass("active");//for decoration
-
             loadIncludeExclude(OrderId, GoodCategoryId);
         });
 
@@ -110,15 +111,15 @@
             colHeaders: ['Name','InStock','RecommendQuantity', 'Quantity', 'Note', 'YourNote'],
             dataSchema: { Id: null, Name: null, InStock: null, RecommendedQuantity: null, Quantity: null, Note: null, YourNote: null},
             columns: [//TODO: change colorbackground for readonly
-              //{ Data: 'CategoryId', readOnly: true },
-              { data: 'Name', readOnly: true },
-              { data: 'InStock', readOnly: false },
-              { data: 'RecommenedQuantity', readOnly: true },
-              { data: 'Quantity', readOnly: false, type : 'numeric',format: '0,0.00', allowInvalid: true},
-              { data: 'Note', readOnly: true },
+                //{ Data: 'CategoryId', readOnly: true },
+                { data: 'Name', readOnly: true },
+                { data: 'InStock', readOnly: false },
+                { data: 'RecommenedQuantity', readOnly: true },
+                { data: 'Quantity', readOnly: false, type : 'numeric',format: '0,0.00', allowInvalid: true},
+                { data: 'Note', readOnly: true },
                 { data: 'YourNote', readOnly: false }
 
-              //{ Data: 'IsChecked', type: 'checkbox' },
+                //{ Data: 'IsChecked', type: 'checkbox' },
             ],
             afterChange: function (change, source) {
                 if (source === 'loadData') {
