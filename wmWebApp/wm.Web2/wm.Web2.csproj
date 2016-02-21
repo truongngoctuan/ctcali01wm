@@ -369,6 +369,8 @@
     <Content Include="Views\OrderSummary\Index.cshtml" />
     <Content Include="Views\Shared\LayoutTemplate.cshtml" />
     <Content Include="Views\OrderSummary\SummaryMainKitchenOrderToPdf.cshtml" />
+    <Content Include="Views\Orders\StaffEditOrderN.cshtml" />
+    <Content Include="Views\Orders\_StaffEditOrder_GoodCategory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

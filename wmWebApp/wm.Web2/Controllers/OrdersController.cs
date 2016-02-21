@@ -84,14 +84,20 @@ namespace wm.Web2.Controllers
             }
             return null;
         }
+
         // GET: Order(index page, no care, load template, the same for each role)
         public ActionResult StaffEditOrder(int id, int? goodCategoryId)
         {
+            //TODO: check number of orders in that day
+            var order = Service.GetById(id);
+
             IEnumerable<GoodCategory> filteredGoodCategoryList;
             goodCategoryId = GetAssociateGoodCategories(id, out filteredGoodCategoryList, goodCategoryId);
 
             ViewBag.OrderId = id;
             ViewBag.GoodCategoryId = (int)goodCategoryId;
+
+            if (order.Indexing > 0) return View("StaffEditOrderN", filteredGoodCategoryList);
             return View(filteredGoodCategoryList);
         }
 

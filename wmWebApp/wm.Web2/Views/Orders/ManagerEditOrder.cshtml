@@ -1,4 +1,5 @@
-﻿@model IEnumerable<wm.Model.GoodCategory>
+﻿@using wm.Web2.Models
+@model IEnumerable<wm.Model.GoodCategory>
 @{
     ViewBag.Title = "ManagerEditOrder";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,16 +12,7 @@
     <h4>Update good categories</h4>
     <hr />
     <div class="row">
-        <div class="col-md-4">
-            <div class="list-group">
-                @foreach (var item in Model)
-                {
-                    <button onclick="clickGoodCategoryItem('@Url.Action("ManagerEditOrder", "Orders", new {id = ViewBag.OrderId, GoodCategoryId = item.Id})')" class="list-group-item GoodCategoryItem" id="GoodCategoryItem@{ @item.Id }">@item.Name</button>
-    }
-            </div>
-            <a href="@Url.Action("Confirm", "Orders" , new { id=ViewBag.OrderId })"
-               class="btn btn-danger btn-large col-md-12 col-xs-12">Confirm</a>
-        </div>
+        @Html.Partial("_StaffEditOrder_GoodCategory", new StaffEditOrder_GoodCategoryViewModel { GoodCategories = Model, EditAction = "ManagerEditOrder", orderId = ViewBag.OrderId })
         <div class="col-md-8">
 
             <div class="form-group col-md-12">

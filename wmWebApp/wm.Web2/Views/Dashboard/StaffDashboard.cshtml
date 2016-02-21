@@ -68,25 +68,19 @@
                     $('.page-header2 div h3').text(this.getTitle());
 
                     if (view === "month") {
-                        //$("#calendar .cal-month-day").click(function (e) {
-                        //    var clicked_date = $(this).find('span').attr('Data-cal-date');
-                        //    //Do whatever you want. probably, a $.post or something to add the record on your db
-                        //    console.log("click event is activated : " + clicked_date);
-                        //});
-
                         $("#calendar .cal-month-day").dblclick(function () {
                             var isAllowToCreateOrder = true;
 
                             var clickedDate = $(this).find('span').attr('Data-cal-date');
-                            console.log(clickedDate);
-                            for(var i = 0; i < calendar_events.length; i++) {
-                                var calendarEventUnixDate = calendar_events[i].start;
-                                var timestamp = moment.unix(calendarEventUnixDate / 1000);
-                                //console.log( timestamp.format("YYYY-MM-DD") );
-                                if (clickedDate === timestamp.format("YYYY-MM-DD")) {
-                                    isAllowToCreateOrder = false;
-                                }
-                            }
+                            //console.log(clickedDate);
+                            //for(var i = 0; i < calendar_events.length; i++) {
+                            //    var calendarEventUnixDate = calendar_events[i].start;
+                            //    var timestamp = moment.unix(calendarEventUnixDate / 1000);
+                            //    //console.log( timestamp.format("YYYY-MM-DD") );
+                            //    if (clickedDate === timestamp.format("YYYY-MM-DD")) {
+                            //        isAllowToCreateOrder = false;
+                            //    }
+                            //}
 
                             if (isAllowToCreateOrder) {
                                 bootbox.confirm("Do you want to create new order for day " + clickedDate, function (result) {
@@ -104,7 +98,6 @@
                                             success: function(data2) {
                                                 var dataObject = JSON.parse(data2);
                                                 if (dataObject.Status === "Ok") {
-                                                    //$('#testForm').submit();
                                                     var redirectUrl = '@Url.Action("StaffEditOrder", "Orders")' + '/' + dataObject.Result.toString();
                                                     changeWindowLocation(redirectUrl);
                                                    

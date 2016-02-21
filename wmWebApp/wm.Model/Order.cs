@@ -13,6 +13,7 @@ namespace wm.Model
 
         public OrderStatus Status { get; set; }
         public DateTime OrderDay { get; set; }
+        public int Indexing { get; set; }
 
         public int Priority { get; set; }//higher is not allow to be modified by lower
         public virtual ICollection<OrderGood> OrderGoods { get; set; }

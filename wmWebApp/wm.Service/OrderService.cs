@@ -38,6 +38,15 @@ namespace wm.Service
             _goodCategoryGoodService = goodCategoryGoodService;
         }
 
+        public override ServiceReturn Create(Order entity)
+        {
+            //update order indexing
+            var orders = _repos.Get((s => s.OrderDay == entity.OrderDay && s.BranchId == entity.BranchId));
+            entity.Indexing = orders.Count();
+
+            return base.Create(entity);
+        }
+
         public IEnumerable<OrderBranchItem> PopulateData(int orderId, int goodCategoryId)
         {
             var allList = _goodCategoryGoodService.GetByGoodCategoryId(goodCategoryId, "Good").Select(s => s.Good).ToList();
