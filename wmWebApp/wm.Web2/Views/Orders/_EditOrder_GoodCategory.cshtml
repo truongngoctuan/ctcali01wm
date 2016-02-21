@@ -1,13 +1,15 @@
 ﻿@model wm.Web2.Models.EditOrder_GoodCategoryViewModel
 <div class="col-md-4">
-    <div class="list-group">
+    <div class="list-group col-md-12">
         @foreach (var item in Model.GoodCategories)
         {
-            string tempUrl = Url.Action(Model.EditAction, "Orders", new {id = ViewBag.OrderId, GoodCategoryId = item.Id});
+            string tempUrl = Url.Action(Model.EditAction, "Orders", new { id = ViewBag.OrderId, GoodCategoryId = item.Id });
             string tempId = "GoodCategoryItem" + item.Id.ToString();
             <button onclick="clickGoodCategoryItem('@tempUrl')" class="list-group-item GoodCategoryItem" id='@tempId'>@item.Name</button>
         }
     </div>
-    <a href="@Url.Action("Confirm", "Orders", new {id = Model.orderId})"
-       class="btn btn-danger btn-large col-md-12 col-xs-12">Confirm</a>
+    <div class="col-md-12" style="padding-left: 0;">
+        <a href="@Url.Action("Confirm", "Orders", new {id = Model.orderId})"
+           class="btn btn-danger btn-large btn-block">Confirm</a>
+    </div>
 </div>
