@@ -48,7 +48,7 @@ namespace wm.Web2.Controllers
             var branches = BranchService.GetAll().ToList();//TODO: filter
             var goods = GoodService.Get((s => s.GoodType == GoodType.KitChenGood)); //filter
 
-            var result = OrderSummaryService.SummarizeMainKitchenOrder(orders, goods, branches);
+            var result = OrderSummaryService.SummarizeMainKitchenOrder_Array(orders, goods, branches);
 
             //convert to handsontable format
             var resultViewModel = new List<List<int>>();
@@ -66,7 +66,7 @@ namespace wm.Web2.Controllers
             var branches = BranchService.GetAll().ToList();//TODO: filter
             var goods = GoodService.Get((s => s.GoodType == GoodType.KitChenGood)); //filter
 
-            var result = OrderSummaryService.SummarizeMainKitchenOrder(orders, goods, branches);
+            var result = OrderSummaryService.SummarizeMainKitchenOrder_Array(orders, goods, branches);
 
             ViewBag.branches = branches;
             var result_html = RenderActionResultToString(this.View(result));

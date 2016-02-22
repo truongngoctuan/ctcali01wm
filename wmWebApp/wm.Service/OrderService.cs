@@ -27,15 +27,20 @@ namespace wm.Service
         public IGoodService GoodService { get; }
         readonly IGoodCategoryGoodService _goodCategoryGoodService;
 
+        public IOrderSummaryService OrderSummaryService { get; set; }
+        public IBranchService BranchService { get; set; }
+
         public OrderService(IUnitOfWork unitOfWork, IOrderRepository repos,
             IOrderGoodService orderGoodService,
-            IGoodCategoryGoodService goodCategoryGoodService)
+            IGoodCategoryGoodService goodCategoryGoodService, IBranchService branchService)
             : base(unitOfWork, repos)
         {
             _unitOfWork = unitOfWork;
             _repos = repos;
             _orderGoodService = orderGoodService;
             _goodCategoryGoodService = goodCategoryGoodService;
+            BranchService = branchService;
+            OrderSummaryService = new OrderSummaryService();
         }
 
         public override ServiceReturn Create(Order entity)
@@ -88,10 +93,14 @@ namespace wm.Service
 
         public IEnumerable<OrderMainKitchenItem> PopulateMainKitchenData(int orderId, int goodCategoryId)
         {
-            //TODO: filter with goodCategoryId too
             var order = GetById(orderId);
-            var sameDateOrderIds = _repos.Get((s => s.OrderDay == order.OrderDay))
-                .Select(t => t.Id);
+            //get summary data from branches
+
+
+            //TODO: filter with goodCategoryId too
+
+            var sameDateOrders = _repos.Get((s => s.OrderDay == order.OrderDay));
+            var sameDateOrderIds = sameDateOrders.Select(t => t.Id);
             var orderGoodList = _orderGoodService.GetByOrderIdRange(sameDateOrderIds, GoodType.KitChenGood);
             var quantityBranchTotal = orderGoodList.GroupBy(
                 s => s.Good.Id,
@@ -105,6 +114,9 @@ namespace wm.Service
 
             var allList = _goodCategoryGoodService.GetByGoodCategoryId(goodCategoryId, "Good").Select(s => s.Good).ToList();
             var filteredList = _orderGoodService.GetByOrderId(orderId).AsEnumerable().ToList();//TODO: have some redunrant but have no way to optimize yet
+
+            //get summary data from branches
+            var summaryData = OrderSummaryService.SummarizeMainKitchenOrder_Dictionary(sameDateOrders, allList, BranchService.Get((s => s.BranchType != BranchType.MainKitchen)));
 
             //get total data
             //var quantityBranchList = _repos.
@@ -125,10 +137,6 @@ namespace wm.Service
                 var matches = filteredList.Where(t => t.GoodId == item.Id);
                 if (matches.Any())
                 {//return with data
-                    var details = new Dictionary<string, int>();
-                    details.Add("0", 1);
-                    details.Add("1", 134);
-                    details.Add("2", 213);
                     returnData.Add(new OrderMainKitchenItem
                     {
                         OrderId = orderId,
@@ -138,15 +146,11 @@ namespace wm.Service
                         Quantity = matches.First().Quantity,
                         QuantityFromBranch = quantityTotal,
                         Note = matches.First().Note,
-                        Details = details
+                        Details = summaryData.Rows.First(s => s.Id == item.Id).SummaryData
                     });
                 }
                 else
                 {//return with default data
-                    var details = new Dictionary<string, int>();
-                    details.Add("0", 1);
-                    details.Add("1", 134);
-                    details.Add("2", 213);
                     returnData.Add(new OrderMainKitchenItem
                     {
                         OrderId = orderId,
@@ -156,7 +160,7 @@ namespace wm.Service
                         Quantity = 0,
                         QuantityFromBranch = quantityTotal,
                         Note = "",
-                        Details = details
+                        Details = summaryData.Rows.First(s => s.Id == item.Id).SummaryData
                     });
                 }
             }
