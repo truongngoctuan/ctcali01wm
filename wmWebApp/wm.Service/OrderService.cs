@@ -125,6 +125,10 @@ namespace wm.Service
                 var matches = filteredList.Where(t => t.GoodId == item.Id);
                 if (matches.Any())
                 {//return with data
+                    var details = new Dictionary<string, int>();
+                    details.Add("0", 1);
+                    details.Add("1", 134);
+                    details.Add("2", 213);
                     returnData.Add(new OrderMainKitchenItem
                     {
                         OrderId = orderId,
@@ -133,11 +137,16 @@ namespace wm.Service
                         InStock = matches.First().InStock,
                         Quantity = matches.First().Quantity,
                         QuantityFromBranch = quantityTotal,
-                        Note = matches.First().Note
+                        Note = matches.First().Note,
+                        Details = details
                     });
                 }
                 else
                 {//return with default data
+                    var details = new Dictionary<string, int>();
+                    details.Add("0", 1);
+                    details.Add("1", 134);
+                    details.Add("2", 213);
                     returnData.Add(new OrderMainKitchenItem
                     {
                         OrderId = orderId,
@@ -146,7 +155,8 @@ namespace wm.Service
                         InStock = 0,
                         Quantity = 0,
                         QuantityFromBranch = quantityTotal,
-                        Note = ""
+                        Note = "",
+                        Details = details
                     });
                 }
             }

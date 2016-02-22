@@ -17,5 +17,7 @@ namespace wm.Service.Model
         public int RecommenedQuantity { get; set; }
         public int InStock { get; set; }
         public int QuantityFromBranch { get; set; }
+
+        public Dictionary<string, int> Details { get; set; } //branchId, value
     }
 }
