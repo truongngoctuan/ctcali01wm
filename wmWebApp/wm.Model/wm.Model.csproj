@@ -94,6 +94,7 @@
     <Compile Include="GoodCategory.cs" />
     <Compile Include="GoodUnit.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="MultiPurposeList.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="OrderStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

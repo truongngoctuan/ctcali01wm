@@ -44,6 +44,8 @@ namespace wm.Model
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Item> Items { get; set; }//testing auditable
 
+        public DbSet<MultiPurposeList> MultiPurposeLists { get; set; }
+        public DbSet<MultiPurposeListGood> MultiPurposeListGoods { get; set; }
 
 
         public override int SaveChanges()

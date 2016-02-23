@@ -56,7 +56,9 @@
     <Compile Include="CalendarEvent\WarehouseKeeperCalendarEventStrategy.cs" />
     <Compile Include="EmployeeService.cs" />
     <Compile Include="CalendarEvent\CalendarEventService.cs" />
+    <Compile Include="MultiPurposeListGoodService.cs" />
     <Compile Include="GoodCategoryGoodService.cs" />
+    <Compile Include="MultiPurposeListService.cs" />
     <Compile Include="GoodCategoryService.cs" />
     <Compile Include="GoodService.cs" />
     <Compile Include="GoodUnitService.cs" />

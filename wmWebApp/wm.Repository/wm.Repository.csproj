@@ -57,6 +57,8 @@
     <Compile Include="GoodCategoryRepository.cs" />
     <Compile Include="GoodRepository.cs" />
     <Compile Include="GoodUnitRepository.cs" />
+    <Compile Include="MultiPurposeListGoodRepository.cs" />
+    <Compile Include="MultiPurposeListRepository.cs" />
     <Compile Include="OrderGoodRepository.cs" />
     <Compile Include="OrderRepository.cs" />
     <Compile Include="Shared\GenericRepository.cs" />

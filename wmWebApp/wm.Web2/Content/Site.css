@@ -1,11 +1,11 @@
 ﻿/*bigger max width, can broke some layouts*/
 @media (min-width:992px)
     {
-        .container{width:1152px}
+        .container{width:940px}
     }
 @media (min-width:1200px)
     {
-        .container{width:1880px}
+        .container{width:1200px}
     }
 
 body {
