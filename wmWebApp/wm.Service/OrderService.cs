@@ -116,7 +116,7 @@ namespace wm.Service
             var filteredList = _orderGoodService.GetByOrderId(orderId).AsEnumerable().ToList();//TODO: have some redunrant but have no way to optimize yet
 
             //get summary data from branches
-            var summaryData = OrderSummaryService.SummarizeMainKitchenOrder_Dictionary(sameDateOrders, allList, BranchService.Get((s => s.BranchType != BranchType.MainKitchen)));
+            var summaryData = OrderSummaryService.SummarizeMainKitchenOrder_Dictionary(sameDateOrders, allList, BranchService.Get((s => s.BranchType != BranchType.MainKitchen)).ToList());
 
             //get total data
             //var quantityBranchList = _repos.

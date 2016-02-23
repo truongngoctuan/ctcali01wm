@@ -14,6 +14,7 @@ namespace wm.Web2.Controllers
     {
         private IOrderService Service { get; }
         readonly IBranchGoodCategoryService _branchGoodCategoryService;
+        public IBranchService BranchService { get; set; }
 
         #region strategy
 
@@ -62,11 +63,12 @@ namespace wm.Web2.Controllers
         #endregion
         public OrdersController(ApplicationUserManager userManager,
             IOrderService service,
-            IBranchGoodCategoryService branchGoodCategoryService, IEmployeeService employeeService) : base(userManager)
+            IBranchGoodCategoryService branchGoodCategoryService, IEmployeeService employeeService, IBranchService branchService) : base(userManager)
         {
             Service = service;
             _branchGoodCategoryService = branchGoodCategoryService;
             EmployeeService = employeeService;
+            BranchService = branchService;
         }
 
         #region edit/details pages
@@ -158,6 +160,7 @@ namespace wm.Web2.Controllers
 
             if (order.Branch.BranchType == BranchType.MainKitchen)
             {
+                ViewBag.branches = BranchService.Get((s => s.BranchType != BranchType.MainKitchen)).ToList().Select(t => new { Id = t.Id, Name = t.Name});
                 return View("WhKeeperMainKitchenEditOrder", filteredGoodCategoryList);
             }
             return View(filteredGoodCategoryList);
