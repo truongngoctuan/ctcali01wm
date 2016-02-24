@@ -38,7 +38,8 @@ namespace wm.Web2.Controllers
         public ActionResult Index()
         {
             var branches = BranchService.GetAll();//TODO: filter
-            var goods = GoodService.Get((s => s.GoodType == GoodType.KitChenGood)); //filter
+            var multiPurposeItem = MultiPurposeListService.GetAll().First();
+            var goods = MultiPurposeListGoodService.Get((s => s.MultiPurposeListId == multiPurposeItem.Id), (s => s.OrderBy(t => t.Ranking))).Select(s => s.Good);
 
             ViewBag.branches = branches.Select(s => new { Id = s.Id, Name = s.Name });
             ViewBag.goods = goods.Select(s => new { Id = s.Id, Name = s.Name });
@@ -53,8 +54,7 @@ namespace wm.Web2.Controllers
 
             //use goods from a list
             var multiPurposeItem = MultiPurposeListService.GetAll().First();
-            var goods =
-                MultiPurposeListGoodService.Get((s => s.MultiPurposeListId == multiPurposeItem.Id), (s => s.OrderBy(t => t.Ranking))).Select(s => s.Good);
+            var goods = MultiPurposeListGoodService.Get((s => s.MultiPurposeListId == multiPurposeItem.Id), (s => s.OrderBy(t => t.Ranking))).Select(s => s.Good);
             //var goods = GoodService.Get((s => s.GoodType == GoodType.KitChenGood)); //filter
 
             var result = OrderSummaryService.SummarizeMainKitchenOrder_Array(orders, goods, branches);
@@ -73,7 +73,8 @@ namespace wm.Web2.Controllers
             //DateTime date = DateTime.Now.Date;
             var orders = OrderService.Get((s => s.OrderDay == date), null, "Branch,OrderGoods");
             var branches = BranchService.GetAll().ToList();//TODO: filter
-            var goods = GoodService.Get((s => s.GoodType == GoodType.KitChenGood)); //filter
+            var multiPurposeItem = MultiPurposeListService.GetAll().First();
+            var goods = MultiPurposeListGoodService.Get((s => s.MultiPurposeListId == multiPurposeItem.Id), (s => s.OrderBy(t => t.Ranking))).Select(s => s.Good);
 
             var result = OrderSummaryService.SummarizeMainKitchenOrder_Array(orders, goods, branches);
 
