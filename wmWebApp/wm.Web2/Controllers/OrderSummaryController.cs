@@ -20,7 +20,9 @@ namespace wm.Web2.Controllers
         public IOrderService OrderService { get; set; }
         public IBranchService BranchService { get; set; }
         public IGoodService GoodService { get; set; }
-        public OrderSummaryController(ApplicationUserManager userManager, IOrderSummaryService orderSummaryService, IOrderService orderService, IBranchService branchService, IGoodService goodService)
+        public IMultiPurposeListService MultiPurposeListService { get; set; }
+        public IMultiPurposeListGoodService MultiPurposeListGoodService { get; set; }
+        public OrderSummaryController(ApplicationUserManager userManager, IOrderSummaryService orderSummaryService, IOrderService orderService, IBranchService branchService, IGoodService goodService, IMultiPurposeListService multiPurposeListService, IMultiPurposeListGoodService multiPurposeListGoodService)
             : base(userManager)
         {
             PdfService = new PdfService();
@@ -28,6 +30,8 @@ namespace wm.Web2.Controllers
             OrderService = orderService;
             BranchService = branchService;
             GoodService = goodService;
+            MultiPurposeListService = multiPurposeListService;
+            MultiPurposeListGoodService = multiPurposeListGoodService;
         }
 
         // GET: OrderSummary
@@ -46,7 +50,12 @@ namespace wm.Web2.Controllers
         {
             var orders = OrderService.Get((s => s.OrderDay == date), null, "Branch,OrderGoods");
             var branches = BranchService.GetAll().ToList();//TODO: filter
-            var goods = GoodService.Get((s => s.GoodType == GoodType.KitChenGood)); //filter
+
+            //use goods from a list
+            var multiPurposeItem = MultiPurposeListService.GetAll().First();
+            var goods =
+                MultiPurposeListGoodService.Get((s => s.MultiPurposeListId == multiPurposeItem.Id), (s => s.OrderBy(t => t.Ranking))).Select(s => s.Good);
+            //var goods = GoodService.Get((s => s.GoodType == GoodType.KitChenGood)); //filter
 
             var result = OrderSummaryService.SummarizeMainKitchenOrder_Array(orders, goods, branches);
 
