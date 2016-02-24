@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Glimpse.Core.Extensions;
 using wm.Model;
 using wm.Service;
 using wm.Web2.Models;
@@ -80,6 +81,45 @@ namespace wm.Web2.Controllers
                 return RedirectToAction("Index");
             }
             return View(multiPurposeList);
+        }
+
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult List()
+        {
+            try
+            {
+                //get sorted/paginated
+                var resultSet = _goodService.GetAll("Unit").ToList();
+
+                var resultViewModel = resultSet.Select(e => new GoodDatatablesListViewModel
+                {
+                    id = e.Id,
+                    Name = e.Name,
+                    AccountantCode = e.AccountantCode,
+                    UnitName = e.Unit?.Name,
+                    GoodType = e.GoodType.ToString()
+                });
+
+                var dtResult = new DTResult<GoodDatatablesListViewModel>
+                {
+                    draw = 0,
+                    data = resultViewModel.ToList(),
+                    recordsFiltered = resultSet.Count(),
+                    recordsTotal = resultSet.Count()
+                };
+
+                return Json(dtResult);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    error = ex.Message
+                });
+            }
+
         }
 
 
