@@ -39,7 +39,7 @@
     <table id="example" class="display select" cellspacing="0" width="100%">
         <thead>
         <tr>
-            <th><input type="checkbox" name="select_all" value="1" id="example-select-all"></th>
+            <th><input type="checkbox" name="select_all" value="1" id="example-select-all" checked="false"></th>
             <th>AccountantCode</th>
             <th>Name</th>
             <th>UnitName</th>
@@ -117,14 +117,11 @@
                     //'data': function(data) {//modify sending data
                     //     return JSON.stringify(data);
                     //},
-                    //"dataSrc": function ( json ) {
-                    //    //TODO: update select_all_counter
-                    //    window.select_all_length = json.length;
-                    //    //for ( var i=0, ien=json.length ; i<ien ; i++ ) {
-                    //    //    json[i][0] = '<a href="/message/'+json[i][0]+'>View message</a>';
-                    //    //}
-                    //    return json;
-                    //}
+                    "dataSrc": function ( json ) {
+                        window.select_all_counter = 0;
+                        window.select_all_length = json.data.length;
+                        return json.data;
+                    }
                 },
                 "columns": [
                     {
@@ -133,7 +130,6 @@
                         'orderable': false,
                         'className': 'dt-body-center',
                         'render': function(data, type, full, meta) {
-                            window.select_all_length++;
                             return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
                         }
                     },
@@ -171,9 +167,11 @@
                         el.indeterminate = true;
                     }
                 } else {
+                    
                     window.select_all_counter++;
+                    console.log(window.select_all_counter + " " + window.select_all_length);
                     if (window.select_all_counter === window.select_all_length) {
-                        $('#example-select-all').attr('checked', true);
+                        $('#example-select-all').prop('checked', true);
                     }
                 }
             });
