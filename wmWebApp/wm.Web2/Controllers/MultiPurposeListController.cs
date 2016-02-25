@@ -92,17 +92,17 @@ namespace wm.Web2.Controllers
             {
                 //get sorted/paginated
                 var resultSet = _goodService.GetAll("Unit").ToList();
+                var resultViewModel = PopulateNnData(1, true);
+                //var resultViewModel = resultSet.Select(e => new GoodDatatablesListViewModel
+                //{
+                //    id = e.Id,
+                //    Name = e.Name,
+                //    AccountantCode = e.AccountantCode,
+                //    UnitName = e.Unit?.Name,
+                //    GoodType = e.GoodType.ToString()
+                //});
 
-                var resultViewModel = resultSet.Select(e => new GoodDatatablesListViewModel
-                {
-                    id = e.Id,
-                    Name = e.Name,
-                    AccountantCode = e.AccountantCode,
-                    UnitName = e.Unit?.Name,
-                    GoodType = e.GoodType.ToString()
-                });
-
-                var dtResult = new DTResult<GoodDatatablesListViewModel>
+                var dtResult = new DTResult<MultiPurposeListInExItemViewModel>
                 {
                     draw = 0,
                     data = resultViewModel.ToList(),
@@ -144,7 +144,7 @@ namespace wm.Web2.Controllers
                 //binding Data
                 viewModel = allList.Select(t => new MultiPurposeListInExItemViewModel
                 {
-                    GoodId = t.Id,
+                    Id = t.Id,
                     Name = t.Name,
                     IsChecked = filteredList.Any(s => s.GoodId == t.Id)
                 });
@@ -158,7 +158,7 @@ namespace wm.Web2.Controllers
                     .OrderBy(t => t.Ranking)
                     .Select(t => new MultiPurposeListInExItemViewModel
                     {
-                        GoodId = t.GoodId,
+                        Id = t.GoodId,
                         Name = t.Good.Name,
                         Ranking = t.Ranking,
                         IsChecked = true
@@ -178,7 +178,7 @@ namespace wm.Web2.Controllers
             var newLinkingList = inputViewModel.data?.Select(t => new MultiPurposeListGood
             {
                 MultiPurposeListId = id,
-                GoodId = t.GoodId//enough Data
+                GoodId = t.Id//enough Data
             }) ?? new List<MultiPurposeListGood>();
 
             var removeList = oldLinkingList.Where(t => !newLinkingList.Any(u => u.GoodId == t.GoodId));
@@ -213,7 +213,7 @@ namespace wm.Web2.Controllers
             //service.Update(model);
             return OkCode();
         }
-
+        
         [HttpPost]
         [AllowAnonymous]
         public ActionResult SortNnData(int id, MultiPurposeListInExViewModel inputViewModel)
@@ -225,7 +225,7 @@ namespace wm.Web2.Controllers
             //edit - update ranking
             foreach (var item in inputViewModel.data)
             {
-                var editObject = filteredList.First(t => t.GoodId == item.GoodId);
+                var editObject = filteredList.First(t => t.GoodId == item.Id);
                 editObject.Ranking = item.Ranking;
                 _multiPurposeListGoodService.Update(editObject);
             }

@@ -8,7 +8,7 @@ namespace wm.Web2.Models
 
     public class MultiPurposeListInExItemViewModel
     {
-        public int GoodId { get; set; }
+        public int Id { get; set; }
         public bool IsChecked { get; set; }
         public string Name { get; set; }
         public int Ranking { get; set; }

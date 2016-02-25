@@ -38,24 +38,25 @@
 <div class="col-md-12">
     <table id="example" class="display select" cellspacing="0" width="100%">
         <thead>
-        <tr>
-            <th><input type="checkbox" name="select_all" value="1" id="example-select-all" checked="false"></th>
-            <th>AccountantCode</th>
-            <th>Name</th>
-            <th>UnitName</th>
-            <th>GoodType</th>
-        </tr>
+            <tr>
+                <th><input type="checkbox" name="select_all" value="1" id="example-select-all" checked="false"></th>
+                @*<th>AccountantCode</th>*@
+                <th>Name</th>
+                @*<th>UnitName</th>*@
+                @*<th>GoodType</th>*@
+            </tr>
         </thead>
         <tfoot>
-        <tr>
-            <th></th>
-            <th>AccountantCode</th>
-            <th>Name</th>
-            <th>UnitName</th>
-            <th>GoodType</th>
-        </tr>
+            <tr>
+                <th></th>
+                @*<th>AccountantCode</th>*@
+                <th>Name</th>
+                @*<th>UnitName</th>
+                <th>GoodType</th>*@
+            </tr>
         </tfoot>
     </table>
+    <button onclick="saveIncludeExclude2()">Save</button>
 </div>
 <form id="frm-example" action="@Url.Action()"></form>
 
@@ -108,8 +109,9 @@
     <script>
         window.select_all_counter = 0;
         window.select_all_length = 0;
+        var table;
         $(document).ready(function() {
-            var table = $('#example').DataTable({
+            table = $('#example').DataTable({
                 'ajax': {
                     "type": "POST",
                     "url": "@Url.Action("List")",
@@ -117,7 +119,7 @@
                     //'data': function(data) {//modify sending data
                     //     return JSON.stringify(data);
                     //},
-                    "dataSrc": function ( json ) {
+                    "dataSrc": function(json) {
                         window.select_all_counter = 0;
                         window.select_all_length = json.data.length;
                         return json.data;
@@ -125,18 +127,21 @@
                 },
                 "columns": [
                     {
-                        "data": "GoodId",
+                        "data": "Id",
                         'searchable': false,
                         'orderable': false,
                         'className': 'dt-body-center',
                         'render': function(data, type, full, meta) {
-                            return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
+                            if (full.IsChecked) {
+                                return '<input type="checkbox" name="id[]" value="' + data + '" checked="checked">';    
+                            }
+                            return '<input type="checkbox" name="id[]" value="' + data + '">';
                         }
                     },
-                    { "data": "AccountantCode" },
+                    //{ "data": "AccountantCode" },
                     { "data": "Name" },
-                    { "data": "UnitName" },
-                    { "data": "GoodType" }
+                    //{ "data": "UnitName" },
+                    //{ "data": "GoodType" }
                 ],
                 'order': [[1, 'asc']]
             });
@@ -167,38 +172,45 @@
                         el.indeterminate = true;
                     }
                 } else {
-                    
                     window.select_all_counter++;
                     console.log(window.select_all_counter + " " + window.select_all_length);
                     if (window.select_all_counter === window.select_all_length) {
-                        $('#example-select-all').prop('checked', true);
+                        $('#example-select-all').prop("indeterminate", false);
+                        $('#example-select-all').prop("checked", true);
                     }
                 }
             });
 
-            // Handle form submission event
-            $('#frm-example').on('submit', function(e) {
-                var form = this;
-
-                // Iterate over all checkboxes in the table
-                table.$('input[type="checkbox"]').each(function() {
-                    // If checkbox doesn't exist in DOM
-                    if (!$.contains(document, this)) {
-                        // If checkbox is checked
-                        if (this.checked) {
-                            // Create a hidden element
-                            $(form).append(
-                                $('<input>')
-                                .attr('type', 'hidden')
-                                .attr('name', this.name)
-                                .val(this.value)
-                            );
-                        }
-                    }
-                });
-            });
 
         });
+
+        function saveIncludeExclude2() {
+            var dataOutputFiltered = [];
+            table.$('input[type="checkbox"]').each(function() {
+                // If checkbox doesn't exist in DOM
+                //if (!$.contains(document, this)) {
+                    // If checkbox is checked
+                    if (this.checked) {
+                        dataOutputFiltered.push({ Id: this.value, IsChecked : true, Name : "", Ranking : 0 });
+                    };
+
+                //}
+            });
+
+            console.log(dataOutputFiltered);
+
+            postHelper('@Url.Action("IncludeExcludeNnData")',
+                { id: @Model.Id, data: dataOutputFiltered },
+                function(data, textStatus, XMLHttpRequest) {
+                    var dataObject = JSON.parse(data);
+                    if (dataObject.Status === "Ok") {
+                        location.reload();
+                        //window.location.href = '@Url.Action("Edit", new {id = Model.Id})';
+                    } else {
+                        console.log("error IncludeExcludeNnData");
+                    }
+                });
+        }
     </script>
     <script>
         //================================================================================
@@ -216,8 +228,8 @@
 
         //================================================================================
         var $$ = function(id) {
-                return document.getElementById(id);
-            },
+            return document.getElementById(id);
+        },
             container = $$('hsIncludeExclude'),
             containerOrder = $$('hsOrder'),
             autosave = $$('autosave'),
