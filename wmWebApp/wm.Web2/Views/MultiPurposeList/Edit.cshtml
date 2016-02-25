@@ -47,16 +47,17 @@
         </tr>
         </thead>
         <tfoot>
-            <tr>
-                <th></th>
-                <th>AccountantCode</th>
-                <th>Name</th>
-                <th>UnitName</th>
-                <th>GoodType</th>
-            </tr>
+        <tr>
+            <th></th>
+            <th>AccountantCode</th>
+            <th>Name</th>
+            <th>UnitName</th>
+            <th>GoodType</th>
+        </tr>
         </tfoot>
     </table>
 </div>
+<form id="frm-example" action="@Url.Action()"></form>
 
 <div class="col-md-6 col-xs-12">
     <h4>Update good categories</h4>
@@ -105,34 +106,52 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-        $(document).ready(function (){
+        window.select_all_counter = 0;
+        window.select_all_length = 0;
+        $(document).ready(function() {
             var table = $('#example').DataTable({
                 'ajax': {
                     "type": "POST",
                     "url": "@Url.Action("List")",
                     "contentType": 'application/json; charset=utf-8',
-                    'data': function (data) { return data = JSON.stringify(data); }
+                    //'data': function(data) {//modify sending data
+                    //     return JSON.stringify(data);
+                    //},
+                    //"dataSrc": function ( json ) {
+                    //    //TODO: update select_all_counter
+                    //    window.select_all_length = json.length;
+                    //    //for ( var i=0, ien=json.length ; i<ien ; i++ ) {
+                    //    //    json[i][0] = '<a href="/message/'+json[i][0]+'>View message</a>';
+                    //    //}
+                    //    return json;
+                    //}
                 },
                 "columns": [
                     {
-                        "data" : "GoodId",
+                        "data": "GoodId",
                         'searchable': false,
                         'orderable': false,
                         'className': 'dt-body-center',
-                        'render': function (data, type, full, meta){
+                        'render': function(data, type, full, meta) {
+                            window.select_all_length++;
                             return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
                         }
                     },
-                { "data": "AccountantCode" },
-                { "data": "Name" },
-                { "data": "UnitName" },
-                { "data": "GoodType" }
+                    { "data": "AccountantCode" },
+                    { "data": "Name" },
+                    { "data": "UnitName" },
+                    { "data": "GoodType" }
                 ],
                 'order': [[1, 'asc']]
             });
 
             // Handle click on "Select all" control
-            $('#example-select-all').on('click', function(){
+            $('#example-select-all').on('click', function() {
+                if (this.checked) {
+                    window.select_all_counter = window.select_all_length;
+                } else {
+                    window.select_all_counter = 0;
+                }
                 // Get all rows with search applied
                 var rows = table.rows({ 'search': 'applied' }).nodes();
                 // Check/uncheck checkboxes for all rows in the table
@@ -140,35 +159,41 @@
             });
 
             // Handle click on checkbox to set state of "Select all" control
-            $('#example tbody').on('change', 'input[type="checkbox"]', function(){
+            $('#example tbody').on('change', 'input[type="checkbox"]', function() {
                 // If checkbox is not checked
-                if(!this.checked){
+                if (!this.checked) {
+                    window.select_all_counter--;
                     var el = $('#example-select-all').get(0);
                     // If "Select all" control is checked and has 'indeterminate' property
-                    if(el && el.checked && ('indeterminate' in el)){
+                    if (el && el.checked && ('indeterminate' in el)) {
                         // Set visual state of "Select all" control
                         // as 'indeterminate'
                         el.indeterminate = true;
+                    }
+                } else {
+                    window.select_all_counter++;
+                    if (window.select_all_counter === window.select_all_length) {
+                        $('#example-select-all').attr('checked', true);
                     }
                 }
             });
 
             // Handle form submission event
-            $('#frm-example').on('submit', function(e){
+            $('#frm-example').on('submit', function(e) {
                 var form = this;
 
                 // Iterate over all checkboxes in the table
-                table.$('input[type="checkbox"]').each(function(){
+                table.$('input[type="checkbox"]').each(function() {
                     // If checkbox doesn't exist in DOM
-                    if(!$.contains(document, this)){
+                    if (!$.contains(document, this)) {
                         // If checkbox is checked
-                        if(this.checked){
+                        if (this.checked) {
                             // Create a hidden element
                             $(form).append(
-                               $('<input>')
-                                  .attr('type', 'hidden')
-                                  .attr('name', this.name)
-                                  .val(this.value)
+                                $('<input>')
+                                .attr('type', 'hidden')
+                                .attr('name', this.name)
+                                .val(this.value)
                             );
                         }
                     }
@@ -190,20 +215,21 @@
                 success: onSuccessCallback
             });
         }
+
         //================================================================================
-        var $$ = function (id) {
-            return document.getElementById(id);
-        },
-    container = $$('hsIncludeExclude'),
-    containerOrder = $$('hsOrder'),
-    autosave = $$('autosave'),
-    load = $$('load'),
-    save = $$('save'),
-    autosaveNotification,
-    hot,
-    hotOrder,
-    dataInput,
-        dataInputOrder;
+        var $$ = function(id) {
+                return document.getElementById(id);
+            },
+            container = $$('hsIncludeExclude'),
+            containerOrder = $$('hsOrder'),
+            autosave = $$('autosave'),
+            load = $$('load'),
+            save = $$('save'),
+            autosaveNotification,
+            hot,
+            hotOrder,
+            dataInput,
+            dataInputOrder;
 
         function cbSwitchToOrderFunction(obj) {
             var $this = $(obj);
@@ -222,7 +248,8 @@
                 loadIncludeExclude();
             }
         }
-        $(document).ready(function () {
+
+        $(document).ready(function() {
             cbSwitchToOrderFunction($('#cbSwitchToOrder'));
         });
 
@@ -237,12 +264,13 @@
             rowHeaders: true,
             colHeaders: false,
             dataSchema: { Id: null, Name: null, RecommendedQuantity: null, Quantity: null },
-            columns: [//TODO: change colorbackground for readonly
-              //{ Data: 'CategoryId', readOnly: true },
-              { data: 'Name', readOnly: true },
-              { data: 'IsChecked', type: 'checkbox' },
+            columns: [
+//TODO: change colorbackground for readonly
+                //{ Data: 'CategoryId', readOnly: true },
+                { data: 'Name', readOnly: true },
+                { data: 'IsChecked', type: 'checkbox' },
             ],
-            afterChange: function (change, source) {
+            afterChange: function(change, source) {
                 if (source === 'loadData') {
                     return; //don't save this change
                 }
@@ -252,8 +280,8 @@
         });
 
         function loadIncludeExclude() {
-            postHelper('@Url.Action("PopulateData")', {id : @Model.Id, isInEx: true},
-                function (data, textStatus, XMLHttpRequest) {
+            postHelper('@Url.Action("PopulateData")', { id: @Model.Id, isInEx: true },
+                function(data, textStatus, XMLHttpRequest) {
                     console.log("client received: " + data);
 
                     dataInput = JSON.parse(data);
@@ -267,28 +295,27 @@
 
             //only send checked items to server
             var dataOutputFiltered = [];
-            for (i = 0; i < dataInput.length; i++) {
-                if (dataInput[i].IsChecked == true) {
+            for (var i = 0; i < dataInput.length; i++) {
+                if (dataInput[i].IsChecked === true) {
                     dataOutputFiltered.push(dataInput[i]);
                 }
             }
 
             postHelper('@Url.Action("IncludeExcludeNnData")',
                 { id: @Model.Id, data: dataOutputFiltered },
-                function (data, textStatus, XMLHttpRequest) {
+                function(data, textStatus, XMLHttpRequest) {
                     var dataObject = JSON.parse(data);
-                    if (dataObject.Status = "Ok") {
+                    if (dataObject.Status === "Ok") {
                         location.reload();
-                        //window.location.href = '@Url.Action("Edit", new { id = Model.Id})';
-                    }
-                    else {
+                        //window.location.href = '@Url.Action("Edit", new {id = Model.Id})';
+                    } else {
                         console.log("error IncludeExcludeNnData");
                     }
                 });
         }
 
         //================================================================================
-        function SortByRanking(a, b){
+        function SortByRanking(a, b) {
             var aName = a.Ranking;
             var bName = b.Ranking;
             return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
@@ -301,20 +328,20 @@
             colHeaders: false,
             manualRowMove: true,
             dataSchema: { Id: null, Name: null, RecommendedQuantity: null, Quantity: null },
-            columns: [//TODO: change colorbackground for readonly
-              //{ Data: 'CategoryId', readOnly: true },
-              { data: 'Name', readOnly: true },
-              { data: 'Ranking', readOnly: true },
-              //{ Data: 'IsChecked', type: 'checkbox' },
+            columns: [
+//TODO: change colorbackground for readonly
+                //{ Data: 'CategoryId', readOnly: true },
+                { data: 'Name', readOnly: true },
+                { data: 'Ranking', readOnly: true },
+                //{ Data: 'IsChecked', type: 'checkbox' },
             ],
-            afterRowMove: function (startRow, endRow) {
+            afterRowMove: function(startRow, endRow) {
                 if (startRow > endRow) {
                     dataInputOrder[startRow].Ranking = dataInputOrder[endRow].Ranking;
                     for (var i = endRow; i <= startRow - 1; i++) {
                         dataInputOrder[i].Ranking++;
                     }
-                }
-                else {
+                } else {
                     dataInputOrder[startRow].Ranking = dataInputOrder[endRow].Ranking;
                     for (var i = startRow + 1; i <= endRow; i++) {
                         dataInputOrder[i].Ranking--;
@@ -326,8 +353,8 @@
         });
 
         function loadOrder() {
-            postHelper('@Url.Action("PopulateData")', {id : @Model.Id, isInEx: false},
-                function (data, textStatus, XMLHttpRequest) {
+            postHelper('@Url.Action("PopulateData")', { id: @Model.Id, isInEx: false },
+                function(data, textStatus, XMLHttpRequest) {
                     console.log("client received: " + data);
 
                     dataInputOrder = JSON.parse(data);
@@ -335,24 +362,24 @@
 
                 });
         }
+
         function saveOrder() {
             console.log("local Data: " + JSON.stringify({ data: dataInputOrder }));
 
             postHelper('@Url.Action("SortNnData")',
                 { id: @Model.Id, data: dataInputOrder },
-                function (data, textStatus, XMLHttpRequest) {
+                function(data, textStatus, XMLHttpRequest) {
                     var dataObject = JSON.parse(data);
                     if (dataObject.Status = "Ok") {
                         location.reload();
-                        //window.location.href = '@Url.Action("Edit", new { id = Model.Id, isInEx = false})';
-                    }
-                    else {
+                        //window.location.href = '@Url.Action("Edit", new {id = Model.Id, isInEx = false})';
+                    } else {
                         console.log("error SortNnData");
                     }
                 });
         }
 
 
-
     </script>
 }
+;
