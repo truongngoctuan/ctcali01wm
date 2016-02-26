@@ -109,20 +109,15 @@
         function saveIncludeExclude2() {
             window.tableNN.Save();
         }
+        
+        function saveOrder() {
+            window.sortingNN.Save();
+        }
 
-        var $$ = function(id) {
-            return document.getElementById(id);
-        },
-            container = $$('hsIncludeExclude'),
-            containerOrder = $$('hsOrder'),
-            autosave = $$('autosave'),
-            load = $$('load'),
-            save = $$('save'),
-            autosaveNotification,
-            hot,
-            hotOrder,
-            dataInput,
-            dataInputOrder;
+        //switch
+        $('#cbSwitchToOrder').click(function() {
+            cbSwitchToOrderFunction(this);
+        });
 
         function cbSwitchToOrderFunction(obj) {
             var $this = $(obj);
@@ -167,6 +162,7 @@
                 ]);
 
             window.sortingNN = new HandsonTableSorting(@Model.Id, "@Url.Action("PopulateData")", '@Url.Action("SortNnData")',
+                "hsOrder",
                 ["@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Name))",
                 "@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Ranking))"],
                 [
@@ -176,18 +172,5 @@
             cbSwitchToOrderFunction($('#cbSwitchToOrder'));
         });
 
-        //switch
-        $('#cbSwitchToOrder').click(function() {
-            cbSwitchToOrderFunction(this);
-        });
-
-        //================================================================================
-
-        function saveOrder() {
-            window.sortingNN.Save();
-        }
-
-
     </script>
 }
-;

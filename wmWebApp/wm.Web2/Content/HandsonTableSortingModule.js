@@ -1,10 +1,15 @@
 ﻿//http://stackoverflow.com/questions/939032/jquery-pass-more-parameters-into-callback
 function HandsonTableSorting(objectId, urlLoad, urlSave,
+    tableId,
     headersPredefine, columnsPredefine
     ) {
     this.objectId = objectId;
+
     this.urlLoad = urlLoad;
     this.urlSave = urlSave;
+
+    this.tableId = tableId;
+
     this.headersPredefine = headersPredefine;
     this.columnsPredefine = columnsPredefine;
 
@@ -14,7 +19,7 @@ function HandsonTableSorting(objectId, urlLoad, urlSave,
         }
         this.isInit = true;
 
-        this.hotOrder = new Handsontable(containerOrder, {
+        this.hotOrder = new Handsontable(document.getElementById(tableId), {
             startRows: 1,
             startCols: 2,
             rowHeaders: true,
