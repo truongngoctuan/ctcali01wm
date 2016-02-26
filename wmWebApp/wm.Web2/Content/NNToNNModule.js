@@ -1,27 +1,29 @@
-﻿function NNToNN(urlList) {
+﻿function NNToNN(urlList, select_all_counter, select_all_length, table) {
     this.urlList = urlList;
-    this.select_all_counter = 0;
-    this.select_all_length = 0;
     this.init = function () {
-        this.table = $('#example').DataTable({
-            'ajax': {
-                "type": "POST",
-                "url": this.urlList,
-                "contentType": 'application/json; charset=utf-8',
-                //'data': function(data) {//modify sending data
-                //     return JSON.stringify(data);
-                //},
-                "dataSrc": function (json) {
-                    this.select_all_counter = 0;
-                    this.select_all_length = json.data.length;
-                    for (var i = 0; i < json.data.length; i++) {
-                        if (json.data[i].IsChecked) {
-                            UpdateSelectAll(1);
-                        }
-                    }
+            table = $('#example').DataTable({
+                'ajax': {
+                    "type": "POST",
+                    "url": this.urlList,
+                    "contentType": 'application/json; charset=utf-8',
+                    //'data': function(data) {//modify sending data
+                    //     return JSON.stringify(data);
+                    //},
+                    "dataSrc": function(sa_counter, sa_length) {
+                        return function(json) {
+                            sa_counter = 0;
+                            sa_length = json.data.length;
+                            for (var i = 0; i < json.data.length; i++) {
+                                if (json.data[i].IsChecked) {
+                                    UpdateSelectAll(sa_counter, sa_length, 1);
+                                }
+                            }
 
-                    return json.data;
-                }
+                            return json.data;
+                        }//end function(json)
+                    }(select_all_counter, select_all_length, json)
+        
+
             },
             "columns": [
                 {
@@ -54,7 +56,7 @@
                 select_all_counter = 0;
             }
             // Get all rows with search applied
-            var rows = this.table.rows({ 'search': 'applied' }).nodes();
+            var rows = table.rows({ 'search': 'applied' }).nodes();
             // Check/uncheck checkboxes for all rows in the table
             $('input[type="checkbox"]', rows).prop('checked', this.checked);
         });
@@ -63,30 +65,35 @@
         $('#example tbody').on('change', 'input[type="checkbox"]', function () {
             // If checkbox is not checked
             if (!this.checked) {
-                UpdateSelectAll(-1);
+                UpdateSelectAll(select_all_counter, select_all_length, - 1);
             } else {
-                UpdateSelectAll(1);
+                UpdateSelectAll(select_all_counter, select_all_length, 1);
             }
         });
 
     };
 
-    this.UpdateSelectAll = function (updateValue) {
-        this.select_all_counter += updateValue;
-        if (this.select_all_counter === this.select_all_length) {
-            $('#example-select-all').prop("indeterminate", false);
-            $('#example-select-all').prop("checked", true);
-        } else {
-            if (this.select_all_counter === 0) {
-                $('#example-select-all').prop("indeterminate", false);
-                $('#example-select-all').prop("checked", false);
-            } else {
-                $('#example-select-all').prop("indeterminate", true);
-            }
-        }
-    }
+
 
     
 
 
+}
+
+function UpdateSelectAll(select_all_counter, select_all_length, updateValue) {
+    console.log("before: " + select_all_counter + " " + select_all_length);
+    select_all_counter += updateValue;
+    console.log(select_all_counter + " " + select_all_length);
+    if (select_all_counter === select_all_length) {
+        $('#example-select-all').prop("indeterminate", false);
+        $('#example-select-all').prop("checked", true);
+    } else {
+        if (select_all_counter === 0) {
+            console.log("inde = false");
+            $('#example-select-all').prop("indeterminate", false);
+            $('#example-select-all').prop("checked", false);
+        } else {
+            $('#example-select-all').prop("indeterminate", true);
+        }
+    }
 }
