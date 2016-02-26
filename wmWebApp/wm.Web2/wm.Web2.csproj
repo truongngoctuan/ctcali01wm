@@ -284,6 +284,7 @@
     <Content Include="Content\crudHelper.js" />
     <Content Include="Content\lib\bootstrap\dist\css\bootstrap.css" />
     <Content Include="Content\lib\underscore\underscore-min.js" />
+    <Content Include="Content\NNToNNModule.js" />
     <Content Include="Content\Site.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
