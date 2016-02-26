@@ -11,6 +11,9 @@ namespace wm.Web2.Models
         public int Id { get; set; }
         public bool IsChecked { get; set; }
         public string Name { get; set; }
+        public string AccoutantCode { get; set; }
+        public string UnitName { get; set; }
+        public string GoodType { get; set; }
         public int Ranking { get; set; }
     }
 

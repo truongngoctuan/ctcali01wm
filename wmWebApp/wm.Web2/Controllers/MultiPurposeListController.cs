@@ -138,20 +138,23 @@ namespace wm.Web2.Controllers
             IEnumerable<MultiPurposeListInExItemViewModel> viewModel;
             if (isInEx)
             {//return all, with some checked items
-                var allList = _goodService.GetAll();
-                var filteredList = _multiPurposeListGoodService.Get((s => s.MultiPurposeListId == (int)id));
+                var allList = _goodService.GetAll("Unit").ToList();
+                var filteredList = _multiPurposeListGoodService.Get((s => s.MultiPurposeListId == (int)id)).ToList();
 
                 //binding Data
                 viewModel = allList.Select(t => new MultiPurposeListInExItemViewModel
                 {
                     Id = t.Id,
                     Name = t.Name,
+                    AccoutantCode = t.AccountantCode,
+                    UnitName = t.Unit.Name,
+                    GoodType = t.GoodType.ToString(),
                     IsChecked = filteredList.Any(s => s.GoodId == t.Id)
                 });
             }
             else
             {//return only checked item
-                var filteredList = _multiPurposeListGoodService.Get((s => s.MultiPurposeListId == (int)id), null, "Good");
+                var filteredList = _multiPurposeListGoodService.Get((s => s.MultiPurposeListId == (int)id), null, "Good,Good.Unit").ToList();
 
                 //binding Data
                 viewModel = filteredList
@@ -161,6 +164,9 @@ namespace wm.Web2.Controllers
                         Id = t.GoodId,
                         Name = t.Good.Name,
                         Ranking = t.Ranking,
+                        AccoutantCode = t.Good.AccountantCode,
+                        UnitName = t.Good.Unit.Name,
+                        GoodType = t.Good.GoodType.ToString(),
                         IsChecked = true
                     });
             }

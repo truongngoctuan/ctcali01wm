@@ -60,21 +60,21 @@
                 <thead>
                     <tr>
                         <th><input type="checkbox" name="select-all" value="1"></th>
-                        @*<th>AccountantCode</th>*@
+                        <th>AccountantCode</th>
                         <th>Id</th>
                         <th>Name</th>
-                        @*<th>UnitName</th>*@
-                        @*<th>GoodType</th>*@
+                        <th>UnitName</th>
+                        <th>GoodType</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <th></th>
-                        @*<th>AccountantCode</th>*@
+                        <th>AccountantCode</th>
                         <th>Id</th>
                         <th>Name</th>
-                        @*<th>UnitName</th>
-                            <th>GoodType</th>*@
+                        <th>UnitName</th>
+                        <th>GoodType</th>
                     </tr>
                 </tfoot>
             </table>
@@ -111,7 +111,7 @@
                 "#example",
                 [
                 {
-                    "data": "@(HtmlHelpers.GetMemberInfo((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Id))",
+                    "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Id))",
                     'searchable': false,
                     'orderable': false,
                     'className': 'dt-body-center',
@@ -122,11 +122,11 @@
                         return '<input type="checkbox" name="id[]" value="' + data + '">';
                     }
                 },
-                //{ "data": "AccountantCode" },
-                { "data": "@(HtmlHelpers.GetMemberInfo((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Id))" },
-                { "data": "@(HtmlHelpers.GetMemberInfo((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Name))" },
-                //{ "data": "UnitName" },
-                //{ "data": "GoodType" }
+                { "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.AccoutantCode))" },
+                { "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Id))" },
+                { "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Name))" },
+                { "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.UnitName))" },
+                { "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Ranking))" }
                 ]);
 
         });

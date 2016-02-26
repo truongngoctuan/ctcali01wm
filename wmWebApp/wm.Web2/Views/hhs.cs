@@ -10,10 +10,10 @@ using System.Web.Mvc;
 
 namespace System.Web
 {
-    public static class HtmlHelpers
+    public static class hhs
     {
         //http://stackoverflow.com/a/273971/3161505
-        public static string GetMemberInfo<T, U>(Expression<Func<T, U>> expression)
+        public static string GetName<T, U>(Expression<Func<T, U>> expression)
         {
             var member = expression.Body as MemberExpression;
             if (member != null)
