@@ -107,11 +107,11 @@
     <script>
         var table;
         $(document).ready(function() {
-            window.tableNN = new NNToNN(@Model.Id, "@Url.Action("List")", "@Url.Action("IncludeExcludeNnData")", 
+            window.tableNN = new NNToNN(@Model.Id, "@Url.Action("List")", "@Url.Action("IncludeExcludeNnData")",
                 "#example",
                 [
                 {
-                    "data": "Id",
+                    "data": "@(HtmlHelpers.GetMemberInfo((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Id))",
                     'searchable': false,
                     'orderable': false,
                     'className': 'dt-body-center',
@@ -123,11 +123,11 @@
                     }
                 },
                 //{ "data": "AccountantCode" },
-                { "data": "Id" },
-                { "data": "Name" },
+                { "data": "@(HtmlHelpers.GetMemberInfo((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Id))" },
+                { "data": "@(HtmlHelpers.GetMemberInfo((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Name))" },
                 //{ "data": "UnitName" },
                 //{ "data": "GoodType" }
-            ]);
+                ]);
 
         });
 
