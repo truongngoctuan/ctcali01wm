@@ -104,38 +104,12 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Content/NNToNNModule.js"></script>
+    <script src="~/Content/HandsonTableSortingModule.js"></script>
     <script>
-        var table;
-        $(document).ready(function() {
-            window.tableNN = new NNToNN(@Model.Id, "@Url.Action("List")", "@Url.Action("IncludeExcludeNnData")",
-                "#example",
-                [
-                {
-                    "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Id))",
-                    'searchable': false,
-                    'orderable': false,
-                    'className': 'dt-body-center',
-                    'render': function (data, type, full, meta) {
-                        if (full.IsChecked) {
-                            return '<input type="checkbox" name="id[]" value="' + data + '" checked="checked">';
-                        }
-                        return '<input type="checkbox" name="id[]" value="' + data + '">';
-                    }
-                },
-                { "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.AccoutantCode))" },
-                { "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Id))" },
-                { "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Name))" },
-                { "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.UnitName))" },
-                { "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Ranking))" }
-                ]);
-
-        });
-
         function saveIncludeExclude2() {
             window.tableNN.Save();
         }
-    </script>
-    <script>
+
         var $$ = function(id) {
             return document.getElementById(id);
         },
@@ -158,7 +132,7 @@
                 //load ordering
                 $("#groupIncludeExclude").hide();
                 $("#groupOrder").show();
-                loadOrder();
+                window.sortingNN.init();
             } else {
                 // the checkbox was unchecked
                 //load include/exclude
@@ -170,6 +144,35 @@
         }
 
         $(document).ready(function() {
+            window.tableNN = new NNToNN(@Model.Id, "@Url.Action("List")", "@Url.Action("IncludeExcludeNnData")",
+                "#example",
+                [
+                    {
+                        "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Id))",
+                        'searchable': false,
+                        'orderable': false,
+                        'className': 'dt-body-center',
+                        'render': function (data, type, full, meta) {
+                            if (full.IsChecked) {
+                                return '<input type="checkbox" name="id[]" value="' + data + '" checked="checked">';
+                            }
+                            return '<input type="checkbox" name="id[]" value="' + data + '">';
+                        }
+                    },
+                    { "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.AccoutantCode))" },
+                    { "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Id))" },
+                    { "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Name))" },
+                    { "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.UnitName))" },
+                    { "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Ranking))" }
+                ]);
+
+            window.sortingNN = new HandsonTableSorting(@Model.Id, "@Url.Action("PopulateData")", '@Url.Action("SortNnData")',
+                ["@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Name))",
+                "@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Ranking))"],
+                [
+                { data: "@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Name))", readOnly: true },
+                { data: "@(hhs.GetName((wm.Web2.Models.MultiPurposeListInExItemViewModel p) => p.Ranking))", readOnly: true },
+                ]);
             cbSwitchToOrderFunction($('#cbSwitchToOrder'));
         });
 
@@ -178,80 +181,10 @@
             cbSwitchToOrderFunction(this);
         });
 
-        function loadIncludeExclude() {
-            postHelper('@Url.Action("PopulateData")', { id: @Model.Id, isInEx: true },
-                function(data, textStatus, XMLHttpRequest) {
-                    console.log("client received: " + data);
-
-                    dataInput = JSON.parse(data);
-                    hot.loadData(dataInput);
-
-                });
-        }
-
         //================================================================================
-        function SortByRanking(a, b) {
-            var aName = a.Ranking;
-            var bName = b.Ranking;
-            return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
-        }
-
-        hotOrder = new Handsontable(containerOrder, {
-            startRows: 1,
-            startCols: 2,
-            rowHeaders: true,
-            colHeaders: false,
-            manualRowMove: true,
-            dataSchema: { Id: null, Name: null, RecommendedQuantity: null, Quantity: null },
-            columns: [
-//TODO: change colorbackground for readonly
-                //{ Data: 'CategoryId', readOnly: true },
-                { data: 'Name', readOnly: true },
-                { data: 'Ranking', readOnly: true },
-                //{ Data: 'IsChecked', type: 'checkbox' },
-            ],
-            afterRowMove: function(startRow, endRow) {
-                if (startRow > endRow) {
-                    dataInputOrder[startRow].Ranking = dataInputOrder[endRow].Ranking;
-                    for (var i = endRow; i <= startRow - 1; i++) {
-                        dataInputOrder[i].Ranking++;
-                    }
-                } else {
-                    dataInputOrder[startRow].Ranking = dataInputOrder[endRow].Ranking;
-                    for (var i = startRow + 1; i <= endRow; i++) {
-                        dataInputOrder[i].Ranking--;
-                    }
-                }
-                dataInputOrder.sort(SortByRanking);
-                console.log("Move row: " + startRow + " " + endRow);
-            }
-        });
-
-        function loadOrder() {
-            postHelper('@Url.Action("PopulateData")', { id: @Model.Id, isInEx: false },
-                function(data, textStatus, XMLHttpRequest) {
-                    console.log("client received: " + data);
-
-                    dataInputOrder = JSON.parse(data);
-                    hotOrder.loadData(dataInputOrder);
-
-                });
-        }
 
         function saveOrder() {
-            console.log("local Data: " + JSON.stringify({ data: dataInputOrder }));
-
-            postHelper('@Url.Action("SortNnData")',
-                { id: @Model.Id, data: dataInputOrder },
-                function(data, textStatus, XMLHttpRequest) {
-                    var dataObject = JSON.parse(data);
-                    if (dataObject.Status = "Ok") {
-                        location.reload();
-                        //window.location.href = '@Url.Action("Edit", new {id = Model.Id, isInEx = false})';
-                    } else {
-                        console.log("error SortNnData");
-                    }
-                });
+            window.sortingNN.Save();
         }
 
 
