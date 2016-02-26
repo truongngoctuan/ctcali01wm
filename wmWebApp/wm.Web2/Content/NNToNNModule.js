@@ -1,5 +1,8 @@
-﻿function NNToNN(urlList, select_all_counter, select_all_length, table) {
+﻿//http://stackoverflow.com/questions/939032/jquery-pass-more-parameters-into-callback
+function NNToNN(urlList, select_all_counter, select_all_length, table) {
     this.urlList = urlList;
+    this.sa_counter = 0;
+    this.sa_length = 0;
     this.init = function () {
             table = $('#example').DataTable({
                 'ajax': {
@@ -9,19 +12,19 @@
                     //'data': function(data) {//modify sending data
                     //     return JSON.stringify(data);
                     //},
-                    "dataSrc": function(sa_counter, sa_length) {
+                    "dataSrc": function(oo) {
                         return function(json) {
-                            sa_counter = 0;
-                            sa_length = json.data.length;
+                            oo.sa_counter = 0;
+                            oo.sa_length = json.data.length;
                             for (var i = 0; i < json.data.length; i++) {
                                 if (json.data[i].IsChecked) {
-                                    UpdateSelectAll(sa_counter, sa_length, 1);
+                                    oo.UpdateSelectAll(1);
                                 }
                             }
 
                             return json.data;
                         }//end function(json)
-                    }(select_all_counter, select_all_length, json)
+                    }(this)
         
 
             },
@@ -62,20 +65,39 @@
         });
 
         // Handle click on checkbox to set state of "Select all" control
-        $('#example tbody').on('change', 'input[type="checkbox"]', function () {
-            // If checkbox is not checked
-            if (!this.checked) {
-                UpdateSelectAll(select_all_counter, select_all_length, - 1);
-            } else {
-                UpdateSelectAll(select_all_counter, select_all_length, 1);
-            }
-        });
+        $('#example tbody').on('change', 'input[type="checkbox"]', function(oo) {
+            return function () {
+                // If checkbox is not checked
+                if (!this.checked) {
+                    oo.UpdateSelectAll(-1);
+                } else {
+                    oo.UpdateSelectAll(1);
+                }
+            }//end of function()
+            }(this)
+
+        );
 
     };
 
 
-
-    
+    this.UpdateSelectAll = function(updateValue) {
+        console.log("before: " + this.sa_counter + " " + this.sa_length);
+        this.sa_counter += updateValue;
+        console.log(this.sa_counter + " " + this.sa_length);
+        if (this.sa_counter === this.sa_length) {
+            $('#example-select-all').prop("indeterminate", false);
+            $('#example-select-all').prop("checked", true);
+        } else {
+            if (this.sa_counter === 0) {
+                console.log("inde = false");
+                $('#example-select-all').prop("indeterminate", false);
+                $('#example-select-all').prop("checked", false);
+            } else {
+                $('#example-select-all').prop("indeterminate", true);
+            }
+        }
+    };
 
 
 }
