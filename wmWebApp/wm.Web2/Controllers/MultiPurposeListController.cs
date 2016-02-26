@@ -188,7 +188,7 @@ namespace wm.Web2.Controllers
             }) ?? new List<MultiPurposeListGood>();
 
             var removeList = oldLinkingList.Where(t => !newLinkingList.Any(u => u.GoodId == t.GoodId));
-            var editList = oldLinkingList.Where(t => newLinkingList.Any(u => u.GoodId == t.GoodId));
+            var editList = oldLinkingList.Where(t => newLinkingList.Any(u => u.GoodId == t.GoodId)).OrderBy(t => t.Ranking);
             var newList = newLinkingList.Where(t => !oldLinkingList.Any(u => u.GoodId == t.GoodId));
 
             //remove

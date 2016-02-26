@@ -15,6 +15,7 @@ function HandsonTableSorting(objectId, urlLoad, urlSave,
 
     this.init = function () {
         if (this.isInit) {
+            this.hotOrder.render();
             return;
         }
         this.isInit = true;
@@ -51,8 +52,8 @@ function HandsonTableSorting(objectId, urlLoad, urlSave,
                 return function (data, textStatus, XMLHttpRequest) {
                     console.log("client received: " + data);
 
-                    oo.dataInputOrder = JSON.parse(data);
-                    oo.hotOrder.loadData(oo.dataInputOrder);
+                    oo.dataInputOrder = JSON.parse(data);//clone data to avoid conflict
+                    oo.hotOrder.loadData(JSON.parse(data));
 
                 }
             }(this));
@@ -66,7 +67,8 @@ function HandsonTableSorting(objectId, urlLoad, urlSave,
                             return function (data, textStatus, XMLHttpRequest) {
                                 var dataObject = JSON.parse(data);
                                 if (dataObject.Status === "Ok") {
-                                    location.reload();
+                                    //location.reload();
+                                    oo.hotOrder.render();
                                 } else {
                                     console.log("error SortNnData");
                                 }
