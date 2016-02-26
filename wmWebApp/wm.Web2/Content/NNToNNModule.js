@@ -1,31 +1,40 @@
 ﻿//http://stackoverflow.com/questions/939032/jquery-pass-more-parameters-into-callback
-function NNToNN(urlList, select_all_counter, select_all_length, table) {
+function NNToNN(objectId, urlList, urlSave,
+    tableId
+    ) {
+    this.objectId = objectId;
+
     this.urlList = urlList;
+    this.urlSave = urlSave;
+
+    this.tableId = tableId;
+
+
     this.sa_counter = 0;
     this.sa_length = 0;
     this.init = function () {
-            table = $('#example').DataTable({
-                'ajax': {
-                    "type": "POST",
-                    "url": this.urlList,
-                    "contentType": 'application/json; charset=utf-8',
-                    //'data': function(data) {//modify sending data
-                    //     return JSON.stringify(data);
-                    //},
-                    "dataSrc": function(oo) {
-                        return function(json) {
-                            oo.sa_counter = 0;
-                            oo.sa_length = json.data.length;
-                            for (var i = 0; i < json.data.length; i++) {
-                                if (json.data[i].IsChecked) {
-                                    oo.UpdateSelectAll(1);
-                                }
+        this.table = $(this.tableId).DataTable({
+            'ajax': {
+                "type": "POST",
+                "url": this.urlList,
+                "contentType": 'application/json; charset=utf-8',
+                //'data': function(data) {//modify sending data
+                //     return JSON.stringify(data);
+                //},
+                "dataSrc": function (oo) {
+                    return function (json) {
+                        oo.sa_counter = 0;
+                        oo.sa_length = json.data.length;
+                        for (var i = 0; i < json.data.length; i++) {
+                            if (json.data[i].IsChecked) {
+                                oo.UpdateSelectAll(1);
                             }
+                        }
 
-                            return json.data;
-                        }//end function(json)
-                    }(this)
-        
+                        return json.data;
+                    }//end function(json)
+                }(this)
+
 
             },
             "columns": [
@@ -52,20 +61,25 @@ function NNToNN(urlList, select_all_counter, select_all_length, table) {
 
 
         // Handle click on "Select all" control
-        $('#example-select-all').on('click', function () {
-            if (this.checked) {
-                select_all_counter = select_all_length;
-            } else {
-                select_all_counter = 0;
-            }
-            // Get all rows with search applied
-            var rows = table.rows({ 'search': 'applied' }).nodes();
-            // Check/uncheck checkboxes for all rows in the table
-            $('input[type="checkbox"]', rows).prop('checked', this.checked);
-        });
+        $(this.tableId + ' input[name="select-all"]').on('click',
+            function (oo) {
+                return function () {
+                    if (this.checked) {
+                        oo.sa_counter = oo.sa_length;
+                    } else {
+                        oo.sa_counter = 0;
+                    }
+                    // Get all rows with search applied
+                    var rows = oo.table.rows({ 'search': 'applied' }).nodes();
+                    // Check/uncheck checkboxes for all rows in the table
+                    $('input[type="checkbox"]', rows).prop('checked', this.checked);
+                }//end of function()
+            }(this)
+
+    );
 
         // Handle click on checkbox to set state of "Select all" control
-        $('#example tbody').on('change', 'input[type="checkbox"]', function(oo) {
+        $(this.tableId + ' tbody').on('change', 'input[type="checkbox"]', function (oo) {
             return function () {
                 // If checkbox is not checked
                 if (!this.checked) {
@@ -74,48 +88,52 @@ function NNToNN(urlList, select_all_counter, select_all_length, table) {
                     oo.UpdateSelectAll(1);
                 }
             }//end of function()
-            }(this)
+        }(this)
 
         );
 
     };
 
 
-    this.UpdateSelectAll = function(updateValue) {
+    this.UpdateSelectAll = function (updateValue) {
         console.log("before: " + this.sa_counter + " " + this.sa_length);
         this.sa_counter += updateValue;
         console.log(this.sa_counter + " " + this.sa_length);
         if (this.sa_counter === this.sa_length) {
-            $('#example-select-all').prop("indeterminate", false);
-            $('#example-select-all').prop("checked", true);
+            $(this.tableId + ' input[name="select-all"]').prop("indeterminate", false);
+            $(this.tableId + ' input[name="select-all"]').prop("checked", true);
         } else {
             if (this.sa_counter === 0) {
-                console.log("inde = false");
-                $('#example-select-all').prop("indeterminate", false);
-                $('#example-select-all').prop("checked", false);
+                $(this.tableId + ' input[name="select-all"]').prop("indeterminate", false);
+                $(this.tableId + ' input[name="select-all"]').prop("checked", false);
             } else {
-                $('#example-select-all').prop("indeterminate", true);
+                $(this.tableId + ' input[name="select-all"]').prop("indeterminate", true);
             }
         }
     };
 
+    this.Save = function () {
+        var dataOutputFiltered = [];
+        $(this.tableId + ' input[type="checkbox"]').each(function () {
+            if (this.checked) {
+                dataOutputFiltered.push({ Id: this.value, IsChecked: true, Name: "", Ranking: 0 });
+            };
+        });
 
-}
+        console.log(dataOutputFiltered);
 
-function UpdateSelectAll(select_all_counter, select_all_length, updateValue) {
-    console.log("before: " + select_all_counter + " " + select_all_length);
-    select_all_counter += updateValue;
-    console.log(select_all_counter + " " + select_all_length);
-    if (select_all_counter === select_all_length) {
-        $('#example-select-all').prop("indeterminate", false);
-        $('#example-select-all').prop("checked", true);
-    } else {
-        if (select_all_counter === 0) {
-            console.log("inde = false");
-            $('#example-select-all').prop("indeterminate", false);
-            $('#example-select-all').prop("checked", false);
-        } else {
-            $('#example-select-all').prop("indeterminate", true);
-        }
+        postHelper(this.urlSave,
+            { id: this.objectId, data: dataOutputFiltered },
+            function (data, textStatus, XMLHttpRequest) {
+                var dataObject = JSON.parse(data);
+                if (dataObject.Status === "Ok") {
+                    location.reload();
+                    //window.location.href = '@Url.Action("Edit", new {id = Model.Id})';
+                } else {
+                    console.log("error IncludeExcludeNnData");
+                }
+            });
     }
+
+
 }
