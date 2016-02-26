@@ -1,6 +1,7 @@
 ﻿//http://stackoverflow.com/questions/939032/jquery-pass-more-parameters-into-callback
 function NNToNN(objectId, urlList, urlSave,
-    tableId
+    tableId,
+    columnsPredefine
     ) {
     this.objectId = objectId;
 
@@ -9,6 +10,8 @@ function NNToNN(objectId, urlList, urlSave,
 
     this.tableId = tableId;
     this.isInit = false;
+
+    this.columnsPredefine = columnsPredefine;
 
     this.sa_counter = 0;
     this.sa_length = 0;
@@ -42,25 +45,7 @@ function NNToNN(objectId, urlList, urlSave,
 
 
             },
-            "columns": [
-                {
-                    "data": "Id",
-                    'searchable': false,
-                    'orderable': false,
-                    'className': 'dt-body-center',
-                    'render': function (data, type, full, meta) {
-                        if (full.IsChecked) {
-                            return '<input type="checkbox" name="id[]" value="' + data + '" checked="checked">';
-                        }
-                        return '<input type="checkbox" name="id[]" value="' + data + '">';
-                    }
-                },
-                //{ "data": "AccountantCode" },
-                { "data": "Id" },
-                { "data": "Name" },
-                //{ "data": "UnitName" },
-                //{ "data": "GoodType" }
-            ],
+            "columns": this.columnsPredefine,
             'order': [[1, 'asc']]
         });
 

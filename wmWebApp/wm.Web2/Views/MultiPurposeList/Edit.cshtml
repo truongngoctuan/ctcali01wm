@@ -107,7 +107,27 @@
     <script>
         var table;
         $(document).ready(function() {
-            window.tableNN = new NNToNN(@Model.Id, "@Url.Action("List")", "@Url.Action("IncludeExcludeNnData")", "#example");
+            window.tableNN = new NNToNN(@Model.Id, "@Url.Action("List")", "@Url.Action("IncludeExcludeNnData")", 
+                "#example",
+                [
+                {
+                    "data": "Id",
+                    'searchable': false,
+                    'orderable': false,
+                    'className': 'dt-body-center',
+                    'render': function (data, type, full, meta) {
+                        if (full.IsChecked) {
+                            return '<input type="checkbox" name="id[]" value="' + data + '" checked="checked">';
+                        }
+                        return '<input type="checkbox" name="id[]" value="' + data + '">';
+                    }
+                },
+                //{ "data": "AccountantCode" },
+                { "data": "Id" },
+                { "data": "Name" },
+                //{ "data": "UnitName" },
+                //{ "data": "GoodType" }
+            ]);
 
         });
 
