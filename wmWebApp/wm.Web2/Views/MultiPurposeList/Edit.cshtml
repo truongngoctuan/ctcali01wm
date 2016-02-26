@@ -35,30 +35,6 @@
     }
 </div>
 
-<div class="col-md-12">
-    <table id="example" class="display select" cellspacing="0" width="100%">
-        <thead>
-            <tr>
-                <th><input type="checkbox" name="select_all" value="1" id="example-select-all" checked="false"></th>
-                @*<th>AccountantCode</th>*@
-                <th>Name</th>
-                @*<th>UnitName</th>*@
-                @*<th>GoodType</th>*@
-            </tr>
-        </thead>
-        <tfoot>
-            <tr>
-                <th></th>
-                @*<th>AccountantCode</th>*@
-                <th>Name</th>
-                @*<th>UnitName</th>
-                <th>GoodType</th>*@
-            </tr>
-        </tfoot>
-    </table>
-    <button onclick="saveIncludeExclude2()">Save</button>
-</div>
-<form id="frm-example" action="@Url.Action()"></form>
 
 <div class="col-md-6 col-xs-12">
     <h4>Update good categories</h4>
@@ -68,20 +44,41 @@
         {
             <input type="checkbox" id="cbSwitchToOrder" />
         }
-        else {
+        else
+        {
             <input type="checkbox" id="cbSwitchToOrder" checked="checked" />
         }
         Enable sort
     </div>
+
+
+
     <div id="groupIncludeExclude">
         <div class="form-group row col-md-10 col-md-offset-2"> Check/Uncheck Items</div>
-        <div class="form-group row col-md-10 col-md-offset-2">
-            <div id="hsIncludeExclude" class=""></div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <button name="save" id="save" class="btn btn-danger" onclick="saveIncludeExclude()">Save</button>
-            </div>
+        <div class="col-md-12">
+            <table id="example" class="display select" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" name="select_all" value="1" id="example-select-all"></th>
+                        @*<th>AccountantCode</th>*@
+                        <th>Id</th>
+                        <th>Name</th>
+                        @*<th>UnitName</th>*@
+                        @*<th>GoodType</th>*@
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        @*<th>AccountantCode</th>*@
+                        <th>Id</th>
+                        <th>Name</th>
+                        @*<th>UnitName</th>
+                            <th>GoodType</th>*@
+                    </tr>
+                </tfoot>
+            </table>
+            <button onclick="saveIncludeExclude2()">Save</button>
         </div>
     </div>
     <div id="groupOrder">
@@ -109,6 +106,20 @@
     <script>
         window.select_all_counter = 0;
         window.select_all_length = 0;
+        function UpdateSelectAll(updateValue) {
+            window.select_all_counter += updateValue;
+            if (window.select_all_counter === window.select_all_length) {
+                $('#example-select-all').prop("indeterminate", false);
+                $('#example-select-all').prop("checked", true);
+            } else {
+                if (window.select_all_counter === 0) {
+                    $('#example-select-all').prop("indeterminate", false);
+                    $('#example-select-all').prop("checked", false);
+                } else {
+                    $('#example-select-all').prop("indeterminate", true);
+                }
+            }
+        }
         var table;
         $(document).ready(function() {
             table = $('#example').DataTable({
@@ -122,6 +133,12 @@
                     "dataSrc": function(json) {
                         window.select_all_counter = 0;
                         window.select_all_length = json.data.length;
+                        for (var i = 0; i < json.data.length; i++) {
+                            if (json.data[i].IsChecked) {
+                                UpdateSelectAll(1);
+                            }
+                        }
+
                         return json.data;
                     }
                 },
@@ -133,12 +150,13 @@
                         'className': 'dt-body-center',
                         'render': function(data, type, full, meta) {
                             if (full.IsChecked) {
-                                return '<input type="checkbox" name="id[]" value="' + data + '" checked="checked">';    
+                                return '<input type="checkbox" name="id[]" value="' + data + '" checked="checked">';
                             }
                             return '<input type="checkbox" name="id[]" value="' + data + '">';
                         }
                     },
                     //{ "data": "AccountantCode" },
+                    { "data": "Id" },
                     { "data": "Name" },
                     //{ "data": "UnitName" },
                     //{ "data": "GoodType" }
@@ -163,21 +181,9 @@
             $('#example tbody').on('change', 'input[type="checkbox"]', function() {
                 // If checkbox is not checked
                 if (!this.checked) {
-                    window.select_all_counter--;
-                    var el = $('#example-select-all').get(0);
-                    // If "Select all" control is checked and has 'indeterminate' property
-                    if (el && el.checked && ('indeterminate' in el)) {
-                        // Set visual state of "Select all" control
-                        // as 'indeterminate'
-                        el.indeterminate = true;
-                    }
+                    UpdateSelectAll(-1);
                 } else {
-                    window.select_all_counter++;
-                    console.log(window.select_all_counter + " " + window.select_all_length);
-                    if (window.select_all_counter === window.select_all_length) {
-                        $('#example-select-all').prop("indeterminate", false);
-                        $('#example-select-all').prop("checked", true);
-                    }
+                    UpdateSelectAll(1);
                 }
             });
 
@@ -187,14 +193,9 @@
         function saveIncludeExclude2() {
             var dataOutputFiltered = [];
             table.$('input[type="checkbox"]').each(function() {
-                // If checkbox doesn't exist in DOM
-                //if (!$.contains(document, this)) {
-                    // If checkbox is checked
-                    if (this.checked) {
-                        dataOutputFiltered.push({ Id: this.value, IsChecked : true, Name : "", Ranking : 0 });
-                    };
-
-                //}
+                if (this.checked) {
+                    dataOutputFiltered.push({ Id: this.value, IsChecked : true, Name : "", Ranking : 0 });
+                };
             });
 
             console.log(dataOutputFiltered);
@@ -255,7 +256,7 @@
                 //load include/exclude
                 $("#groupIncludeExclude").show();
                 $("#groupOrder").hide();
-                loadIncludeExclude();
+                loadIncludeExclude2();
             }
         }
 
@@ -268,27 +269,6 @@
             cbSwitchToOrderFunction(this);
         });
 
-        hot = new Handsontable(container, {
-            startRows: 1,
-            startCols: 2,
-            rowHeaders: true,
-            colHeaders: false,
-            dataSchema: { Id: null, Name: null, RecommendedQuantity: null, Quantity: null },
-            columns: [
-//TODO: change colorbackground for readonly
-                //{ Data: 'CategoryId', readOnly: true },
-                { data: 'Name', readOnly: true },
-                { data: 'IsChecked', type: 'checkbox' },
-            ],
-            afterChange: function(change, source) {
-                if (source === 'loadData') {
-                    return; //don't save this change
-                }
-                console.log("change: " + JSON.stringify(hot.getSourceDataAtRow(change[0][0])));
-
-            }
-        });
-
         function loadIncludeExclude() {
             postHelper('@Url.Action("PopulateData")', { id: @Model.Id, isInEx: true },
                 function(data, textStatus, XMLHttpRequest) {
@@ -297,30 +277,6 @@
                     dataInput = JSON.parse(data);
                     hot.loadData(dataInput);
 
-                });
-        }
-
-        function saveIncludeExclude() {
-            console.log("local Data: " + JSON.stringify({ data: dataInput }));
-
-            //only send checked items to server
-            var dataOutputFiltered = [];
-            for (var i = 0; i < dataInput.length; i++) {
-                if (dataInput[i].IsChecked === true) {
-                    dataOutputFiltered.push(dataInput[i]);
-                }
-            }
-
-            postHelper('@Url.Action("IncludeExcludeNnData")',
-                { id: @Model.Id, data: dataOutputFiltered },
-                function(data, textStatus, XMLHttpRequest) {
-                    var dataObject = JSON.parse(data);
-                    if (dataObject.Status === "Ok") {
-                        location.reload();
-                        //window.location.href = '@Url.Action("Edit", new {id = Model.Id})';
-                    } else {
-                        console.log("error IncludeExcludeNnData");
-                    }
                 });
         }
 

@@ -186,7 +186,7 @@ namespace wm.Web2.Controllers
             var newList = newLinkingList.Where(t => !oldLinkingList.Any(u => u.GoodId == t.GoodId));
 
             //remove
-            foreach (var item in removeList)
+            foreach (var item in removeList.ToList())
             {
                 _multiPurposeListGoodService.Delete(item);
             }
