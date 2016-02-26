@@ -78,7 +78,7 @@
                     </tr>
                 </tfoot>
             </table>
-            <button onclick="saveIncludeExclude2()">Save</button>
+            <button onclick="saveIncludeExclude2()" class="btn btn-danger">Save</button>
         </div>
     </div>
     <div id="groupOrder">
@@ -116,20 +116,6 @@
         }
     </script>
     <script>
-        //================================================================================
-        //helper
-        function postHelper(href, dataObject, onSuccessCallback) {
-            $.ajax({
-                url: href,
-                data: dataObject,
-                cache: false,
-                type: "POST",
-                dataType: "html",
-                success: onSuccessCallback
-            });
-        }
-
-        //================================================================================
         var $$ = function(id) {
             return document.getElementById(id);
         },

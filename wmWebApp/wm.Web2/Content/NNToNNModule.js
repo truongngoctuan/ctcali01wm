@@ -8,11 +8,16 @@ function NNToNN(objectId, urlList, urlSave,
     this.urlSave = urlSave;
 
     this.tableId = tableId;
-
+    this.isInit = false;
 
     this.sa_counter = 0;
     this.sa_length = 0;
     this.init = function () {
+        if (this.isInit) {
+            this.table.ajax.reload();
+            return;
+        }
+        this.isInit = true;
         this.table = $(this.tableId).DataTable({
             'ajax': {
                 "type": "POST",
