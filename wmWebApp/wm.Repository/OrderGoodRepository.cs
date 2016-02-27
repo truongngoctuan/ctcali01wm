@@ -7,7 +7,6 @@ namespace wm.Repository
 {
     public interface IOrderGoodRepository : IGenericRepository<OrderGood>
     {
-        OrderGood GetById(int orderId, int goodId);
         IEnumerable<OrderGood> GetByOrderIdRange(IEnumerable<int> orderIds, GoodType? type = null);
     }
 
@@ -17,10 +16,6 @@ namespace wm.Repository
               : base(context)
         {
 
-        }
-        public OrderGood GetById(int orderId, int goodId)
-        {
-            return FindBy(x => x.OrderId == orderId && x.GoodId == goodId).FirstOrDefault();
         }
         public IEnumerable<OrderGood> GetByOrderIdRange(IEnumerable<int> orderIds, GoodType? type = null)
         {

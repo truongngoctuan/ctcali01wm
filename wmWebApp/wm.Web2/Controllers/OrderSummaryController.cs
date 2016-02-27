@@ -20,7 +20,10 @@ namespace wm.Web2.Controllers
         public IOrderService OrderService { get; set; }
         public IBranchService BranchService { get; set; }
         public IGoodService GoodService { get; set; }
-        public OrderSummaryController(ApplicationUserManager userManager, IOrderSummaryService orderSummaryService, IOrderService orderService, IBranchService branchService, IGoodService goodService)
+        public IMultiPurposeListService MultiPurposeListService { get; set; }
+        public IMultiPurposeListGoodService MultiPurposeListGoodService { get; set; }
+        public IMultiPurposeListBranchService MultiPurposeListBranchService { get; set; }
+        public OrderSummaryController(ApplicationUserManager userManager, IOrderSummaryService orderSummaryService, IOrderService orderService, IBranchService branchService, IGoodService goodService, IMultiPurposeListService multiPurposeListService, IMultiPurposeListGoodService multiPurposeListGoodService, IMultiPurposeListBranchService multiPurposeListBranchService)
             : base(userManager)
         {
             PdfService = new PdfService();
@@ -28,25 +31,50 @@ namespace wm.Web2.Controllers
             OrderService = orderService;
             BranchService = branchService;
             GoodService = goodService;
+            MultiPurposeListService = multiPurposeListService;
+            MultiPurposeListGoodService = multiPurposeListGoodService;
+            MultiPurposeListBranchService = multiPurposeListBranchService;
+        }
+
+        private IEnumerable<SelectListItem> GetSelectMultiPurposeList()
+        {
+            var list = MultiPurposeListService.GetAll();
+            return list.Select(o => new SelectListItem
+            {
+                Value = o.Id.ToString(),
+                Text = o.Name
+            });
         }
 
         // GET: OrderSummary
         public ActionResult Index()
         {
-            var branches = BranchService.GetAll();//TODO: filter
-            var goods = GoodService.Get((s => s.GoodType == GoodType.KitChenGood)); //filter
-
+            
+            var multiPurposeItem = MultiPurposeListService.GetAll().First();
+            var goods = MultiPurposeListGoodService.Get((s => s.MultiPurposeListId == multiPurposeItem.Id), (s => s.OrderBy(t => t.Ranking)), "Good").Select(s => s.Good);
+            var branches = MultiPurposeListBranchService.Get((s => s.MultiPurposeListId == multiPurposeItem.Id), (s => s.OrderBy(t => t.Ranking)), "Branch").Select(s => s.Branch);
             ViewBag.branches = branches.Select(s => new { Id = s.Id, Name = s.Name });
             ViewBag.goods = goods.Select(s => new { Id = s.Id, Name = s.Name });
+
+            var multiPurposeList = GetSelectMultiPurposeList();
+            multiPurposeList.First().Selected = true;
+            ViewBag.multiPurposeList = multiPurposeList;
             return View();
         }
 
         [HttpPost]
-        public ActionResult SummaryMainKitchenOrder(DateTime date)
+        public ActionResult SummaryMainKitchenOrder(DateTime date, int listId)
         {
             var orders = OrderService.Get((s => s.OrderDay == date), null, "Branch,OrderGoods");
-            var branches = BranchService.GetAll().ToList();//TODO: filter
-            var goods = GoodService.Get((s => s.GoodType == GoodType.KitChenGood)); //filter
+
+            //use goods from a list
+            var multiPurposeItem = MultiPurposeListService.GetById(listId);
+            var goods = MultiPurposeListGoodService.Get((s => s.MultiPurposeListId == multiPurposeItem.Id),
+                (s => s.OrderBy(t => t.Ranking)), "Good")
+                .Select(s => s.Good).ToList();
+            var branches = MultiPurposeListBranchService.Get((s => s.MultiPurposeListId == multiPurposeItem.Id), 
+                (s => s.OrderBy(t => t.Ranking)), "Branch")
+                .Select(s => s.Branch).ToList();
 
             var result = OrderSummaryService.SummarizeMainKitchenOrder_Array(orders, goods, branches);
 
@@ -59,12 +87,17 @@ namespace wm.Web2.Controllers
             return Json(resultViewModel);
         }
 
-        public ActionResult SummaryMainKitchenOrderToPdf(DateTime date)
+        public ActionResult SummaryMainKitchenOrderToPdf(DateTime date, int listId)
         {
             //DateTime date = DateTime.Now.Date;
             var orders = OrderService.Get((s => s.OrderDay == date), null, "Branch,OrderGoods");
-            var branches = BranchService.GetAll().ToList();//TODO: filter
-            var goods = GoodService.Get((s => s.GoodType == GoodType.KitChenGood)); //filter
+            var multiPurposeItem = MultiPurposeListService.GetById(listId);
+            var goods = MultiPurposeListGoodService.Get((s => s.MultiPurposeListId == multiPurposeItem.Id),
+                (s => s.OrderBy(t => t.Ranking)), "Good")
+                .Select(s => s.Good).ToList();
+            var branches = MultiPurposeListBranchService.Get((s => s.MultiPurposeListId == multiPurposeItem.Id),
+                (s => s.OrderBy(t => t.Ranking)), "Branch")
+                .Select(s => s.Branch).ToList();
 
             var result = OrderSummaryService.SummarizeMainKitchenOrder_Array(orders, goods, branches);
 

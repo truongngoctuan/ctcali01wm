@@ -1,0 +1,290 @@
+﻿@model wm.Model.MultiPurposeList
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<div class="col-md-12 col-xs-12">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>GoodCategory</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-danger" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="col-md-7 col-xs-12">
+    <h4>Update good categories</h4>
+    <hr />
+    <div class="row form-group col-md-10 col-md-offset-2">
+        @if (ViewBag.isInEx == true)
+        {
+            <input type="checkbox" id="cbSwitchToOrder" />
+        }
+        else
+        {
+            <input type="checkbox" id="cbSwitchToOrder" checked="checked" />
+        }
+        Enable sort
+    </div>
+    <div id="groupIncludeExclude">
+        <div class="form-group row col-md-10 col-md-offset-2"> Check/Uncheck Items</div>
+        <div class="col-md-12">
+            <table id="example" class="display select" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" name="select-all" value="1"></th>
+                        <th>AccountantCode</th>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>UnitName</th>
+                        <th>GoodType</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th>AccountantCode</th>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>UnitName</th>
+                        <th>GoodType</th>
+                    </tr>
+                </tfoot>
+            </table>
+            <button onclick="saveIncludeExclude()" class="btn btn-danger">Save</button>
+        </div>
+    </div>
+    <div id="groupOrder">
+        <div class="form-group row col-md-10 col-md-offset-2"> Sort Items</div>
+        <div class="form-group row col-md-10 col-md-offset-2">
+            <div id="hsOrder" class=""></div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button name="save" id="save" class="btn btn-danger" onclick="saveOrder()">Save</button>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<div class="col-md-5 col-xs-12">
+    <h4>Update branches</h4>
+    <hr />
+    <div class="row form-group col-md-10 col-md-offset-2">
+        @if (ViewBag.isInEx == true)
+        {
+            <input type="checkbox" id="cbSwitchToOrder2" />
+        }
+        else
+        {
+            <input type="checkbox" id="cbSwitchToOrder2" checked="checked" />
+        }
+        Enable sort
+    </div>
+    <div id="groupIncludeExclude2">
+        <div class="form-group row col-md-10 col-md-offset-2"> Check/Uncheck Items</div>
+        <div class="col-md-12">
+            <table id="example2" class="display select" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" name="select-all" value="1"></th>
+                        <th>Id</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th>Id</th>
+                        <th>Name</th>
+                    </tr>
+                </tfoot>
+            </table>
+            <button onclick="saveIncludeExclude2()" class="btn btn-danger">Save</button>
+        </div>
+    </div>
+    <div id="groupOrder2">
+        <div class="form-group row col-md-10 col-md-offset-2"> Sort Items</div>
+        <div class="form-group row col-md-10 col-md-offset-2">
+            <div id="hsOrder2" class=""></div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button name="save" id="save" class="btn btn-danger" onclick="saveOrder2()">Save</button>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Content/NNToNNModule.js"></script>
+    <script src="~/Content/HandsonTableSortingModule.js"></script>
+    <script>
+        function saveIncludeExclude() {
+            window.tableNN.Save();
+        }
+
+        function saveOrder() {
+            window.sortingNN.Save();
+        }
+
+        //switch
+        $('#cbSwitchToOrder').click(function() {
+            cbSwitchToOrderFunction(this);
+        });
+
+        function cbSwitchToOrderFunction(obj) {
+            var $this = $(obj);
+            // $this will contain a reference to the checkbox
+            if ($this.is(':checked')) {
+                // the checkbox was checked
+                //load ordering
+                $("#groupIncludeExclude").hide();
+                $("#groupOrder").show();
+                window.sortingNN.init();
+            } else {
+                // the checkbox was unchecked
+                //load include/exclude
+                $("#groupIncludeExclude").show();
+                $("#groupOrder").hide();
+                window.tableNN.init();
+            }
+        }
+
+        $(document).ready(function() {
+            window.tableNN = new NNToNN(@Model.Id, "@Url.Action("List")", "@Url.Action("IncludeExcludeNnData")",
+                "#example",
+                [
+                    {
+                        "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListGoodInExItemViewModel p) => p.Id))",
+                        'searchable': false,
+                        'orderable': false,
+                        'className': 'dt-body-center',
+                        'render': function(data, type, full, meta) {
+                            if (full.IsChecked) {
+                                return '<input type="checkbox" name="id[]" value="' + data + '" checked="checked">';
+                            }
+                            return '<input type="checkbox" name="id[]" value="' + data + '">';
+                        }
+                    },
+                    { "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListGoodInExItemViewModel p) => p.AccoutantCode))" },
+                    { "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListGoodInExItemViewModel p) => p.Id))" },
+                    { "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListGoodInExItemViewModel p) => p.Name))" },
+                    { "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListGoodInExItemViewModel p) => p.UnitName))" },
+                    { "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListGoodInExItemViewModel p) => p.Ranking))" }
+                ]);
+
+            window.sortingNN = new HandsonTableSorting(@Model.Id, "@Url.Action("PopulateData")", '@Url.Action("SortNnData")',
+                "hsOrder",
+                [
+                    "@(hhs.GetName((wm.Web2.Models.MultiPurposeListGoodInExItemViewModel p) => p.Name))",
+                    "@(hhs.GetName((wm.Web2.Models.MultiPurposeListGoodInExItemViewModel p) => p.Ranking))"
+                ],
+                [
+                    { data: "@(hhs.GetName((wm.Web2.Models.MultiPurposeListGoodInExItemViewModel p) => p.Name))", readOnly: true },
+                    { data: "@(hhs.GetName((wm.Web2.Models.MultiPurposeListGoodInExItemViewModel p) => p.Ranking))", readOnly: true },
+                ]);
+            cbSwitchToOrderFunction($('#cbSwitchToOrder'));
+        });
+
+    </script>
+
+    <script>
+        function saveIncludeExclude2() {
+            window.tableNN2.Save();
+        }
+
+        function saveOrder2() {
+            window.sortingNN2.Save();
+        }
+
+        //switch
+        $('#cbSwitchToOrder2').click(function() {
+            cbSwitchToOrderFunction2(this);
+        });
+
+        function cbSwitchToOrderFunction2(obj) {
+            var $this = $(obj);
+            // $this will contain a reference to the checkbox
+            if ($this.is(':checked')) {
+                // the checkbox was checked
+                //load ordering
+                $("#groupIncludeExclude2").hide();
+                $("#groupOrder2").show();
+                window.sortingNN2.init();
+            } else {
+                // the checkbox was unchecked
+                //load include/exclude
+                $("#groupIncludeExclude2").show();
+                $("#groupOrder2").hide();
+                window.tableNN2.init();
+            }
+        }
+
+        $(document).ready(function() {
+            window.tableNN2 = new NNToNN(@Model.Id, "@Url.Action("ListBranches")", "@Url.Action("IncludeExcludeNnDataBranches")",
+                "#example2",
+                [
+                    {
+                        "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListBranchInExItemViewModel p) => p.Id))",
+                        'searchable': false,
+                        'orderable': false,
+                        'className': 'dt-body-center',
+                        'render': function (data, type, full, meta) {
+                            if (full.IsChecked) {
+                                return '<input type="checkbox" name="id[]" value="' + data + '" checked="checked">';
+                            }
+                            return '<input type="checkbox" name="id[]" value="' + data + '">';
+                        }
+                    },
+                    { "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListBranchInExItemViewModel p) => p.Id))" },
+                    { "data": "@(hhs.GetName((wm.Web2.Models.MultiPurposeListBranchInExItemViewModel p) => p.Name))" },
+                ]);
+
+            window.sortingNN2 = new HandsonTableSorting(@Model.Id, "@Url.Action("PopulateDataBranches")", '@Url.Action("SortNnDataBranches")',
+                "hsOrder2",
+                ["@(hhs.GetName((wm.Web2.Models.MultiPurposeListBranchInExItemViewModel p) => p.Name))",
+                "@(hhs.GetName((wm.Web2.Models.MultiPurposeListBranchInExItemViewModel p) => p.Ranking))"],
+                [
+                { data: "@(hhs.GetName((wm.Web2.Models.MultiPurposeListBranchInExItemViewModel p) => p.Name))", readOnly: true },
+                { data: "@(hhs.GetName((wm.Web2.Models.MultiPurposeListBranchInExItemViewModel p) => p.Ranking))", readOnly: true },
+                ]);
+            cbSwitchToOrderFunction2($('#cbSwitchToOrder2'));
+        });
+
+    </script>
+}

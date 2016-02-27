@@ -5,22 +5,29 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@ViewBag.Title</h2>
+<div class="container">
+    <h2>@ViewBag.Title</h2>
 
 
-<div class="col-md-12">
-    <div id="dtpicker01" class="col-md-3"></div>
-    <div class="col-md-9">
-        <div class="form-group">
-            <button onclick="ToPdf()" class="btn btn-primary">Get Pdf</button>
+    <div class="col-md-6 form-group-with-header-red">
+        <div id="dtpicker01" class="col-md-5"></div>
+        <div class="col-md-7">
+            <div class="form-group col-md-12">
+                @Html.DropDownList("multiList", (IEnumerable<SelectListItem>)ViewBag.multiPurposeList, htmlAttributes: new { @class = "js-example-basic-single col-md-12" })
+            </div>
+            <div class="form-group col-md-12">
+                <button onclick="ToPdf()" class="btn btn-primary col-md-12">Get Pdf</button>
+            </div>
+            <div class="form-group col-md-12">
+                <button class="btn btn-primary col-md-12" onclick="updateSummary()">Update summary</button>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="col-md-12">
-    <button class="btn btn-primary" onclick="updateSummary()">Update summary</button>
-    <div class="form-group col-md-12">
-        <div id="hsIncludeExclude" class=""></div>
+    <div class="col-md-12 form-group-with-header-blue">
+        <div class="form-group col-md-12">
+            <div id="hsIncludeExclude" class=""></div>
+        </div>
     </div>
 </div>
 
@@ -29,8 +36,14 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
+        $(document).ready(function() {
+            $(".js-example-basic-single").select2({
+                theme: "bootstrap"
+            });
+        });
+
         function ToPdf() {
-            window.location.href = '@Url.Action("SummaryMainKitchenOrderToPdf", "OrderSummary")' + '?date=' + getDateFromDatePicker();
+            window.location.href = '@Url.Action("SummaryMainKitchenOrderToPdf", "OrderSummary")' + '?date=' + getDateFromDatePicker() + '&listId=' + getlistIdFromSelector();
         }
 
         function updateSummary() {
@@ -53,8 +66,8 @@
         //================================================================================
 
         var $$ = function(id) {
-                return document.getElementById(id);
-            },
+            return document.getElementById(id);
+        },
             container = $$('hsIncludeExclude'),
             autosave = $$('autosave'),
             load = $$('load'),
@@ -69,8 +82,11 @@
         var dtpicker01 = $('#dtpicker01'),
             getDateFromDatePicker = function() {
                 return moment(dtpicker01.datepicker("getUTCDate")).format("YYYY-MM-DD");
+            },
+            getlistIdFromSelector = function() {
+                return $('.js-example-basic-single').val();
             }
-        
+
         $(document).ready(function() {
 
             $('#dtpicker01').datepicker({
@@ -122,8 +138,7 @@
         });
 
         function loadIncludeExclude() {
-
-            postHelper('@Url.Action("SummaryMainKitchenOrder")', { date: getDateFromDatePicker() },
+            postHelper('@Url.Action("SummaryMainKitchenOrder")', { date: getDateFromDatePicker(), listId : getlistIdFromSelector() },
                 function(data) {
                     dataInput = JSON.parse(data);
                     dataInput2 = [];

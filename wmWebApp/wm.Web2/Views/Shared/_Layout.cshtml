@@ -8,6 +8,8 @@
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/lib/handsontable/dist/handsontable.full.min.css" rel="stylesheet" />
     <link href="~/Content/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+    <link href="~/Content/lib/select2/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="~/Content/lib/select2-bootstrap-theme/dist/select2-bootstrap.min.css" rel="stylesheet" />
     <meta name="description" content="The description of my page" />
 </head>
 <body>
@@ -19,7 +21,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("ctKHO", "GeneralIndex", "Dashboard", new {area = ""}, new {@class = "navbar-brand"})
+                @Html.ActionLink("ctKHO", "GeneralIndex", "Dashboard", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-slide-dropdown">
@@ -56,6 +58,7 @@
     <script src="~/Content/lib/bootbox/bootbox.js"></script>
 
     <script src="~/Content/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-@RenderSection("scripts", required: false)
+    <script src="~/Content/lib/select2/dist/js/select2.js"></script>
+    @RenderSection("scripts", required: false)
 </body>
 </html>

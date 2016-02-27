@@ -21,8 +21,6 @@ namespace wm.Service
 
     public class OrderService : EntityIntKeyService<Order>, IOrderService
     {
-        IUnitOfWork _unitOfWork;
-        readonly IOrderRepository _repos;
         readonly IOrderGoodService _orderGoodService;
         public IGoodService GoodService { get; }
         readonly IGoodCategoryGoodService _goodCategoryGoodService;
@@ -35,8 +33,8 @@ namespace wm.Service
             IGoodCategoryGoodService goodCategoryGoodService, IBranchService branchService)
             : base(unitOfWork, repos)
         {
-            _unitOfWork = unitOfWork;
-            _repos = repos;
+            UnitOfWork = unitOfWork;
+            Repos = repos;
             _orderGoodService = orderGoodService;
             _goodCategoryGoodService = goodCategoryGoodService;
             BranchService = branchService;
@@ -46,7 +44,7 @@ namespace wm.Service
         public override ServiceReturn Create(Order entity)
         {
             //update order indexing
-            var orders = _repos.Get((s => s.OrderDay == entity.OrderDay && s.BranchId == entity.BranchId));
+            var orders = Repos.Get((s => s.OrderDay == entity.OrderDay && s.BranchId == entity.BranchId));
             entity.Indexing = orders.Count();
 
             return base.Create(entity);
@@ -99,7 +97,7 @@ namespace wm.Service
 
             //TODO: filter with goodCategoryId too
 
-            var sameDateOrders = _repos.Get((s => s.OrderDay == order.OrderDay));
+            var sameDateOrders = Repos.Get((s => s.OrderDay == order.OrderDay));
             var sameDateOrderIds = sameDateOrders.Select(t => t.Id);
             var orderGoodList = _orderGoodService.GetByOrderIdRange(sameDateOrderIds, GoodType.KitChenGood);
             var quantityBranchTotal = orderGoodList.GroupBy(
@@ -116,10 +114,10 @@ namespace wm.Service
             var filteredList = _orderGoodService.GetByOrderId(orderId).AsEnumerable().ToList();//TODO: have some redunrant but have no way to optimize yet
 
             //get summary data from branches
-            var summaryData = OrderSummaryService.SummarizeMainKitchenOrder_Dictionary(sameDateOrders, allList, BranchService.Get((s => s.BranchType != BranchType.MainKitchen)));
+            var summaryData = OrderSummaryService.SummarizeMainKitchenOrder_Dictionary(sameDateOrders, allList, BranchService.Get((s => s.BranchType != BranchType.MainKitchen)).ToList());
 
             //get total data
-            //var quantityBranchList = _repos.
+            //var quantityBranchList = Repos.
             //binding data
             var returnData = new List<OrderMainKitchenItem>();
             foreach (var item in allList)
@@ -204,7 +202,7 @@ namespace wm.Service
 
         public void ChangeStatus(int id, OrderStatus status)
         {
-            var order = _repos.GetById(id);
+            var order = GetById(id);
             order.Status = status;
             Update(order);
         }
@@ -222,9 +220,9 @@ namespace wm.Service
                                                                     monthIndicator.Month));
             if (branchId == 0)
             {
-                return _repos.Get((s => startOfMonth <= s.OrderDay && s.OrderDay <= endOfMonth), null, include);
+                return Repos.Get((s => startOfMonth <= s.OrderDay && s.OrderDay <= endOfMonth), include);
             }
-            return _repos.Get((s => startOfMonth <= s.OrderDay && s.OrderDay <= endOfMonth && s.BranchId == branchId), null, include);
+            return Repos.Get((s => startOfMonth <= s.OrderDay && s.OrderDay <= endOfMonth && s.BranchId == branchId), include);
         }
         #endregion
 

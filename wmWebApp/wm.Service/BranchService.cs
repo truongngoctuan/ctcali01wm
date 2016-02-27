@@ -10,14 +10,9 @@ namespace wm.Service
 
     public class BranchService : EntityIntKeyService<Branch>, IBranchService
     {
-        IUnitOfWork _unitOfWork;
-        readonly IBranchRepository _repos;
-
-        public BranchService(IUnitOfWork unitOfWork, IBranchRepository Repos)
-            : base(unitOfWork, Repos)
+        public BranchService(IUnitOfWork unitOfWork, IBranchRepository repos)
+            : base(unitOfWork, repos)
         {
-            _unitOfWork = unitOfWork;
-            _repos = Repos;
         }
 
         public override ServiceReturn Create(Branch entity)
@@ -25,7 +20,7 @@ namespace wm.Service
             //check constraints
             if (entity.BranchType == BranchType.MainKitchen)
             {
-                var nMainKitchen = _repos.GetAsNoTracking((s => s.BranchType == BranchType.MainKitchen)).Count();
+                var nMainKitchen = Repos.GetAsNoTracking((s => s.BranchType == BranchType.MainKitchen)).Count();
                 if (nMainKitchen > 0)
                 {
                     return ServiceReturn.Error("There is a main kitchen in the system, you can't have more than one");
@@ -34,7 +29,7 @@ namespace wm.Service
 
             if (entity.BranchType == BranchType.MainWarehouse)
             {
-                var nMainWarehouse = _repos.GetAsNoTracking((s => s.BranchType == BranchType.MainWarehouse)).Count();
+                var nMainWarehouse = Repos.GetAsNoTracking((s => s.BranchType == BranchType.MainWarehouse)).Count();
                 if (nMainWarehouse > 0)
                 {
                     return ServiceReturn.Error("There is a main warehouse in the system, you can't have more than one");
@@ -49,8 +44,8 @@ namespace wm.Service
             //check constraints
             if (entity.BranchType == BranchType.MainKitchen)
             {
-                var MainKitchen = _repos.GetAsNoTracking((s => s.BranchType == BranchType.MainKitchen)).FirstOrDefault();
-                if (MainKitchen!= null && MainKitchen.Id != entity.Id)
+                var mainKitchen = Repos.GetAsNoTracking((s => s.BranchType == BranchType.MainKitchen)).FirstOrDefault();
+                if (mainKitchen!= null && mainKitchen.Id != entity.Id)
                 {
                     return ServiceReturn.Error("There is a main kitchen in the system, you can't have more than one");
                 }
@@ -58,8 +53,8 @@ namespace wm.Service
 
             if (entity.BranchType == BranchType.MainWarehouse)
             {
-                var MainWarehouse = _repos.GetAsNoTracking((s => s.BranchType == BranchType.MainWarehouse)).FirstOrDefault();
-                if (MainWarehouse != null && MainWarehouse.Id != entity.Id)
+                var mainWarehouse = Repos.GetAsNoTracking((s => s.BranchType == BranchType.MainWarehouse)).FirstOrDefault();
+                if (mainWarehouse != null && mainWarehouse.Id != entity.Id)
                 {
                     return ServiceReturn.Error("There is a main warehouse in the system, you can't have more than one");
                 }

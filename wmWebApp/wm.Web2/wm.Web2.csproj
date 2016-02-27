@@ -246,6 +246,7 @@
     <Compile Include="Controllers\GoodsController.cs" />
     <Compile Include="Controllers\GoodUnitsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MultiPurposeListController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\OrderStrategy\ManagerOrderControllerStrategy.cs" />
     <Compile Include="Controllers\OrderStrategy\OrderControllerStrategyBase.cs" />
@@ -270,6 +271,7 @@
     <Compile Include="Models\GoodCateogryViewModel.cs" />
     <Compile Include="Models\GoodViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MultiPurposeListViewModel.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
     <Compile Include="Modules\EFModule.cs" />
     <Compile Include="Modules\RepositoryModule.cs" />
@@ -277,11 +279,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="StringExtension.cs" />
+    <Compile Include="Views\hhs.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\crudHelper.js" />
+    <Content Include="Content\HandsonTableSortingModule.js" />
     <Content Include="Content\lib\bootstrap\dist\css\bootstrap.css" />
-    <Content Include="Content\lib\underscore\underscore-min.js" />
+    <Content Include="Content\NNToNNModule.js" />
     <Content Include="Content\Site.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -375,6 +379,10 @@
     <Content Include="Views\Orders\_DetailsOrder_GoodCategory.cshtml" />
     <Content Include="Views\Orders\_EditOrder_Handsontable.cshtml" />
     <Content Include="Views\Orders\_DetailsOrder_Handsontable.cshtml" />
+    <Content Include="Views\MultiPurposeList\Index.cshtml" />
+    <Content Include="Views\MultiPurposeList\Create.cshtml" />
+    <Content Include="Views\MultiPurposeList\Edit.cshtml" />
+    <Content Include="Views\MultiPurposeList\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

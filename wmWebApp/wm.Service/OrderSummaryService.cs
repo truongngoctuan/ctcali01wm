@@ -21,7 +21,7 @@ namespace wm.Service
     {
         public SummarizeMainKitchenOrder_Array_ViewModel SummarizeMainKitchenOrder_Array(IEnumerable<Order> orders, IEnumerable<Good> goodList, IEnumerable<Branch> branchList)
         {
-            //var orders = _repos.Get((s => s.OrderDay == date));
+            //var orders = Repos.Get((s => s.OrderDay == date));
             var flattenOrders = orders.SelectMany(s => s.OrderGoods
                     .Select(og => new
                     {
@@ -58,7 +58,7 @@ namespace wm.Service
 
         public SummarizeMainKitchenOrder_Dictionary_ViewModel SummarizeMainKitchenOrder_Dictionary(IEnumerable<Order> orders, IEnumerable<Good> goodList, IEnumerable<Branch> branchList)
         {
-            //var orders = _repos.Get((s => s.OrderDay == date));
+            //var orders = Repos.Get((s => s.OrderDay == date));
             var flattenOrders = orders.SelectMany(s => s.OrderGoods
                     .Select(og => new
                     {

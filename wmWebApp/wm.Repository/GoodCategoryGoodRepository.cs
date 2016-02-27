@@ -6,7 +6,6 @@ namespace wm.Repository
 {
     public interface IGoodCategoryGoodRepository : IGenericRepository<GoodCategoryGood>
     {
-        GoodCategoryGood GetById(int branchId, int categoryId);
     }
 
     public class GoodCategoryGoodRepository : GenericRepository<GoodCategoryGood>, IGoodCategoryGoodRepository
@@ -15,10 +14,6 @@ namespace wm.Repository
               : base(context)
         {
 
-        }
-        public GoodCategoryGood GetById(int goodId, int goodCategoryId)
-        {
-            return FindBy(x => x.GoodId == goodId && x.GoodCategoryId == goodCategoryId).FirstOrDefault();
         }
     }
 }

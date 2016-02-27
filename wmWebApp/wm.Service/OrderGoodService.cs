@@ -7,36 +7,28 @@ namespace wm.Service
 {
     public interface IOrderGoodService : IEntityService<OrderGood>
     {
-        IEnumerable<OrderGood> GetById(int branchId, int goodCategoryId);
         IEnumerable<OrderGood> GetByOrderId(int orderId, string include = "");
         IEnumerable<OrderGood> GetByOrderIdRange(IEnumerable<int> orderIds, GoodType? type = null);
     }
 
     public class OrderGoodService : EntityService<OrderGood>, IOrderGoodService
     {
-        IUnitOfWork _unitOfWork;
-        readonly IOrderGoodRepository _repos;
+        readonly IOrderGoodRepository _repos2;
 
         public OrderGoodService(IUnitOfWork unitOfWork, IOrderGoodRepository Repos)
             : base(unitOfWork, Repos)
         {
-            _unitOfWork = unitOfWork;
-            _repos = Repos;
+            _repos2 = Repos;
         }
 
         public IEnumerable<OrderGood> GetByOrderId(int orderId, string include = "")
         {
-            return _repos.Get((s => s.OrderId == orderId), null, include);
-        }
-
-        IEnumerable<OrderGood> IOrderGoodService.GetById(int orderId, int goodId)
-        {
-            return _repos.Get((s => s.OrderId == orderId && s.GoodId == goodId));
+            return Repos.Get((s => s.OrderId == orderId), include);
         }
 
         public IEnumerable<OrderGood> GetByOrderIdRange(IEnumerable<int> orderIds, GoodType? type = null)
         {
-            return _repos.GetByOrderIdRange(orderIds, type);
+            return _repos2.GetByOrderIdRange(orderIds, type);
         }
     }
 }
