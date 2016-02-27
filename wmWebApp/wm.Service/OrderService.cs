@@ -202,7 +202,7 @@ namespace wm.Service
 
         public void ChangeStatus(int id, OrderStatus status)
         {
-            var order = _repos.GetById(id);
+            var order = GetById(id);
             order.Status = status;
             Update(order);
         }

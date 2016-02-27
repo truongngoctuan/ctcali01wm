@@ -4,8 +4,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using wm.Model;
 
 namespace wm.Repository.Shared
@@ -16,7 +14,7 @@ namespace wm.Repository.Shared
         IQueryable<TEntity> IncludeProperties(IQueryable<TEntity> query, string includeProperties);
         IOrderedQueryable<TEntity> OrderBy(IQueryable<TEntity> query,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy);
-        IQueryable<TEntity> SkipTake(IOrderedQueryable<TEntity> orderedQuery, int Start, int Length);
+        IQueryable<TEntity> SkipTake(IOrderedQueryable<TEntity> orderedQuery, int start, int length);
 
         IEnumerable<TEntity> GetAll();
 
@@ -31,7 +29,7 @@ namespace wm.Repository.Shared
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             string includeProperties = "",
-            int Start = -1, int Length = -1);
+            int start = -1, int length = -1);
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> GetOrderBy(string orderColumn, string orderType = "asc");
 
     }
@@ -98,7 +96,6 @@ namespace wm.Repository.Shared
             return query;
         }
         #endregion
-
 
         #region Get function
         public IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter, string includeProperties = "")
