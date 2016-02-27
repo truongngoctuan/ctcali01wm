@@ -19,7 +19,7 @@ namespace wm.Service
 
         public IEnumerable<GoodCategoryGood> GetByGoodCategoryId(int goodCategoryId, string include = "")
         {
-            return _repos.Get((s => s.GoodCategoryId == goodCategoryId), (s => s.OrderBy(t => t.Ranking)), include);
+            return Repos.Get((s => s.GoodCategoryId == goodCategoryId), (s => s.OrderBy(t => t.Ranking)), include);
         }
     }
 }

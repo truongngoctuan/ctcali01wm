@@ -8,11 +8,11 @@ using wm.Model;
 
 namespace wm.Repository
 {
-    public interface IMultiPurposeListRepository : IGenericIntKeyRepository<MultiPurposeList>
+    public interface IMultiPurposeListRepository : IGenericRepository<MultiPurposeList>
     {
     }
 
-    public class MultiPurposeListRepository : GenericIntKeyRepository<MultiPurposeList>, IMultiPurposeListRepository
+    public class MultiPurposeListRepository : GenericRepository<MultiPurposeList>, IMultiPurposeListRepository
     {
         public MultiPurposeListRepository(DbContext context)
               : base(context)

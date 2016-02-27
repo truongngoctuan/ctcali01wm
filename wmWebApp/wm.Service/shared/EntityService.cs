@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using wm.Model;
 using wm.Repository;
 
+// ReSharper disable once CheckNamespace
 namespace wm.Service
 {
     public interface IService
@@ -17,7 +18,6 @@ namespace wm.Service
         ServiceReturn Create(T entity);
         void Delete(T entity);
         IEnumerable<T> GetAll(string include = "");
-        //Employee GetById(int Id, string include = "");
         ServiceReturn Update(T entity);
         IEnumerable<T> Get(Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
@@ -26,13 +26,13 @@ namespace wm.Service
 
     public abstract class EntityService<T> : IEntityService<T> where T : BaseEntity
     {
-        protected IUnitOfWork _unitOfWork;
-        protected IGenericRepository<T> _repos;
+        protected IUnitOfWork UnitOfWork;
+        protected IGenericRepository<T> Repos;
 
-        public EntityService(IUnitOfWork unitOfWork, IGenericRepository<T> repository)
+        protected EntityService(IUnitOfWork unitOfWork, IGenericRepository<T> repository)
         {
-            _unitOfWork = unitOfWork;
-            _repos = repository;
+            UnitOfWork = unitOfWork;
+            Repos = repository;
         }
 
         public virtual ServiceReturn Create(T entity)
@@ -41,16 +41,16 @@ namespace wm.Service
             {
                 throw new ArgumentNullException("entity");
             }
-            _repos.Add(entity);
-            _unitOfWork.Commit();
+            Repos.Add(entity);
+            UnitOfWork.Commit();
             return ServiceReturn.Ok;
         }
 
         public virtual ServiceReturn Update(T entity)
         {
             if (entity == null) throw new ArgumentNullException("entity");
-            _repos.Edit(entity);
-            _unitOfWork.Commit();
+            Repos.Edit(entity);
+            UnitOfWork.Commit();
 
             return ServiceReturn.Ok;
         }
@@ -58,24 +58,24 @@ namespace wm.Service
         public virtual void Delete(T entity)
         {
             if (entity == null) throw new ArgumentNullException("entity");
-            _repos.Delete(entity);
-            _unitOfWork.Commit();
+            Repos.Delete(entity);
+            UnitOfWork.Commit();
         }
 
         public virtual IEnumerable<T> GetAll(string include = "")
         {
-            return _repos.Get(null, include);
+            return Repos.Get(null, include);
         }
 
         public virtual IEnumerable<T> Get(Expression<Func<T, bool>> filter = null,
 Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
     string include = "")
         {
-            return _repos.Get(filter, orderBy, include);
+            return Repos.Get(filter, orderBy, include);
         }
     }
 
-    public interface IEntityIntKeyService<T> : IService, IEntityService<T>
+    public interface IEntityIntKeyService<T> : IEntityService<T>
     where T : Entity<int>
     {
         T GetById(int id, string include = "");
@@ -83,16 +83,13 @@ Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
 
     public abstract class EntityIntKeyService<T> : EntityService<T>, IEntityIntKeyService<T> where T : Entity<int>
     {
-        protected IGenericIntKeyRepository<T> _repos2;
-
-        public EntityIntKeyService(IUnitOfWork unitOfWork, IGenericIntKeyRepository<T> repos): base(unitOfWork, repos)
+        protected EntityIntKeyService(IUnitOfWork unitOfWork, IGenericRepository<T> repos): base(unitOfWork, repos)
         {
-            _repos2 = repos;
         }
         
         public T GetById(int id, string include = "")
         {
-            return _repos2.GetById(id, include);
+            return Repos.First((s => s.Id == id), include);
         }
     }
 }

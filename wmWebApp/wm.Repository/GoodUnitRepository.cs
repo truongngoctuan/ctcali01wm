@@ -3,11 +3,11 @@ using wm.Model;
 
 namespace wm.Repository
 {
-    public interface IGoodUnitRepository : IGenericIntKeyRepository<GoodUnit>
+    public interface IGoodUnitRepository : IGenericRepository<GoodUnit>
     {
     }
 
-    public class GoodUnitRepository : GenericIntKeyRepository<GoodUnit>, IGoodUnitRepository
+    public class GoodUnitRepository : GenericRepository<GoodUnit>, IGoodUnitRepository
     {
         public GoodUnitRepository(DbContext context)
               : base(context)

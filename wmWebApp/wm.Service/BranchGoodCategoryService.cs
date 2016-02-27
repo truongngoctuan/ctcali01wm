@@ -20,7 +20,7 @@ namespace wm.Service
         
         public IEnumerable<BranchGoodCategory> GetByBranchId(int branchId, string include = "")
         {
-            return _repos.Get((s => s.BranchId == branchId), (s => s.OrderBy(t => t.Ranking)), include);
+            return Repos.Get((s => s.BranchId == branchId), (s => s.OrderBy(t => t.Ranking)), include);
         }
 
     }

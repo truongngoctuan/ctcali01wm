@@ -45,31 +45,4 @@ namespace wm.Repository
         }
 
     }
-
-    public interface IGenericIntKeyRepository<TEntity> : IGenericRepository<TEntity> where TEntity : Entity<int>
-    {
-        TEntity GetById(int id, string include = "");
-    }
-
-    //primary key using int
-    public abstract class GenericIntKeyRepository<TEntity> : GenericRepository<TEntity>
-      where TEntity : Entity<int>
-    {
-        public GenericIntKeyRepository(DbContext context) : base(context)
-        {
-        }
-
-        public TEntity GetById(int id, string includeProperties = "")
-        {
-            IQueryable<TEntity> query = _dbset;
-            query = query.Where(s => s.Id == id);
-
-            foreach (var includeProperty in includeProperties.Split
-                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-            {
-                query = query.Include(includeProperty);
-            }
-            return query.First();
-        }
-    }
 }

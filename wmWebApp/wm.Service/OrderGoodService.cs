@@ -23,7 +23,7 @@ namespace wm.Service
 
         public IEnumerable<OrderGood> GetByOrderId(int orderId, string include = "")
         {
-            return _repos.Get((s => s.OrderId == orderId), include);
+            return Repos.Get((s => s.OrderId == orderId), include);
         }
 
         public IEnumerable<OrderGood> GetByOrderIdRange(IEnumerable<int> orderIds, GoodType? type = null)
