@@ -12,14 +12,9 @@ namespace wm.Service
 
     public class GoodCategoryGoodService : EntityService<GoodCategoryGood>, IGoodCategoryGoodService
     {
-        IUnitOfWork _unitOfWork;
-        readonly IGoodCategoryGoodRepository _repos;
-
         public GoodCategoryGoodService(IUnitOfWork unitOfWork, IGoodCategoryGoodRepository Repos)
             : base(unitOfWork, Repos)
         {
-            _unitOfWork = unitOfWork;
-            _repos = Repos;
         }
 
         public IEnumerable<GoodCategoryGood> GetByGoodCategoryId(int goodCategoryId, string include = "")

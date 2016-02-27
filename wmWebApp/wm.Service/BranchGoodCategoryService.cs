@@ -12,14 +12,10 @@ namespace wm.Service
 
     public class BranchGoodCategoryService : EntityService<BranchGoodCategory>, IBranchGoodCategoryService
     {
-        IUnitOfWork _unitOfWork;
-        readonly IBranchGoodCategoryRepository _repos;
 
-        public BranchGoodCategoryService(IUnitOfWork unitOfWork, IBranchGoodCategoryRepository Repos)
-            : base(unitOfWork, Repos)
+        public BranchGoodCategoryService(IUnitOfWork unitOfWork, IBranchGoodCategoryRepository repos)
+            : base(unitOfWork, repos)
         {
-            _unitOfWork = unitOfWork;
-            _repos = Repos;
         }
         
         public IEnumerable<BranchGoodCategory> GetByBranchId(int branchId, string include = "")

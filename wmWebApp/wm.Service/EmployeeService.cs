@@ -15,29 +15,24 @@ namespace wm.Service
 
     public class EmployeeService : EntityService<Employee>, IEmployeeService
     {
-        IUnitOfWork _unitOfWork;
-        readonly IEmployeeRepository _repos;
-
-        public EmployeeService(IUnitOfWork unitOfWork, IEmployeeRepository Repos)
-            : base(unitOfWork, Repos)
+        public EmployeeService(IUnitOfWork unitOfWork, IEmployeeRepository repos)
+            : base(unitOfWork, repos)
         {
-            _unitOfWork = unitOfWork;
-            _repos = Repos;
         }
 
         public Employee GetById(int Id)
         {
-            return _repos.Get((s => s.Id == Id), null, "").First();
+            return _repos.First((s => s.Id == Id));
         }
 
         public Employee GetByApplicationId(string Id)
-        {
-            return _repos.GetByApplicationUserId(Id);
+        {////http://stackoverflow.com/questions/23201907/asp-net-mvc-attaching-an-entity-of-type-modelname-failed-because-another-ent
+            return _repos.GetAsNoTracking((s => s.ApplicationUserId == Id)).First();
         }
 
         public override IEnumerable<Employee> GetAll(string include = "")
         {
-            return _repos.Get((s => s.Role != EmployeeRole.SuperUser), null, include);
+            return _repos.Get((s => s.Role != EmployeeRole.SuperUser), include);
         }
 
 
@@ -47,14 +42,14 @@ namespace wm.Service
 
             var orderFunction = SortOrderSplit.Length == 2 ? _repos.GetOrderBy(SortOrderSplit[0], SortOrderSplit[1]) : _repos.GetOrderBy(SortOrderSplit[0]);
 
-            recordsTotal = _repos.Get().Count();
+            recordsTotal = _repos.GetAll().Count();
             recordsFiltered = _repos.Get((s => SearchValue == null
             || s.Name.Contains(SearchValue)),
                 orderFunction).Count();
 
             var resulFiltered = _repos.Get((s => SearchValue == null
             || s.Name.Contains(SearchValue)),
-                orderFunction, "Branch", Start, Length);
+                orderFunction, Start, Length, "Branch");
 
             return resulFiltered;
         }

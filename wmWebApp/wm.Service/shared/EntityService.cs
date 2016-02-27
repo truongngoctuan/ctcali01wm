@@ -26,13 +26,13 @@ namespace wm.Service
 
     public abstract class EntityService<T> : IEntityService<T> where T : BaseEntity
     {
-        readonly IUnitOfWork _unitOfWork;
-        readonly IGenericRepository<T> _repository;
+        protected IUnitOfWork _unitOfWork;
+        protected IGenericRepository<T> _repos;
 
         public EntityService(IUnitOfWork unitOfWork, IGenericRepository<T> repository)
         {
             _unitOfWork = unitOfWork;
-            _repository = repository;
+            _repos = repository;
         }
 
         public virtual void Create(T entity)
@@ -41,14 +41,14 @@ namespace wm.Service
             {
                 throw new ArgumentNullException("entity");
             }
-            _repository.Add(entity);
+            _repos.Add(entity);
             _unitOfWork.Commit();
         }
 
         public virtual ServiceReturn Update(T entity)
         {
             if (entity == null) throw new ArgumentNullException("entity");
-            _repository.Edit(entity);
+            _repos.Edit(entity);
             _unitOfWork.Commit();
 
             return ServiceReturn.Ok;
@@ -57,20 +57,20 @@ namespace wm.Service
         public virtual void Delete(T entity)
         {
             if (entity == null) throw new ArgumentNullException("entity");
-            _repository.Delete(entity);
+            _repos.Delete(entity);
             _unitOfWork.Commit();
         }
 
         public virtual IEnumerable<T> GetAll(string include = "")
         {
-            return _repository.Get(null, null, include);
+            return _repos.Get(null, include);
         }
 
         public virtual IEnumerable<T> Get(Expression<Func<T, bool>> filter = null,
 Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
     string include = "")
         {
-            return _repository.Get(filter, orderBy, include);
+            return _repos.Get(filter, orderBy, include);
         }
     }
 
@@ -91,13 +91,13 @@ Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
 
     public abstract class EntityIntKeyService<T> : IEntityIntKeyService<T> where T : Entity<int>
     {
-        readonly IUnitOfWork _unitOfWork;
-        readonly IGenericIntKeyRepository<T> _repository;
+        protected IUnitOfWork _unitOfWork;
+        protected IGenericIntKeyRepository<T> _repos;
 
-        public EntityIntKeyService(IUnitOfWork unitOfWork, IGenericIntKeyRepository<T> repository)
+        public EntityIntKeyService(IUnitOfWork unitOfWork, IGenericIntKeyRepository<T> repos)
         {
             _unitOfWork = unitOfWork;
-            _repository = repository;
+            _repos = repos;
         }
 
         public virtual ServiceReturn Create(T entity)
@@ -106,7 +106,7 @@ Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             {
                 throw new ArgumentNullException("entity");
             }
-            _repository.Add(entity);
+            _repos.Add(entity);
             _unitOfWork.Commit();
             return ServiceReturn.Ok;
         }
@@ -114,7 +114,7 @@ Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
         public virtual ServiceReturn Update(T entity)
         {
             if (entity == null) throw new ArgumentNullException("entity");
-            _repository.Edit(entity);
+            _repos.Edit(entity);
             _unitOfWork.Commit();
 
             return ServiceReturn.Ok;
@@ -123,24 +123,24 @@ Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
         public virtual void Delete(T entity)
         {
             if (entity == null) throw new ArgumentNullException("entity");
-            _repository.Delete(entity);
+            _repos.Delete(entity);
             _unitOfWork.Commit();
         }
 
         public virtual IEnumerable<T> GetAll(string include = "")
         {
-            return _repository.Get(null, null, include);
+            return _repos.Get(null, null, include);
         }
         public T GetById(int id, string include = "")
         {
-            return _repository.GetById(id, include);
+            return _repos.GetById(id, include);
         }
 
         public virtual IEnumerable<T> Get(Expression<Func<T, bool>> filter = null,
     Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             string include = "")
         {
-            return _repository.Get(filter, orderBy, include);
+            return _repos.Get(filter, orderBy, include);
         }
     }
 }

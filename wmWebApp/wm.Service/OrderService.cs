@@ -21,8 +21,6 @@ namespace wm.Service
 
     public class OrderService : EntityIntKeyService<Order>, IOrderService
     {
-        IUnitOfWork _unitOfWork;
-        readonly IOrderRepository _repos;
         readonly IOrderGoodService _orderGoodService;
         public IGoodService GoodService { get; }
         readonly IGoodCategoryGoodService _goodCategoryGoodService;
@@ -222,9 +220,9 @@ namespace wm.Service
                                                                     monthIndicator.Month));
             if (branchId == 0)
             {
-                return _repos.Get((s => startOfMonth <= s.OrderDay && s.OrderDay <= endOfMonth), null, include);
+                return _repos.Get((s => startOfMonth <= s.OrderDay && s.OrderDay <= endOfMonth), include);
             }
-            return _repos.Get((s => startOfMonth <= s.OrderDay && s.OrderDay <= endOfMonth && s.BranchId == branchId), null, include);
+            return _repos.Get((s => startOfMonth <= s.OrderDay && s.OrderDay <= endOfMonth && s.BranchId == branchId), include);
         }
         #endregion
 
