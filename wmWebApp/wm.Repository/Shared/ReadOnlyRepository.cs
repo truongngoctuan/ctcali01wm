@@ -12,6 +12,7 @@ namespace wm.Repository.Shared
 {
     public interface IReadOnlyRepository<TEntity> where TEntity : BaseEntity
     {
+        IEnumerable<TEntity> GetAll();
         IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter, string includeProperties = "");
         IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy, string includeProperties = "");
         IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy, int start, int length, string includeProperties = "");
@@ -38,6 +39,12 @@ namespace wm.Repository.Shared
             _entities = context;
             _dbset = context.Set<TEntity>();
         }
+        public virtual IEnumerable<TEntity> GetAll()
+        {
+
+            return _dbset.AsEnumerable<TEntity>();
+        }
+
         #region helpers
         private IQueryable<TEntity> Filter(IQueryable<TEntity> query, Expression<Func<TEntity, bool>> filter)
         {
