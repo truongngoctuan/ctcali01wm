@@ -36,6 +36,16 @@ namespace wm.Web2.Controllers
             MultiPurposeListBranchService = multiPurposeListBranchService;
         }
 
+        private IEnumerable<SelectListItem> GetSelectMultiPurposeList()
+        {
+            var list = MultiPurposeListService.GetAll();
+            return list.Select(o => new SelectListItem
+            {
+                Value = o.Id.ToString(),
+                Text = o.Name
+            });
+        }
+
         // GET: OrderSummary
         public ActionResult Index()
         {
@@ -45,16 +55,20 @@ namespace wm.Web2.Controllers
             var branches = MultiPurposeListBranchService.Get((s => s.MultiPurposeListId == multiPurposeItem.Id), (s => s.OrderBy(t => t.Ranking)), "Branch").Select(s => s.Branch);
             ViewBag.branches = branches.Select(s => new { Id = s.Id, Name = s.Name });
             ViewBag.goods = goods.Select(s => new { Id = s.Id, Name = s.Name });
+
+            var multiPurposeList = GetSelectMultiPurposeList();
+            multiPurposeList.First().Selected = true;
+            ViewBag.multiPurposeList = multiPurposeList;
             return View();
         }
 
         [HttpPost]
-        public ActionResult SummaryMainKitchenOrder(DateTime date)
+        public ActionResult SummaryMainKitchenOrder(DateTime date, int listId)
         {
             var orders = OrderService.Get((s => s.OrderDay == date), null, "Branch,OrderGoods");
 
             //use goods from a list
-            var multiPurposeItem = MultiPurposeListService.GetAll().First();
+            var multiPurposeItem = MultiPurposeListService.GetById(listId);
             var goods = MultiPurposeListGoodService.Get((s => s.MultiPurposeListId == multiPurposeItem.Id),
                 (s => s.OrderBy(t => t.Ranking)), "Good")
                 .Select(s => s.Good).ToList();
@@ -73,11 +87,11 @@ namespace wm.Web2.Controllers
             return Json(resultViewModel);
         }
 
-        public ActionResult SummaryMainKitchenOrderToPdf(DateTime date)
+        public ActionResult SummaryMainKitchenOrderToPdf(DateTime date, int listId)
         {
             //DateTime date = DateTime.Now.Date;
             var orders = OrderService.Get((s => s.OrderDay == date), null, "Branch,OrderGoods");
-            var multiPurposeItem = MultiPurposeListService.GetAll().First();
+            var multiPurposeItem = MultiPurposeListService.GetById(listId);
             var goods = MultiPurposeListGoodService.Get((s => s.MultiPurposeListId == multiPurposeItem.Id),
                 (s => s.OrderBy(t => t.Ranking)), "Good")
                 .Select(s => s.Good).ToList();

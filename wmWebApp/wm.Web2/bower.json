@@ -8,6 +8,8 @@
     "bootbox": "4.4.0",
     "moment": "2.11.2",
     "DataTables": "1.10.10",
-    "bootstrap-datepicker": "1.6.0"
+    "bootstrap-datepicker": "1.6.0",
+    "select2": "4.0.1",
+    "select2-bootstrap-theme": "0.1.0-beta.4"
   }
 }

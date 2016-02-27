@@ -90,9 +90,9 @@ namespace wm.Web2.Controllers
         #region goods list
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult List()
+        public ActionResult List(int id)
         {
-            var resultViewModel = PopulateNnData(1, true);
+            var resultViewModel = PopulateNnData(id, true);
             var dtResult = new DTResult<MultiPurposeListGoodInExItemViewModel>
             {
                 draw = 0,
@@ -229,9 +229,9 @@ namespace wm.Web2.Controllers
         #region branches list
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult ListBranches()
+        public ActionResult ListBranches(int id)
         {
-            var resultViewModel = PopulateNnDataBranches(1, true);
+            var resultViewModel = PopulateNnDataBranches(id, true);
             var dtResult = new DTResult<MultiPurposeListBranchInExItemViewModel>
             {
                 draw = 0,

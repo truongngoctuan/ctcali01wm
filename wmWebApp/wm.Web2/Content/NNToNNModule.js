@@ -26,9 +26,13 @@ function NNToNN(objectId, urlList, urlSave,
                 "type": "POST",
                 "url": this.urlList,
                 "contentType": 'application/json; charset=utf-8',
-                //'data': function(data) {//modify sending data
-                //     return JSON.stringify(data);
-                //},
+                'data': function (oo) {
+                    return function (data) {//modify sending data
+                    data.id = oo.objectId;
+                     return JSON.stringify(data);
+                    }
+                }(this)
+                ,
                 "dataSrc": function (oo) {
                     return function (json) {
                         oo.sa_counter = 0;

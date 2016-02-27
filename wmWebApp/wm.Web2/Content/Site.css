@@ -55,9 +55,41 @@ textarea {
   background-color: #00b900;
 }
 
-.form-group-with-header {
+.form-group-with-header-red {
     border: 1px solid #b0aeae;
     border-top: 4px solid #a40202;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.form-group-with-header-green {
+    border: 1px solid #b0aeae;
+    border-top: 4px solid #008c00;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.form-group-with-header-blue {
+    border: 1px solid #b0aeae;
+    border-top: 4px solid #23008d;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.form-group-with-header-purple {
+    border: 1px solid #b0aeae;
+    border-top: 4px solid #b700be;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.form-group-with-header-orange {
+    border: 1px solid #b0aeae;
+    border-top: 4px solid #c88600;
     padding-top: 10px;
     padding-bottom: 10px;
     margin-bottom: 10px;
