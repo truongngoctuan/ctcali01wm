@@ -6,7 +6,7 @@ using System.Web;
 namespace wm.Web2.Models
 {
 
-    public class MultiPurposeListInExItemViewModel
+    public class MultiPurposeListGoodInExItemViewModel
     {
         public int Id { get; set; }
         public bool IsChecked { get; set; }
@@ -18,8 +18,22 @@ namespace wm.Web2.Models
     }
 
     //Include(In) Exclude(Ex) (only) 
-    public class MultiPurposeListInExViewModel
+    public class MultiPurposeListGoodInExViewModel
     {
-        public MultiPurposeListInExItemViewModel[] data { get; set; }
+        public MultiPurposeListGoodInExItemViewModel[] data { get; set; }
+    }
+
+    public class MultiPurposeListBranchInExItemViewModel
+    {
+        public int Id { get; set; }
+        public bool IsChecked { get; set; }
+        public string Name { get; set; }
+        public int Ranking { get; set; }
+    }
+
+    //Include(In) Exclude(Ex) (only) 
+    public class MultiPurposeListBranchInExViewModel
+    {
+        public MultiPurposeListGoodInExItemViewModel[] data { get; set; }
     }
 }

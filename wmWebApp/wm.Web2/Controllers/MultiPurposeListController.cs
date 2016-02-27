@@ -16,12 +16,16 @@ namespace wm.Web2.Controllers
         private IMultiPurposeListService Service { get; }
         private IMultiPurposeListGoodService _multiPurposeListGoodService { get; set; }
         public IGoodService _goodService { get; set; }
+        public IBranchService BranchService { get; set; }
+        public IMultiPurposeListBranchService MultiPurposeListBranchService { get; set; }
         public MultiPurposeListController(ApplicationUserManager userManager, IMultiPurposeListService service,
-            IMultiPurposeListGoodService multiPurposeListGoodService, IGoodService goodService) : base(userManager)
+            IMultiPurposeListGoodService multiPurposeListGoodService, IGoodService goodService, IBranchService branchService, IMultiPurposeListBranchService multiPurposeListBranchService) : base(userManager)
         {
             Service = service;
             _multiPurposeListGoodService = multiPurposeListGoodService;
             _goodService = goodService;
+            BranchService = branchService;
+            MultiPurposeListBranchService = multiPurposeListBranchService;
         }
 
 
@@ -83,43 +87,21 @@ namespace wm.Web2.Controllers
             return View(multiPurposeList);
         }
 
-
+        #region goods list
         [AllowAnonymous]
         [HttpPost]
         public ActionResult List()
         {
-            try
+            var resultViewModel = PopulateNnData(1, true);
+            var dtResult = new DTResult<MultiPurposeListGoodInExItemViewModel>
             {
-                //get sorted/paginated
-                var resultSet = _goodService.GetAll("Unit").ToList();
-                var resultViewModel = PopulateNnData(1, true);
-                //var resultViewModel = resultSet.Select(e => new GoodDatatablesListViewModel
-                //{
-                //    id = e.Id,
-                //    Name = e.Name,
-                //    AccountantCode = e.AccountantCode,
-                //    UnitName = e.Unit?.Name,
-                //    GoodType = e.GoodType.ToString()
-                //});
+                draw = 0,
+                data = resultViewModel.ToList(),
+                recordsFiltered = resultViewModel.Count(),
+                recordsTotal = resultViewModel.Count()
+            };
 
-                var dtResult = new DTResult<MultiPurposeListInExItemViewModel>
-                {
-                    draw = 0,
-                    data = resultViewModel.ToList(),
-                    recordsFiltered = resultSet.Count(),
-                    recordsTotal = resultSet.Count()
-                };
-
-                return Json(dtResult);
-            }
-            catch (Exception ex)
-            {
-                return Json(new
-                {
-                    error = ex.Message
-                });
-            }
-
+            return Json(dtResult);
         }
 
 
@@ -131,18 +113,18 @@ namespace wm.Web2.Controllers
             return Json(items);
         }
 
-        private IEnumerable<MultiPurposeListInExItemViewModel> PopulateNnData(int? id, bool isInEx = true)
+        private IEnumerable<MultiPurposeListGoodInExItemViewModel> PopulateNnData(int? id, bool isInEx = true)
         {
             if (id == null) throw new Exception("id shouldn't be null");
 
-            IEnumerable<MultiPurposeListInExItemViewModel> viewModel;
+            IEnumerable<MultiPurposeListGoodInExItemViewModel> viewModel;
             if (isInEx)
             {//return all, with some checked items
                 var allList = _goodService.GetAll("Unit").ToList();
                 var filteredList = _multiPurposeListGoodService.Get((s => s.MultiPurposeListId == (int)id)).ToList();
 
                 //binding Data
-                viewModel = allList.Select(t => new MultiPurposeListInExItemViewModel
+                viewModel = allList.Select(t => new MultiPurposeListGoodInExItemViewModel
                 {
                     Id = t.Id,
                     Name = t.Name,
@@ -159,7 +141,7 @@ namespace wm.Web2.Controllers
                 //binding Data
                 viewModel = filteredList
                     .OrderBy(t => t.Ranking)
-                    .Select(t => new MultiPurposeListInExItemViewModel
+                    .Select(t => new MultiPurposeListGoodInExItemViewModel
                     {
                         Id = t.GoodId,
                         Name = t.Good.Name,
@@ -178,7 +160,7 @@ namespace wm.Web2.Controllers
         //TODO: bulk update/delete/add EntityFramework.Extended
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult IncludeExcludeNnData(int id, MultiPurposeListInExViewModel inputViewModel)
+        public ActionResult IncludeExcludeNnData(int id, MultiPurposeListGoodInExViewModel inputViewModel)
         {//only checkbox, not ranking
             var oldLinkingList = _multiPurposeListGoodService.Get((s => s.MultiPurposeListId == (int)id));
             var newLinkingList = inputViewModel.data?.Select(t => new MultiPurposeListGood
@@ -219,10 +201,10 @@ namespace wm.Web2.Controllers
             //service.Update(model);
             return OkCode();
         }
-        
+
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult SortNnData(int id, MultiPurposeListInExViewModel inputViewModel)
+        public ActionResult SortNnData(int id, MultiPurposeListGoodInExViewModel inputViewModel)
         {
             var filteredList = _multiPurposeListGoodService.Get((s => s.MultiPurposeListId == id));
 
@@ -242,6 +224,140 @@ namespace wm.Web2.Controllers
 
             return OkCode();
         }
+        #endregion
+
+        #region branches list
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult ListBranches()
+        {
+            var resultViewModel = PopulateNnDataBranches(1, true);
+            var dtResult = new DTResult<MultiPurposeListBranchInExItemViewModel>
+            {
+                draw = 0,
+                data = resultViewModel.ToList(),
+                recordsFiltered = resultViewModel.Count(),
+                recordsTotal = resultViewModel.Count()
+            };
+
+            return Json(dtResult);
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult PopulateDataBranches(int? id, bool isInEx)//, PlacingOrderViewModel nnData)
+        {
+            var items = PopulateNnDataBranches(id, isInEx);
+            return Json(items);
+        }
+
+        private IEnumerable<MultiPurposeListBranchInExItemViewModel> PopulateNnDataBranches(int? id, bool isInEx = true)
+        {
+            if (id == null) throw new Exception("id shouldn't be null");
+
+            IEnumerable<MultiPurposeListBranchInExItemViewModel> viewModel;
+            if (isInEx)
+            {//return all, with some checked items
+                var allList = BranchService.GetAll().ToList();
+                var filteredList = MultiPurposeListBranchService.Get((s => s.MultiPurposeListId == (int)id)).ToList();
+
+                //binding Data
+                viewModel = allList.Select(t => new MultiPurposeListBranchInExItemViewModel
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    IsChecked = filteredList.Any(s => s.BranchId == t.Id)
+                });
+            }
+            else
+            {//return only checked item
+                var filteredList = MultiPurposeListBranchService.Get((s => s.MultiPurposeListId == (int)id), null, "Branch").ToList();
+
+                //binding Data
+                viewModel = filteredList
+                    .OrderBy(t => t.Ranking)
+                    .Select(t => new MultiPurposeListBranchInExItemViewModel
+                    {
+                        Id = t.BranchId,
+                        Name = t.Branch.Name,
+                        Ranking = t.Ranking,
+                        IsChecked = true
+                    });
+            }
+
+            return viewModel;
+        }
+
+
+        //TODO: bulk update/delete/add EntityFramework.Extended
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult IncludeExcludeNnDataBranches(int id, MultiPurposeListBranchInExViewModel inputViewModel)
+        {//only checkbox, not ranking
+            var oldLinkingList = MultiPurposeListBranchService.Get((s => s.MultiPurposeListId == (int)id));
+            var newLinkingList = inputViewModel.data?.Select(t => new MultiPurposeListBranch
+            {
+                MultiPurposeListId = id,
+                BranchId = t.Id//enough Data
+            }) ?? new List<MultiPurposeListBranch>();
+
+            var removeList = oldLinkingList.Where(t => !newLinkingList.Any(u => u.BranchId == t.BranchId));
+            var editList = oldLinkingList.Where(t => newLinkingList.Any(u => u.BranchId == t.BranchId)).OrderBy(t => t.Ranking);
+            var newList = newLinkingList.Where(t => !oldLinkingList.Any(u => u.BranchId == t.BranchId));
+
+            //remove
+            foreach (var item in removeList.ToList())
+            {
+                MultiPurposeListBranchService.Delete(item);
+            }
+
+            //edit - just re-index
+            for (int i = 0; i < editList.Count(); i++)
+            {
+                editList.ElementAt(i).Ranking = i;
+                MultiPurposeListBranchService.Update(editList.ElementAt(i));
+            }
+
+            //add new item
+            int nRankedItem = editList.Count();
+            foreach (var itemId in newList)
+            {
+                itemId.Ranking = nRankedItem;
+                nRankedItem++;
+
+                MultiPurposeListBranchService.Create(itemId);
+            }
+
+            //post-processing
+
+            //service.Update(model);
+            return OkCode();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult SortNnDataBranches(int id, MultiPurposeListBranchInExViewModel inputViewModel)
+        {
+            var filteredList = MultiPurposeListBranchService.Get((s => s.MultiPurposeListId == id));
+
+            //remove
+
+            //edit - update ranking
+            foreach (var item in inputViewModel.data)
+            {
+                var editObject = filteredList.First(t => t.BranchId == item.Id);
+                editObject.Ranking = item.Ranking;
+                MultiPurposeListBranchService.Update(editObject);
+            }
+
+            //add new item
+
+            //post-processing
+
+            return OkCode();
+        }
+        #endregion
 
         // GET: GoodCategories/Delete/5
         public ActionResult Delete(int? id)
