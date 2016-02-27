@@ -7,7 +7,6 @@ namespace wm.Service
 {
     public interface IBranchGoodCategoryService : IEntityService<BranchGoodCategory>
     {
-        IEnumerable<BranchGoodCategory> GetById(int branchId, int goodCategoryId);
         IEnumerable<BranchGoodCategory> GetByBranchId(int branchId, string include = "");
     }
 
@@ -28,9 +27,5 @@ namespace wm.Service
             return _repos.Get((s => s.BranchId == branchId), (s => s.OrderBy(t => t.Ranking)), include);
         }
 
-        IEnumerable<BranchGoodCategory> IBranchGoodCategoryService.GetById(int branchId, int goodCategoryId)
-        {
-            return _repos.Get((s => s.BranchId == branchId && s.GoodCategoryId == goodCategoryId));
-        }
     }
 }

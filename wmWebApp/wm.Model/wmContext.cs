@@ -46,6 +46,7 @@ namespace wm.Model
 
         public DbSet<MultiPurposeList> MultiPurposeLists { get; set; }
         public DbSet<MultiPurposeListGood> MultiPurposeListGoods { get; set; }
+        public DbSet<MultiPurposeListBranch> MultiPurposeListBranches { get; set; }
 
 
         public override int SaveChanges()

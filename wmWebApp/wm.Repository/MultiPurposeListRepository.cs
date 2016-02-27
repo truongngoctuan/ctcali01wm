@@ -20,4 +20,32 @@ namespace wm.Repository
 
         }
     }
+
+
+    public interface IMultiPurposeListGoodRepository : IGenericRepository<MultiPurposeListGood>
+    {
+    }
+
+    public class MultiPurposeListGoodRepository : GenericRepository<MultiPurposeListGood>, IMultiPurposeListGoodRepository
+    {
+        public MultiPurposeListGoodRepository(DbContext context)
+              : base(context)
+        {
+
+        }
+    }
+
+
+    public interface IMultiPurposeListBranchRepository : IGenericRepository<MultiPurposeListBranch>
+    {
+    }
+
+    public class MultiPurposeListBranchRepository : GenericRepository<MultiPurposeListBranch>, IMultiPurposeListBranchRepository
+    {
+        public MultiPurposeListBranchRepository(DbContext context)
+              : base(context)
+        {
+
+        }
+    }
 }

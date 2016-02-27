@@ -27,4 +27,19 @@ namespace wm.Model
 
         public int Ranking { get; set; }
     }
+
+    public class MultiPurposeListBranch : BaseEntity
+    {
+        [Key, Column(Order = 0)]
+        public int MultiPurposeListId { get; set; }
+        [Key, Column(Order = 1)]
+        public int BranchId { get; set; }
+
+        [ForeignKey("MultiPurposeListId")]
+        public virtual MultiPurposeList MultiPurposeList { get; set; }
+        [ForeignKey("BranchId")]
+        public virtual Branch Branch { get; set; }
+
+        public int Ranking { get; set; }
+    }
 }

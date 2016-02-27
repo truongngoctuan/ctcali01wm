@@ -7,7 +7,6 @@ namespace wm.Service
 {
     public interface IOrderGoodService : IEntityService<OrderGood>
     {
-        IEnumerable<OrderGood> GetById(int branchId, int goodCategoryId);
         IEnumerable<OrderGood> GetByOrderId(int orderId, string include = "");
         IEnumerable<OrderGood> GetByOrderIdRange(IEnumerable<int> orderIds, GoodType? type = null);
     }
@@ -27,11 +26,6 @@ namespace wm.Service
         public IEnumerable<OrderGood> GetByOrderId(int orderId, string include = "")
         {
             return _repos.Get((s => s.OrderId == orderId), null, include);
-        }
-
-        IEnumerable<OrderGood> IOrderGoodService.GetById(int orderId, int goodId)
-        {
-            return _repos.Get((s => s.OrderId == orderId && s.GoodId == goodId));
         }
 
         public IEnumerable<OrderGood> GetByOrderIdRange(IEnumerable<int> orderIds, GoodType? type = null)

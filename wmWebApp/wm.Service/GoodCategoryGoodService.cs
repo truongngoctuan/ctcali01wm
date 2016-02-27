@@ -7,7 +7,6 @@ namespace wm.Service
 {
     public interface IGoodCategoryGoodService : IEntityService<GoodCategoryGood>
     {
-        IEnumerable<GoodCategoryGood> GetById(int goodId, int goodCategoryId);
         IEnumerable<GoodCategoryGood> GetByGoodCategoryId(int goodCategoryId, string include = "");
     }
 
@@ -26,11 +25,6 @@ namespace wm.Service
         public IEnumerable<GoodCategoryGood> GetByGoodCategoryId(int goodCategoryId, string include = "")
         {
             return _repos.Get((s => s.GoodCategoryId == goodCategoryId), (s => s.OrderBy(t => t.Ranking)), include);
-        }
-
-        IEnumerable<GoodCategoryGood> IGoodCategoryGoodService.GetById(int goodId, int goodCategoryId)
-        {
-            return _repos.Get((s => s.GoodId == goodId && s.GoodCategoryId == goodCategoryId));
         }
     }
 }
