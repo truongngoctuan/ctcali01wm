@@ -12,7 +12,14 @@ namespace wm.Repository.Shared
 {
     public interface IReadOnlyRepository<TEntity> where TEntity : BaseEntity
     {
+        IQueryable<TEntity> Filter(IQueryable<TEntity> query, Expression<Func<TEntity, bool>> filter);
+        IQueryable<TEntity> IncludeProperties(IQueryable<TEntity> query, string includeProperties);
+        IOrderedQueryable<TEntity> OrderBy(IQueryable<TEntity> query,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy);
+        IQueryable<TEntity> SkipTake(IOrderedQueryable<TEntity> orderedQuery, int Start, int Length);
+
         IEnumerable<TEntity> GetAll();
+
         IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter, string includeProperties = "");
         IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy, string includeProperties = "");
         IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy, int start, int length, string includeProperties = "");
@@ -46,7 +53,7 @@ namespace wm.Repository.Shared
         }
 
         #region helpers
-        private IQueryable<TEntity> Filter(IQueryable<TEntity> query, Expression<Func<TEntity, bool>> filter)
+        public IQueryable<TEntity> Filter(IQueryable<TEntity> query, Expression<Func<TEntity, bool>> filter)
         {
             if (filter != null)
             {
@@ -54,7 +61,7 @@ namespace wm.Repository.Shared
             }
             return query;
         }
-        private IQueryable<TEntity> IncludeProperties(IQueryable<TEntity> query, string includeProperties)
+        public IQueryable<TEntity> IncludeProperties(IQueryable<TEntity> query, string includeProperties)
         {
             var splitString = includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             //foreach (var includeProperty in splitString)
@@ -64,7 +71,7 @@ namespace wm.Repository.Shared
 
             return splitString.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
         }
-        private IOrderedQueryable<TEntity> OrderBy(IQueryable<TEntity> query, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy)
+        public IOrderedQueryable<TEntity> OrderBy(IQueryable<TEntity> query, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy)
         {
             IOrderedQueryable<TEntity> orderedQuery = null;
             if (orderBy != null)
@@ -78,17 +85,10 @@ namespace wm.Repository.Shared
 
             return orderedQuery;
         }
-        private IQueryable<TEntity> SkipTake(IOrderedQueryable<TEntity> orderedQuery, int Start, int Length)
+        public IQueryable<TEntity> SkipTake(IOrderedQueryable<TEntity> orderedQuery, int Start, int Length)
         {
             IQueryable<TEntity> query;
-            if (Start >= 0)
-            {
-                query = orderedQuery.Skip(Start);
-            }
-            else
-            {
-                query = orderedQuery.AsQueryable();
-            }
+            query = Start >= 0 ? orderedQuery.Skip(Start) : orderedQuery.AsQueryable();
 
             if (Length > 0)
             {
@@ -96,21 +96,6 @@ namespace wm.Repository.Shared
             }
 
             return query;
-        }
-
-        private IEnumerable<TEntity> GetWithSource(IQueryable<TEntity> source,
-            Expression<Func<TEntity, bool>> filter = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            string includeProperties = "",
-            int start = -1, int length = -1)
-        {
-            IQueryable<TEntity> query = source;
-            query = this.Filter(query, filter);
-            query = this.IncludeProperties(query, includeProperties);
-            IOrderedQueryable<TEntity> orderedQuery = this.OrderBy(query, orderBy);
-            query = this.SkipTake(orderedQuery, start, length);
-
-            return query.AsEnumerable<TEntity>();
         }
         #endregion
 
@@ -148,8 +133,7 @@ namespace wm.Repository.Shared
         }
         #endregion
 
-
-        #region Get function
+        #region First function
         public TEntity First(Expression<Func<TEntity, bool>> filter, string includeProperties = "")
         {
             IQueryable<TEntity> query = _dbset;
@@ -186,9 +170,15 @@ namespace wm.Repository.Shared
     Expression<Func<TEntity, bool>> filter = null,
     Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
     string includeProperties = "",
-    int Start = -1, int Length = -1)
+    int start = -1, int length = -1)
         {
-            return GetWithSource(_dbset.AsNoTracking(), filter, orderBy, includeProperties, Start, Length);
+            IQueryable<TEntity> query = _dbset.AsNoTracking();
+            query = this.Filter(query, filter);
+            query = this.IncludeProperties(query, includeProperties);
+            IOrderedQueryable<TEntity> orderedQuery = this.OrderBy(query, orderBy);
+            query = this.SkipTake(orderedQuery, start, length);
+
+            return query.AsEnumerable<TEntity>();
         }
 
         //http://stackoverflow.com/questions/16009694/dynamic-funciqueryabletentity-iorderedqueryabletentity-expression
