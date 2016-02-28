@@ -11,21 +11,22 @@ namespace wm.Web2.Controllers
 {
     public class EmployeesController : BaseController
     {
-        private IEmployeeService Service { get; }
+        public IEmployeeCrudService ServiceCrud { get; set; }
 
         readonly IBranchService _branchService;
 
         public EmployeesController(ApplicationUserManager userManager,
-            IEmployeeService service, IBranchService branchService) : base(userManager)
+            IEmployeeCrudService serviceCrud,
+            IBranchService branchService) : base(userManager)
         {
-            Service = service;
+            ServiceCrud = serviceCrud;
             _branchService = branchService;
         }
 
         // GET: Employees
         public ActionResult Index()
         {
-            var employees = Service.GetAll("Branch");
+            var employees = ServiceCrud.GetAll("Branch");
             return View(employees.ToList());
         }
 
@@ -36,7 +37,7 @@ namespace wm.Web2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = Service.GetById((int)id);
+            Employee employee = ServiceCrud.GetById((int)id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -61,7 +62,7 @@ namespace wm.Web2.Controllers
                     UserManager.AddPassword(employee.ApplicationUserId, employee.PlainPassword);
                 }
                 if (employee.Role == EmployeeRole.SuperUser) employee.Role = EmployeeRole.Admin;
-                var employeeIndatabase = Service.GetByApplicationId(employee.ApplicationUserId);
+                var employeeIndatabase = ServiceCrud.GetByApplicationId(employee.ApplicationUserId);
                 switch (employeeIndatabase.Role)
                 {
                     case EmployeeRole.Admin:
@@ -122,7 +123,7 @@ namespace wm.Web2.Controllers
                 }
 
 
-                Service.Update(employee);
+                ServiceCrud.Update(employee);
                 return RedirectToAction("Index");
             }
             ViewBag.BranchId = new SelectList(_branchService.GetAll(), "Id", "Name", employee.BranchId);
@@ -136,7 +137,7 @@ namespace wm.Web2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = Service.GetByApplicationId(id);
+            Employee employee = ServiceCrud.GetByApplicationId(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -154,8 +155,8 @@ namespace wm.Web2.Controllers
             var result = UserManager.Delete(user);
             if (result.Succeeded)
             {
-                Employee employee = Service.GetByApplicationId(id);
-                Service.Delete(employee);
+                Employee employee = ServiceCrud.GetByApplicationId(id);
+                ServiceCrud.Delete(employee);
             }
             else
             {
@@ -179,7 +180,9 @@ namespace wm.Web2.Controllers
                 paramSortOrder = paramSortOrder.Replace("BranchName", "Branch.Name");
                 paramSortOrder = paramSortOrder.Replace("RoleName", "Role");
                 //get sorted/paginated
-                var resultSet = Service.ListDatatables(param.Search.Value, paramSortOrder, param.Start, param.Length, out recordsTotal, out recordsFiltered);
+                string SearchValue = param.Search.Value;
+                var resultSet = ServiceCrud.ListDatatables(s => SearchValue == null || s.Name.Contains(SearchValue),
+                                                 paramSortOrder, param.Start, param.Length, out recordsTotal, out recordsFiltered);
 
                 var resultViewModel = resultSet.Select(e => new EmployeeDatatablesListViewModel
                 {

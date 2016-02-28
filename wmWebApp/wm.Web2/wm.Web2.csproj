@@ -416,6 +416,14 @@
       <Project>{21ffb1ab-4759-4ea2-af6e-9d183629a1d7}</Project>
       <Name>wm.Repository</Name>
     </ProjectReference>
+    <ProjectReference Include="..\wm.Service.Common\wm.Service.Common.csproj">
+      <Project>{dbec54b2-830c-4e2b-a4f0-2279a4d4bd03}</Project>
+      <Name>wm.Service.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\wm.ServiceCRUD\wm.ServiceCRUD.csproj">
+      <Project>{0b9b4b71-9c86-4b50-9735-471e657185ad}</Project>
+      <Name>wm.ServiceCRUD</Name>
+    </ProjectReference>
     <ProjectReference Include="..\wm.Service\wm.Service.csproj">
       <Project>{bcf3f0f0-082b-4e65-a0c0-1948207038d4}</Project>
       <Name>wm.Service</Name>

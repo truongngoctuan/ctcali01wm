@@ -5,6 +5,7 @@ using System.Net;
 using System.Web.Mvc;
 using wm.Model;
 using wm.Service;
+using wm.ServiceCRUD;
 using wm.Web2.Models;
 
 namespace wm.Web2.Controllers
@@ -13,22 +14,24 @@ namespace wm.Web2.Controllers
     //http://www.asp.net/mvc/overview/getting-started/getting-started-with-ef-using-mvc/updating-related-Data-with-the-entity-framework-in-an-asp-net-mvc-application
     public class BranchesController : BaseController
     {
-        private IBranchService Service { get; }
+        public IBranchCrudService ServiceCrud { get; set; }
+        //private IBranchService Service { get; }
         readonly IGoodCategoryService _goodCategoryService;
         readonly IBranchGoodCategoryService _branchGoodCategoryService;
-        public BranchesController(ApplicationUserManager userManager, 
+        public BranchesController(ApplicationUserManager userManager,
+            IBranchCrudService serviceCrud,
             IBranchService service, 
             IGoodCategoryService goodCategoryService,
             IBranchGoodCategoryService branchGoodCategoryService): base(userManager)
         {
-            Service = service;
+            ServiceCrud = serviceCrud;
             _goodCategoryService = goodCategoryService;
             _branchGoodCategoryService = branchGoodCategoryService;
         }
         // GET: Branches
         public ActionResult Index()
         {
-            return View(Service.GetAll());
+            return View(ServiceCrud.GetAll());
         }
 
         [HttpPost]
@@ -161,7 +164,7 @@ namespace wm.Web2.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = Service.Create(branch);
+                var result = ServiceCrud.Create(branch);
                 if (!result.IsSucceed)
                 {
                     ModelState.AddModelError(string.Empty, result.Messages.ElementAt(0));
@@ -181,7 +184,7 @@ namespace wm.Web2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Branch branch = Service.GetById((int)id);
+            Branch branch = ServiceCrud.GetById((int)id);
             if (branch == null)
             {
                 return HttpNotFound();
@@ -200,7 +203,7 @@ namespace wm.Web2.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = Service.Update(branch);
+                var result = ServiceCrud.Update(branch);
                 if (!result.IsSucceed)
                 {
                     ModelState.AddModelError(string.Empty, result.Messages.ElementAt(0));
@@ -220,7 +223,7 @@ namespace wm.Web2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Branch branch = Service.GetById((int)id);
+            Branch branch = ServiceCrud.GetById((int)id);
             if (branch == null)
             {
                 return HttpNotFound();
@@ -233,8 +236,8 @@ namespace wm.Web2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var branch = Service.GetById(id);
-            Service.Delete(branch);
+            var branch = ServiceCrud.GetById(id);
+            ServiceCrud.Delete(branch);
             return RedirectToAction("Index");
         }
 

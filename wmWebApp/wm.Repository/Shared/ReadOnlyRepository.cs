@@ -34,7 +34,7 @@ namespace wm.Repository.Shared
 
     }
 
-    public abstract class ReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity> where TEntity : BaseEntity
+    public class ReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity> where TEntity : BaseEntity
     {
         protected DbContext _entities;
         protected readonly IDbSet<TEntity> _dbset;

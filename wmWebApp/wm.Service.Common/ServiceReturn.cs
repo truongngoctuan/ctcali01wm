@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace wm.Service
+namespace wm.Service.Common
 {
     public class ServiceReturn
     {

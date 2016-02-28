@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Schema;
 using wm.Model;
 using wm.Repository;
+using wm.Service.Common;
 using wm.Service.Model;
 
 namespace wm.Service
