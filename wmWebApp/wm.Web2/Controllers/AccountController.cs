@@ -18,11 +18,11 @@ namespace wm.Web2.Controllers
         private ApplicationSignInManager _signInManager;
 
         readonly IBranchService _branchService;
-        private IEmployeeService Service { get; }
+        private IEmployeeCrudService Service { get; }
 
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager,
-            IEmployeeService service, IBranchService branchService) : base(userManager)
+            IEmployeeCrudService service, IBranchService branchService) : base(userManager)
         {
             SignInManager = signInManager;
             Service = service;
