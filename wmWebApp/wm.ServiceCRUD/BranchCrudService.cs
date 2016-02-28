@@ -2,7 +2,6 @@
 using System.Linq;
 using wm.Model;
 using wm.Repository;
-using wm.Service;
 using wm.Service.Common;
 
 namespace wm.ServiceCRUD

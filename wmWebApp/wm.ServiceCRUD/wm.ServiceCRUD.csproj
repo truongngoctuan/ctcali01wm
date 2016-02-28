@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BranchCrudService.cs" />
+    <Compile Include="Shared\DatatablesService.cs" />
+    <Compile Include="EmployeeCrudService.cs" />
     <Compile Include="EntityCRUDService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

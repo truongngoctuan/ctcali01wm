@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using wm.Model;
 using wm.Repository;
+using wm.Service;
 using wm.Service.Common;
 
 // ReSharper disable once CheckNamespace
@@ -79,18 +80,29 @@ namespace wm.ServiceCRUD
     where T : Entity<int>
     {
         T GetById(int id, string include = "");
+        IEnumerable<T> ListDatatables(Expression<Func<T, bool>> filter, string sortOrder, int start,
+            int Length, out int recordsTotal, out int recordsFiltered);
     }
 
     // ReSharper disable once InconsistentNaming
     public abstract class EntityIntKeyCRUDService<T> : EntityCRUDService<T>, IEntityIntKeyCRUDService<T> where T : Entity<int>
     {
+        private readonly IDatatablesService<T> _datatablesService;
+
         protected EntityIntKeyCRUDService(IUnitOfWork unitOfWork, DbContext context) : base(unitOfWork, context)
         {
+            _datatablesService = new DatatablesService<T>(context);
         }
 
         public T GetById(int id, string include = "")
         {
             return _dbset.IncludeProperties(include).First(s => s.Id == id);
+        }
+
+        public IEnumerable<T> ListDatatables(Expression<Func<T, bool>> filter, string sortOrder, int start, int Length, out int recordsTotal,
+            out int recordsFiltered)
+        {
+            return _datatablesService.ListDatatables(filter, sortOrder, start, Length, out recordsTotal, out recordsFiltered);
         }
     }
 }
