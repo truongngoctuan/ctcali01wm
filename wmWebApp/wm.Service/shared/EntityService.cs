@@ -4,14 +4,11 @@ using System.Linq;
 using System.Linq.Expressions;
 using wm.Model;
 using wm.Repository;
+using wm.Service.Common;
 
 // ReSharper disable once CheckNamespace
 namespace wm.Service
 {
-    public interface IService
-    {
-    }
-
     public interface IEntityService<T> : IService
         where T : BaseEntity
     {

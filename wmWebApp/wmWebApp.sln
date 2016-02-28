@@ -19,6 +19,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wm.Web2", "wm.Web2\wm.Web2.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wm.Web2.Tests", "wm.Web2.Tests\wm.Web2.Tests.csproj", "{4140627D-4372-44A9-9DF9-2BB18406318D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wm.ServiceCRUD", "wm.ServiceCRUD\wm.ServiceCRUD.csproj", "{0B9B4B71-9C86-4B50-9735-471E657185AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wm.Service.Common", "wm.Service.Common\wm.Service.Common.csproj", "{DBEC54B2-830C-4E2B-A4F0-2279A4D4BD03}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "wm.ServiceLayer", "wm.ServiceLayer", "{012D1065-3805-4611-83D1-07E08215A603}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,8 +63,21 @@ Global
 		{4140627D-4372-44A9-9DF9-2BB18406318D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4140627D-4372-44A9-9DF9-2BB18406318D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4140627D-4372-44A9-9DF9-2BB18406318D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B9B4B71-9C86-4B50-9735-471E657185AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B9B4B71-9C86-4B50-9735-471E657185AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B9B4B71-9C86-4B50-9735-471E657185AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B9B4B71-9C86-4B50-9735-471E657185AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBEC54B2-830C-4E2B-A4F0-2279A4D4BD03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBEC54B2-830C-4E2B-A4F0-2279A4D4BD03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBEC54B2-830C-4E2B-A4F0-2279A4D4BD03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBEC54B2-830C-4E2B-A4F0-2279A4D4BD03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BCF3F0F0-082B-4E65-A0C0-1948207038D4} = {012D1065-3805-4611-83D1-07E08215A603}
+		{0B9B4B71-9C86-4B50-9735-471E657185AD} = {012D1065-3805-4611-83D1-07E08215A603}
+		{DBEC54B2-830C-4E2B-A4F0-2279A4D4BD03} = {012D1065-3805-4611-83D1-07E08215A603}
 	EndGlobalSection
 EndGlobal

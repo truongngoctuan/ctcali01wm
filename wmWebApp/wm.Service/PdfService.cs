@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using wm.Service.Common;
 
 namespace wm.Service
 {
