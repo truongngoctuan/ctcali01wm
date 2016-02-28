@@ -97,6 +97,15 @@ namespace wm.Web2.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Xác nhận.
+        /// </summary>
+        internal static string Confirm {
+            get {
+                return ResourceManager.GetString("Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thêm.
         /// </summary>
         internal static string Create {

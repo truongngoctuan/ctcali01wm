@@ -129,6 +129,9 @@
   <data name="BranchType" xml:space="preserve">
     <value>Loại chi nhánh</value>
   </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Xác nhận</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Thêm</value>
   </data>
