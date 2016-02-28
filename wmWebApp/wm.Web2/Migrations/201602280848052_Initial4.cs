@@ -3,7 +3,7 @@ namespace wm.Web2.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Init3 : DbMigration
+    public partial class Initial4 : DbMigration
     {
         public override void Up()
         {
@@ -64,6 +64,7 @@ namespace wm.Web2.Migrations
                         BranchId = c.Int(nullable: false),
                         Status = c.Int(nullable: false),
                         OrderDay = c.DateTime(nullable: false),
+                        Indexing = c.Int(nullable: false),
                         Priority = c.Int(nullable: false),
                         CreatedDate = c.DateTime(nullable: false),
                         CreatedBy = c.String(maxLength: 256),
@@ -82,6 +83,7 @@ namespace wm.Web2.Migrations
                         GoodId = c.Int(nullable: false),
                         UserId = c.Int(nullable: false),
                         CreatedDate = c.DateTime(nullable: false),
+                        InStock = c.Int(nullable: false),
                         Quantity = c.Int(nullable: false),
                         Note = c.String(),
                     })
@@ -141,6 +143,43 @@ namespace wm.Web2.Migrations
                         UpdatedBy = c.String(maxLength: 256),
                     })
                 .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.MultiPurposeListBranches",
+                c => new
+                    {
+                        MultiPurposeListId = c.Int(nullable: false),
+                        BranchId = c.Int(nullable: false),
+                        Ranking = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.MultiPurposeListId, t.BranchId })
+                .ForeignKey("dbo.Branches", t => t.BranchId, cascadeDelete: true)
+                .ForeignKey("dbo.MultiPurposeLists", t => t.MultiPurposeListId, cascadeDelete: true)
+                .Index(t => t.MultiPurposeListId)
+                .Index(t => t.BranchId);
+            
+            CreateTable(
+                "dbo.MultiPurposeLists",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.MultiPurposeListGoods",
+                c => new
+                    {
+                        MultiPurposeListId = c.Int(nullable: false),
+                        GoodId = c.Int(nullable: false),
+                        Ranking = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.MultiPurposeListId, t.GoodId })
+                .ForeignKey("dbo.Goods", t => t.GoodId, cascadeDelete: true)
+                .ForeignKey("dbo.MultiPurposeLists", t => t.MultiPurposeListId, cascadeDelete: true)
+                .Index(t => t.MultiPurposeListId)
+                .Index(t => t.GoodId);
             
             CreateTable(
                 "dbo.AspNetRoles",
@@ -218,6 +257,10 @@ namespace wm.Web2.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.MultiPurposeListGoods", "MultiPurposeListId", "dbo.MultiPurposeLists");
+            DropForeignKey("dbo.MultiPurposeListGoods", "GoodId", "dbo.Goods");
+            DropForeignKey("dbo.MultiPurposeListBranches", "MultiPurposeListId", "dbo.MultiPurposeLists");
+            DropForeignKey("dbo.MultiPurposeListBranches", "BranchId", "dbo.Branches");
             DropForeignKey("dbo.GoodCategoryGoods", "GoodCategoryId", "dbo.GoodCategories");
             DropForeignKey("dbo.GoodCategoryGoods", "GoodId", "dbo.Goods");
             DropForeignKey("dbo.OrderGoods", "OrderId", "dbo.Orders");
@@ -233,6 +276,10 @@ namespace wm.Web2.Migrations
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.MultiPurposeListGoods", new[] { "GoodId" });
+            DropIndex("dbo.MultiPurposeListGoods", new[] { "MultiPurposeListId" });
+            DropIndex("dbo.MultiPurposeListBranches", new[] { "BranchId" });
+            DropIndex("dbo.MultiPurposeListBranches", new[] { "MultiPurposeListId" });
             DropIndex("dbo.GoodCategoryGoods", new[] { "GoodId" });
             DropIndex("dbo.GoodCategoryGoods", new[] { "GoodCategoryId" });
             DropIndex("dbo.Goods", new[] { "UnitId" });
@@ -247,6 +294,9 @@ namespace wm.Web2.Migrations
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.MultiPurposeListGoods");
+            DropTable("dbo.MultiPurposeLists");
+            DropTable("dbo.MultiPurposeListBranches");
             DropTable("dbo.Items");
             DropTable("dbo.GoodCategoryGoods");
             DropTable("dbo.GoodUnits");

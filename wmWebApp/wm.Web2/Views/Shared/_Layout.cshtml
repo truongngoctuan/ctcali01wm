@@ -4,8 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/ExceptionLib/bootstrap-calendar/css/calendar.css" rel="stylesheet" />
+
     <link href="~/Content/lib/handsontable/dist/handsontable.full.min.css" rel="stylesheet" />
     <link href="~/Content/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
     <link href="~/Content/lib/select2/dist/css/select2.min.css" rel="stylesheet" />
@@ -43,11 +45,16 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Content/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/Content/lib/jquery-validation/dist/additional-methods.min.js"></script>
+    <script src="~/Content/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/Content/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/Content/lib/bootstrap/dist/js/bootstrap.min.js"></script>
 
     <script src="~/Content/lib/moment/moment.js"></script>
-    @Scripts.Render("~/bundles/bootstrap-calendar")
+    <script src="~/Content/lib/underscore/underscore-min.js"></script>
+    <script src="~/Content/ExceptionLib/bootstrap-calendar/js/calendar.js"></script>
 
     <script src="~/Content/Site.js"></script>
     <script src="~/Content/lib/handsontable/dist/handsontable.full.min.js"></script>
