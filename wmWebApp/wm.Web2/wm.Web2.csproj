@@ -219,6 +219,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_GlobalResources\BasicResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BasicResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\ActionResults\BinaryContentResult.cs" />
     <Compile Include="App_Start\AutoMapperWebProfiler.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -319,6 +324,10 @@
     </Content>
     <Content Include=".bowerrc" />
     <Content Include="bower.json" />
+    <EmbeddedResource Include="App_GlobalResources\BasicResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>BasicResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201602280848052_Initial4.resx">
       <DependentUpon>201602280848052_Initial4.cs</DependentUpon>
     </EmbeddedResource>
