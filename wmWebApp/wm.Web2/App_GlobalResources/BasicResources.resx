@@ -117,14 +117,47 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BackToList" xml:space="preserve">
+    <value>Quay lại danh sách</value>
+  </data>
+  <data name="Branch" xml:space="preserve">
+    <value>Chi nhánh</value>
+  </data>
   <data name="BranchName" xml:space="preserve">
     <value>Tên chi nhánh</value>
+  </data>
+  <data name="BranchType" xml:space="preserve">
+    <value>Loại chi nhánh</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Thêm</value>
+  </data>
+  <data name="CreateNew" xml:space="preserve">
+    <value>Tạo mới</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Thông tin chung</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Xóa</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Sửa</value>
+  </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Xin chào</value>
   </data>
   <data name="Id" xml:space="preserve">
     <value>Mã</value>
   </data>
+  <data name="List" xml:space="preserve">
+    <value>Danh sách</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>Đăng nhập</value>
+  </data>
+  <data name="Logoff" xml:space="preserve">
+    <value>Đăng xuất</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Tên</value>
@@ -135,7 +168,13 @@
   <data name="Ranking" xml:space="preserve">
     <value>Xếp hạng</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Lưu</value>
+  </data>
   <data name="UserName" xml:space="preserve">
     <value>Tên người dùng</value>
+  </data>
+  <data name="WantToDelete" xml:space="preserve">
+    <value>Bạn có thật sự muốn xóa không ?</value>
   </data>
 </root>
