@@ -1,86 +1,82 @@
-// If you want to suggest a new language you can use this file as a template.
-// To reduce the file size you should remove the comment lines (the ones that start with // )
 if(!window.calendar_languages) {
-    window.calendar_languages = {};
+	window.calendar_languages = {};
 }
-// Here you define the language and Country code. Replace en-US with your own.
-// First letters: the language code (lower case). See http://www.loc.gov/standards/iso639-2/php/code_list.php
-// Last letters: the Country code (upper case). See http://www.iso.org/iso/home/standards/country_codes/country_names_and_code_elements.htm
-window.calendar_languages['fi-FI'] = {
-    error_noview: 'Kalenteri: {0} näkymää ei löytynyt',
-    error_dateformat: 'Kalenteri: väärä päivämääräformaatti {0}. Oikea formaatti on "yyyy-mm-dd"',
-    error_loadurl: 'Kalenteri: Tapahtuman osoitetta ei ole asetettu',
-    error_where: 'Kalenteri: Väärä navigointisuunta {0}. Suunta voi olla vain "seuraava" tai "edellinen" or "tänään"',
-    error_timedevide: 'Kalenteri: Aikajaon tulee olla alle 60 ja kokonaisluku, kuten 10, 15, 30',
+window.calendar_languages['vn-VN'] = {
+    error_noview: 'Calendar: View {0} not found',
+    error_dateformat: 'Calendar: Wrong date format {0}. Should be either "now" or "yyyy-mm-dd"',
+    error_loadurl: 'Calendar: Event URL is not set',
+    error_where: 'Calendar: Wrong navigation direction {0}. Can be only "next" or "prev" or "today"',
+    error_timedevide: 'Calendar: Time split parameter should divide 60 without decimals. Something like 10, 15, 30',
 
-    no_events_in_day: 'Ei tapahtumia.',
+    no_events_in_day: 'No events in this day.',
 
     // {0} will be replaced with the year (example: 2013)
     title_year: '{0}',
     // {0} will be replaced with the month name (example: September)
     // {1} will be replaced with the year (example: 2013)
-    title_month: '{0} {1}',
+    title_month: '{0} - {1}',
     // {0} will be replaced with the week number (example: 37)
     // {1} will be replaced with the year (example: 2013)
-    title_week: 'viikko {0}/{1}',
+    title_week: 'Tuần {0} của {1}',
     // {0} will be replaced with the weekday name (example: Thursday)
     // {1} will be replaced with the day of the month (example: 12)
     // {2} will be replaced with the month name (example: September)
     // {3} will be replaced with the year (example: 2013)
     title_day: '{0} {1} {2}, {3}',
 
-    week:        'Viikko',
-    all_day:     'Koko päivä',
-    time:        'Aika',
-    events:      'Tapahtumat',
-    before_time: 'Loppu ennen aikajanaa',
-    after_time:  'Alkaa aikajanan jälkeen',
+    week: 'Tuần {0}',
+    all_day: 'All day',
+    time: 'Time',
+    events: 'Events',
+    before_time: 'Ends before timeline',
+    after_time: 'Starts after timeline',
 
-    m0: 'Tammikuu',
-    m1: 'Helmikuu',
-    m2: 'Maaliskuu',
-    m3: 'Huhtikuu',
-    m4: 'Toukokuu',
-    m5: 'Kesäkuu',
-    m6: 'Heinäkuu',
-    m7: 'Elokuu',
-    m8: 'Syyskuu',
-    m9: 'Lokakuu',
-    m10: 'Marraskuu',
-    m11: 'Joulukuu',
+    m0: 'Tháng 1',
+    m1: 'Tháng 2',
+    m2: 'Tháng 3',
+    m3: 'Tháng 4',
+    m4: 'Tháng 5',
+    m5: 'Tháng 6',
+    m6: 'Tháng 7',
+    m7: 'Tháng 8',
+    m8: 'Tháng 9',
+    m9: 'Tháng 10',
+    m10: 'Tháng 11',
+    m11: 'Tháng 12',
 
-    ms0: 'Tammi',
-    ms1: 'Helmi',
-    ms2: 'Maalis',
-    ms3: 'Huhti',
-    ms4: 'Touko',
-    ms5: 'Kesä',
-    ms6: 'Heinä',
-    ms7: 'Elo',
-    ms8: 'Syys',
-    ms9: 'Loka',
-    ms10: 'Marras',
-    ms11: 'Joulu',
+    ms0: 'Jan',
+    ms1: 'Feb',
+    ms2: 'Mar',
+    ms3: 'Apr',
+    ms4: 'May',
+    ms5: 'Jun',
+    ms6: 'Jul',
+    ms7: 'Aug',
+    ms8: 'Sep',
+    ms9: 'Oct',
+    ms10: 'Nov',
+    ms11: 'Dec',
 
-    d0: 'Sunnuntai',
-    d1: 'Maanantai',
-    d2: 'Tiistai',
-    d3: 'Keskiviikko',
-    d4: 'Torstai',
-    d5: 'Perjantai',
-    d6: 'Lauantai',
+    d0: 'Chủ nhật',
+    d1: 'Thứ 2',
+    d2: 'Thứ 3',
+    d3: 'Thứ 4',
+    d4: 'Thứ 5',
+    d5: 'Thứ 6',
+    d6: 'Thứ 7',
 
     // Which is the first day of the week (2 for sunday, 1 for monday)
     first_day: 1,
-    week_numbers_iso_8601: true,
+    // Week numbering according to ISO 8601 (if false, week 1 starts with January 1st)
+    week_numbers_iso_8601: false,
 
     // The list of the holidays.
     // Each holiday has a date definition and a name (in your language)
     // For instance:
     // holidays: {
-    //  'date': 'name',
-    //  'date': 'name',
-    //  ...
+    // 	'date': 'name',
+    // 	'date': 'name',
+    // 	...
     //   'date': 'name' //No ending comma for the last holiday
     // }
     // The format of the date may be one of the following:
@@ -106,18 +102,5 @@ window.calendar_languages['fi-FI'] = {
     //   - Easter and the day after Easter: 'easter>easter+1'
     //   Limitations: currently the multi-day holydays can't cross an year. So, for example, you can't specify a range as '30-12>01-01'; as a workaround you can specify two distinct holidays (for instance '30-12>31-12' and '01-01'). 
     holidays: {
-      // January 1, 6
-      '01-01': "Uudenvuodenpäivä",
-      '06-01': "Loppiainen",
-      'easter-2': "Pitkäperjantai",
-      'easter': "Pääsiäispäivä",
-      'easter+1': "2. pääsiäispäivä",
-      'easter+39': "Helatorstai",
-      'easter+49': "Helluntaipäivä",
-      '01-05': "Vappu",
-      '06-12': "Itsenäisyyspäivä",
-      '24-12': "Jouluaatto",
-      '25-12': "Joulupäivä",
-      '26-12': "Tapaninpäivä"
     }
 };

@@ -193,7 +193,6 @@ namespace wm.Web2.Migrations
             CreateUser(context, 3, new RegisterViewModel { UserName = "TNT", Email = "tntuan0712494@gmail.com", FullName = "TNT", BranchId = 1, PlainPassword = "qwerty", Role = EmployeeRole.SuperUser }, SystemRoles.SuperUser);
             CreateUser(context, 4, new RegisterViewModel { UserName = "manager", Email = "tntuan0712494@gmail.com", FullName = "manager name", BranchId = 1, PlainPassword = "asdasd", Role = EmployeeRole.Manager }, SystemRoles.Manager);
             #endregion
-
         }
 
         private void SeedFromFile(wmContext context, string fileName, Action<wmContext, CsvReader> doAction)

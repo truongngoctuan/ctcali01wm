@@ -48,7 +48,6 @@ namespace wm.Model
         public DbSet<MultiPurposeListGood> MultiPurposeListGoods { get; set; }
         public DbSet<MultiPurposeListBranch> MultiPurposeListBranches { get; set; }
 
-
         public override int SaveChanges()
         {
             var modifiedEntries = ChangeTracker.Entries()

@@ -219,6 +219,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_GlobalResources\BasicResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BasicResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\ActionResults\BinaryContentResult.cs" />
     <Compile Include="App_Start\AutoMapperWebProfiler.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -281,10 +286,16 @@
     <Content Include="Content\ExceptionLib\bootstrap-calendar\img\tick.png" />
     <Content Include="Content\ExceptionLib\bootstrap-calendar\js\calendar.js" />
     <Content Include="Content\ExceptionLib\bootstrap-calendar\js\language\template.js" />
+    <Content Include="Content\ExceptionLib\bootstrap-calendar\js\language\vn-VN.js" />
+    <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\day.html" />
     <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\events-list.html" />
     <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\modal.html" />
     <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\month-day.html" />
     <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\month.html" />
+    <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\week-days.html" />
+    <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\week.html" />
+    <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\year-month.html" />
+    <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\year.html" />
     <Content Include="Content\HandsonTableSortingModule.js" />
     <Content Include="Content\lib\bootbox\bootbox.js" />
     <Content Include="Content\lib\bootstrap-datepicker\dist\css\bootstrap-datepicker3.min.css" />
@@ -299,8 +310,6 @@
     <Content Include="Content\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
     <Content Include="Content\lib\jquery-validation\dist\additional-methods.min.js" />
     <Content Include="Content\lib\jquery-validation\dist\jquery.validate.min.js" />
-    <Content Include="Content\lib\jquery.validate\dist\additional-methods.min.js" />
-    <Content Include="Content\lib\jquery.validate\dist\jquery.validate.min.js" />
     <Content Include="Content\lib\jquery\dist\jquery.min.js" />
     <Content Include="Content\lib\moment\moment.js" />
     <Content Include="Content\lib\select2-bootstrap-theme\dist\select2-bootstrap.min.css" />
@@ -319,6 +328,10 @@
     </Content>
     <Content Include=".bowerrc" />
     <Content Include="bower.json" />
+    <EmbeddedResource Include="App_GlobalResources\BasicResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>BasicResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201602280848052_Initial4.resx">
       <DependentUpon>201602280848052_Initial4.cs</DependentUpon>
     </EmbeddedResource>
@@ -327,6 +340,7 @@
     <EmbeddedResource Include="Migrations\SeedData\GoodCategory.csv" />
     <EmbeddedResource Include="Migrations\SeedData\GoodUnit.csv" />
     <EmbeddedResource Include="Migrations\SeedData\Good.csv" />
+    <EmbeddedResource Include="Migrations\SeedData\LocalizationStrings.csv" />
     <None Include="Properties\PublishProfiles\firstBuild.pubxml" />
     <None Include="Properties\PublishProfiles\wmWeb220160228111215 - Web Deploy.pubxml" />
     <Content Include="Scripts\_references.js" />
