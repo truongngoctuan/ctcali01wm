@@ -286,10 +286,16 @@
     <Content Include="Content\ExceptionLib\bootstrap-calendar\img\tick.png" />
     <Content Include="Content\ExceptionLib\bootstrap-calendar\js\calendar.js" />
     <Content Include="Content\ExceptionLib\bootstrap-calendar\js\language\template.js" />
+    <Content Include="Content\ExceptionLib\bootstrap-calendar\js\language\vn-VN.js" />
+    <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\day.html" />
     <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\events-list.html" />
     <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\modal.html" />
     <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\month-day.html" />
     <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\month.html" />
+    <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\week-days.html" />
+    <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\week.html" />
+    <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\year-month.html" />
+    <Content Include="Content\ExceptionLib\bootstrap-calendar\tmpls\year.html" />
     <Content Include="Content\HandsonTableSortingModule.js" />
     <Content Include="Content\lib\bootbox\bootbox.js" />
     <Content Include="Content\lib\bootstrap-datepicker\dist\css\bootstrap-datepicker3.min.css" />

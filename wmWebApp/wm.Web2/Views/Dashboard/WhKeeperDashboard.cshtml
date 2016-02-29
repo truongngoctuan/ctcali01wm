@@ -22,7 +22,7 @@
 
 <div id="calendar" class="row"></div>
 @section Scripts {
-
+<script src="~/Content/ExceptionLib/bootstrap-calendar/js/language/vn-VN.js"></script>
     <script>
         var calendar;
         var calendar_events;
@@ -43,6 +43,7 @@
         function loadCalendar() {
             calendar = $("#calendar").calendar(
             {
+                language: 'vn-VN',
                 tmpl_path: "../Content/ExceptionLib/bootstrap-calendar/tmpls/",
                 day: '2016-02-06',//yyyy-MM-dd
                 view: 'month',
