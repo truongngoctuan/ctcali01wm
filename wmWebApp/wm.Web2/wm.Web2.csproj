@@ -304,8 +304,6 @@
     <Content Include="Content\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
     <Content Include="Content\lib\jquery-validation\dist\additional-methods.min.js" />
     <Content Include="Content\lib\jquery-validation\dist\jquery.validate.min.js" />
-    <Content Include="Content\lib\jquery.validate\dist\additional-methods.min.js" />
-    <Content Include="Content\lib\jquery.validate\dist\jquery.validate.min.js" />
     <Content Include="Content\lib\jquery\dist\jquery.min.js" />
     <Content Include="Content\lib\moment\moment.js" />
     <Content Include="Content\lib\select2-bootstrap-theme\dist\select2-bootstrap.min.css" />
@@ -336,6 +334,7 @@
     <EmbeddedResource Include="Migrations\SeedData\GoodCategory.csv" />
     <EmbeddedResource Include="Migrations\SeedData\GoodUnit.csv" />
     <EmbeddedResource Include="Migrations\SeedData\Good.csv" />
+    <EmbeddedResource Include="Migrations\SeedData\LocalizationStrings.csv" />
     <None Include="Properties\PublishProfiles\firstBuild.pubxml" />
     <None Include="Properties\PublishProfiles\wmWeb220160228111215 - Web Deploy.pubxml" />
     <Content Include="Scripts\_references.js" />

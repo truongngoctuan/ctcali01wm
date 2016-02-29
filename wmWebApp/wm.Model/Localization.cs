@@ -8,25 +8,19 @@ using System.Threading.Tasks;
 
 namespace wm.Model
 {
-    public class CultureInfo: Entity<int>
+    public class CultureInfoCode
     {
-        public string Name { get; set; }
-        
-        public static class Code
-        {
-            public const string Default = "Default";
-            public const string VN = "VN";
-        }
+        public const string Default = "Default";
+        public const string VN = "VN";
     }
 
-    class LocalizationString : BaseEntity
+    public class LocalizationString : BaseEntity
     {
         [Key, Column(Order = 0)]
-        public int CultureInfoId { get; set; }
+        public string CultureInfoString { get; set; }
         [Key, Column(Order = 1)]
         public string Code { get; set; }
 
-        [ForeignKey("CultureInfoId")]
-        public virtual CultureInfo CultureInfo { get; set; }
+        public string Value { get; set; }
     }
 }
