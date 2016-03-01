@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using wm.Model;
-using wm.Repository;
-using wm.Repository.Shared;
 using wm.Service.Common;
 
 namespace wm.Service

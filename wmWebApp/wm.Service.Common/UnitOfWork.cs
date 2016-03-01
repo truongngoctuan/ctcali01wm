@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 
-namespace wm.Repository
+namespace wm.Service.Common
 {
 
     public interface IUnitOfWork : IDisposable

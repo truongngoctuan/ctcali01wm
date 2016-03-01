@@ -53,16 +53,14 @@
     <Compile Include="Extenstions.cs" />
     <Compile Include="IService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReadOnlyService.cs" />
     <Compile Include="ServiceReturn.cs" />
+    <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\wm.Model\wm.Model.csproj">
       <Project>{258240db-01b1-478b-8565-c4042e951c1a}</Project>
       <Name>wm.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\wm.Repository\wm.Repository.csproj">
-      <Project>{21ffb1ab-4759-4ea2-af6e-9d183629a1d7}</Project>
-      <Name>wm.Repository</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

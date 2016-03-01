@@ -271,7 +271,6 @@
     <Compile Include="Models\MultiPurposeListViewModel.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
     <Compile Include="Modules\EFModule.cs" />
-    <Compile Include="Modules\RepositoryModule.cs" />
     <Compile Include="Modules\ServiceModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -425,10 +424,6 @@
     <ProjectReference Include="..\wm.Model\wm.Model.csproj">
       <Project>{258240db-01b1-478b-8565-c4042e951c1a}</Project>
       <Name>wm.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\wm.Repository\wm.Repository.csproj">
-      <Project>{21ffb1ab-4759-4ea2-af6e-9d183629a1d7}</Project>
-      <Name>wm.Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\wm.Service.Common\wm.Service.Common.csproj">
       <Project>{dbec54b2-830c-4e2b-a4f0-2279a4d4bd03}</Project>

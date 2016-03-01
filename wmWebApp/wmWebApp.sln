@@ -5,8 +5,6 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wm.Model", "wm.Model\wm.Model.csproj", "{258240DB-01B1-478B-8565-C4042E951C1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wm.Repository", "wm.Repository\wm.Repository.csproj", "{21FFB1AB-4759-4EA2-AF6E-9D183629A1D7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wm.Service", "wm.Service\wm.Service.csproj", "{BCF3F0F0-082B-4E65-A0C0-1948207038D4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wm.Web2", "wm.Web2\wm.Web2.csproj", "{439EE645-FEBD-477A-9F29-59DE5B225355}"
@@ -29,10 +27,6 @@ Global
 		{258240DB-01B1-478B-8565-C4042E951C1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{258240DB-01B1-478B-8565-C4042E951C1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{258240DB-01B1-478B-8565-C4042E951C1A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{21FFB1AB-4759-4EA2-AF6E-9D183629A1D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{21FFB1AB-4759-4EA2-AF6E-9D183629A1D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{21FFB1AB-4759-4EA2-AF6E-9D183629A1D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{21FFB1AB-4759-4EA2-AF6E-9D183629A1D7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BCF3F0F0-082B-4E65-A0C0-1948207038D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BCF3F0F0-082B-4E65-A0C0-1948207038D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCF3F0F0-082B-4E65-A0C0-1948207038D4}.Release|Any CPU.ActiveCfg = Release|Any CPU

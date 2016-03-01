@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Resources;
-using System.Runtime.CompilerServices;
-using System.Web;
-using System.Web.Mvc;
 using CsvHelper;
 using wm.Model;
 

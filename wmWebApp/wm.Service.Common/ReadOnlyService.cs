@@ -6,9 +6,9 @@ using System.Linq.Expressions;
 using System.Reflection;
 using wm.Model;
 
-namespace wm.Repository.Shared
+namespace wm.Service
 {
-    public interface IReadOnlyRepository<TEntity> where TEntity : BaseEntity
+    public interface IReadOnlyService<TEntity> where TEntity : BaseEntity
     {
         IQueryable<TEntity> Filter(IQueryable<TEntity> query, Expression<Func<TEntity, bool>> filter);
         IQueryable<TEntity> IncludeProperties(IQueryable<TEntity> query, string includeProperties);
@@ -34,12 +34,12 @@ namespace wm.Repository.Shared
 
     }
 
-    public class ReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity> where TEntity : BaseEntity
+    public class ReadOnlyService<TEntity> : IReadOnlyService<TEntity> where TEntity : BaseEntity
     {
         protected DbContext _entities;
         protected readonly IDbSet<TEntity> _dbset;
 
-        public ReadOnlyRepository(DbContext context)
+        public ReadOnlyService(DbContext context)
         {
             _entities = context;
             _dbset = context.Set<TEntity>();

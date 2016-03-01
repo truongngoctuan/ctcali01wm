@@ -5,9 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using wm.Model;
 using wm.Service;
-using wm.Service.Model;
 using wm.Web2.Controllers.ActionResults;
 
 namespace wm.Web2.Controllers

@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity;
 using wm.Model;
-using wm.Repository;
+using wm.Service.Common;
 
 namespace wm.Service
 {

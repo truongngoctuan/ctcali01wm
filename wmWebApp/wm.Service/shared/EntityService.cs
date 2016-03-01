@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Linq.Expressions;
 using wm.Model;
-using wm.Repository;
-using wm.Repository.Shared;
 using wm.Service.Common;
 
 // ReSharper disable once CheckNamespace
 namespace wm.Service
 {
-    public interface IEntityService<T> : IReadOnlyRepository<T>
+    public interface IEntityService<T> : IReadOnlyService<T>
         where T : BaseEntity
     {
         ServiceReturn Create(T entity);
@@ -19,7 +15,7 @@ namespace wm.Service
         ServiceReturn Update(T entity);
     }
 
-    public abstract class EntityService<T> : ReadOnlyRepository<T>, IEntityService<T> where T : BaseEntity
+    public abstract class EntityService<T> : ReadOnlyService<T>, IEntityService<T> where T : BaseEntity
     {
         protected IUnitOfWork UnitOfWork;
         public DbContext Context { get; set; }

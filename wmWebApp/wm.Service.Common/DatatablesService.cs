@@ -5,7 +5,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using wm.Model;
-using wm.Repository.Shared;
 
 namespace wm.Service.Common
 {
@@ -19,14 +18,14 @@ namespace wm.Service.Common
     {
         protected DbContext _entities;
         protected readonly IDbSet<TEntity> _dbset;
-        public IReadOnlyRepository<TEntity> ReadOnlyRepository { get; set; }
+        public IReadOnlyService<TEntity> ReadOnlyRepository { get; set; }
 
         public DatatablesService(DbContext context)
         {
             _entities = context;
             _dbset = context.Set<TEntity>();
 
-            ReadOnlyRepository = new ReadOnlyRepository<TEntity>(context);
+            ReadOnlyRepository = new ReadOnlyService<TEntity>(context);
         }
 
 

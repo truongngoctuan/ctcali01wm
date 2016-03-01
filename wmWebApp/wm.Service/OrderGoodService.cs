@@ -2,7 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 using wm.Model;
-using wm.Repository;
+using wm.Service.Common;
 
 namespace wm.Service
 {
@@ -14,12 +14,9 @@ namespace wm.Service
 
     public class OrderGoodService : EntityService<OrderGood>, IOrderGoodService
     {
-        readonly IOrderGoodRepository _repos2;
-
         public OrderGoodService(IUnitOfWork unitOfWork, DbContext context)
             : base(unitOfWork, context)
         {
-            _repos2 = new OrderGoodRepository(context);
         }
 
         public IEnumerable<OrderGood> GetByOrderId(int orderId, string include = "")
@@ -29,7 +26,12 @@ namespace wm.Service
 
         public IEnumerable<OrderGood> GetByOrderIdRange(IEnumerable<int> orderIds, GoodType? type = null)
         {
-            return _repos2.GetByOrderIdRange(orderIds, type);
+            var result = _dbset.Where(s => orderIds.Contains(s.OrderId)).Include("Good");
+            if (type != null)
+            {
+                result = result.Where(s => s.Good.GoodType == type);
+            }
+            return result;
         }
     }
 }

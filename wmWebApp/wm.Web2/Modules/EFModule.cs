@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using System.Data.Entity;
 using wm.Model;
-using wm.Repository;
+using wm.Service.Common;
 
 namespace wm.Web2.Modules
 {
@@ -9,8 +9,6 @@ namespace wm.Web2.Modules
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterModule(new RepositoryModule());
-
             builder.RegisterType(typeof(wmContext)).As(typeof(DbContext)).InstancePerLifetimeScope();
             builder.RegisterType(typeof(UnitOfWork)).As(typeof(IUnitOfWork)).InstancePerRequest();
 

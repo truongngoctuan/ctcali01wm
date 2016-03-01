@@ -1,23 +1,19 @@
 ﻿using System.Data.Entity;
-using System.Linq;
 using wm.Model;
-using wm.Repository;
-using wm.Repository.Shared;
-using wm.Service.Common;
 
 namespace wm.Service
 {
-    public interface IBranchReadOnlyService : IReadOnlyRepository<Branch>
+    public interface IBranchReadOnlyService : IReadOnlyService<Branch>
     {
     }
 
-    public class BranchReadOnlyService : ReadOnlyRepository<Branch>, IBranchReadOnlyService
+    public class BranchReadOnlyService : ReadOnlyService<Branch>, IBranchReadOnlyService
     {
-        public IReadOnlyRepository<Branch> ReadOnlyRepository { get; set; } 
+        public IReadOnlyService<Branch> ReadOnlyService { get; set; } 
         public BranchReadOnlyService(DbContext context)
             : base(context)
         {
-            ReadOnlyRepository = new ReadOnlyRepository<Branch>(context);
+            ReadOnlyService = new ReadOnlyService<Branch>(context);
         }
     }
 }
