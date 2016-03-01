@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using Glimpse.Core.Extensions;
 using wm.Model;
 using wm.Service;
 using wm.Web2.Models;
@@ -16,15 +14,15 @@ namespace wm.Web2.Controllers
         private IMultiPurposeListService Service { get; }
         private IMultiPurposeListGoodService _multiPurposeListGoodService { get; set; }
         public IGoodService _goodService { get; set; }
-        public IBranchService BranchService { get; set; }
+        public IBranchReadOnlyService BranchReadOnlyService { get; set; }
         public IMultiPurposeListBranchService MultiPurposeListBranchService { get; set; }
         public MultiPurposeListController(ApplicationUserManager userManager, IMultiPurposeListService service,
-            IMultiPurposeListGoodService multiPurposeListGoodService, IGoodService goodService, IBranchService branchService, IMultiPurposeListBranchService multiPurposeListBranchService) : base(userManager)
+            IMultiPurposeListGoodService multiPurposeListGoodService, IGoodService goodService, IBranchReadOnlyService branchReadOnlyService, IMultiPurposeListBranchService multiPurposeListBranchService) : base(userManager)
         {
             Service = service;
             _multiPurposeListGoodService = multiPurposeListGoodService;
             _goodService = goodService;
-            BranchService = branchService;
+            BranchReadOnlyService = branchReadOnlyService;
             MultiPurposeListBranchService = multiPurposeListBranchService;
         }
 
@@ -259,7 +257,7 @@ namespace wm.Web2.Controllers
             IEnumerable<MultiPurposeListBranchInExItemViewModel> viewModel;
             if (isInEx)
             {//return all, with some checked items
-                var allList = BranchService.GetAll().ToList();
+                var allList = BranchReadOnlyService.GetAll().ToList();
                 var filteredList = MultiPurposeListBranchService.Get((s => s.MultiPurposeListId == (int)id)).ToList();
 
                 //binding Data

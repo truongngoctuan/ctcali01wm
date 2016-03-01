@@ -13,7 +13,7 @@ namespace wm.Service.CalendarEvent
     public class CalendarEventService : ICalendarEventService
     {
         readonly IOrderService _orderService;
-        readonly IBranchService _branchService;
+        readonly IBranchReadOnlyService _branchReadOnlyService;
 
         public EmployeeRole Role { get; set; }
 
@@ -28,10 +28,10 @@ namespace wm.Service.CalendarEvent
                 return _eventCalendarStrategy;
             }
         }
-        public CalendarEventService(IOrderService orderService, IBranchService branchService)
+        public CalendarEventService(IOrderService orderService, IBranchReadOnlyService branchReadOnlyService)
         {
             _orderService = orderService;
-            _branchService = branchService;
+            _branchReadOnlyService = branchReadOnlyService;
         }
 
         private CalendarEventStrategyBase GetAssociateStrategy(EmployeeRole role)
@@ -48,15 +48,15 @@ namespace wm.Service.CalendarEvent
                     }
                 case EmployeeRole.WarehouseKeeper:
                     {
-                        return new WarehouseKeeperCalendarEventStrategy(_orderService, _branchService);
+                        return new WarehouseKeeperCalendarEventStrategy(_orderService, _branchReadOnlyService);
                     }
                 case EmployeeRole.Admin:
                     {
-                        return new WarehouseKeeperCalendarEventStrategy(_orderService, _branchService);
+                        return new WarehouseKeeperCalendarEventStrategy(_orderService, _branchReadOnlyService);
                     }
                 case EmployeeRole.SuperUser:
                     {
-                        return new WarehouseKeeperCalendarEventStrategy(_orderService, _branchService);
+                        return new WarehouseKeeperCalendarEventStrategy(_orderService, _branchReadOnlyService);
                     }
             }
             return new StaffCalendarEventStrategy(_orderService);

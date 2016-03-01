@@ -11,7 +11,7 @@ namespace wm.Web2.Controllers
     [Authorize]
     public class DashboardController : BaseController
     {
-        private IEmployeeService Service { get; }
+        private IEmployeeReadOnlyService ReadOnlyService { get; }
 
         #region Calendar event strategy
 
@@ -23,7 +23,7 @@ namespace wm.Web2.Controllers
             {
                 if (_strategyBase == null)
                 {
-                    var employee = Service.GetByApplicationId(GetUserId());
+                    var employee = ReadOnlyService.GetByApplicationId(GetUserId());
                     _calendarEventService.Role = employee.Role;
                     _strategyBase = GetAssociateStrategy(employee.Role);
                 }
@@ -63,9 +63,9 @@ namespace wm.Web2.Controllers
 
         public DashboardController(ApplicationUserManager userManager,
             ICalendarEventService calendarEventService,
-        IEmployeeService service) : base(userManager)
+        IEmployeeReadOnlyService readOnlyService) : base(userManager)
         {
-            Service = service;
+            ReadOnlyService = readOnlyService;
             _calendarEventService = calendarEventService;
         }
 
@@ -100,7 +100,7 @@ namespace wm.Web2.Controllers
         public ActionResult StaffDashboard()
         {
             var userId = User.Identity.GetUserId();
-            var employee = Service.GetByApplicationId(userId);
+            var employee = ReadOnlyService.GetByApplicationId(userId);
 
             return View(employee);
         }
@@ -115,7 +115,7 @@ namespace wm.Web2.Controllers
         public ActionResult ManagerDashboard()
         {
             var userId = User.Identity.GetUserId();
-            var employee = Service.GetByApplicationId(userId);
+            var employee = ReadOnlyService.GetByApplicationId(userId);
 
             return View(employee);
         }
@@ -124,7 +124,7 @@ namespace wm.Web2.Controllers
         public ActionResult WhKeeperDashboard()
         {
             var userId = User.Identity.GetUserId();
-            var employee = Service.GetByApplicationId(userId);
+            var employee = ReadOnlyService.GetByApplicationId(userId);
 
             return View(employee);
         }

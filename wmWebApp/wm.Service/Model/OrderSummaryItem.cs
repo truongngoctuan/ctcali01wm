@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using wm.Model;
+﻿using System.Collections.Generic;
 
 namespace wm.Service.Model
 {

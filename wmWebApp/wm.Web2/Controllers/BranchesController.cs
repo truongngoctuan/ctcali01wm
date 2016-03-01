@@ -20,7 +20,7 @@ namespace wm.Web2.Controllers
         readonly IBranchGoodCategoryService _branchGoodCategoryService;
         public BranchesController(ApplicationUserManager userManager,
             IBranchCrudService serviceCrud,
-            IBranchService service, 
+            IBranchReadOnlyService readOnlyService, 
             IGoodCategoryService goodCategoryService,
             IBranchGoodCategoryService branchGoodCategoryService): base(userManager)
         {

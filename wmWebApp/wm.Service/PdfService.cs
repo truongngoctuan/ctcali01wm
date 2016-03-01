@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using wm.Service.Common;
@@ -13,7 +9,7 @@ namespace wm.Service
 {
     public interface IPdfService: IService
     {
-        byte[] ConvertToPdf(string example_html, string example_css);
+        byte[] ConvertToPdf(string example_html, string example_css, string fontPath = "");
     }
     public class PdfService : IPdfService
     {
@@ -30,7 +26,7 @@ namespace wm.Service
         //http://www.c-sharpcorner.com/UploadFile/f2e803/basic-pdf-creation-using-itextsharp-part-ii/
         //useful link
         
-        public byte[] ConvertToPdf(string example_html, string example_css)
+        public byte[] ConvertToPdf(string example_html, string example_css, string fontPath = "")
         {
             MemoryStream ms = new MemoryStream();
             Document document = new Document(PageSize.A4.Rotate(), 25, 25, 30, 30);
@@ -57,13 +53,21 @@ namespace wm.Service
 
         public class UnicodeFontFactory : FontFactoryImp
         {
-            private static readonly string FontPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts),
-              "arialuni.ttf");
+            private static readonly string FontPath = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+              //System.Web.Hosting.HostingEnvironment.MapPath()
+              //Environment.GetFolderPath(Environment.SpecialFolder.Fonts),
+              "Content/7-1523-ARIALUNI.ttf");
 
             private readonly BaseFont _baseFont;
 
             public UnicodeFontFactory()
             {
+                //string FontPath = Path.Combine(fontPath, "7-1523-ARIALUNI.ttf");
+
+                //Font arial = FontFactory.GetFont("Arial", );
+                //_baseFont = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1257, false);
+                //_baseFont = BaseFont.CreateFont(Environment.GetEnvironmentVariable("windir") + @"\fonts\ARIALUNI.TTF", BaseFont.IDENTITY_H, true);
                 _baseFont = BaseFont.CreateFont(FontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 
             }

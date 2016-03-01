@@ -30,6 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="itextsharp, Version=5.5.8.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\packages\iTextSharp.5.5.8\lib\itextsharp.dll</HintPath>
       <Private>True</Private>
@@ -39,6 +47,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -49,12 +58,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BranchGoodCategoryService.cs" />
-    <Compile Include="BranchService.cs" />
+    <Compile Include="ReadOnly\BranchReadOnlyService.cs" />
     <Compile Include="CalendarEvent\CalendarEventStrategyBase.cs" />
     <Compile Include="CalendarEvent\ManagerCalendarEventStrategy.cs" />
     <Compile Include="CalendarEvent\StaffCalendarEventStrategy.cs" />
     <Compile Include="CalendarEvent\WarehouseKeeperCalendarEventStrategy.cs" />
-    <Compile Include="EmployeeService.cs" />
+    <Compile Include="ReadOnly\EmployeeReadOnlyService.cs" />
     <Compile Include="CalendarEvent\CalendarEventService.cs" />
     <Compile Include="GoodCategoryGoodService.cs" />
     <Compile Include="MultiPurposeListService.cs" />
@@ -77,10 +86,6 @@
       <Project>{258240db-01b1-478b-8565-c4042e951c1a}</Project>
       <Name>wm.Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\wm.Repository\wm.Repository.csproj">
-      <Project>{21ffb1ab-4759-4ea2-af6e-9d183629a1d7}</Project>
-      <Name>wm.Repository</Name>
-    </ProjectReference>
     <ProjectReference Include="..\wm.Service.Common\wm.Service.Common.csproj">
       <Project>{dbec54b2-830c-4e2b-a4f0-2279a4d4bd03}</Project>
       <Name>wm.Service.Common</Name>
@@ -88,6 +93,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -13,14 +13,14 @@ namespace wm.Web2.Controllers
     {
         public IEmployeeCrudService ServiceCrud { get; set; }
 
-        readonly IBranchService _branchService;
+        readonly IBranchReadOnlyService _branchReadOnlyService;
 
         public EmployeesController(ApplicationUserManager userManager,
             IEmployeeCrudService serviceCrud,
-            IBranchService branchService) : base(userManager)
+            IBranchReadOnlyService branchReadOnlyService) : base(userManager)
         {
             ServiceCrud = serviceCrud;
-            _branchService = branchService;
+            _branchReadOnlyService = branchReadOnlyService;
         }
 
         // GET: Employees
@@ -42,7 +42,7 @@ namespace wm.Web2.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.BranchId = new SelectList(_branchService.GetAll(), "Id", "Name", employee.BranchId);
+            ViewBag.BranchId = new SelectList(_branchReadOnlyService.GetAll(), "Id", "Name", employee.BranchId);
             return View(employee);
         }
 
@@ -126,7 +126,7 @@ namespace wm.Web2.Controllers
                 ServiceCrud.Update(employee);
                 return RedirectToAction("Index");
             }
-            ViewBag.BranchId = new SelectList(_branchService.GetAll(), "Id", "Name", employee.BranchId);
+            ViewBag.BranchId = new SelectList(_branchReadOnlyService.GetAll(), "Id", "Name", employee.BranchId);
             return View(employee);
         }
 

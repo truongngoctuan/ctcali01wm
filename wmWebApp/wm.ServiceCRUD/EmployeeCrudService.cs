@@ -2,8 +2,8 @@
 using System.Data.Entity;
 using System.Linq;
 using wm.Model;
-using wm.Repository;
-using wm.ServiceCRUD;
+using wm.Service.Common;
+using wm.ServiceCRUD.Shared;
 
 namespace wm.Service
 {

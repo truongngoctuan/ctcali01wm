@@ -1,5 +1,6 @@
-﻿using wm.Model;
-using wm.Repository;
+﻿using System.Data.Entity;
+using wm.Model;
+using wm.Service.Common;
 
 namespace wm.Service
 {
@@ -9,8 +10,8 @@ namespace wm.Service
 
     public class GoodCategoryService : EntityIntKeyService<GoodCategory>, IGoodCategoryService
     {
-        public GoodCategoryService(IUnitOfWork unitOfWork, IGoodCategoryRepository Repos)
-            : base(unitOfWork, Repos)
+        public GoodCategoryService(IUnitOfWork unitOfWork, DbContext context)
+            : base(unitOfWork, context)
         {
         }
 

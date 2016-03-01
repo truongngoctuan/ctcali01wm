@@ -14,18 +14,18 @@ namespace wm.Web2.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private IEmployeeService EmployeeService { get; set; }
+        private IEmployeeReadOnlyService EmployeeReadOnlyService { get; set; }
 
         public ManageController()
         {
         }
 
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager,
-             IEmployeeService employeeService)
+             IEmployeeReadOnlyService employeeReadOnlyService)
         {
             UserManager = userManager;
             SignInManager = signInManager;
-            EmployeeService = employeeService;
+            EmployeeReadOnlyService = employeeReadOnlyService;
         }
 
         public ApplicationSignInManager SignInManager
@@ -98,9 +98,9 @@ namespace wm.Web2.Controllers
             if (result.Succeeded)
             {
                 //remove plain password
-                var employee = EmployeeService.GetByApplicationId(User.Identity.GetUserId());
+                var employee = EmployeeReadOnlyService.GetByApplicationId(User.Identity.GetUserId());
                 employee.PlainPassword = string.Empty;
-                EmployeeService.Update(employee);
+                EmployeeReadOnlyService.Update(employee);
 
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)

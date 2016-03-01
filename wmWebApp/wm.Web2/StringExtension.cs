@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace System
+﻿namespace System
 {
     //http://sinhvienit.net/forum/loai-bo-dau-tieng-viet-trong-c.15243.html
     public static class StringExtension

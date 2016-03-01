@@ -17,16 +17,16 @@ namespace wm.Web2.Controllers
     {
         private ApplicationSignInManager _signInManager;
 
-        readonly IBranchService _branchService;
+        readonly IBranchReadOnlyService _branchReadOnlyService;
         private IEmployeeCrudService Service { get; }
 
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager,
-            IEmployeeCrudService service, IBranchService branchService) : base(userManager)
+            IEmployeeCrudService service, IBranchReadOnlyService branchReadOnlyService) : base(userManager)
         {
             SignInManager = signInManager;
             Service = service;
-            _branchService = branchService;
+            _branchReadOnlyService = branchReadOnlyService;
         }
 
         public ApplicationSignInManager SignInManager
@@ -89,7 +89,7 @@ namespace wm.Web2.Controllers
 
         private IEnumerable<SelectListItem> GetBranches()
         {
-            var list = _branchService.GetAll();
+            var list = _branchReadOnlyService.GetAll();
             IEnumerable<SelectListItem> selectList = list.Select(o => new SelectListItem
             {
                 Value = o.Id.ToString(),

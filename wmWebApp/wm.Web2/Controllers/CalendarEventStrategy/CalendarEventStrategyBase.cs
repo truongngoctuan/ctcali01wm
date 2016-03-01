@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Web.Mvc;
-using wm.Service;
 using wm.Service.CalendarEvent;
 using wm.Web2.Models;
 

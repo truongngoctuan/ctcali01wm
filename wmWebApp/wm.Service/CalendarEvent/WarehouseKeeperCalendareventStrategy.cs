@@ -7,11 +7,11 @@ namespace wm.Service.CalendarEvent
 {
     class WarehouseKeeperCalendarEventStrategy : CalendarEventStrategyBase
     {
-        readonly IBranchService _branchService;
-        public WarehouseKeeperCalendarEventStrategy(IOrderService orderService, IBranchService branchService)
+        readonly IBranchReadOnlyService _branchReadOnlyService;
+        public WarehouseKeeperCalendarEventStrategy(IOrderService orderService, IBranchReadOnlyService branchReadOnlyService)
         {
             OrderService = orderService;
-            _branchService = branchService;
+            _branchReadOnlyService = branchReadOnlyService;
         }
         public override IEnumerable<Order> PopulateEvents(DateTime monthInfo, int branchId, string include = "")
         {
@@ -19,7 +19,7 @@ namespace wm.Service.CalendarEvent
 
             //add fake orders
             var fakeOrdersInmonth = new List<Order>();
-            var branchList = _branchService.GetAll().ToList();
+            var branchList = _branchReadOnlyService.GetAll().ToList();
             //for eachday
             var daysInMonth = DateTime.DaysInMonth(monthInfo.Year, monthInfo.Month);
             for (var i = 1; i <= daysInMonth; i++)

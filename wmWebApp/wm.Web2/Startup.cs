@@ -33,13 +33,9 @@ namespace wm.Web2
             builder.Register<IAuthenticationManager>(c => HttpContext.Current.GetOwinContext().Authentication).InstancePerRequest();
             builder.Register<IDataProtectionProvider>(c => app.GetDataProtectionProvider()).InstancePerRequest();
 
-
-
             builder.RegisterControllers(typeof(MvcApplication).Assembly).PropertiesAutowired();
-
-            builder.RegisterModule(new RepositoryModule());
-            builder.RegisterModule(new ServiceModule());
             builder.RegisterModule(new EFModule());
+            builder.RegisterModule(new ServiceModule());
 
             //automapper
             //current automapper is 4.1.1, 4.2.0 change configuration
