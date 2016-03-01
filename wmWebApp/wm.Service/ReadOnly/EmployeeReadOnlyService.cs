@@ -3,19 +3,20 @@ using System.Data.Entity;
 using System.Linq;
 using wm.Model;
 using wm.Repository;
-using wm.ServiceCRUD;
-using wm.ServiceCRUD.Shared;
+using wm.Repository.Shared;
+using wm.Service.Common;
 
 namespace wm.Service
 {
-    public interface IEmployeeCrudService : IEntityIntKeyCRUDService<Employee>
+    public interface IEmployeeReadOnlyService : IEntityIntKeyService<Employee>
     {
         Employee GetByApplicationId(string Id);
+
     }
 
-    public class EmployeeCrudService : EntityIntKeyCRUDService<Employee>, IEmployeeCrudService
+    public class EmployeeReadOnlyService : EntityIntKeyService<Employee>, IEmployeeReadOnlyService
     {
-        public EmployeeCrudService(IUnitOfWork unitOfWork, DbContext context)
+        public EmployeeReadOnlyService(UnitOfWork unitOfWork, DbContext context)
             : base(unitOfWork, context)
         {
         }
@@ -25,10 +26,6 @@ namespace wm.Service
             return _dbset.AsNoTracking().First(s => s.ApplicationUserId == Id);
         }
 
-        public override IEnumerable<Employee> GetAll(string include = "")
-        {
-            return _dbset.IncludeProperties(include).Where(s => s.Role != EmployeeRole.SuperUser);
-        }
-
+        
     }
 }

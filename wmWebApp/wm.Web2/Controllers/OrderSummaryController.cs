@@ -18,18 +18,18 @@ namespace wm.Web2.Controllers
 
         public IOrderSummaryService OrderSummaryService { get; set; }
         public IOrderService OrderService { get; set; }
-        public IBranchService BranchService { get; set; }
+        public IBranchReadOnlyService BranchReadOnlyService { get; set; }
         public IGoodService GoodService { get; set; }
         public IMultiPurposeListService MultiPurposeListService { get; set; }
         public IMultiPurposeListGoodService MultiPurposeListGoodService { get; set; }
         public IMultiPurposeListBranchService MultiPurposeListBranchService { get; set; }
-        public OrderSummaryController(ApplicationUserManager userManager, IOrderSummaryService orderSummaryService, IOrderService orderService, IBranchService branchService, IGoodService goodService, IMultiPurposeListService multiPurposeListService, IMultiPurposeListGoodService multiPurposeListGoodService, IMultiPurposeListBranchService multiPurposeListBranchService)
+        public OrderSummaryController(ApplicationUserManager userManager, IOrderSummaryService orderSummaryService, IOrderService orderService, IBranchReadOnlyService branchReadOnlyService, IGoodService goodService, IMultiPurposeListService multiPurposeListService, IMultiPurposeListGoodService multiPurposeListGoodService, IMultiPurposeListBranchService multiPurposeListBranchService)
             : base(userManager)
         {
             PdfService = new PdfService();
             OrderSummaryService = orderSummaryService;
             OrderService = orderService;
-            BranchService = branchService;
+            BranchReadOnlyService = branchReadOnlyService;
             GoodService = goodService;
             MultiPurposeListService = multiPurposeListService;
             MultiPurposeListGoodService = multiPurposeListGoodService;

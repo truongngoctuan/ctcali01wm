@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using wm.Model;
 using wm.Repository;
@@ -13,8 +14,8 @@ namespace wm.Service
 
     public class GoodService : EntityIntKeyService<Good>, IGoodService
     {
-        public GoodService(IUnitOfWork unitOfWork, IGoodRepository Repos)
-            : base(unitOfWork, Repos)
+        public GoodService(IUnitOfWork unitOfWork, DbContext context)
+            : base(unitOfWork, context)
         {
         }
 
@@ -22,16 +23,16 @@ namespace wm.Service
         {
             var SortOrderSplit = SortOrder.Split(' ');
 
-            var orderFunction = SortOrderSplit.Length == 2 ? Repos.GetOrderBy(SortOrderSplit[0], SortOrderSplit[1]) : Repos.GetOrderBy(SortOrderSplit[0]);
+            var orderFunction = SortOrderSplit.Length == 2 ? GetOrderBy(SortOrderSplit[0], SortOrderSplit[1]) : GetOrderBy(SortOrderSplit[0]);
 
-            recordsTotal = Repos.GetAll().Count();
-            recordsFiltered = Repos.Get((s => SearchValue == null
+            recordsTotal = GetAll().Count();
+            recordsFiltered = Get((s => SearchValue == null
             || s.Name.Contains(SearchValue)
             || s.NameASCII.Contains(SearchValue)
             ),
                 orderFunction).Count();
 
-            var resulFiltered = Repos.Get((s => SearchValue == null 
+            var resulFiltered = Get((s => SearchValue == null 
             || s.Name.Contains(SearchValue)
             || s.NameASCII.Contains(SearchValue)), 
                 orderFunction, Start, Length, "Unit");

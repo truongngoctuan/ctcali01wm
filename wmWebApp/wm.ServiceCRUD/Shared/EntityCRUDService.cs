@@ -9,22 +9,8 @@ using wm.Service;
 using wm.Service.Common;
 
 // ReSharper disable once CheckNamespace
-namespace wm.ServiceCRUD
+namespace wm.ServiceCRUD.Shared
 {
-    public static class Extentions
-    {//TODO: move to common
-        public static IQueryable<T> IncludeProperties<T>(this IQueryable<T> query, string includeProperties)
-        {
-            var splitString = includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            //foreach (var includeProperty in splitString)
-            //{
-            //    query = query.Include(includeProperty);
-            //}
-
-            return splitString.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
-        }
-    }
-
     // ReSharper disable once InconsistentNaming
     public interface IEntityCRUDService<T> : IService
         where T : BaseEntity

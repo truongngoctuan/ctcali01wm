@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using wm.Model;
 using wm.Repository;
@@ -12,14 +13,14 @@ namespace wm.Service
 
     public class GoodCategoryGoodService : EntityService<GoodCategoryGood>, IGoodCategoryGoodService
     {
-        public GoodCategoryGoodService(IUnitOfWork unitOfWork, IGoodCategoryGoodRepository Repos)
-            : base(unitOfWork, Repos)
+        public GoodCategoryGoodService(IUnitOfWork unitOfWork, DbContext context)
+            : base(unitOfWork, context)
         {
         }
 
         public IEnumerable<GoodCategoryGood> GetByGoodCategoryId(int goodCategoryId, string include = "")
         {
-            return Repos.Get((s => s.GoodCategoryId == goodCategoryId), (s => s.OrderBy(t => t.Ranking)), include);
+            return Get((s => s.GoodCategoryId == goodCategoryId), (s => s.OrderBy(t => t.Ranking)), include);
         }
     }
 }

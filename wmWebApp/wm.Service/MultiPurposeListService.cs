@@ -1,4 +1,5 @@
-﻿using wm.Model;
+﻿using System.Data.Entity;
+using wm.Model;
 using wm.Repository;
 
 namespace wm.Service
@@ -9,8 +10,8 @@ namespace wm.Service
 
     public class MultiPurposeListService : EntityIntKeyService<MultiPurposeList>, IMultiPurposeListService
     {
-        public MultiPurposeListService(IUnitOfWork unitOfWork, IMultiPurposeListRepository Repos)
-            : base(unitOfWork, Repos)
+        public MultiPurposeListService(IUnitOfWork unitOfWork, DbContext context)
+            : base(unitOfWork, context)
         {
         }
 
@@ -22,8 +23,8 @@ namespace wm.Service
 
     public class MultiPurposeListGoodService : EntityService<MultiPurposeListGood>, IMultiPurposeListGoodService
     {
-        public MultiPurposeListGoodService(IUnitOfWork unitOfWork, IMultiPurposeListGoodRepository Repos)
-            : base(unitOfWork, Repos)
+        public MultiPurposeListGoodService(IUnitOfWork unitOfWork, DbContext context)
+            : base(unitOfWork, context)
         {
         }
 
@@ -36,8 +37,8 @@ namespace wm.Service
     public class MultiPurposeListBranchService : EntityService<MultiPurposeListBranch>, IMultiPurposeListBranchService
     {
 
-        public MultiPurposeListBranchService(IUnitOfWork unitOfWork, IMultiPurposeListBranchRepository Repos)
-            : base(unitOfWork, Repos)
+        public MultiPurposeListBranchService(IUnitOfWork unitOfWork, DbContext context)
+            : base(unitOfWork, context)
         {
         }
 

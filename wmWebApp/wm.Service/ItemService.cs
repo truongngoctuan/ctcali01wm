@@ -1,4 +1,5 @@
-﻿using wm.Model;
+﻿using System.Data.Entity;
+using wm.Model;
 using wm.Repository;
 
 namespace wm.Service
@@ -9,8 +10,8 @@ namespace wm.Service
 
     public class ItemService : EntityIntKeyService<Item>, IItemService
     {
-        public ItemService(IUnitOfWork unitOfWork, IItemRepository Repos)
-            : base(unitOfWork, Repos)
+        public ItemService(IUnitOfWork unitOfWork, DbContext context)
+            : base(unitOfWork, context)
         {
         }
 

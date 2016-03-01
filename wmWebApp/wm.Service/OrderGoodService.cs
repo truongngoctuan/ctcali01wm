@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using wm.Model;
 using wm.Repository;
@@ -15,15 +16,15 @@ namespace wm.Service
     {
         readonly IOrderGoodRepository _repos2;
 
-        public OrderGoodService(IUnitOfWork unitOfWork, IOrderGoodRepository Repos)
-            : base(unitOfWork, Repos)
+        public OrderGoodService(IUnitOfWork unitOfWork, DbContext context)
+            : base(unitOfWork, context)
         {
-            _repos2 = Repos;
+            _repos2 = new OrderGoodRepository(context);
         }
 
         public IEnumerable<OrderGood> GetByOrderId(int orderId, string include = "")
         {
-            return Repos.Get((s => s.OrderId == orderId), include);
+            return Get((s => s.OrderId == orderId), include);
         }
 
         public IEnumerable<OrderGood> GetByOrderIdRange(IEnumerable<int> orderIds, GoodType? type = null)

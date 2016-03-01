@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using wm.Model;
 using wm.Repository;
@@ -27,25 +28,24 @@ namespace wm.Service
         readonly IGoodCategoryGoodService _goodCategoryGoodService;
 
         public IOrderSummaryService OrderSummaryService { get; set; }
-        public IBranchService BranchService { get; set; }
+        public IBranchReadOnlyService BranchReadOnlyService { get; set; }
 
-        public OrderService(IUnitOfWork unitOfWork, IOrderRepository repos,
+        public OrderService(IUnitOfWork unitOfWork, DbContext context,
             IOrderGoodService orderGoodService,
-            IGoodCategoryGoodService goodCategoryGoodService, IBranchService branchService)
-            : base(unitOfWork, repos)
+            IGoodCategoryGoodService goodCategoryGoodService, IBranchReadOnlyService branchReadOnlyService)
+            : base(unitOfWork, context)
         {
             UnitOfWork = unitOfWork;
-            Repos = repos;
             _orderGoodService = orderGoodService;
             _goodCategoryGoodService = goodCategoryGoodService;
-            BranchService = branchService;
+            BranchReadOnlyService = branchReadOnlyService;
             OrderSummaryService = new OrderSummaryService();
         }
 
         public override ServiceReturn Create(Order entity)
         {
             //update order indexing
-            var orders = Repos.Get((s => s.OrderDay == entity.OrderDay && s.BranchId == entity.BranchId));
+            var orders = Get((s => s.OrderDay == entity.OrderDay && s.BranchId == entity.BranchId));
             entity.Indexing = orders.Count();
 
             return base.Create(entity);
@@ -98,7 +98,7 @@ namespace wm.Service
 
             //TODO: filter with goodCategoryId too
 
-            var sameDateOrders = Repos.Get((s => s.OrderDay == order.OrderDay));
+            var sameDateOrders = Get((s => s.OrderDay == order.OrderDay));
             var sameDateOrderIds = sameDateOrders.Select(t => t.Id);
             var orderGoodList = _orderGoodService.GetByOrderIdRange(sameDateOrderIds, GoodType.KitChenGood);
             var quantityBranchTotal = orderGoodList.GroupBy(
@@ -115,7 +115,7 @@ namespace wm.Service
             var filteredList = _orderGoodService.GetByOrderId(orderId).AsEnumerable().ToList();//TODO: have some redunrant but have no way to optimize yet
 
             //get summary data from branches
-            var summaryData = OrderSummaryService.SummarizeMainKitchenOrder_Dictionary(sameDateOrders, allList, BranchService.Get((s => s.BranchType != BranchType.MainKitchen)).ToList());
+            var summaryData = OrderSummaryService.SummarizeMainKitchenOrder_Dictionary(sameDateOrders, allList, BranchReadOnlyService.Get((s => s.BranchType != BranchType.MainKitchen)).ToList());
 
             //get total data
             //var quantityBranchList = Repos.
@@ -221,9 +221,9 @@ namespace wm.Service
                                                                     monthIndicator.Month));
             if (branchId == 0)
             {
-                return Repos.Get((s => startOfMonth <= s.OrderDay && s.OrderDay <= endOfMonth), include);
+                return Get((s => startOfMonth <= s.OrderDay && s.OrderDay <= endOfMonth), include);
             }
-            return Repos.Get((s => startOfMonth <= s.OrderDay && s.OrderDay <= endOfMonth && s.BranchId == branchId), include);
+            return Get((s => startOfMonth <= s.OrderDay && s.OrderDay <= endOfMonth && s.BranchId == branchId), include);
         }
         #endregion
 

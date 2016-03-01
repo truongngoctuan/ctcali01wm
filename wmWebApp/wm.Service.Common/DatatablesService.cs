@@ -7,7 +7,7 @@ using System.Reflection;
 using wm.Model;
 using wm.Repository.Shared;
 
-namespace wm.Service
+namespace wm.Service.Common
 {
     public interface IDatatablesService<TEntity> where TEntity : BaseEntity
     {

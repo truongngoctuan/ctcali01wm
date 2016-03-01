@@ -14,11 +14,11 @@ namespace wm.Web2.Controllers
     {
         private IOrderService Service { get; }
         readonly IBranchGoodCategoryService _branchGoodCategoryService;
-        public IBranchService BranchService { get; set; }
+        public IBranchReadOnlyService BranchReadOnlyService { get; set; }
 
         #region strategy
 
-        private IEmployeeService EmployeeService { get; set; }
+        private IEmployeeReadOnlyService EmployeeReadOnlyService { get; set; }
         OrderControllerStrategyBase _strategyBase;
         private OrderControllerStrategyBase StrategyBase
         {
@@ -26,7 +26,7 @@ namespace wm.Web2.Controllers
             {
                 if (_strategyBase != null) return _strategyBase;
 
-                var employee = EmployeeService.GetByApplicationId(GetUserId());
+                var employee = EmployeeReadOnlyService.GetByApplicationId(GetUserId());
                 //_calendarEventService.Role = employee.Role;
                 _strategyBase = GetAssociateStrategy(employee.Role);
                 return _strategyBase;
@@ -63,12 +63,12 @@ namespace wm.Web2.Controllers
         #endregion
         public OrdersController(ApplicationUserManager userManager,
             IOrderService service,
-            IBranchGoodCategoryService branchGoodCategoryService, IEmployeeService employeeService, IBranchService branchService) : base(userManager)
+            IBranchGoodCategoryService branchGoodCategoryService, IEmployeeReadOnlyService employeeReadOnlyService, IBranchReadOnlyService branchReadOnlyService) : base(userManager)
         {
             Service = service;
             _branchGoodCategoryService = branchGoodCategoryService;
-            EmployeeService = employeeService;
-            BranchService = branchService;
+            EmployeeReadOnlyService = employeeReadOnlyService;
+            BranchReadOnlyService = branchReadOnlyService;
         }
 
         #region edit/details pages
@@ -138,7 +138,7 @@ namespace wm.Web2.Controllers
             if (id == 0)
             {
                 //create order before doing anything else
-                var employee = EmployeeService.GetByApplicationId(GetUserId());
+                var employee = EmployeeReadOnlyService.GetByApplicationId(GetUserId());
                 Order newOrder = StrategyBase.Create((DateTime)orderDay, employee.ApplicationUserId, (int)branchId);
                 id = newOrder.Id;
             }
@@ -160,7 +160,7 @@ namespace wm.Web2.Controllers
 
             if (order.Branch.BranchType == BranchType.MainKitchen)
             {
-                ViewBag.branches = BranchService.Get((s => s.BranchType != BranchType.MainKitchen)).ToList().Select(t => new { Id = t.Id, Name = t.Name});
+                ViewBag.branches = BranchReadOnlyService.Get((s => s.BranchType != BranchType.MainKitchen)).ToList().Select(t => new { Id = t.Id, Name = t.Name});
                 return View("WhKeeperMainKitchenEditOrder", filteredGoodCategoryList);
             }
             return View(filteredGoodCategoryList);

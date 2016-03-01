@@ -16,7 +16,7 @@ namespace wm.Repository.Shared
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy);
         IQueryable<TEntity> SkipTake(IOrderedQueryable<TEntity> orderedQuery, int start, int length);
 
-        IEnumerable<TEntity> GetAll();
+        IEnumerable<TEntity> GetAll(string includeProperties = "");
 
         IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter, string includeProperties = "");
         IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy, string includeProperties = "");
@@ -44,10 +44,10 @@ namespace wm.Repository.Shared
             _entities = context;
             _dbset = context.Set<TEntity>();
         }
-        public virtual IEnumerable<TEntity> GetAll()
+        public virtual IEnumerable<TEntity> GetAll(string includeProperties = "")
         {
 
-            return _dbset.AsEnumerable<TEntity>();
+            return IncludeProperties(_dbset, includeProperties).AsEnumerable<TEntity>();
         }
 
         #region helpers
