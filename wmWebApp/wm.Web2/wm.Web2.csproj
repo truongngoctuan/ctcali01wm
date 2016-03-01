@@ -341,6 +341,7 @@
     <EmbeddedResource Include="Migrations\SeedData\Good.csv" />
     <EmbeddedResource Include="Migrations\SeedData\LocalizationStrings.csv" />
     <EmbeddedResource Include="Content\arialuni.ttf" />
+    <Content Include="Content\7-1523-ARIALUNI.TTF" />
     <None Include="Properties\PublishProfiles\firstBuild.pubxml" />
     <None Include="Properties\PublishProfiles\wmWeb220160228111215 - Web Deploy.pubxml" />
     <Content Include="Scripts\_references.js" />

@@ -103,7 +103,7 @@ namespace wm.Web2.Controllers
             var result_html = RenderActionResultToString(this.View(result));
             var example_css = FileToString(Server.MapPath("~/Views/OrderSummary/SummaryMainKitchenOrderTemplate.css"));
 
-            byte[] buf = PdfService.ConvertToPdf(result_html, example_css);
+            byte[] buf = PdfService.ConvertToPdf(result_html, example_css);//, Server.MapPath("~/Content/"));
             return new BinaryContentResult(buf, "application / pdf");
         }
 
