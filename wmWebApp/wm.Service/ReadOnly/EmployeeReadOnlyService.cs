@@ -13,7 +13,7 @@ namespace wm.Service
 
     public class EmployeeReadOnlyService : EntityIntKeyService<Employee>, IEmployeeReadOnlyService
     {
-        public EmployeeReadOnlyService(UnitOfWork unitOfWork, DbContext context)
+        public EmployeeReadOnlyService(IUnitOfWork unitOfWork, DbContext context)
             : base(unitOfWork, context)
         {
         }

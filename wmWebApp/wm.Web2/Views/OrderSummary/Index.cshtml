@@ -62,10 +62,9 @@
         }
 
         //================================================================================
-
         var $$ = function(id) {
-            return document.getElementById(id);
-        },
+                return document.getElementById(id);
+            },
             container = $$('hsIncludeExclude'),
             autosave = $$('autosave'),
             load = $$('load'),
@@ -76,7 +75,6 @@
             colHeaderPreDefine,
             rowHeaderPreDefine,
             columnsPreDefine;
-
         var dtpicker01 = $('#dtpicker01'),
             getDateFromDatePicker = function() {
                 return moment(dtpicker01.datepicker("getUTCDate")).format("YYYY-MM-DD");
@@ -84,20 +82,17 @@
             getlistIdFromSelector = function() {
                 return $('.js-example-basic-single').val();
             }
-
         $(document).ready(function() {
-
             $('#dtpicker01').datepicker({
                 todayBtn: "linked",
                 language: "vi",
                 keyboardNavigation: false,
                 todayHighlight: true
             }).datepicker("setDate", "0");
-
             console.log(getDateFromDatePicker());
 
             //build colHeader
-            var branches = @Html.Raw(Json.Encode(ViewBag.branches)); //Name only
+            var branches = @Html.Raw(Json.Encode(ViewBag.branches ?? new List<string>())); //Name only
             colHeaderPreDefine = [''];
             for (var i = 0; i < branches.length; i++) {
                 colHeaderPreDefine.push(branches[i].Name);

@@ -53,8 +53,12 @@ namespace wm.Service
 
         public class UnicodeFontFactory : FontFactoryImp
         {
-            private static readonly string FontPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts),
-              "arialuni.ttf");
+            private static readonly string FontPath = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                 //System.Web.Hosting.HostingEnvironment.MapPath()
+                //"~/Content/",
+                //Environment.GetFolderPath(Environment.SpecialFolder.Fonts),
+              "Content/arialuni.ttf");
 
             private readonly BaseFont _baseFont;
 
